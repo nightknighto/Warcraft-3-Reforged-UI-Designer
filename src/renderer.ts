@@ -16,6 +16,11 @@ coordsIMG.addEventListener('mousemove', e => {
 const formIMG = document.getElementById("formIMG") as HTMLInputElement
 const imgCONT = document.getElementById("imgCONT") as HTMLInputElement
 const input = document.getElementById('img') as HTMLInputElement
+
+const debug = function(stuff: any) {
+    document.getElementById("debug").innerText = stuff
+}
+
 let focusIMG: HTMLImageElement;
 
 formIMG.addEventListener("submit", e => {
@@ -33,22 +38,61 @@ formIMG.addEventListener("submit", e => {
         posx1 = e.clientX
         posy1 = e.clientY
         focusIMG = img
-        img
-        
-        window.onmousemove = function(e) {
-            posx2 = posx1 - e.clientX
-            posy2 = posy1 - e.clientY
-            posx1 = e.clientX
-            posy1 = e.clientY
 
-            img.style.top = `${img.offsetTop - posy2}px`
-            img.style.left = `${img.offsetLeft - posx2}px`
+        //debug((e.clientY - img.getBoundingClientRect().y))
+        //check whether it is drag or resize
+        if((e.clientX - img.getBoundingClientRect().x) > 25 && (e.clientX - img.getBoundingClientRect().x) < img.width - 25 && (e.clientY - img.getBoundingClientRect().y) > 25 && (e.clientY - img.getBoundingClientRect().y) < img.height - 25) {
+            //not at edge, so drag
+            window.onmousemove = function(e) {
+                posx2 = posx1 - e.clientX
+                posy2 = posy1 - e.clientY
+                posx1 = e.clientX
+                posy1 = e.clientY
+    
+                img.style.top = `${img.offsetTop - posy2}px`
+                img.style.left = `${img.offsetLeft - posx2}px`
+            }
+        } else {
+            //at edge, so resize
+            //now determine which edges
+            if((e.clientX - img.getBoundingClientRect().x) > img.width - 25 || (e.clientY - img.getBoundingClientRect().y) > img.height - 25) {
+                //right and bottom edge: just resize
+                window.onmousemove = function(e) {
+                    posx2 = posx1 - e.clientX
+                    posy2 = posy1 - e.clientY
+                    posx1 = e.clientX
+                    posy1 = e.clientY
+                    debug(+img.style.height)
+                    img.height = img.height - posy2
+                    img.width = img.width - posx2
+                    formWIDTH.value = (img.width * 800 / coordsIMG.width).toString()
+                    formHEIGHT.value = (img.height * 600 / coordsIMG.height).toString()
+
+                }
+            } else {
+                //top and left edge: resize and drag
+                window.onmousemove = function(e) {
+                    posx2 = posx1 - e.clientX
+                    posy2 = posy1 - e.clientY
+                    posx1 = e.clientX
+                    posy1 = e.clientY
+                    debug(+img.style.height)
+                    img.height = img.height + posy2
+                    img.width = img.width + posx2
+                    img.style.top = `${img.offsetTop - posy2}px`
+                    img.style.left = `${img.offsetLeft - posx2}px`
+                    formWIDTH.value = (img.width * 800 / coordsIMG.width).toString()
+                    formHEIGHT.value = (img.height * 600 / coordsIMG.height).toString()
+                }
+            }
+    
+
         }
-
         img.onmouseup = function() {
             window.onmousemove = null
             img.onmouseup = null
         }
+
         
     }
 })
