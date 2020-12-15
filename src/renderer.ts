@@ -29,14 +29,14 @@ formIMG.addEventListener("submit", e => {
     const img = new CustomImage(el, input.files)
     imgCONT.appendChild(img.element)
     focusIMG = img
-    UpdateStuff()
+    UpdateFields()
     let posx1 = 0, posy1 = 0, posx2 = 0, posy2 = 0;
 
     img.element.onmousedown = function(e) {
         posx1 = e.clientX
         posy1 = e.clientY
         focusIMG = img
-        UpdateStuff()
+        UpdateFields()
         //debug((e.clientY - img.element.getBoundingClientRect().y))
         //check whether it is drag or resize
         if((e.clientX - img.element.getBoundingClientRect().x) > 25 && (e.clientX - img.element.getBoundingClientRect().x) < img.element.width - 25 && (e.clientY - img.element.getBoundingClientRect().y) > 25 && (e.clientY - img.element.getBoundingClientRect().y) < img.element.height - 25) {
@@ -49,6 +49,8 @@ formIMG.addEventListener("submit", e => {
     
                 img.element.style.top = `${img.element.offsetTop - posy2}px`
                 img.element.style.left = `${img.element.offsetLeft - posx2}px`
+                formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
+                formY.value = `${-(img.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
             }
         } else {
             //at edge, so resize
@@ -81,6 +83,8 @@ formIMG.addEventListener("submit", e => {
                     img.element.style.left = `${img.element.offsetLeft - posx2}px`
                     formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
                     formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
+                    formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
+                    formY.value = `${-(img.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
                 }
             }
     
@@ -146,7 +150,7 @@ const ParentOptions: HTMLOptionElement[] = []
 
 //Hide the image's own option, shows the image's chosen parent and edits the Element Name value
 /** Updates Parent Options and Element Name*/
-function UpdateStuff() {
+function UpdateFields() {
     for(const el of ParentOptions)
         el.hidden = false;
 
@@ -154,6 +158,11 @@ function UpdateStuff() {
 
     formPARENT.selectedIndex = focusIMG.parentIndex
     formNAME.value = focusIMG.name
+    formWIDTH.value = focusIMG.element.width+""
+    formHEIGHT.value = focusIMG.element.height+"";
+    formX.value = `${(focusIMG.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
+    formY.value = `${-(focusIMG.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+
 }
 
 formPARENT.onchange = function() {
@@ -161,6 +170,17 @@ formPARENT.onchange = function() {
 }
 
 
+//Element X,Y
+const formX = document.getElementById("formX") as HTMLInputElement
+const formY = document.getElementById("formY") as HTMLInputElement
+formX.oninput = function() {
+    const loc = formX.value
+    focusIMG.element.style.left = `${(+loc * coordsIMG.width) / 800 + coordsIMG.x}px`
+}
+formY.oninput = function() {
+    const loc = formY.value
+    focusIMG.element.style.top = `${coordsIMG.height - ((+loc * coordsIMG.height) / 600 + coordsIMG.y)}px`
+}
 
 //# sourceMappingURL=renderer.js.map
 class CustomImage {
@@ -202,3 +222,4 @@ class CustomImage {
 //resizing currently changes both height and width at any edge. needs fix
 //resizing need to have minimum limit. currently you can just make the element totally invisible
 //something visible on the selected image to know that it is selected
+//coordsIMG X/Y be visible even above elements, so window.onmousemove and check if mouse is within the coordsimg Rect or not
