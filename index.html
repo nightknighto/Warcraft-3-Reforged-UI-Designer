@@ -14,13 +14,22 @@
     <h2>
       <p id="debug">Debugging line</p>
       <hr>
-    <div> <p style="text-align: left;">
-      <form id="formSIZE">
+    <div > <p style="text-align: left;">
+      <form id="formINFO">
+        <label for="name">Element Name</label>
+        <input type="text" id="formNAME" maxlength="15">
+        <br>
+        <label for="parent">Element Parent</label>
+        <select name="" id="formPARENT">
+          <option value="GAME_UI">GAME_UI (Default)</option>
+        </select>
+        <br>
+        <br>
         <label for="size">Element Width:</label>
-        <input type="number" id="formWIDTH" min="50" max="800" value="150">
+        <input type="number" id="formWIDTH" min="50" max="800" value="150" step="10">
         <br>
         <label for="size">Element Height:</label>
-        <input type="number" id="formHEIGHT" min="50" max="800" value="200">
+        <input type="number" id="formHEIGHT" min="50" max="800" value="200" step="10">
       </form>
    <br> www
  <br> dddd
