@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // No Node.js APIs are available in this process unless
 // nodeIntegration is set to true in webPreferences.
 // Use preload.js to selectively enable features
 // needed in the renderer process.
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {ipcRenderer, Menu, MenuItem} = require('electron')
+
+import { writeFile } from "fs";
+import { ipcRenderer } from "electron";
 
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
 const coordsTEXT = document.getElementById('coordsTEXT')
@@ -13,7 +15,7 @@ const coordsTEXT = document.getElementById('coordsTEXT')
 window.addEventListener('mousemove', e => {
     let ss = ""
     if(e.clientX >= coordsIMG.getBoundingClientRect().x && e.clientX <= coordsIMG.getBoundingClientRect().right && e.clientY >= coordsIMG.getBoundingClientRect().y && e.clientY <= coordsIMG.getBoundingClientRect().bottom) {
-        ss = `Mouse X/Y: (${Math.floor( (e.clientX - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 )}, ${Math.floor(((780 - (e.clientY - coordsIMG.getBoundingClientRect().y))/coordsIMG.offsetHeight * 600) )})`
+        ss = `Game X/Y: (${Math.floor( (e.clientX - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 )}, ${Math.floor(((780 - (e.clientY - coordsIMG.getBoundingClientRect().y))/coordsIMG.offsetHeight * 600) )})`
     }
     coordsTEXT.innerText = `${ss}
     e.client: (${e.clientX}, ${e.clientY})
@@ -78,14 +80,21 @@ formIMG.addEventListener("submit", e => {
                     debug(`(${img.element.width}, ${img.element.height})`)
                     if((img.element.width - posx2) * 800 / coordsIMG.width <= 20) {
                         img.element.width = 20*coordsIMG.width/800
+                    } else if(coordsIMG.getBoundingClientRect().right < img.element.x + (img.element.width - posx2) ) {
+                        null
                     } else {
                         img.element.width = img.element.width - posx2
                     }
+
                     if((img.element.height - posy2) * 600 / coordsIMG.height <= 20) {
                         img.element.height = 20*coordsIMG.height/600
+                    } else if(coordsIMG.getBoundingClientRect().bottom < img.element.y + (img.element.height - posy2) ) {
+                        null
                     } else {
                         img.element.height = img.element.height - posy2
                     }
+
+                    
                     formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
                     formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
 
@@ -101,12 +110,16 @@ formIMG.addEventListener("submit", e => {
 
                     if((img.element.width + posx2) * 800 / coordsIMG.width <= 20) {
                         img.element.width = 20*coordsIMG.width/800
+                    } else if(coordsIMG.getBoundingClientRect().x > img.element.x - posx2 ) {
+                        null
                     } else {
                         img.element.width = img.element.width + posx2
                         img.element.style.left = `${img.element.offsetLeft - posx2}px`
                     }
                     if((img.element.height + posy2) * 600 / coordsIMG.height <= 20) {
                         img.element.height = 20*coordsIMG.height/600
+                    } else if(coordsIMG.getBoundingClientRect().y > img.element.y - posy2 ) {
+                        null
                     } else {
                         img.element.height = img.element.height + posy2
                         img.element.style.top = `${img.element.offsetTop - posy2}px`
@@ -227,6 +240,10 @@ ipcRenderer.on('Delete', () => {
     focusIMG.Delete()
 })
 
+
+writeFile('Output/experiment.txt', 'Hello wORLD', function () {
+    null}); 
+
 //# sourceMappingURL=renderer.js.map
 class CustomImage {
     element: HTMLImageElement;
@@ -298,3 +315,6 @@ class CustomImage {
 //required:
 //something visible on the selected image to know that it is selected
 //a field for the variable that will have its value changed when frame event occurs
+//duplicate option for elements
+//undo option
+//mouse cursor change before drag or resize

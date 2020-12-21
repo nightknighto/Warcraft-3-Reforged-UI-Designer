@@ -10,6 +10,8 @@ function createWindow() {
       nodeIntegration: true,
     },
     width: 1000,
+    resizable: false,
+    movable: false,
   });
   mainWindow.maximize()
 

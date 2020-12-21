@@ -1,3 +1,4 @@
+<script>var exports = {};</script>
 <!DOCTYPE html>
 <html>
   <head>
@@ -53,9 +54,15 @@
         <input type="submit">
       </form> 
       <hr>
-      End
+      <form id='formRADIO'>
+        <label for="JASS">JASS: </label>
+        <input type="radio" name="lang" id="JASS" checked>
+        <label for="LUA">/ LUA: </label>
+        <input type="radio" name="lang" id="LUA">
+      </form>
     </h3>
 
+    <button style="position: absolute; left: 10%; bottom: 20%; font-size: 400%; color: green; width: 300px; height: 100px; background-color: midnightblue; border-style: solid; border-color:red; border-width: 5px; border-radius: 8px;"> Generate</button>
     <!-- You can also require other files to run in this process -->
     <script src="./dist/renderer.js"></script>
     <script> d</script>
