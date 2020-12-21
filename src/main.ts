@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, MenuItem, Menu } from "electron";
 import * as path from "path";
 
 function createWindow() {
@@ -17,6 +17,18 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+  
+  const menu = new Menu()
+  let item = new MenuItem( { label: 'Delete', id: 'Delete'} )
+  item.click = () => {mainWindow.webContents.send('Delete')}
+  menu.append(item)
+
+  menu.append(new MenuItem( { label: 'Hello'} ))
+  menu.append(new MenuItem( { label: 'Hello'} ))
+
+  ipcMain.on('show-context-menu', () => {
+    menu.popup()
+  })
 
 }
 

@@ -4,6 +4,8 @@
 // nodeIntegration is set to true in webPreferences.
 // Use preload.js to selectively enable features
 // needed in the renderer process.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const {ipcRenderer, Menu, MenuItem} = require('electron')
 
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
 const coordsTEXT = document.getElementById('coordsTEXT')
@@ -17,7 +19,6 @@ window.addEventListener('mousemove', e => {
     e.client: (${e.clientX}, ${e.clientY})
     coordsIMG.Rect: (${coordsIMG.getBoundingClientRect().x}, ${coordsIMG.getBoundingClientRect().bottom})`;
 });
-
 
 const formIMG = document.getElementById("formIMG") as HTMLInputElement
 const imgCONT = document.getElementById("imgCONT") as HTMLInputElement
@@ -193,6 +194,7 @@ function UpdateFields() {
     formHEIGHT.value = focusIMG.element.height+"";
     formX.value = `${(focusIMG.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
     formY.value = `${-(focusIMG.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+    formTEXTURE.value = focusIMG.texturePath
 
 }
 
@@ -213,14 +215,27 @@ formY.oninput = function() {
     focusIMG.element.style.top = `${coordsIMG.height - ((+loc * coordsIMG.height) / 600 + coordsIMG.y)}px`
 }
 
+const formTEXTURE = document.getElementById('formTEXTURE') as HTMLInputElement
+formTEXTURE.onchange = function() {
+    focusIMG.texturePath = formTEXTURE.value
+    debug('Texture Path Changed.')
+}
+
+//step 2: Delete event comes from main.ts
+//step 1 inside class
+ipcRenderer.on('Delete', () => {
+    focusIMG.Delete()
+})
+
 //# sourceMappingURL=renderer.js.map
 class CustomImage {
     element: HTMLImageElement;
     name: string;
     parentIndex = 0; //GAME_UI
     parentOption: HTMLOptionElement;
+    texturePath = "";
 
-    constructor(element: HTMLImageElement, inputFile: FileList) {
+    constructor(element: HTMLImageElement, inputFile: FileList) {try{
         this.element = element;
         this.element.src = URL.createObjectURL(inputFile[0])
         this.element.height = 300
@@ -232,23 +247,52 @@ class CustomImage {
 
         CustomImage.number++;
         this.name = "Element"+CustomImage.number
-        CustomImage.CustomImageArray.push(this)
+        CustomImage.Array.push(this)
         
         this.parentOption = document.createElement("option")
         this.parentOption.text = this.name
-        this.parentOption.value = CustomImage.number+""
         formPARENT.add(this.parentOption)
         ParentOptions.push(this.parentOption)
+        this.parentOption.value = ParentOptions.indexOf(this.parentOption)+""
 
-    }
+        //step 1: event sent to main.ts to display the menu.
+        this.element.oncontextmenu = () => {
+            focusIMG = this
+            ipcRenderer.send('show-context-menu')
+        }
+    }catch(e){alert(e)}}
+    
 
     UpdateName(text: string) {
         this.name = text
         this.parentOption.text = text
     }
 
+    Delete() {
+        const id = ParentOptions.indexOf(this.parentOption)
+        formPARENT.remove(id + 1)
+        ParentOptions.splice(id, 1)
+        this.parentOption.remove()
+        this.element.remove()
+
+        for(const el of CustomImage.Array) {
+            if(el.parentIndex == id + 1) {
+                el.parentIndex = 0
+            } else if(el.parentIndex > id + 1) {
+                el.parentIndex--;
+            }  
+        }
+
+        for(const el of ParentOptions) {
+            el.value = ParentOptions.indexOf(el)+""
+        }
+
+        debug("Deleted Element")
+        formNAME.value = ""
+    }
+
     static number = 0;
-    static CustomImageArray: CustomImage[] = []
+    static Array: CustomImage[] = []
 }
 
 //required:
