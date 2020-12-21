@@ -8,8 +8,14 @@
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
 const coordsTEXT = document.getElementById('coordsTEXT')
 
-coordsIMG.addEventListener('mousemove', e => {
-    coordsTEXT.innerText = `Target X/Y: (${Math.floor( (e.clientX - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 )}, ${Math.floor(((780 - (e.clientY - coordsIMG.getBoundingClientRect().y))/coordsIMG.offsetHeight * 600) )})`;
+window.addEventListener('mousemove', e => {
+    let ss = ""
+    if(e.clientX >= coordsIMG.getBoundingClientRect().x && e.clientX <= coordsIMG.getBoundingClientRect().right && e.clientY >= coordsIMG.getBoundingClientRect().y && e.clientY <= coordsIMG.getBoundingClientRect().bottom) {
+        ss = `Mouse X/Y: (${Math.floor( (e.clientX - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 )}, ${Math.floor(((780 - (e.clientY - coordsIMG.getBoundingClientRect().y))/coordsIMG.offsetHeight * 600) )})`
+    }
+    coordsTEXT.innerText = `${ss}
+    e.client: (${e.clientX}, ${e.clientY})
+    coordsIMG.Rect: (${coordsIMG.getBoundingClientRect().x}, ${coordsIMG.getBoundingClientRect().bottom})`;
 });
 
 
@@ -22,6 +28,7 @@ const debug = function(stuff: any) {
 }
 
 let focusIMG: CustomImage;
+
 
 formIMG.addEventListener("submit", e => {
     e.preventDefault();
@@ -46,11 +53,16 @@ formIMG.addEventListener("submit", e => {
                 posy2 = posy1 - e.clientY
                 posx1 = e.clientX
                 posy1 = e.clientY
-    
-                img.element.style.top = `${img.element.offsetTop - posy2}px`
-                img.element.style.left = `${img.element.offsetLeft - posx2}px`
+                debug(`(${img.element.offsetLeft},${img.element.offsetTop})`)
+                if(((img.element.offsetLeft - posx2) - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 <= 800) {
+                    img.element.style.left = `${img.element.offsetLeft - posx2}px`
+                }
+
+                if( coordsIMG.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && coordsIMG.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
+                    img.element.style.top = `${img.element.offsetTop - posy2}px`
+                }
                 formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-                formY.value = `${-(img.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+                formY.value = `${(img.element.offsetTop - img.element.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
             }
         } else {
             //at edge, so resize
@@ -62,9 +74,17 @@ formIMG.addEventListener("submit", e => {
                     posy2 = posy1 - e.clientY
                     posx1 = e.clientX
                     posy1 = e.clientY
-                    debug(+img.element.style.height)
-                    img.element.height = img.element.height - posy2
-                    img.element.width = img.element.width - posx2
+                    debug(`(${img.element.width}, ${img.element.height})`)
+                    if((img.element.width - posx2) * 800 / coordsIMG.width <= 20) {
+                        img.element.width = 20*coordsIMG.width/800
+                    } else {
+                        img.element.width = img.element.width - posx2
+                    }
+                    if((img.element.height - posy2) * 600 / coordsIMG.height <= 20) {
+                        img.element.height = 20*coordsIMG.height/600
+                    } else {
+                        img.element.height = img.element.height - posy2
+                    }
                     formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
                     formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
 
@@ -77,10 +97,21 @@ formIMG.addEventListener("submit", e => {
                     posx1 = e.clientX
                     posy1 = e.clientY
                     debug(+img.element.style.height)
-                    img.element.height = img.element.height + posy2
-                    img.element.width = img.element.width + posx2
-                    img.element.style.top = `${img.element.offsetTop - posy2}px`
-                    img.element.style.left = `${img.element.offsetLeft - posx2}px`
+
+                    if((img.element.width + posx2) * 800 / coordsIMG.width <= 20) {
+                        img.element.width = 20*coordsIMG.width/800
+                    } else {
+                        img.element.width = img.element.width + posx2
+                        img.element.style.left = `${img.element.offsetLeft - posx2}px`
+                    }
+                    if((img.element.height + posy2) * 600 / coordsIMG.height <= 20) {
+                        img.element.height = 20*coordsIMG.height/600
+                    } else {
+                        img.element.height = img.element.height + posy2
+                        img.element.style.top = `${img.element.offsetTop - posy2}px`
+                    }
+                    // img.element.height = img.element.height + posy2
+                    // img.element.width = img.element.width + posx2
                     formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
                     formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
                     formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
@@ -90,9 +121,9 @@ formIMG.addEventListener("submit", e => {
     
 
         }
-        img.element.onmouseup = function() {
+        window.onmouseup = function() {
             window.onmousemove = null
-            img.element.onmouseup = null
+            window.onmouseup = null
         }
 
         
@@ -192,10 +223,12 @@ class CustomImage {
     constructor(element: HTMLImageElement, inputFile: FileList) {
         this.element = element;
         this.element.src = URL.createObjectURL(inputFile[0])
-        this.element.height = 200
-        this.element.width = 150
+        this.element.height = 300
+        this.element.width = 200
         this.element.draggable = false
         this.element.style.position = "absolute"
+        this.element.style.top = '400px'
+        this.element.style.left = '900px'
 
         CustomImage.number++;
         this.name = "Element"+CustomImage.number
@@ -219,7 +252,5 @@ class CustomImage {
 }
 
 //required:
-//resizing currently changes both height and width at any edge. needs fix
-//resizing need to have minimum limit. currently you can just make the element totally invisible
 //something visible on the selected image to know that it is selected
-//coordsIMG X/Y be visible even above elements, so window.onmousemove and check if mouse is within the coordsimg Rect or not
+//a field for the variable that will have its value changed when frame event occurs
