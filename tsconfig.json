@@ -12,6 +12,7 @@
     "noImplicitUseStrict": true,
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "Jass Templates"
   ]
 }

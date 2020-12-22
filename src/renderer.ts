@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
@@ -6,8 +7,25 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { writeFile } from "fs";
+import { writeFile, appendFile } from "fs";
 import { ipcRenderer } from "electron";
+
+namespace TEMPLATES{
+    export const globals = "globals \n"
+
+    export const declares = "framehandle FRvar = null \n"
+
+    export const endglobals = "endglobals \n"
+    export const library = "library REFORGEDUIMAKER initializer init \n private function init takes nothing returns nothing \n"
+
+    export const backdrop = 'set FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
+
+    export const endlibrary = "endfunction \n endlibrary \n"
+}
+
+const debug = function(stuff: any) {
+    document.getElementById("debug").innerText = stuff
+}
 
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
 const coordsTEXT = document.getElementById('coordsTEXT')
@@ -26,9 +44,6 @@ const formIMG = document.getElementById("formIMG") as HTMLInputElement
 const imgCONT = document.getElementById("imgCONT") as HTMLInputElement
 const input = document.getElementById('img') as HTMLInputElement
 
-const debug = function(stuff: any) {
-    document.getElementById("debug").innerText = stuff
-}
 
 let focusIMG: CustomImage;
 
@@ -65,7 +80,7 @@ formIMG.addEventListener("submit", e => {
                     img.element.style.top = `${img.element.offsetTop - posy2}px`
                 }
                 formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-                formY.value = `${(img.element.offsetTop - img.element.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+                formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
             }
         } else {
             //at edge, so resize
@@ -129,7 +144,7 @@ formIMG.addEventListener("submit", e => {
                     formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
                     formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
                     formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-                    formY.value = `${-(img.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+                    formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
                 }
             }
     
@@ -203,10 +218,10 @@ function UpdateFields() {
 
     formPARENT.selectedIndex = focusIMG.parentIndex
     formNAME.value = focusIMG.name
-    formWIDTH.value = focusIMG.element.width+""
-    formHEIGHT.value = focusIMG.element.height+"";
+    formWIDTH.value = focusIMG.element.width * 800 / coordsIMG.width+""
+    formHEIGHT.value = focusIMG.element.height * 600 / coordsIMG.height+"";
     formX.value = `${(focusIMG.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-    formY.value = `${-(focusIMG.element.offsetTop - coordsIMG.height + coordsIMG.getBoundingClientRect().y)/coordsIMG.height * 600}`;
+    formY.value = `${(coordsIMG.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
     formTEXTURE.value = focusIMG.texturePath
 
 }
@@ -240,9 +255,42 @@ ipcRenderer.on('Delete', () => {
     focusIMG.Delete()
 })
 
+const Generate = document.getElementById('BUTTONgenerate') as HTMLButtonElement
+Generate.onclick = () => {
+    writeFile('Output/experiment.txt', TEMPLATES.globals, ()=>{
+        appendFile('Output/experiment.txt', TemplateReplace(TEMPLATES.declares, focusIMG, 0), ()=>{
+            appendFile('Output/experiment.txt', TEMPLATES.endglobals, ()=>{
+                appendFile('Output/experiment.txt', TEMPLATES.library, ()=>{
+                    appendFile('Output/experiment.txt', TemplateReplace(TEMPLATES.backdrop, focusIMG, 1), ()=>{
+                        appendFile('Output/experiment.txt', TEMPLATES.endlibrary, ()=>{
+                            alert("File Created in Output folder")})})})})})})
+     //target
+    
+    
+     //target
+    
+    
+}
 
-writeFile('Output/experiment.txt', 'Hello wORLD', function () {
-    null}); 
+/**kinds: 0 for declare, 1 for backdrop */
+function TemplateReplace(text: string, img: CustomImage, kind: number) {
+    let sumText = ""
+    for(let el of CustomImage.Array) {
+        let textEdit = text.replace(/FRvar/gi, el.name )
+        if(kind == 0) {
+            sumText += textEdit;
+            continue;
+        }
+        if(el.parentIndex == 0) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
+        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/coordsIMG.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x + el.element.width)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/coordsIMG.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("PATHvar", '"'+el.texturePath+'"')
+        sumText += textEdit;
+    }
+    return sumText;
+}
 
 //# sourceMappingURL=renderer.js.map
 class CustomImage {
@@ -318,3 +366,4 @@ class CustomImage {
 //duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
+
