@@ -20,17 +20,144 @@ function createWindow() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
   
-  const menu = new Menu()
+  const contextmenu = new Menu()
   let item = new MenuItem( { label: 'Delete', id: 'Delete'} )
   item.click = () => {mainWindow.webContents.send('Delete')}
-  menu.append(item)
+  contextmenu.append(item)
 
-  menu.append(new MenuItem( { label: 'Hello'} ))
-  menu.append(new MenuItem( { label: 'Hello'} ))
+  contextmenu.append(new MenuItem( { label: 'Hello'} ))
+  contextmenu.append(new MenuItem( { label: 'Hello'} ))
 
   ipcMain.on('show-context-menu', () => {
-    menu.popup()
+    contextmenu.popup()
   })
+
+  const menu = new Menu()
+  menu.append(
+    new MenuItem(
+      {
+        label: 'File', 
+        submenu: [
+          {
+            label: 'Undo'
+          },
+
+          {
+            label: 'third'
+          }
+        ]
+      }
+    )
+  )
+
+  menu.append(
+    new MenuItem(
+      {
+        label: 'Actions', 
+        submenu: [
+          
+          {
+            label: 'Copy',
+            role: "copy",
+            enabled: false
+          },
+          
+          {
+            label: 'Paste',
+            role: 'paste',
+            enabled: false
+          },
+
+          {
+            label: 'Delete',
+            click: () => {
+              mainWindow.webContents.send('Delete')
+            }
+          },
+
+        ]
+      }
+    )
+  )
+
+  menu.append(
+    new MenuItem(
+      {
+        label: 'Insert', 
+        submenu: [
+          {
+            label: 'ScriptDialogButton',
+            click: () => {
+              mainWindow.webContents.send('Insert', 0)
+            },
+          },
+          {
+            label: 'BrowserButton',
+            click: () => {
+              mainWindow.webContents.send('Insert', 1)
+            },
+          },
+          {
+            label: 'QuestCheckBox',
+            click: () => {
+              mainWindow.webContents.send('Insert', 2)
+            },
+          },
+          {
+            label: 'CheckListBox',
+            click: () => {
+              mainWindow.webContents.send('Insert', 3)
+            },
+          },
+          {
+            label: 'OptionsPopupMenuBackdrop',
+            click: () => {
+              mainWindow.webContents.send('Insert', 4)
+            },
+          },
+          {
+            label: 'QuestButtonBaseTemplate',
+            click: () => {
+              mainWindow.webContents.send('Insert', 5)
+            },
+          },
+          {
+            label: 'QuestButtonPushedBackdropTemplate',
+            click: () => {
+              mainWindow.webContents.send('Insert', 6)
+            },
+          },
+          {
+            label: 'QuestButtonDisabledBackdropTemplate',
+            click: () => {
+              mainWindow.webContents.send('Insert', 7)
+            },
+          },
+          {
+            label: 'EscMenuBackdrop',
+            click: () => {
+              mainWindow.webContents.send('Insert', 8)
+            },
+          },
+          /*{
+            label: 'Insert',
+            click: () => {
+              mainWindow.webContents.send('Insert', 9)
+            },
+          },
+          {
+            label: 'Insert',
+            click: () => {
+              mainWindow.webContents.send('Insert', 10)
+            },
+          },*/
+
+        ]
+      }
+    )
+  )
+  
+  Menu.setApplicationMenu(menu);
 
 }
 

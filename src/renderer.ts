@@ -52,111 +52,9 @@ formIMG.addEventListener("submit", e => {
     e.preventDefault();
     const el = document.createElement("img")
     const img = new CustomImage(el, input.files)
-    imgCONT.appendChild(img.element)
-    focusIMG = img
-    UpdateFields()
-    let posx1 = 0, posy1 = 0, posx2 = 0, posy2 = 0;
+    const posx1 = 0, posy1 = 0, posx2 = 0, posy2 = 0;
 
-    img.element.onmousedown = function(e) {
-        posx1 = e.clientX
-        posy1 = e.clientY
-        focusIMG = img
-        UpdateFields()
-        //debug((e.clientY - img.element.getBoundingClientRect().y))
-        //check whether it is drag or resize
-        if((e.clientX - img.element.getBoundingClientRect().x) > 25 && (e.clientX - img.element.getBoundingClientRect().x) < img.element.width - 25 && (e.clientY - img.element.getBoundingClientRect().y) > 25 && (e.clientY - img.element.getBoundingClientRect().y) < img.element.height - 25) {
-            //not at edge, so drag
-            window.onmousemove = function(e) {
-                posx2 = posx1 - e.clientX
-                posy2 = posy1 - e.clientY
-                posx1 = e.clientX
-                posy1 = e.clientY
-                debug(`(${img.element.offsetLeft},${img.element.offsetTop})`)
-                if(((img.element.offsetLeft - posx2) - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 <= 800) {
-                    img.element.style.left = `${img.element.offsetLeft - posx2}px`
-                }
-
-                if( coordsIMG.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && coordsIMG.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
-                    img.element.style.top = `${img.element.offsetTop - posy2}px`
-                }
-                formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-                formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
-            }
-        } else {
-            //at edge, so resize
-            //now determine which edges
-            if((e.clientX - img.element.getBoundingClientRect().x) > img.element.width - 25 || (e.clientY - img.element.getBoundingClientRect().y) > img.element.height - 25) {
-                //right and bottom edge: just resize
-                window.onmousemove = function(e) {
-                    posx2 = posx1 - e.clientX
-                    posy2 = posy1 - e.clientY
-                    posx1 = e.clientX
-                    posy1 = e.clientY
-                    debug(`(${img.element.width}, ${img.element.height})`)
-                    if((img.element.width - posx2) * 800 / coordsIMG.width <= 20) {
-                        img.element.width = 20*coordsIMG.width/800
-                    } else if(coordsIMG.getBoundingClientRect().right < img.element.x + (img.element.width - posx2) ) {
-                        null
-                    } else {
-                        img.element.width = img.element.width - posx2
-                    }
-
-                    if((img.element.height - posy2) * 600 / coordsIMG.height <= 20) {
-                        img.element.height = 20*coordsIMG.height/600
-                    } else if(coordsIMG.getBoundingClientRect().bottom < img.element.y + (img.element.height - posy2) ) {
-                        null
-                    } else {
-                        img.element.height = img.element.height - posy2
-                    }
-
-                    
-                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
-                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
-
-                }
-            } else {
-                //top and left edge: resize and drag
-                window.onmousemove = function(e) {
-                    posx2 = posx1 - e.clientX
-                    posy2 = posy1 - e.clientY
-                    posx1 = e.clientX
-                    posy1 = e.clientY
-                    debug(+img.element.style.height)
-
-                    if((img.element.width + posx2) * 800 / coordsIMG.width <= 20) {
-                        img.element.width = 20*coordsIMG.width/800
-                    } else if(coordsIMG.getBoundingClientRect().x > img.element.x - posx2 ) {
-                        null
-                    } else {
-                        img.element.width = img.element.width + posx2
-                        img.element.style.left = `${img.element.offsetLeft - posx2}px`
-                    }
-                    if((img.element.height + posy2) * 600 / coordsIMG.height <= 20) {
-                        img.element.height = 20*coordsIMG.height/600
-                    } else if(coordsIMG.getBoundingClientRect().y > img.element.y - posy2 ) {
-                        null
-                    } else {
-                        img.element.height = img.element.height + posy2
-                        img.element.style.top = `${img.element.offsetTop - posy2}px`
-                    }
-                    // img.element.height = img.element.height + posy2
-                    // img.element.width = img.element.width + posx2
-                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString()
-                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString()
-                    formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
-                    formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
-                }
-            }
-    
-
-        }
-        window.onmouseup = function() {
-            window.onmousemove = null
-            window.onmouseup = null
-        }
-
-        
-    }
+    ImageFunctions(img, posx1, posy1, posx2, posy2);
 })
 
 //Width and Height inputs, changes width and height
@@ -208,6 +106,122 @@ formNAME.onchange = function() {
 const formPARENT = document.getElementById("formPARENT") as HTMLSelectElement
 const ParentOptions: HTMLOptionElement[] = []
 
+function ImageFunctions(img: CustomImage, posx1: number, posy1: number, posx2: number, posy2: number) {
+    img.element.onmousedown = function (e) {
+        posx1 = e.clientX;
+        posy1 = e.clientY;
+        if(focusIMG)
+            focusIMG.element.style.outlineStyle = 'none';
+        focusIMG = img;
+        UpdateFields();
+        //debug((e.clientY - img.element.getBoundingClientRect().y))
+        //check whether it is drag or resize
+        if ((e.clientX - img.element.getBoundingClientRect().x) > 25 && (e.clientX - img.element.getBoundingClientRect().x) < img.element.width - 25 && (e.clientY - img.element.getBoundingClientRect().y) > 25 && (e.clientY - img.element.getBoundingClientRect().y) < img.element.height - 25) {
+            //not at edge, so drag
+            window.onmousemove = function (e) {
+                posx2 = posx1 - e.clientX;
+                posy2 = posy1 - e.clientY;
+                posx1 = e.clientX;
+                posy1 = e.clientY;
+                debug(`(${img.element.offsetLeft},${img.element.offsetTop})`);
+                if (((img.element.offsetLeft - posx2) - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800 <= 800) {
+                    img.element.style.left = `${img.element.offsetLeft - posx2}px`;
+                }
+
+                if (coordsIMG.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && coordsIMG.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
+                    img.element.style.top = `${img.element.offsetTop - posy2}px`;
+                }
+                formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800}`;
+                formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / coordsIMG.height * 600}`;
+            };
+        }
+        else {
+            //at edge, so resize
+            //now determine which edges
+            if ((e.clientX - img.element.getBoundingClientRect().x) > img.element.width - 25 || (e.clientY - img.element.getBoundingClientRect().y) > img.element.height - 25) {
+                //right and bottom edge: just resize
+                window.onmousemove = function (e) {
+                    posx2 = posx1 - e.clientX;
+                    posy2 = posy1 - e.clientY;
+                    posx1 = e.clientX;
+                    posy1 = e.clientY;
+                    debug(`(${img.element.width}, ${img.element.height})`);
+                    if ((img.element.width - posx2) * 800 / coordsIMG.width <= 20) {
+                        img.element.width = 20 * coordsIMG.width / 800;
+                    }
+                    else if (coordsIMG.getBoundingClientRect().right < img.element.x + (img.element.width - posx2)) {
+                        null;
+                    }
+                    else {
+                        img.element.width = img.element.width - posx2;
+                    }
+
+                    if ((img.element.height - posy2) * 600 / coordsIMG.height <= 20) {
+                        img.element.height = 20 * coordsIMG.height / 600;
+                    }
+                    else if (coordsIMG.getBoundingClientRect().bottom < img.element.y + (img.element.height - posy2)) {
+                        null;
+                    }
+                    else {
+                        img.element.height = img.element.height - posy2;
+                    }
+
+
+                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString();
+                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString();
+
+                };
+            }
+            else {
+                //top and left edge: resize and drag
+                window.onmousemove = function (e) {
+                    posx2 = posx1 - e.clientX;
+                    posy2 = posy1 - e.clientY;
+                    posx1 = e.clientX;
+                    posy1 = e.clientY;
+                    debug(+img.element.style.height);
+
+                    if ((img.element.width + posx2) * 800 / coordsIMG.width <= 20) {
+                        img.element.width = 20 * coordsIMG.width / 800;
+                    }
+                    else if (coordsIMG.getBoundingClientRect().x > img.element.x - posx2) {
+                        null;
+                    }
+                    else {
+                        img.element.width = img.element.width + posx2;
+                        img.element.style.left = `${img.element.offsetLeft - posx2}px`;
+                    }
+                    if ((img.element.height + posy2) * 600 / coordsIMG.height <= 20) {
+                        img.element.height = 20 * coordsIMG.height / 600;
+                    }
+                    else if (coordsIMG.getBoundingClientRect().y > img.element.y - posy2) {
+                        null;
+                    }
+                    else {
+                        img.element.height = img.element.height + posy2;
+                        img.element.style.top = `${img.element.offsetTop - posy2}px`;
+                    }
+                    // img.element.height = img.element.height + posy2
+                    // img.element.width = img.element.width + posx2
+                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString();
+                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString();
+                    formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800}`;
+                    formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / coordsIMG.height * 600}`;
+                };
+            }
+
+
+        }
+        window.onmouseup = function () {
+            window.onmousemove = null;
+            window.onmouseup = null;
+        };
+
+
+    };
+    return { posx1, posy1, posx2, posy2 };
+}
+
 //Hide the image's own option, shows the image's chosen parent and edits the Element Name value
 /** Updates Parent Options and Element Name*/
 function UpdateFields() {
@@ -215,6 +229,9 @@ function UpdateFields() {
         el.hidden = false;
 
     focusIMG.parentOption.hidden = true;
+    focusIMG.element.style.outlineStyle = "dashed"
+    focusIMG.element.style.outlineColor = "red"
+    focusIMG.element.style.outlineOffset = "-3px"
 
     formPARENT.selectedIndex = focusIMG.parentIndex
     formNAME.value = focusIMG.name
@@ -292,6 +309,60 @@ function TemplateReplace(text: string, img: CustomImage, kind: number) {
     return sumText;
 }
 
+
+ipcRenderer.on('Insert', (e,i) => {
+    const el = document.createElement('img')
+    let src = './files/images/'
+    switch (i) {
+        case 0:
+                
+            src += 'ScriptDialogButton.png'
+            break; 
+        case 1:
+                
+            src += 'BrowserButton.png'
+            break;
+        case 2:
+                
+            src += 'QuestCheckBox.png'
+            break;
+        case 3:
+    
+                        
+            src += 'CheckListBox.png'
+           break;
+        case 4:
+                        
+            src += 'OptionsPopupMenuBackdropTemplate.png'
+           break;
+        case 5:
+                        
+            src += 'QuestButtonBaseTemplate.png'
+           break;
+        case 6:
+                        
+            src += 'QuestButtonPushedBackdropTemplate.png'
+           break;
+        case 7:
+                        
+            src += 'QuestButtonDisabledBackdropTemplate.png'
+           break;
+        case 8:
+                        
+            src += 'EscMenuBackdrop.png'
+           break;
+        case 9:
+                            
+            src += ''
+           break;
+        case 10:
+
+    }
+    const img = new CustomImage(el, src)
+
+    ImageFunctions(img,0,0,0,0)
+})
+
 //# sourceMappingURL=renderer.js.map
 class CustomImage {
     element: HTMLImageElement;
@@ -300,9 +371,13 @@ class CustomImage {
     parentOption: HTMLOptionElement;
     texturePath = "";
 
-    constructor(element: HTMLImageElement, inputFile: FileList) {try{
+    constructor(element: HTMLImageElement, inputFile: FileList | string) {try{
         this.element = element;
-        this.element.src = URL.createObjectURL(inputFile[0])
+        if(typeof inputFile === 'string')
+            this.element.src = inputFile
+        else 
+            this.element.src = URL.createObjectURL(inputFile[0]);
+
         this.element.height = 300
         this.element.width = 200
         this.element.draggable = false
@@ -322,9 +397,18 @@ class CustomImage {
 
         //step 1: event sent to main.ts to display the menu.
         this.element.oncontextmenu = () => {
+            if(focusIMG)
+                focusIMG.element.style.outlineStyle = 'none';
             focusIMG = this
+            UpdateFields()
             ipcRenderer.send('show-context-menu')
         }
+        
+        imgCONT.appendChild(this.element)
+        if(focusIMG)
+            focusIMG.element.style.outlineStyle = 'none';
+        focusIMG = this
+        UpdateFields()
     }catch(e){alert(e)}}
     
 
