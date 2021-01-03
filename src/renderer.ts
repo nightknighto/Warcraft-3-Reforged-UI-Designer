@@ -19,6 +19,15 @@ namespace TEMPLATES{
     export const library = "library REFORGEDUIMAKER initializer init \n private function init takes nothing returns nothing \n"
 
     export const backdrop = 'set FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
+    export const ScriptDialogButton = 'set FRvar = BlzCreateFrame("ScriptDialogButton", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const BrowserButton = 'set FRvar = BlzCreateFrame("BrowserButton", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const CheckListBox = 'set FRvar = BlzCreateFrame("CheckListBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const EscMenuBackdrop = 'set FRvar = BlzCreateFrame("EscMenuBackdrop", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const OptionsPopupMenuBackdropTemplate = 'set FRvar = BlzCreateFrame("OptionsPopupMenuBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonBaseTemplate = 'set FRvar = BlzCreateFrame("QuestButtonBaseTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonDisabledBackdropTemplate = 'set FRvar = BlzCreateFrame("QuestButtonDisabledBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonPushedBackdropTemplate = 'set FRvar = BlzCreateFrame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestCheckBox = 'set FRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
 
     export const endlibrary = "endfunction \n endlibrary \n"
 }
@@ -275,10 +284,10 @@ ipcRenderer.on('Delete', () => {
 const Generate = document.getElementById('BUTTONgenerate') as HTMLButtonElement
 Generate.onclick = () => {
     writeFile('Output/experiment.txt', TEMPLATES.globals, ()=>{
-        appendFile('Output/experiment.txt', TemplateReplace(TEMPLATES.declares, focusIMG, 0), ()=>{
+        appendFile('Output/experiment.txt', TemplateReplace(0), ()=>{
             appendFile('Output/experiment.txt', TEMPLATES.endglobals, ()=>{
                 appendFile('Output/experiment.txt', TEMPLATES.library, ()=>{
-                    appendFile('Output/experiment.txt', TemplateReplace(TEMPLATES.backdrop, focusIMG, 1), ()=>{
+                    appendFile('Output/experiment.txt', TemplateReplace(1), ()=>{
                         appendFile('Output/experiment.txt', TEMPLATES.endlibrary, ()=>{
                             alert("File Created in Output folder")})})})})})})
      //target
@@ -289,10 +298,17 @@ Generate.onclick = () => {
     
 }
 
-/**kinds: 0 for declare, 1 for backdrop */
-function TemplateReplace(text: string, img: CustomImage, kind: number) {
+/**kinds: 0 for declare, 1 for backdrop and Inserts? */
+function TemplateReplace(kind: number) {
+    let text
+    if(kind == 0) {
+        text = TEMPLATES.declares
+    }
     let sumText = ""
-    for(let el of CustomImage.Array) {
+    for(const el of CustomImage.Array) {
+        if(kind != 0) {
+            eval('text = TEMPLATES.'+el.type)
+        }
         let textEdit = text.replace(/FRvar/gi, el.name )
         if(kind == 0) {
             sumText += textEdit;
@@ -359,6 +375,10 @@ ipcRenderer.on('Insert', (e,i) => {
 
     }
     const img = new CustomImage(el, src)
+    let type = src.slice(15)
+    type = type.slice(0,type.length-4)
+    img.type = type
+    img.typeEditable = false;
 
     ImageFunctions(img,0,0,0,0)
 })
@@ -370,6 +390,8 @@ class CustomImage {
     parentIndex = 0; //GAME_UI
     parentOption: HTMLOptionElement;
     texturePath = "";
+    type = "backdrop";
+    typeEditable = true;
 
     constructor(element: HTMLImageElement, inputFile: FileList | string) {try{
         this.element = element;
@@ -431,6 +453,7 @@ class CustomImage {
                 el.parentIndex--;
             }  
         }
+        CustomImage.Array.splice(CustomImage.Array.indexOf(this),1)
 
         for(const el of ParentOptions) {
             el.value = ParentOptions.indexOf(el)+""

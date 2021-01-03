@@ -1,26 +1,20 @@
 globals 
-framehandle Element1 = null 
 framehandle Element2 = null 
-framehandle Element3 = null 
 framehandle Element4 = null 
+framehandle Element6 = null 
 endglobals 
 library REFORGEDUIMAKER initializer init 
  private function init takes nothing returns nothing 
-set Element1 = BlzCreateFrameByType("BACKDROP", " Element1 ", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 1) 
- call BlzFrameSetAbsPoint(Element1, FRAMEPOINT_TOPLEFT, 0.235469, 0.560072) 
- call BlzFrameSetAbsPoint(Element1, FRAMEPOINT_BOTTOMRIGHT, 0.530084, 0.370841) 
- call BlzFrameSetTexture(Element1, "TalentUI.blp", 0, true) 
-set Element2 = BlzCreateFrameByType("BACKDROP", " Element2 ", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 1) 
- call BlzFrameSetAbsPoint(Element2, FRAMEPOINT_TOPLEFT, 0.0385457, 0.557764) 
- call BlzFrameSetAbsPoint(Element2, FRAMEPOINT_BOTTOMRIGHT, 0.207776, 0.238534) 
- call BlzFrameSetTexture(Element2, "TalentUI.blp", 0, true) 
-set Element3 = BlzCreateFrameByType("BACKDROP", " Element3 ", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 1) 
- call BlzFrameSetAbsPoint(Element3, FRAMEPOINT_TOPLEFT, 0.544700, 0.545457) 
- call BlzFrameSetAbsPoint(Element3, FRAMEPOINT_BOTTOMRIGHT, 0.796238, 0.289303) 
- call BlzFrameSetTexture(Element3, "TalentUI.blp", 0, true) 
+set Element2 = BlzCreateFrame("ScriptDialogButton", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0),0,0) 
+ call BlzFrameSetAbsPoint(Element2, FRAMEPOINT_TOPLEFT, 0.438546, 0.463149) 
+ call BlzFrameSetAbsPoint(Element2, FRAMEPOINT_BOTTOMRIGHT, 0.592392, 0.232380) 
 set Element4 = BlzCreateFrameByType("BACKDROP", " Element4 ", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 1) 
- call BlzFrameSetAbsPoint(Element4, FRAMEPOINT_TOPLEFT, 0.160084, 0.239303) 
- call BlzFrameSetAbsPoint(Element4, FRAMEPOINT_BOTTOMRIGHT, 0.697776, 0.0408413) 
- call BlzFrameSetTexture(Element4, "TalentUI.blp", 0, true) 
+ call BlzFrameSetAbsPoint(Element4, FRAMEPOINT_TOPLEFT, 0.00546875, 0.265457) 
+ call BlzFrameSetAbsPoint(Element4, FRAMEPOINT_BOTTOMRIGHT, 0.159315, 0.0346875) 
+ call BlzFrameSetTexture(Element4, "", 0, true) 
+set Element6 = BlzCreateFrameByType("BACKDROP", " Element6 ", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), "", 1) 
+ call BlzFrameSetAbsPoint(Element6, FRAMEPOINT_TOPLEFT, 0.517776, 0.440841) 
+ call BlzFrameSetAbsPoint(Element6, FRAMEPOINT_BOTTOMRIGHT, 0.671623, 0.210072) 
+ call BlzFrameSetTexture(Element6, "", 0, true) 
 endfunction 
  endlibrary 
