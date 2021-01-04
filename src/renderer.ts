@@ -110,6 +110,9 @@ formNAME.onchange = function() {
     debug('Name Changed to "'+focusIMG.name+'"')
 }
 
+//Element Type
+const formTYPE = document.getElementById('formTYPE') as HTMLSelectElement
+
 
 //Element Parent
 const formPARENT = document.getElementById("formPARENT") as HTMLSelectElement
@@ -249,6 +252,12 @@ function UpdateFields() {
     formX.value = `${(focusIMG.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 800 }`;
     formY.value = `${(coordsIMG.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/coordsIMG.height * 600}`;
     formTEXTURE.value = focusIMG.texturePath
+
+    if(!focusIMG.typeEditable) {
+        formTYPE.disabled = true
+    } else {
+        formTYPE.disabled = false
+    }
 
 }
 
