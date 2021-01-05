@@ -1,9 +1,32 @@
 import { app, BrowserWindow, ipcMain, MenuItem, Menu } from "electron";
 import * as path from "path";
 
-function createWindow() {
+import { ContextMenu } from './menus/contextMenu';
+import { ActionBar } from './menus/actionbar';
+
+let mainWindow : BrowserWindow;
+let contextMenu : ContextMenu;
+let actionBar : ActionBar;
+
+function initialize() {
+
+  mainWindow = createWindow();
+  contextMenu = new ContextMenu(mainWindow);
+  actionBar = new ActionBar(mainWindow);
+
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools();
+
+  setupEvents();
+
+  mainWindow.maximize();
+}
+
+function createWindow() :  BrowserWindow{
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  let browserWindow = new BrowserWindow({
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -13,151 +36,15 @@ function createWindow() {
     resizable: false,
     movable: false,
   });
-  mainWindow.maximize()
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-  
-  const contextmenu = new Menu()
-  let item = new MenuItem( { label: 'Delete', id: 'Delete'} )
-  item.click = () => {mainWindow.webContents.send('Delete')}
-  contextmenu.append(item)
+  return browserWindow;
+}
 
-  contextmenu.append(new MenuItem( { label: 'Hello'} ))
-  contextmenu.append(new MenuItem( { label: 'Hello'} ))
+function setupEvents(){
 
   ipcMain.on('show-context-menu', () => {
-    contextmenu.popup()
+    contextMenu.showContextMenu();
   })
-
-  const menu = new Menu()
-  menu.append(
-    new MenuItem(
-      {
-        label: 'File', 
-        submenu: [
-          {
-            label: 'Undo'
-          },
-
-          {
-            label: 'third'
-          }
-        ]
-      }
-    )
-  )
-
-  menu.append(
-    new MenuItem(
-      {
-        label: 'Actions', 
-        submenu: [
-          
-          {
-            label: 'Copy',
-            role: "copy",
-            enabled: false
-          },
-          
-          {
-            label: 'Paste',
-            role: 'paste',
-            enabled: false
-          },
-
-          {
-            label: 'Delete',
-            click: () => {
-              mainWindow.webContents.send('Delete')
-            }
-          },
-
-        ]
-      }
-    )
-  )
-
-  menu.append(
-    new MenuItem(
-      {
-        label: 'Insert', 
-        submenu: [
-          {
-            label: 'ScriptDialogButton',
-            click: () => {
-              mainWindow.webContents.send('Insert', 0)
-            },
-          },
-          {
-            label: 'BrowserButton',
-            click: () => {
-              mainWindow.webContents.send('Insert', 1)
-            },
-          },
-          {
-            label: 'QuestCheckBox',
-            click: () => {
-              mainWindow.webContents.send('Insert', 2)
-            },
-          },
-          {
-            label: 'CheckListBox',
-            click: () => {
-              mainWindow.webContents.send('Insert', 3)
-            },
-          },
-          {
-            label: 'OptionsPopupMenuBackdrop',
-            click: () => {
-              mainWindow.webContents.send('Insert', 4)
-            },
-          },
-          {
-            label: 'QuestButtonBaseTemplate',
-            click: () => {
-              mainWindow.webContents.send('Insert', 5)
-            },
-          },
-          {
-            label: 'QuestButtonPushedBackdropTemplate',
-            click: () => {
-              mainWindow.webContents.send('Insert', 6)
-            },
-          },
-          {
-            label: 'QuestButtonDisabledBackdropTemplate',
-            click: () => {
-              mainWindow.webContents.send('Insert', 7)
-            },
-          },
-          {
-            label: 'EscMenuBackdrop',
-            click: () => {
-              mainWindow.webContents.send('Insert', 8)
-            },
-          },
-          /*{
-            label: 'Insert',
-            click: () => {
-              mainWindow.webContents.send('Insert', 9)
-            },
-          },
-          {
-            label: 'Insert',
-            click: () => {
-              mainWindow.webContents.send('Insert', 10)
-            },
-          },*/
-
-        ]
-      }
-    )
-  )
-  
-  Menu.setApplicationMenu(menu);
 
 }
 
@@ -165,12 +52,12 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
-  createWindow();
+  initialize();
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) initialize();
   });
 });
 
