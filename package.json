@@ -1,9 +1,12 @@
 {
   "name": "electron-quick-start-typescript",
   "version": "1.0.0",
+  "files": [
+    "!**/*.ts"
+  ],
   "description": "A minimal Electron application written with Typescript",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && electron-builder",
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
     "start": "npm run build && electron ./dist/main.js"
