@@ -9,6 +9,7 @@
 
 import { writeFile, appendFile } from "fs";
 import { ipcRenderer } from "electron";
+import { debug} from "./debug"
 
 namespace TEMPLATES{
     export const globals = "globals \n"
@@ -32,9 +33,6 @@ namespace TEMPLATES{
     export const endlibrary = "endfunction \n endlibrary \n"
 }
 
-const debug = function(stuff: any) {
-    document.getElementById("debug").innerText = stuff
-}
 
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
 const coordsTEXT = document.getElementById('coordsTEXT')
