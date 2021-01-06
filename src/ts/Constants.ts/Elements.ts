@@ -4,7 +4,6 @@ export const coordsTEXT = document.getElementById('coordsTEXT')
 export const formIMG = document.getElementById("formIMG") as HTMLInputElement
 export const imgCONT = document.getElementById("imgCONT") as HTMLInputElement
 export const input = document.getElementById('img') as HTMLInputElement
-//Width and Height inputs, changes width and height
 export const formWIDTH = document.getElementById('formWIDTH') as HTMLInputElement
 export const formHEIGHT = document.getElementById('formHEIGHT') as HTMLInputElement
 export const formNAME = document.getElementById('formNAME') as HTMLInputElement
