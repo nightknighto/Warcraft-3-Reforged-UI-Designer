@@ -10,8 +10,8 @@
 import { writeFile, appendFile } from "fs";
 import { ipcRenderer } from "electron";
 import { debug } from "./debug";
-import { JASS } from "./Templates/Templates";
-import { coordsIMG, formIMG, coordsTEXT, formWIDTH, input, formHEIGHT, formNAME, formX, formY, ParentOptions, formPARENT, formTEXTURE, formTYPE, Generate, imgCONT } from "./Constants.ts/Elements";
+import { JASS } from "./templates/Templates";
+import { coordsIMG, formIMG, coordsTEXT, formWIDTH, input, formHEIGHT, formNAME, formX, formY, ParentOptions, formPARENT, formTEXTURE, formTYPE, Generate, imgCONT } from "./Constants/Elements";
 
 window.addEventListener('mousemove', e => {
     let ss = ""
