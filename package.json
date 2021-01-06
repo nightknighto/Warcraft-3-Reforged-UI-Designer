@@ -4,14 +4,15 @@
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
   "main":"./app/main.js",
   "scripts": {
-    "delete-app": ".\\delete_app.bat \".\\app\\\"",
+    "delete-app": ".\\wipe_folder.bat \".\\app\\\"",
+    "delete-build": ".\\wipe_folder.bat \".\\build\\\"",
     "compile-ts": "tsc",
     "watch-ts": "tsc -w",
     "update-layout": "xcopy /E /I /y \".\\src\\layout\\*\" \".\\app\\\"",
     "update-styles": "xcopy /E /I /y \".\\src\\styles\\*\" \".\\app\\styles\"",
     "update-js": "xcopy /E /I /y \".\\build\\*\" \".\\app\\\"",
     "update-files": "xcopy /E /I /y \".\\files\\*\" \".\\app\\files\"",
-    "build": "npm run delete-app && npm run compile-ts && npm run update-layout && npm run update-styles && npm run update-js && npm run update-files",
+    "build": "npm run delete-app && npm run delete-build && npm run compile-ts && npm run update-layout && npm run update-styles && npm run update-js && npm run update-files",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
     "start": "npm run build && electron ./app/main.js",
     "pack": "npm run build && electron-builder"
