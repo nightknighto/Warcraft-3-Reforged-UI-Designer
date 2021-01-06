@@ -290,12 +290,12 @@ ipcRenderer.on('Delete', () => {
 
 const Generate = document.getElementById('BUTTONgenerate') as HTMLButtonElement
 Generate.onclick = () => {
-    writeFile('Output/experiment.txt', TEMPLATES.globals, ()=>{
-        appendFile('Output/experiment.txt', TemplateReplace(0), ()=>{
-            appendFile('Output/experiment.txt', TEMPLATES.endglobals, ()=>{
-                appendFile('Output/experiment.txt', TEMPLATES.library, ()=>{
-                    appendFile('Output/experiment.txt', TemplateReplace(1), ()=>{
-                        appendFile('Output/experiment.txt', TEMPLATES.endlibrary, ()=>{
+    writeFile('experiment.txt', TEMPLATES.globals, ()=>{
+        appendFile('experiment.txt', TemplateReplace(0), ()=>{
+            appendFile('experiment.txt', TEMPLATES.endglobals, ()=>{
+                appendFile('experiment.txt', TEMPLATES.library, ()=>{
+                    appendFile('experiment.txt', TemplateReplace(1), ()=>{
+                        appendFile('experiment.txt', TEMPLATES.endlibrary, ()=>{
                             alert("File Created in Output folder")})})})})})})
      //target
     
