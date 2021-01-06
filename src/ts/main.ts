@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen} from "electron";
+import { app, BrowserWindow, ipcMain, MenuItem, Menu } from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './menus/contextMenu';
@@ -10,30 +10,34 @@ let actionBar : ActionBar;
 
 function initialize() {
 
-  mainWindow = createWindow(screen.getPrimaryDisplay().bounds);
+  mainWindow = createWindow();
   contextMenu = new ContextMenu(mainWindow);
   actionBar = new ActionBar(mainWindow);
-  
+
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./index.html"));
+  // Open the DevTools.
+  // mainWindow.webContents.openDevTools();
+
   setupEvents();
 
   mainWindow.maximize();
 }
 
-function createWindow(bounds : Electron.Rectangle) :  BrowserWindow{
+function createWindow() :  BrowserWindow{
   // Create the browser window.
-
-  return new BrowserWindow({
-    height: bounds.height,
+  let browserWindow = new BrowserWindow({
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
     },
-    width: bounds.width,
-    resizable: true,
-    movable: true,
+    width: 1000,
+    resizable: false,
+    movable: false,
   });
+  
+  return browserWindow;
 }
 
 function setupEvents(){
