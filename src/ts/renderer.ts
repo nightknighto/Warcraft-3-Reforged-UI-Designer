@@ -10,6 +10,8 @@
 import { writeFile, appendFile } from "fs";
 import { ipcRenderer } from "electron";
 
+import { debug } from "./debug";
+
 namespace TEMPLATES{
     export const globals = "globals \n"
 
@@ -30,10 +32,6 @@ namespace TEMPLATES{
     export const QuestCheckBox = 'set FRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
 
     export const endlibrary = "endfunction \n endlibrary \n"
-}
-
-const debug = function(stuff: any) {
-    document.getElementById("debug").innerText = stuff
 }
 
 const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement

@@ -15,7 +15,7 @@ function initialize() {
   actionBar = new ActionBar(mainWindow);
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  mainWindow.loadFile(path.join(__dirname, "./index.html"));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
@@ -36,7 +36,7 @@ function createWindow() :  BrowserWindow{
     resizable: false,
     movable: false,
   });
-
+  
   return browserWindow;
 }
 
