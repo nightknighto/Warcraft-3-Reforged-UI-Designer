@@ -9,33 +9,9 @@
 
 import { writeFile, appendFile } from "fs";
 import { ipcRenderer } from "electron";
-
 import { debug } from "./debug";
-
-namespace TEMPLATES{
-    export const globals = "globals \n"
-
-    export const declares = "framehandle FRvar = null \n"
-
-    export const endglobals = "endglobals \n"
-    export const library = "library REFORGEDUIMAKER initializer init \n private function init takes nothing returns nothing \n"
-
-    export const backdrop = 'set FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
-    export const ScriptDialogButton = 'set FRvar = BlzCreateFrame("ScriptDialogButton", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const BrowserButton = 'set FRvar = BlzCreateFrame("BrowserButton", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const CheckListBox = 'set FRvar = BlzCreateFrame("CheckListBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const EscMenuBackdrop = 'set FRvar = BlzCreateFrame("EscMenuBackdrop", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const OptionsPopupMenuBackdropTemplate = 'set FRvar = BlzCreateFrame("OptionsPopupMenuBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const QuestButtonBaseTemplate = 'set FRvar = BlzCreateFrame("QuestButtonBaseTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const QuestButtonDisabledBackdropTemplate = 'set FRvar = BlzCreateFrame("QuestButtonDisabledBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const QuestButtonPushedBackdropTemplate = 'set FRvar = BlzCreateFrame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const QuestCheckBox = 'set FRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-
-    export const endlibrary = "endfunction \n endlibrary \n"
-}
-
-const coordsIMG = document.getElementById('coordsIMG') as HTMLImageElement
-const coordsTEXT = document.getElementById('coordsTEXT')
+import { JASS } from "./Templates/Templates";
+import { coordsIMG, formIMG, coordsTEXT, formWIDTH, input, formHEIGHT, formNAME, formX, formY, ParentOptions, formPARENT, formTEXTURE, formTYPE, Generate, imgCONT } from "./Constants.ts/Elements";
 
 window.addEventListener('mousemove', e => {
     let ss = ""
@@ -47,12 +23,8 @@ window.addEventListener('mousemove', e => {
     coordsIMG.Rect: (${coordsIMG.getBoundingClientRect().x}, ${coordsIMG.getBoundingClientRect().bottom})`;
 });
 
-const formIMG = document.getElementById("formIMG") as HTMLInputElement
-const imgCONT = document.getElementById("imgCONT") as HTMLInputElement
-const input = document.getElementById('img') as HTMLInputElement
 
 
-let focusIMG: CustomImage;
 
 
 formIMG.addEventListener("submit", e => {
@@ -64,9 +36,6 @@ formIMG.addEventListener("submit", e => {
     ImageFunctions(img, posx1, posy1, posx2, posy2);
 })
 
-//Width and Height inputs, changes width and height
-const formWIDTH = document.getElementById('formWIDTH') as HTMLInputElement
-const formHEIGHT = document.getElementById('formHEIGHT') as HTMLInputElement
 formWIDTH.oninput = function() {
     if(focusIMG) {
         if(+formWIDTH.value < 20) {focusIMG.element.width = 20 / 800 * coordsIMG.width; debug("Minimum Width: 20")}
@@ -82,7 +51,6 @@ formHEIGHT.oninput = function() {
 
 
 //Element Name: 2 parts
-const formNAME = document.getElementById('formNAME') as HTMLInputElement
 //1: prevents first character from being a number, prevents symbols
 // eslint-disable-next-line no-useless-escape
 const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -109,12 +77,9 @@ formNAME.onchange = function() {
 }
 
 //Element Type
-const formTYPE = document.getElementById('formTYPE') as HTMLSelectElement
 
 
 //Element Parent
-const formPARENT = document.getElementById("formPARENT") as HTMLSelectElement
-const ParentOptions: HTMLOptionElement[] = []
 
 function ImageFunctions(img: CustomImage, posx1: number, posy1: number, posx2: number, posy2: number) {
     img.element.onmousedown = function (e) {
@@ -265,8 +230,6 @@ formPARENT.onchange = function() {
 
 
 //Element X,Y
-const formX = document.getElementById("formX") as HTMLInputElement
-const formY = document.getElementById("formY") as HTMLInputElement
 formX.oninput = function() {
     const loc = formX.value
     focusIMG.element.style.left = `${(+loc * coordsIMG.width) / 800 + coordsIMG.x}px`
@@ -276,7 +239,6 @@ formY.oninput = function() {
     focusIMG.element.style.top = `${coordsIMG.height - ((+loc * coordsIMG.height) / 600 + coordsIMG.y)}px`
 }
 
-const formTEXTURE = document.getElementById('formTEXTURE') as HTMLInputElement
 formTEXTURE.onchange = function() {
     focusIMG.texturePath = formTEXTURE.value
     debug('Texture Path Changed.')
@@ -288,14 +250,13 @@ ipcRenderer.on('Delete', () => {
     focusIMG.Delete()
 })
 
-const Generate = document.getElementById('BUTTONgenerate') as HTMLButtonElement
 Generate.onclick = () => {
-    writeFile('experiment.txt', TEMPLATES.globals, ()=>{
+    writeFile('experiment.txt', JASS.globals, ()=>{
         appendFile('experiment.txt', TemplateReplace(0), ()=>{
-            appendFile('experiment.txt', TEMPLATES.endglobals, ()=>{
-                appendFile('experiment.txt', TEMPLATES.library, ()=>{
+            appendFile('experiment.txt', JASS.endglobals, ()=>{
+                appendFile('experiment.txt', JASS.library, ()=>{
                     appendFile('experiment.txt', TemplateReplace(1), ()=>{
-                        appendFile('experiment.txt', TEMPLATES.endlibrary, ()=>{
+                        appendFile('experiment.txt', JASS.endlibrary, ()=>{
                             alert("File Created in Output folder")})})})})})})
      //target
     
@@ -306,31 +267,7 @@ Generate.onclick = () => {
 }
 
 /**kinds: 0 for declare, 1 for backdrop and Inserts? */
-function TemplateReplace(kind: number) {
-    let text
-    if(kind == 0) {
-        text = TEMPLATES.declares
-    }
-    let sumText = ""
-    for(const el of CustomImage.Array) {
-        if(kind != 0) {
-            eval('text = TEMPLATES.'+el.type)
-        }
-        let textEdit = text.replace(/FRvar/gi, el.name )
-        if(kind == 0) {
-            sumText += textEdit;
-            continue;
-        }
-        if(el.parentIndex == 0) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
-        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/coordsIMG.height * 0.6).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x + el.element.width)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/coordsIMG.height * 0.6).toPrecision(6)}`)
-        textEdit = textEdit.replace("PATHvar", '"'+el.texturePath+'"')
-        sumText += textEdit;
-    }
-    return sumText;
-}
+
 
 
 ipcRenderer.on('Insert', (e,i) => {
@@ -391,7 +328,10 @@ ipcRenderer.on('Insert', (e,i) => {
 })
 
 //# sourceMappingURL=renderer.js.map
-class CustomImage {
+
+let focusIMG: CustomImage = null;
+
+export class CustomImage {
     element: HTMLImageElement;
     name: string;
     parentIndex = 0; //GAME_UI
@@ -474,6 +414,31 @@ class CustomImage {
     static Array: CustomImage[] = []
 }
 
+export function TemplateReplace(kind: number) {
+    let text
+    if(kind == 0) {
+        text = JASS.declares
+    }
+    let sumText = ""
+    for(const el of CustomImage.Array) {
+        if(kind != 0) {
+            eval('text = JASS.'+el.type)
+        }
+        let textEdit = text.replace(/FRvar/gi, el.name )
+        if(kind == 0) {
+            sumText += textEdit;
+            continue;
+        }
+        if(el.parentIndex == 0) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
+        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/coordsIMG.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x + el.element.width)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/coordsIMG.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("PATHvar", '"'+el.texturePath+'"')
+        sumText += textEdit;
+    }
+    return sumText;
+}
 //required:
 //something visible on the selected image to know that it is selected
 //a field for the variable that will have its value changed when frame event occurs
