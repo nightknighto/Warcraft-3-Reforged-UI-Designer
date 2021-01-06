@@ -1,5 +1,5 @@
-node_modules
-dist
 .vscode
-app\*
+app
 build
+dist
+node_modules
