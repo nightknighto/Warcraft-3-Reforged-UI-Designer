@@ -1,0 +1,14 @@
+globals 
+framehandle Element1Button = null 
+ framehandle Element1Backdrop = null 
+endglobals 
+library REFORGEDUIMAKER initializer init 
+ private function init takes nothing returns nothing 
+set Element1Button = BlzCreateFrame("ScriptDialogButton", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0), 0, 0) 
+ call BlzFrameSetAbsPoint(Element1Button, FRAMEPOINT_TOPLEFT, 0.266238, 0.437764) 
+ call BlzFrameSetAbsPoint(Element1Button, FRAMEPOINT_BOTTOMRIGHT, 0.346238, 0.355457) 
+ set Element1Backdrop = BlzCreateFrameByType("BACKDROP", "Element1Backdrop", Element1Button, "", 1) 
+ call BlzFrameSetAllPoints(Element1Backdrop, Element1Button) 
+ call BlzFrameSetTexture(Element1Backdrop, "TalentUI.blp", 0, true) 
+endfunction 
+ endlibrary 
