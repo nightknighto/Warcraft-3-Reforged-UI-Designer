@@ -1,4 +1,4 @@
-import { formPARENT, ParentOptions, imgCONT, formNAME } from "../Constants.ts/Elements";
+import { formPARENT, ParentOptions, imgCONT, formNAME, coordsIMG } from "../Constants.ts/Elements";
 import { ipcRenderer } from "electron";
 import { UpdateFields } from "./UpdateFields";
 import { debug } from "./Mini-Functions";
@@ -31,6 +31,7 @@ export class CustomImage {
         this.element.style.position = "absolute"
         this.element.style.top = '400px'
         this.element.style.left = '900px'
+        document.getElementById('main').appendChild(this.element)
 
         CustomImage.number++;
         this.name = "Element"+CustomImage.number
@@ -51,7 +52,6 @@ export class CustomImage {
             ipcRenderer.send('show-context-menu')
         }
         
-        imgCONT.appendChild(this.element)
         if(focusIMG)
             focusIMG.element.style.outlineStyle = 'none';
         focusIMG = this

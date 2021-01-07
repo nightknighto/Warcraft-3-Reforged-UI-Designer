@@ -14,7 +14,7 @@ export function TemplateReplace(kind: number) {try{
                 text = JASS.declares
             }
         } else {
-            eval(`text = JASS.${el.type}`)
+            text = JassGetTypeText(el.type)
         }
         let textEdit = text.replace(/FRvar/gi, el.name )
         if(kind == 0) {
@@ -32,3 +32,43 @@ export function TemplateReplace(kind: number) {try{
     }
     return sumText;
 }catch(e){alert(e)}} 
+
+function JassGetTypeText(type: string) {
+    //no breaks because return already stops the code
+    switch (type) {
+        case "backdrop":
+            return JASS.backdrop
+        case "button":
+            return JASS.button
+            
+        case "ScriptDialogButton":
+            return JASS.ScriptDialogButton
+                
+        case "BrowserButton":
+            return JASS.BrowserButton
+                    
+        case "CheckListBox":
+            return JASS.CheckListBox
+        
+
+        case "EscMenuBackdrop":
+            return JASS.EscMenuBackdrop
+                
+        case "OptionsPopupMenuBackdropTemplate":
+            return JASS.OptionsPopupMenuBackdropTemplate
+                    
+
+        case "QuestButtonBaseTemplate":
+            return JASS.QuestButtonBaseTemplate
+    
+        case "QuestButtonDisabledBackdropTemplate":
+            return JASS.QuestButtonDisabledBackdropTemplate
+            
+        case "QuestButtonPushedBackdropTemplate":
+            return JASS.QuestButtonPushedBackdropTemplate
+                
+        case "QuestCheckBox":
+            return JASS.QuestCheckBox    
+    }
+    return ""
+}
