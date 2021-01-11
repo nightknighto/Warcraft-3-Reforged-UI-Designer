@@ -1,5 +1,6 @@
-import { CustomImage } from "./CustomImage"
-import { coordsIMG } from "../Constants.ts/Elements"
+import CustomImage from "./CustomImage"
+import ProjectTree from "./ProjectTree"
+import {workspace} from "../Constants/Elements"
 
 export namespace JASS{
     export const globals = "globals \n"
@@ -30,7 +31,7 @@ export namespace JASS{
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
-    for(const el of CustomImage.Array) {
+    for(const el of ProjectTree.images) {
         if(kind == 0) {
             if(el.type == 'button') {
                 text = JASS.declaresBUTTON
@@ -47,10 +48,10 @@ export function TemplateReplace(kind: number) {try{
         }
         
         if(el.parentIndex == 0) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
-        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/coordsIMG.height * 0.6).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - coordsIMG.getBoundingClientRect().x + el.element.width)/coordsIMG.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${((coordsIMG.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/coordsIMG.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - workspace.getBoundingClientRect().x)/workspace.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${((workspace.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/workspace.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - workspace.getBoundingClientRect().x + el.element.width)/workspace.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${((workspace.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/workspace.height * 0.6).toPrecision(6)}`)
         textEdit = textEdit.replace("PATHvar", '"'+el.texturePath+'"')
         sumText += textEdit;
     }

@@ -12,9 +12,9 @@
 
     <div id="containerUI">
 
-        <div id="workspace">
+        <div id="workspaceContainer">
 
-            <img src="./files/images/backgroundWorkspace.png" alt="workspace">
+            <img id="workspace" src="./files/images/backgroundWorkspace.png" alt="workspace">
 
         </div>
 
@@ -113,7 +113,7 @@
                 </tr>
 
                 <tr>
-                    <td><label for="elementCoordiantes">Coordinates: </label></td>
+                    <td><label for="elementCoordinates">Coordinates: </label></td>
                     <td><input type="text" name="elementCoordinates" id="elementCoordinates" class="parameter"></td>
                 </tr>
 
@@ -135,7 +135,7 @@
                     <td><label>Texture: </label></td>
                     <td class="browseOption">
 
-                        <input type="text" id="elementParent" class="parameter">
+                        <input type="text" id="elementTexture" class="parameter">
                         <button id="buttonBrowseTexture">...</button>
 
                     </td>
@@ -151,7 +151,7 @@
         <div id="panelDebug">
 
             <div id='debugLine'>Debug Line for this unlimited UI reforging the reforged editor. Life too good to be true man</div>
-
+            <div id='debugGameCoordinates'>Game: (x , y)</div>
         </div>
 
     </div>

@@ -1,7 +1,7 @@
 import { CustomImage, focusIMG, FocusIMGchange } from "./CustomImage";
 import { UpdateFields } from "./UpdateFields"
-import { coordsIMG, formX, formY, formWIDTH, formHEIGHT } from "../Constants.ts/Elements";
 import { debug } from "./Mini-Functions"
+import { workspace, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 
 export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, posx2: number, posy2: number) {
     img.element.onmousedown = function (e) {
@@ -21,15 +21,15 @@ export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, p
                 posx1 = e.clientX;
                 posy1 = e.clientY;
                 debug(`(${img.element.offsetLeft},${img.element.offsetTop})`);
-                if (((img.element.offsetLeft - posx2) - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800 <= 800) {
+                if (((img.element.offsetLeft - posx2) - workspace.getBoundingClientRect().x) / workspace.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - workspace.getBoundingClientRect().x) / workspace.offsetWidth * 800 <= 800) {
                     img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                 }
 
-                if (coordsIMG.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && coordsIMG.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
+                if (workspace.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && workspace.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
                     img.element.style.top = `${img.element.offsetTop - posy2}px`;
                 }
-                formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800}`;
-                formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / coordsIMG.height * 600}`;
+                inputElementCoordinateX.value = `${(img.element.offsetLeft - workspace.getBoundingClientRect().x) / workspace.offsetWidth * 800}`;
+                inputElementCoordinateY.value = `${(workspace.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspace.height * 600}`;
             };
         }
         else {
@@ -43,20 +43,20 @@ export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, p
                     posx1 = e.clientX;
                     posy1 = e.clientY;
                     debug(`(${img.element.width}, ${img.element.height})`);
-                    if ((img.element.width - posx2) * 800 / coordsIMG.width <= 20) {
-                        img.element.width = 20 * coordsIMG.width / 800;
+                    if ((img.element.width - posx2) * 800 / workspace.width <= 20) {
+                        img.element.width = 20 * workspace.width / 800;
                     }
-                    else if (coordsIMG.getBoundingClientRect().right < img.element.x + (img.element.width - posx2)) {
+                    else if (workspace.getBoundingClientRect().right < img.element.x + (img.element.width - posx2)) {
                         null;
                     }
                     else {
                         img.element.width = img.element.width - posx2;
                     }
 
-                    if ((img.element.height - posy2) * 600 / coordsIMG.height <= 20) {
-                        img.element.height = 20 * coordsIMG.height / 600;
+                    if ((img.element.height - posy2) * 600 / workspace.height <= 20) {
+                        img.element.height = 20 * workspace.height / 600;
                     }
-                    else if (coordsIMG.getBoundingClientRect().bottom < img.element.y + (img.element.height - posy2)) {
+                    else if (workspace.getBoundingClientRect().bottom < img.element.y + (img.element.height - posy2)) {
                         null;
                     }
                     else {
@@ -64,8 +64,8 @@ export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, p
                     }
 
 
-                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString();
-                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString();
+                    inputElementWidth.value = (img.element.width * 800 / workspace.width).toString();
+                    inputElementHeight.value = (img.element.height * 600 / workspace.height).toString();
 
                 };
             }
@@ -78,20 +78,20 @@ export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, p
                     posy1 = e.clientY;
                     debug(+img.element.style.height);
 
-                    if ((img.element.width + posx2) * 800 / coordsIMG.width <= 20) {
-                        img.element.width = 20 * coordsIMG.width / 800;
+                    if ((img.element.width + posx2) * 800 / workspace.width <= 20) {
+                        img.element.width = 20 * workspace.width / 800;
                     }
-                    else if (coordsIMG.getBoundingClientRect().x > img.element.x - posx2) {
+                    else if (workspace.getBoundingClientRect().x > img.element.x - posx2) {
                         null;
                     }
                     else {
                         img.element.width = img.element.width + posx2;
                         img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                     }
-                    if ((img.element.height + posy2) * 600 / coordsIMG.height <= 20) {
-                        img.element.height = 20 * coordsIMG.height / 600;
+                    if ((img.element.height + posy2) * 600 / workspace.height <= 20) {
+                        img.element.height = 20 * workspace.height / 600;
                     }
-                    else if (coordsIMG.getBoundingClientRect().y > img.element.y - posy2) {
+                    else if (workspace.getBoundingClientRect().y > img.element.y - posy2) {
                         null;
                     }
                     else {
@@ -100,10 +100,10 @@ export function ImageFunctions(img: CustomImage, posx1: number, posy1: number, p
                     }
                     // img.element.height = img.element.height + posy2
                     // img.element.width = img.element.width + posx2
-                    formWIDTH.value = (img.element.width * 800 / coordsIMG.width).toString();
-                    formHEIGHT.value = (img.element.height * 600 / coordsIMG.height).toString();
-                    formX.value = `${(img.element.offsetLeft - coordsIMG.getBoundingClientRect().x) / coordsIMG.offsetWidth * 800}`;
-                    formY.value = `${(coordsIMG.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / coordsIMG.height * 600}`;
+                    inputElementHeight.value = (img.element.width * 800 / workspace.width).toString();
+                    inputElementWidth.value = (img.element.height * 600 / workspace.height).toString();
+                    inputElementCoordinateX.value = `${(img.element.offsetLeft - workspace.getBoundingClientRect().x) / workspace.offsetWidth * 800}`;
+                    inputElementCoordinateY.value = `${(workspace.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspace.height * 600}`;
                 };
             }
 

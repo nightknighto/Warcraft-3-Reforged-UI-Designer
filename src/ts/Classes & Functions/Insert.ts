@@ -55,7 +55,7 @@ export namespace Insert {
                 case 10:
 
             }
-            const img = new CustomImage(el, src)
+            const img = new CustomImage("newImage" ,el, src)
             let type = src.slice(15)
             type = type.slice(0,type.length-4)
             img.type = type
