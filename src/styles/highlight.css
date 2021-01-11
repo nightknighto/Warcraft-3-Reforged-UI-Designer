@@ -1,0 +1,32 @@
+#containerUI{
+    background-color: black;
+}
+
+#barTitle{
+    background-color: teal;
+}
+
+#barTab{
+    background-color: yellow;
+}
+
+#barRibbon{
+    background-color: turquoise;
+}
+
+#panelParameters{
+    background-color: tomato;
+}
+
+#panelTree{
+    background-color: violet;
+}
+
+#panelDebug{
+    background-color: yellowgreen;   
+}
+
+
+#workspace{
+    background-color: black;    
+}

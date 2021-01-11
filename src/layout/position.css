@@ -1,0 +1,149 @@
+
+body{
+    margin: 0;  
+
+}
+
+#containerUI{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+#barTitle{
+    position: absolute;
+    top:0;
+    height: 30px;
+    width: 100vw;
+    
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+#barTitle div{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0.3%;
+    margin-right: 0.3%;
+}
+
+#barTitle #appInfo, #barTitle #windowButtons{
+    height:fit-content;
+}
+
+#barTab{
+    position: fixed;
+    top: 30px;
+    height: 40px;
+    width: 100vw;
+    
+    display: flex;
+}
+
+#barTab .tab{
+    width: fit-content;
+
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 0;
+    margin-bottom: auto;
+    transform: translate(0%, 50%);
+}
+
+#barRibbon{
+    position: fixed;
+    top:70px;
+    min-height: 50px;
+    width: 100vw;
+
+    display: flex;
+}
+
+#barRibbon .ribbonOption{
+
+    width: fit-content;
+    margin: auto;
+
+}
+
+#panelParameters{
+    position: fixed;
+    top:120px;
+    bottom:0;
+
+    min-width: 130px;
+    left:0;
+}
+
+#tableParameters{
+
+    height: min-content;
+    width: 97%;
+    margin-inline-start: 1%;
+    margin-inline-end: 2%;
+    gap: 0;
+    
+}
+
+#tableParameters td{ 
+    width:100%;
+    height: fit-content;
+    padding: 0;
+}
+
+#tableParameters td:first-child{
+    width:fit-content;
+    height: fit-content;
+}
+
+#tableParameters td:first-child ~ td{
+
+    display: inline-flex;
+    height: fit-content;
+}
+
+#tableParameters .parameter{
+    width: 100%;   
+}
+
+#workspace{
+    position: fixed;
+
+    left: 275px;
+    right: 300px;
+    top:120px;
+    bottom:75px;
+}
+
+#workspace img{
+    max-width: 100%;
+    height: auto;
+}
+
+#panelTree{
+    position: fixed;
+    width: 300px;
+
+    right: 0;
+    top:120px;
+    bottom:0px
+}
+
+#panelDebug{
+    height:75px;
+    width:40vw;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#panelDebug #debugLine{
+
+    padding: 10px;
+
+}

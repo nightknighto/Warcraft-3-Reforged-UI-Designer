@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, MenuItem, Menu } from "electron";
+import { app, BrowserWindow, ipcMain, screen} from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './menus/contextMenu';
@@ -8,9 +8,14 @@ let mainWindow : BrowserWindow;
 let contextMenu : ContextMenu;
 let actionBar : ActionBar;
 
+const minWindowWidth = 1024;
+const minWindowHeight = 1280;
+
 function initialize() {
 
-  mainWindow = createWindow();
+  let windowSize = screen.getPrimaryDisplay().bounds;
+
+  mainWindow = createWindow(windowSize.width, windowSize.height);
   contextMenu = new ContextMenu(mainWindow);
   actionBar = new ActionBar(mainWindow);
 
@@ -23,18 +28,21 @@ function initialize() {
 
   mainWindow.maximize();
 }
-
-function createWindow() :  BrowserWindow{
+function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
   // Create the browser window.
+
   let browserWindow = new BrowserWindow({
-    height: 800,
+    height: windowHeight,
+    width: windowWidth,
+    minWidth: minWindowWidth,
+    minHeight: minWindowHeight,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
     },
-    width: 1000,
-    resizable: false,
-    movable: false,
+    resizable: true,
+    movable: true,
+    frame: false,
   });
   
   return browserWindow;

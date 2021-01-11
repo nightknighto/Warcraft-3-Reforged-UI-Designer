@@ -1,85 +1,163 @@
-<script>var exports = {};</script>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Reforged UI Maker</title>
-    <link rel="stylesheet" href=".\styles\style.css">
+    <meta charset="UTF-8">
+    <title>Warcraft 3 UI Maker</title>
+    <link rel="stylesheet" href="position.css">
+    <link rel="stylesheet" href="./styles/highlight.css">
 </head>
 
 <body>
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <form id="formINFO">
-            <label for="name">Element Name</label>
-            <input type="text" id="formNAME" maxlength="15">
-            <br>
+    <div id="containerUI">
 
-            <label for="type">Element Type</label>
-            <select name="type" id="formTYPE">
-                <option value="backdrop">backdrop</option>
-                <option value="button">button</option>
-            </select>
-            <br>
+        <div id="workspace">
 
-            <label for="parent">Element Parent</label>
-            <select name="" id="formPARENT">
-                <option value="GAME_UI">GAME_UI (Default)</option>
-            </select>
-            <br>
+            <img src="./files/images/backgroundWorkspace.png" alt="workspace">
 
-            <label for="size">Element Width:</label>
-            <input type="number" id="formWIDTH" min="50" max="800" value="150" step="10">
-            <br>
-        
-            <label for="size">Element Height:</label>
-            <input type="number" id="formHEIGHT" min="50" max="800" value="200" step="10">
-            <br>
-            
-            <label for="loc">X:</label>
-            <input type="number" id="formX" min="0" max="780" step="10">
-            <br>
-        
-            <label for="loc">Y:</label>
-            <input type="number" id="formY" min="0" max="580" step="10">
-        </form>
-        <br>
+        </div>
 
-        <label for="name">Element Texture Path:</label>
-        <input type="text" id="formTEXTURE" maxlength="40">
-        <br>
-        
-        <hr id="imgCONT">
-        <form id="formIMG">
-            <label for="img">Select image:</label>
-            <input type="file" id="img" name="img" accept="image/*">
-            <input type="submit">
-        </form>
-        <br>
-        
-        <label for="type">Language: </label>
-        <select name="type" id="formTYPE">
-            <option value="JASS">vJASS</option>
-            <option value="LUA">LUA</option>
-            <option value="TS">Typescript</option>
-        </select>
-        <br>
+        <div id="barTitle">
 
-        <button id="BUTTONgenerate"> Generate </button>
-        <br>
-        <b>We are using Node.js <span id="node-version"></span>, Chromium<span id="chrome-version"></span>, and Electron<span id="electron-version"></span>.</b>
-        <hr>
+            <div id="appInfo">
+
+                <img id="appIcon" src="" alt="icon">
+                <span id="appTitle">Warcraft 3 UI Maker</span>
+
+            </div>
+
+            <div id="windowButtons">
+
+                <img id="btnMinimizeWindow" src="" alt="minimize">
+                <img id="btnMaximizeWindow" src="" alt="maximize">
+                <img id="btnCloseWindow" src="" alt="close">
+
+            </div>
+
+        </div>
+
+        <div id="barTab">
+
+            <div class="tab" id="tabFile">File</div>
+            <div class="tab" id="tabEdit">Edit</div>
+            <div class="tab" id="tabView">View</div>
+            <div class="tab" id="tabInsert">Insert</div>
+            <div class="tab" id="tabWindow">Window</div>
+
+        </div>
+
+        <div id="barRibbon">
+
+            <div class="ribbonOption" id="ribbonNew">New</div>
+            <div class="ribbonOption" id="ribbonOpen">Open</div>
+            <div class="ribbonOption" id="ribbonSave">Save</div>
+            <div class="ribbonOption" id="ribbonExport">Export</div>
+
+        </div>
+
+        <div id="panelParameters">
+
+            <table id="tableParameters">
+
+                <tr>
+                    <th>Element</th>
+                    <th>Value</th>
+                </tr>
+
+                <tr>
+
+                    <td><label for="elementName">Name: </label></td>
+                    <td><input type="text" name="elementName" id="elementName" class="parameter"></td>
+                    
+
+                </tr>
+
+                <tr>
+                    <td><label for="elementType">Type: </label></td>
+                    <td>
+                        <select name="elementType" id="elementType" class="parameter">
+                            
+                            <option value="typeTest1">Test1</option>
+                            <option value="typeTest2">Test2</option>
+                            <option value="typeTest3">Test3</option>
+
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td><label for="elementParent">Parent: </label></td>
+                    <td>
+                        <select name="elementParent" id="elementParent" class="parameter">
+
+                            <option value="parentTest1">Parent1</option>
+                            <option value="parentTest1">Parent2</option>
+                            <option value="parentTest1">Parent3</option>
+
+
+                        </select>
+                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="elementWidth">Width: </label></td>
+                    <td><input type="number" name="elementWidth" id="elementWidth" class="parameter"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="elementHeight">Height: </label></td>
+                    <td><input type="number" name="elementHeight" id="elementHeight" class="parameter"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="elementCoordiantes">Coordinates: </label></td>
+                    <td><input type="text" name="elementCoordinates" id="elementCoordinates" class="parameter"></td>
+                </tr>
+
+                <tr>
+
+                    <td><label for="elementCoordinateX">├ X:</label></td>
+                    <td><input type="text" name="elementCoordinateX" id="elementCoordinateX" class="parameter"></td>
+
+                </tr>
+
+                <tr>
+
+                    <td><label for="elementCoordinateY">└ Y:</label></td>
+                    <td><input type="text" name="elementCoordinatey" id="elementCoordinatey" class="parameter"></td>
+
+                </tr>
+
+                <tr>
+                    <td><label>Texture: </label></td>
+                    <td class="browseOption">
+
+                        <input type="text" id="elementParent" class="parameter">
+                        <button id="buttonBrowseTexture">...</button>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div id="panelTree"></div>
+
+        <div id="panelDebug">
+
+            <div id='debugLine'>Debug Line for this unlimited UI reforging the reforged editor. Life too good to be true man</div>
+
+        </div>
+
     </div>
-    <span onclick="openNav()">open</span>
 
-    <div id="main">
-        <img id="coordsIMG" src="./files/images/Coords_Image.jpg" alt="Coordinates Image" draggable="false" width="100%" height="100%">
-    </div>
+    <script src="renderer.js"></script>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-    <script src="./sidenav.js"></script>
 </body>
 
 </html>
