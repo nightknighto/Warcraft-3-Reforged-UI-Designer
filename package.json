@@ -14,7 +14,8 @@
     "update-files": "xcopy /E /I /y \".\\files\\*\" \".\\app\\files\"",
     "build": "npm run delete-app && npm run delete-build && npm run compile-ts && npm run update-layout && npm run update-styles && npm run update-js && npm run update-files",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "start": "npm run build && electron ./app/main.js",
+    "run": "electron ./app/main.js",
+    "start": "npm run build && npm run run",
     "pack": "npm run build && electron-builder"
   },
   "author": "Deadreyo",

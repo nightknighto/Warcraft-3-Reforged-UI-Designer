@@ -28,6 +28,12 @@ Element.inputElementCoordinateX.onchange    = GUIEvents.InputCoordinateX;
 Element.inputElementCoordinateY.onchange    = GUIEvents.InputCoordinateY;
 Element.inputElementTexture.onchange        = GUIEvents.InputTexture;
 
+Element.barWindow.ondrag                    = GUIEvents.DragWindow;
+Element.btnCloseWindow.onclick              = GUIEvents.CloseApplication;
+Element.btnMaximizeWindow.onclick           = GUIEvents.MaximizeWindow;
+Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow;
+
+
 
 /* Obsolete, no generate button, generation is done via exporting.
 Generate.onclick = () => {

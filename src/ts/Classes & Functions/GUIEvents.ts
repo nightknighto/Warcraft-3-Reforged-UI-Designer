@@ -1,6 +1,7 @@
 import { workspace, debugGameCoordinates } from '../Constants/Elements'
 import ProjectTree from './ProjectTree';
 import { debug } from './Mini-Functions'
+import { remote } from 'electron';
 
 export class GUIEvents {
 
@@ -140,6 +141,39 @@ export class GUIEvents {
     static DeleteSelectedImage(ev: Event){
 
         ProjectTree.RemoveImage(ProjectTree.GetSelectedImage())
+
+    }
+
+    static CloseApplication(ev: Event){
+
+        remote.app.quit();
+
+    }
+
+    static MaximizeWindow(ev: Event){
+
+        const window = remote.getCurrentWindow();
+        //cannot unmaximize...
+        if(window.isMaximized){
+            window.unmaximize();
+            console.log("Unmaximized");
+        }
+        else{
+            window.maximize();
+            console.log("Maximized");
+        }
+    }
+
+    static MinimizeWindow(ev: Event){
+
+        remote.getCurrentWindow().minimize();
+
+    }
+
+    static DragWindow(ev: Event){
+
+        const window = remote.getCurrentWindow();
+        //Dragging functionality goes here
 
     }
 
