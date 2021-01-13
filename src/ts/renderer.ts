@@ -13,6 +13,8 @@ import * as Element from "./Constants/Elements";
 import { Insert } from "./Classes & Functions/Insert";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 
+
+
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
 

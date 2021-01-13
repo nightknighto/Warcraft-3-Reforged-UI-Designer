@@ -1,15 +1,13 @@
-import { workspace, debugGameCoordinates, inputElementHeight, selectElementType } from '../Constants/Elements'
+import { workspace, debugGameCoordinates } from '../Constants/Elements'
 import ProjectTree from './ProjectTree';
 import { debug } from './Mini-Functions'
 
 export class GUIEvents {
 
-
-
     static DisplayGameCoords(ev: MouseEvent) {
 
         let gameCoordsString: string;
-        let workspaceRect: DOMRect;
+        let workspaceRect: DOMRect = workspace.getBoundingClientRect();
 
         if (ev.x >= workspaceRect.left && ev.x <= workspaceRect.right
             && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {

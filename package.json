@@ -2,7 +2,7 @@
   "name": "wc3-ui-maker",
   "version": "1.0.0",
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
-  "main":"./app/main.js",
+  "main": "./app/main.js",
   "scripts": {
     "delete-app": ".\\wipe_folder.bat \".\\app\\\"",
     "delete-build": ".\\wipe_folder.bat \".\\build\\\"",
