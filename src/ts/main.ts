@@ -2,11 +2,9 @@ import { app, BrowserWindow, ipcMain, screen} from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './menus/contextMenu';
-import { ActionBar } from './menus/actionbar';
 
 let mainWindow : BrowserWindow;
 let contextMenu : ContextMenu;
-let actionBar : ActionBar;
 
 const minWindowWidth = 1024;
 const minWindowHeight = 640;
@@ -17,7 +15,6 @@ function initialize() {
 
   mainWindow = createWindow(minWindowWidth, minWindowHeight);
   contextMenu = new ContextMenu(mainWindow);
-  actionBar = new ActionBar(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./index.html"));

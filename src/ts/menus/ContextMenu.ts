@@ -1,4 +1,4 @@
-import { Menu, MenuItem, ipcMain, BrowserWindow } from "electron";
+import { Menu, MenuItem, BrowserWindow } from "electron";
 
 export class ContextMenu{
 

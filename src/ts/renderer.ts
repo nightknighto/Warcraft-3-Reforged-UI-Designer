@@ -12,12 +12,14 @@ import { ipcRenderer } from "electron";
 import * as Element from "./Constants/Elements";
 import { Insert } from "./Classes & Functions/Insert";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
-
-
+import { TabsMenu } from "./menus/TabsMenu";
+import { RibbonMenu } from "./menus/RibbonMenu";
+import { RibbonOption } from "./menus/RibbonOption";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
 
+//technically, inputing works, but not without an element to input into.
 Element.inputElementWidth.oninput           = GUIEvents.InputWidth;
 Element.inputElementHeight.oninput          = GUIEvents.InputHeight;
 Element.inputElementName.oninput            = GUIEvents.InputName;
@@ -28,12 +30,54 @@ Element.inputElementCoordinateX.onchange    = GUIEvents.InputCoordinateX;
 Element.inputElementCoordinateY.onchange    = GUIEvents.InputCoordinateY;
 Element.inputElementTexture.onchange        = GUIEvents.InputTexture;
 
-Element.barWindow.ondrag                    = GUIEvents.DragWindow;
+Element.barWindow.ondrag                    = GUIEvents.DragWindow; //needs implementation
 Element.btnCloseWindow.onclick              = GUIEvents.CloseApplication;
-Element.btnMaximizeWindow.onclick           = GUIEvents.MaximizeWindow;
-Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow;
+Element.btnMaximizeWindow.onclick           = GUIEvents.MaximizeWindow; 
+Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow; 
 
+//By default have it disabled because no selected element.
+Element.inputElementWidth.disabled          = true
+Element.inputElementHeight.disabled         = true
+Element.inputElementName.disabled           = true
+Element.inputElementName.disabled           = true
+Element.selectElementType.disabled          = true
+Element.selectElementParent.disabled        = true
+Element.inputElementCoordinates.disabled    = true
+Element.inputElementCoordinateX.disabled    = true
+Element.inputElementCoordinateY.disabled    = true
+Element.inputElementTexture.disabled        = true
+Element.buttonElementTextureBrowse.disabled = true
 
+//Initialize menus
+RibbonMenu.SetRibbonBar(Element.barRibbon);
+
+let fileMenu = new RibbonMenu('File')
+fileMenu.AddRibbonOption(new RibbonOption('New'));
+fileMenu.AddRibbonOption(new RibbonOption('Open'));
+fileMenu.AddRibbonOption(new RibbonOption('Save'));
+fileMenu.AddRibbonOption(new RibbonOption('Export'));
+TabsMenu.AddTab(fileMenu);
+
+let editMenu = new RibbonMenu('Edit');
+editMenu.AddRibbonOption(new RibbonOption('Undo'));
+editMenu.AddRibbonOption(new RibbonOption('Redo'));
+TabsMenu.AddTab(editMenu);
+
+let viewMenu = new RibbonMenu('View');
+viewMenu.AddRibbonOption(new RibbonOption('Zoom in'));
+viewMenu.AddRibbonOption(new RibbonOption('Zoom out'));
+TabsMenu.AddTab(viewMenu);
+
+let insertMenu = new RibbonMenu('Insert');1
+insertMenu.AddRibbonOption(new RibbonOption('Frame 1'));
+insertMenu.AddRibbonOption(new RibbonOption('Frame 2'));
+TabsMenu.AddTab(insertMenu);
+
+let windowMenu = new RibbonMenu('Window');
+windowMenu.AddRibbonOption(new RibbonOption('About'));
+TabsMenu.AddTab(windowMenu);
+
+TabsMenu.Show(Element.barTab);
 
 /* Obsolete, no generate button, generation is done via exporting.
 Generate.onclick = () => {
