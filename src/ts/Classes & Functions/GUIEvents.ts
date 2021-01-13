@@ -154,7 +154,7 @@ export class GUIEvents {
 
         const window = remote.getCurrentWindow();
         //cannot unmaximize...
-        if(window.isMaximized){
+        if(window.isMaximized()){
             window.unmaximize();
             console.log("Unmaximized");
         }

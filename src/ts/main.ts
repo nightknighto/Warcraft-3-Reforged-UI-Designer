@@ -9,24 +9,23 @@ let contextMenu : ContextMenu;
 let actionBar : ActionBar;
 
 const minWindowWidth = 1024;
-const minWindowHeight = 1280;
+const minWindowHeight = 640;
 
 function initialize() {
 
-  let windowSize = screen.getPrimaryDisplay().bounds;
+  //in the future, there should be a settings file that will load previously stored settings, one of which would be initial window size.
 
-  mainWindow = createWindow(windowSize.width, windowSize.height);
+  mainWindow = createWindow(minWindowWidth, minWindowHeight);
   contextMenu = new ContextMenu(mainWindow);
   actionBar = new ActionBar(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./index.html"));
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   setupEvents();
 
-  mainWindow.maximize();
 }
 function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
   // Create the browser window.
