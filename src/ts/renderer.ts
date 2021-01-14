@@ -15,6 +15,7 @@ import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { TabsMenu } from "./menus/TabsMenu";
 import { RibbonMenu } from "./menus/RibbonMenu";
 import { RibbonOption } from "./menus/RibbonOption";
+import { FrameBuilder } from "./Classes & Functions/FrameBuilder";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -52,34 +53,42 @@ Element.buttonElementTextureBrowse.disabled = true
 RibbonMenu.SetRibbonBar(Element.barRibbon);
 
 let fileMenu = new RibbonMenu('File')
-fileMenu.AddRibbonOption(new RibbonOption('New'));
-fileMenu.AddRibbonOption(new RibbonOption('Open'));
-fileMenu.AddRibbonOption(new RibbonOption('Save'));
-fileMenu.AddRibbonOption(new RibbonOption('Export'));
+fileMenu.AddRibbonOption(new RibbonOption('New', null));
+fileMenu.AddRibbonOption(new RibbonOption('Open', null));
+fileMenu.AddRibbonOption(new RibbonOption('Save', null));
+fileMenu.AddRibbonOption(new RibbonOption('Export', null));
 TabsMenu.AddTab(fileMenu);
 
 let editMenu = new RibbonMenu('Edit');
-editMenu.AddRibbonOption(new RibbonOption('Undo'));
-editMenu.AddRibbonOption(new RibbonOption('Redo'));
+editMenu.AddRibbonOption(new RibbonOption('Undo', null));
+editMenu.AddRibbonOption(new RibbonOption('Redo', null));
 TabsMenu.AddTab(editMenu);
 
 let viewMenu = new RibbonMenu('View');
-viewMenu.AddRibbonOption(new RibbonOption('Zoom in'));
-viewMenu.AddRibbonOption(new RibbonOption('Zoom out'));
+viewMenu.AddRibbonOption(new RibbonOption('Zoom in', null));
+viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
 TabsMenu.AddTab(viewMenu);
 
-let insertMenu = new RibbonMenu('Insert');1
-insertMenu.AddRibbonOption(new RibbonOption('Frame 1'));
-insertMenu.AddRibbonOption(new RibbonOption('Frame 2'));
+let insertMenu = new RibbonMenu('Insert');
+insertMenu.AddRibbonOption(new RibbonOption('ScriptDialogButton', new FrameBuilder('./files/images/ScriptDialogButton.png')));
+insertMenu.AddRibbonOption(new RibbonOption('BrowserButton', new FrameBuilder('./files/images/BrowserButton.png')));
+insertMenu.AddRibbonOption(new RibbonOption('QuestCheckBox', new FrameBuilder('./files/images/QuestCheckBox.png')));
+insertMenu.AddRibbonOption(new RibbonOption('CheckListBox', new FrameBuilder('./files/images/CheckListBox.png')));
+insertMenu.AddRibbonOption(new RibbonOption('OptionsPopupMenuBackdropTemplate', new FrameBuilder('./files/images/OptionsPopupMenuBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('QuestButtonBaseTemplate', new FrameBuilder('./files/images/QuestButtonBaseTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('QuestButtonPushedBackdropTemplate', new FrameBuilder('./files/images/QuestButtonPushedBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('QuestButtonDisabledBackdropTemplate', new FrameBuilder('./files/images/QuestButtonDisabledBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('EscMenuBackdrop', new FrameBuilder('./files/images/EscMenuBackdrop.png')));
 TabsMenu.AddTab(insertMenu);
+//Requires a builder function for each of these.
 
 let windowMenu = new RibbonMenu('Window');
-windowMenu.AddRibbonOption(new RibbonOption('About'));
+windowMenu.AddRibbonOption(new RibbonOption('About', null));
 TabsMenu.AddTab(windowMenu);
 
 TabsMenu.Show(Element.barTab);
 
-/* Obsolete, no generate button, generation is done via exporting.
+/* Obsolete, no generate button, generation is to be done via exporting.
 Generate.onclick = () => {
     writeFile('experiment.txt', JASS.globals, ()=>{
         appendFile('experiment.txt', TemplateReplace(0), ()=>{

@@ -1,7 +1,8 @@
 import { RibbonOption } from "./RibbonOption";
+import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 
 export default RibbonMenu;
-export class RibbonMenu{
+export class RibbonMenu implements ICallableDivInstance{
 
     private static ribbonBar : HTMLElement;
 
@@ -22,11 +23,9 @@ export class RibbonMenu{
 
         this.ribbonOptions.push(option);
 
-        console.log('Ribbon Menu: ' + this.tabName + ' has ' + this.ribbonOptions.length + ' options.')
-
     }
 
-    public ShowOptions() {
+    public Run(){
 
         //Remove everything from div.
         for (let i = RibbonMenu.ribbonBar.children.length - 1; i >= 0; i--) {
@@ -41,12 +40,6 @@ export class RibbonMenu{
             RibbonMenu.ribbonBar.append(option.CreateHTMLElement());
 
         }
-
-    }
-
-    public static OnClick(ev: Event){
-        //a very dirty way of doing things in typescript.
-        (ev.target as any).instance.ShowOptions();
     }
 
     public CreateHTMLElement() : HTMLElement{
@@ -56,10 +49,8 @@ export class RibbonMenu{
         menu.setAttribute('class', 'tab');
         menu.innerText = this.tabName;
 
-        (menu as any).instance = this;
-        
-        menu.onclick = RibbonMenu.OnClick;
-
+        ICallableDivInstance.Setup(menu, this);
+        menu.onclick = ICallableDivInstance.Call;
 
         return menu;
 

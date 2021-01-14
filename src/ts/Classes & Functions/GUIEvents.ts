@@ -1,5 +1,5 @@
 import { workspace, debugGameCoordinates } from '../Constants/Elements'
-import ProjectTree from './ProjectTree';
+import { ProjectTree } from './ProjectTree';
 import { debug } from './Mini-Functions'
 import { remote } from 'electron';
 

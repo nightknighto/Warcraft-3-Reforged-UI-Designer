@@ -8,7 +8,6 @@ export function FocusIMGchange(img: CustomImage) {
     focusIMG = img
 }
 
-export default CustomImage;
 export class CustomImage {
     element: HTMLImageElement;
     name: string;

@@ -1,11 +1,14 @@
+import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 
 export class RibbonOption{
 
     private name : string;
+    private callbackObject : ICallableDivInstance;
 
-    public constructor(name : string){
+    public constructor(name : string, callbackObject : ICallableDivInstance){
 
         this.name = name;
+        this.callbackObject = callbackObject;
 
     }
 
@@ -15,6 +18,9 @@ export class RibbonOption{
 
         div.setAttribute('class', 'ribbonOption');
         div.innerText = this.name;
+    
+        ICallableDivInstance.Setup(div, this.callbackObject);
+        div.onclick = ICallableDivInstance.Call;
 
         return div;
 

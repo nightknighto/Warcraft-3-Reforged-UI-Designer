@@ -1,6 +1,5 @@
-import CustomImage from './CustomImage';
+import { CustomImage } from './CustomImage';
 
-export default ProjectTree;
 export class ProjectTree{
 
     //this should be private (TemplateReplace issue)

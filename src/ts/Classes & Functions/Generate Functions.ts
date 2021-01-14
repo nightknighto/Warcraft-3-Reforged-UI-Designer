@@ -1,5 +1,5 @@
-import CustomImage from "./CustomImage"
-import ProjectTree from "./ProjectTree"
+import {CustomImage} from "./CustomImage"
+import {ProjectTree} from "./ProjectTree"
 import {workspace} from "../Constants/Elements"
 
 export namespace JASS{
