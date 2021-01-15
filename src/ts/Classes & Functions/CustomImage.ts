@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron";
 import { UpdateFields } from "./UpdateFields";
 import { debug } from "./Mini-Functions";
+import { workspace, debugLine, containerUI } from "../Constants/Elements";
 
 export let focusIMG: CustomImage = null;
 
@@ -17,19 +18,20 @@ export class CustomImage {
     type = "backdrop";
     typeEditable = true;
 
-    constructor(name : string, element: HTMLImageElement, inputFile: FileList | string) {try{
+    constructor(name : string, element: HTMLImageElement, source: FileList | string) {try{
         this.element = element;
-        if(typeof inputFile === 'string')
-            this.element.src = inputFile
+        if(typeof source === 'string')
+            this.element.src = source;
         else 
-            this.element.src = URL.createObjectURL(inputFile[0]);
+            this.element.src = URL.createObjectURL(source[0]);
 
         this.element.height = 300
         this.element.width = 200
         this.element.draggable = false
         this.element.style.position = "absolute"
-        this.element.style.top = '400px'
-        this.element.style.left = '900px'
+        this.element.style.top = '40vh'
+        this.element.style.left = '40vw'
+        containerUI.appendChild(this.element)
 
         this.parentOption = document.createElement("option")
         this.parentOption.text = this.name

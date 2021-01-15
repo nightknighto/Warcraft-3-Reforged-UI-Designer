@@ -6,15 +6,16 @@ import { remote } from 'electron';
 export class GUIEvents {
 
     static DisplayGameCoords(ev: MouseEvent) {
+        const horizontalMargin = 240/1920*workspace.width
 
         let gameCoordsString: string;
         let workspaceRect: DOMRect = workspace.getBoundingClientRect();
 
-        if (ev.x >= workspaceRect.left && ev.x <= workspaceRect.right
+        if (ev.x >= workspaceRect.left + horizontalMargin && ev.x <= workspaceRect.right - horizontalMargin
             && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {
 
-            let gameX = Math.floor((ev.x - workspaceRect.left) / workspace.offsetLeft * 800);
-            let gameY = Math.floor(((780 - (ev.y - workspaceRect.top)) / workspace.offsetHeight * 600))
+            let gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspace.width - 2*240/1920*workspace.width) * 800)/1000;
+            let gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspace.offsetHeight * 600))/1000
             gameCoordsString = 'Game X/Y: (' + gameX + ' , ' + gameY + ')';
             debugGameCoordinates.innerText = gameCoordsString;
 

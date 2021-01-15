@@ -1,10 +1,13 @@
 import * as Element from "../Constants/Elements";
+import { InputEdit } from "./Mini-Functions";
 /**
  * 
  * @param focusIMG : CustomImage
  */
 const ParentOptions: HTMLOptionElement[] = []
 export function UpdateFields(focusIMG: any) {
+    const horizontalMargin = 240/1920*Element.workspace.width
+
     for(const el of ParentOptions)
         el.hidden = false;
 
@@ -15,10 +18,10 @@ export function UpdateFields(focusIMG: any) {
 
     Element.selectElementParent.selectedIndex = focusIMG.parentIndex
     Element.inputElementName.value = focusIMG.name
-    Element.inputElementWidth.value = focusIMG.element.width * 800 / Element.workspace.width+""
-    Element.inputElementHeight.value = focusIMG.element.height * 600 / Element.workspace.height+"";
-    Element.inputElementCoordinateX.value = `${(focusIMG.element.offsetLeft - Element.workspace.getBoundingClientRect().x)/Element.workspace.offsetWidth * 800 }`;
-    Element.inputElementCoordinateY.value = `${(Element.workspace.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/Element.workspace.height * 600}`;
+    Element.inputElementWidth.value = InputEdit(focusIMG.element.width * 800 / (Element.workspace.width - 2*horizontalMargin))
+    Element.inputElementHeight.value = InputEdit(focusIMG.element.height * 600 / Element.workspace.height)
+    Element.inputElementCoordinateX.value = `${InputEdit((focusIMG.element.offsetLeft - Element.workspace.getBoundingClientRect().x - horizontalMargin)/(Element.workspace.width - 2*horizontalMargin) * 800) }`;
+    Element.inputElementCoordinateY.value = `${InputEdit((Element.workspace.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/Element.workspace.height * 600)}`;
     Element.inputElementTexture.value = focusIMG.texturePath
 
     if(!focusIMG.typeEditable) {

@@ -15,7 +15,7 @@
 
         <div id="workspaceContainer">
 
-            <img id="workspace" src="./files/images/backgroundWorkspace.png" alt="workspace">
+            <img id="workspace" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
 
         </div>
 
@@ -114,7 +114,7 @@
                 </tr>
 
                 <tr>
-                    <td><label for="elementCoordinates">Coordinates: </label></td>
+                    <td><label for="elementCoordinates">Coordinates<br>(bottom left): </label></td>
                     <td><input type="text" name="elementCoordinates" id="elementCoordinates" class="parameter"></td>
                 </tr>
 
@@ -141,6 +141,14 @@
 
                     </td>
 
+                </tr>
+
+                <tr>
+                    <form id="formIMG">
+                        <!--<label for="img">Select image:</label>-->
+                        <input type="file" id="img" name="img" accept="image/*">
+                        <input type="submit">
+                      </form> 
                 </tr>
 
             </table>

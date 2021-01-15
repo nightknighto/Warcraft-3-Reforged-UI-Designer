@@ -61,7 +61,7 @@ export namespace Insert {
             img.type = type
             img.typeEditable = false;
 
-            ImageFunctions(img,0,0,0,0)
+            ImageFunctions(img)
         })
     }
 } 

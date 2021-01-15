@@ -29,3 +29,6 @@ export const workspace                  = document.getElementById('workspace') a
 //Debug
 export const debugLine                  = document.getElementById('debugLine');
 export const debugGameCoordinates       = document.getElementById('debugGameCoordinates');
+
+export const formIMG = document.getElementById('formIMG') as HTMLInputElement
+export const containerUI = document.getElementById('containerUI')

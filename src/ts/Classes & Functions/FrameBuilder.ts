@@ -21,7 +21,7 @@ export class FrameBuilder implements ICallableDivInstance{
         let el = document.createElement('img');
         let frame = new CustomImage('Frame ' + FrameBuilder.framesCreated , el, this.imageSource);
         ProjectTree.AddImage(frame);
-        ImageFunctions(frame, 0, 0, 0, 0);
+        ImageFunctions(frame);
     }
 
 }

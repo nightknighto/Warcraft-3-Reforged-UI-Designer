@@ -16,6 +16,8 @@ import { TabsMenu } from "./menus/TabsMenu";
 import { RibbonMenu } from "./menus/RibbonMenu";
 import { RibbonOption } from "./menus/RibbonOption";
 import { FrameBuilder } from "./Classes & Functions/FrameBuilder";
+import { CustomImage } from "./Classes & Functions/CustomImage";
+import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -109,4 +111,12 @@ Insert.Init()
 //duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
+const input = document.getElementById('img') as HTMLInputElement
 
+Element.formIMG.addEventListener("submit", e => {
+    e.preventDefault();
+    const el = document.createElement("img")
+    const img = new CustomImage("name",el, input.files)
+
+    ImageFunctions(img);
+})

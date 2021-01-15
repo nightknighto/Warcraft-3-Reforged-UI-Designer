@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import {CustomImage} from "./CustomImage"
 import {ProjectTree} from "./ProjectTree"
 import {workspace} from "../Constants/Elements"
