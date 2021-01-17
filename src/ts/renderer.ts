@@ -10,7 +10,6 @@
 import { ipcRenderer } from "electron";
 
 import * as Element from "./Constants/Elements";
-import { Insert } from "./Classes & Functions/Insert";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { TabsMenu } from "./menus/TabsMenu";
 import { RibbonMenu } from "./menus/RibbonMenu";
@@ -72,15 +71,15 @@ viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
 TabsMenu.AddTab(viewMenu);
 
 let insertMenu = new RibbonMenu('Insert');
-insertMenu.AddRibbonOption(new RibbonOption('ScriptDialogButton', new FrameBuilder('./files/images/ScriptDialogButton.png')));
-insertMenu.AddRibbonOption(new RibbonOption('BrowserButton', new FrameBuilder('./files/images/BrowserButton.png')));
-insertMenu.AddRibbonOption(new RibbonOption('QuestCheckBox', new FrameBuilder('./files/images/QuestCheckBox.png')));
-insertMenu.AddRibbonOption(new RibbonOption('CheckListBox', new FrameBuilder('./files/images/CheckListBox.png')));
-insertMenu.AddRibbonOption(new RibbonOption('OptionsPopupMenuBackdropTemplate', new FrameBuilder('./files/images/OptionsPopupMenuBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('QuestButtonBaseTemplate', new FrameBuilder('./files/images/QuestButtonBaseTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('QuestButtonPushedBackdropTemplate', new FrameBuilder('./files/images/QuestButtonPushedBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('QuestButtonDisabledBackdropTemplate', new FrameBuilder('./files/images/QuestButtonDisabledBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('EscMenuBackdrop', new FrameBuilder('./files/images/EscMenuBackdrop.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', new FrameBuilder('./files/images/ScriptDialogButton.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Browser Button', new FrameBuilder('./files/images/BrowserButton.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Quest Check Box', new FrameBuilder('./files/images/QuestCheckBox.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Checklist Box', new FrameBuilder('./files/images/CheckListBox.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop Template', new FrameBuilder('./files/images/OptionsPopupMenuBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base Template', new FrameBuilder('./files/images/QuestButtonBaseTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop Template', new FrameBuilder('./files/images/QuestButtonPushedBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop Template', new FrameBuilder('./files/images/QuestButtonDisabledBackdropTemplate.png')));
+insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', new FrameBuilder('./files/images/EscMenuBackdrop.png')));
 TabsMenu.AddTab(insertMenu);
 //Requires a builder function for each of these.
 
@@ -101,8 +100,6 @@ Generate.onclick = () => {
                             alert("File Created in Output folder")})})})})})})
 }
 */
-Insert.Init()
-
 //# sourceMappingURL=renderer.js.map
 
 //required:

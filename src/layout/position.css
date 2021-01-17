@@ -63,7 +63,10 @@ body{
 
 #barRibbon .ribbonOption{
 
-    width: fit-content;
+    min-width: 50px;
+    max-width: 300px;
+    word-wrap: break-word;
+    height: 100%;
     margin: auto;
 
 }
@@ -72,8 +75,8 @@ body{
     position: fixed;
     top:120px;
     bottom:0;
-
-    min-width: 130px;
+    max-width: 200px;
+    min-width: 80px;
     left:0;
 }
 
@@ -110,21 +113,21 @@ body{
 
 #workspaceContainer{
     position: fixed;
-
-    left: 275px;
-    right: 300px;
+    left: 0;
+    right: 0;
     top:120px;
-    bottom:75px;
+    bottom:0;
 }
 
 #workspaceContainer #workspace{
-    max-width: 100%;
-    height: auto;
+    position: relative;
+    height: 100%;
+    width:auto;
 }
 
 #panelTree{
     position: fixed;
-    width: 300px;
+    width: 200px;
 
     right: 0;
     top:120px;
