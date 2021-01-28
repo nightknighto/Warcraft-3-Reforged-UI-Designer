@@ -1,7 +1,11 @@
-import { workspace, debugGameCoordinates } from '../Constants/Elements'
+import { workspace, debugGameCoordinates, formIMG } from '../Constants/Elements'
 import { ProjectTree } from './ProjectTree';
 import { debug } from './Mini-Functions'
 import { remote } from 'electron';
+
+const panelDefaultSize = document.getElementById("panelParameters").style.width
+const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
+const TreeDefaultSize = document.getElementById("panelTree").style.width
 
 export class GUIEvents {
 
@@ -176,6 +180,35 @@ export class GUIEvents {
         const window = remote.getCurrentWindow();
         //Dragging functionality goes here
 
+    }
+
+    static PanelOpenClose() {
+        let panel = document.getElementById("panelParameters")
+        let table = document.getElementById("tableParameters")
+        if(panel.style.width == panelDefaultSize) {
+            panel.style.minWidth = "0";
+            panel.style.width = "0";
+            table.style.display = "none"
+            document.getElementById("img").style.display = "none"
+            document.getElementById("imgBUTTON").style.display = "none"
+
+        } else {
+            panel.style.minWidth = panelDefaultminSize;
+            panel.style.width = panelDefaultSize;
+            table.style.display = "initial"
+            document.getElementById("img").style.display = "initial"
+            document.getElementById("imgBUTTON").style.display = "initial"
+        }
+    }
+    
+    static TreeOpenClose() {
+        let panel = document.getElementById("panelTree")
+        if(panel.style.width == TreeDefaultSize) {
+            panel.style.width = "0";
+
+        } else {
+            panel.style.width = TreeDefaultSize;
+        }
     }
 
 }

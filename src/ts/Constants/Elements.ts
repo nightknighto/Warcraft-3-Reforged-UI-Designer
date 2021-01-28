@@ -12,6 +12,8 @@ export const panelTree                  = document.getElementById('panelTree');
 export const panelDebug                 = document.getElementById('panelDebug');
 
 //Element parameters panel
+export const panelButton                = document.getElementById('panelClose') as HTMLButtonElement;
+
 export const inputElementName           = document.getElementById('elementName') as HTMLInputElement;
 export const selectElementType          = document.getElementById('elementType') as HTMLSelectElement;
 export const selectElementParent        = document.getElementById('elementParent') as HTMLSelectElement;
@@ -23,6 +25,7 @@ export const inputElementCoordinateY    = document.getElementById('elementCoordi
 export const inputElementTexture        = document.getElementById('elementTexture') as HTMLInputElement;
 export const buttonElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
 
+export const treeButton                 = document.getElementById('treeClose') as HTMLButtonElement;
 //Workspace
 export const workspace                  = document.getElementById('workspace') as HTMLImageElement;
 

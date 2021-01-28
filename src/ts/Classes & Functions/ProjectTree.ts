@@ -1,5 +1,5 @@
 import { FrameComponent } from './FrameComponent';
-import { FrameTreeIterator } from './FrameTreeIterator';
+import { UpdateFields } from './UpdateFields';
 
 export class ProjectTree{
 
@@ -16,6 +16,7 @@ export class ProjectTree{
     static AppendToSelected( frame: FrameComponent) {
 
         this.selectedFrame.append(frame);
+        UpdateFields(null)
 
     }
 

@@ -3,12 +3,28 @@ import {CustomImage} from "./CustomImage"
 import {ProjectTree} from "./ProjectTree"
 import {workspace} from "../Constants/Elements"
 import {JASS} from '../Templates/Templates'
-/**0 for globals, 1 the body */
+import {ICallableDivInstance} from './ICallableDivInstance'
+import {writeFile, appendFile} from 'fs';
 
+/**0 for globals, 1 the body */
+export class Export implements ICallableDivInstance {
+    public Run() {
+        writeFile('experiment.txt', JASS.globals, ()=>{
+            appendFile('experiment.txt', TemplateReplace(0), ()=>{
+                appendFile('experiment.txt', JASS.endglobals, ()=>{
+                    appendFile('experiment.txt', JASS.library, ()=>{
+                        appendFile('experiment.txt', TemplateReplace(1), ()=>{
+                            appendFile('experiment.txt', JASS.endlibrary, ()=>{
+                                alert("File Created in Output folder")})})})})})})
+
+    }
+}
+
+/** 0 for globals */
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
-    for(const el in ProjectTree.GetRootFrame()) {
+    for(const el of []) { //ProjectTree.GetRootFrame()
         if(kind == 0) {
             if(el.image.type == 'button') {
                 text = JASS.declaresBUTTON

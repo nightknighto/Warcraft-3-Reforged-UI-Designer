@@ -17,11 +17,13 @@ import { RibbonOption } from "./menus/RibbonOption";
 import { FrameBuilder } from "./Classes & Functions/FrameBuilder";
 import { CustomImage } from "./Classes & Functions/CustomImage";
 import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
+import { Export } from "./Classes & Functions/Export";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
 
 //technically, inputing works, but not without an element to input into.
+Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.inputElementWidth.oninput           = GUIEvents.InputWidth;
 Element.inputElementHeight.oninput          = GUIEvents.InputHeight;
 Element.inputElementName.oninput            = GUIEvents.InputName;
@@ -37,10 +39,12 @@ Element.btnCloseWindow.onclick              = GUIEvents.CloseApplication;
 Element.btnMaximizeWindow.onclick           = GUIEvents.MaximizeWindow; 
 Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow; 
 
+
+Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
+
 //By default have it disabled because no selected element.
 Element.inputElementWidth.disabled          = true
 Element.inputElementHeight.disabled         = true
-Element.inputElementName.disabled           = true
 Element.inputElementName.disabled           = true
 Element.selectElementType.disabled          = true
 Element.selectElementParent.disabled        = true
@@ -57,7 +61,7 @@ let fileMenu = new RibbonMenu('File')
 fileMenu.AddRibbonOption(new RibbonOption('New', null));
 fileMenu.AddRibbonOption(new RibbonOption('Open', null));
 fileMenu.AddRibbonOption(new RibbonOption('Save', null));
-fileMenu.AddRibbonOption(new RibbonOption('Export', null));
+fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
 TabsMenu.AddTab(fileMenu);
 
 let editMenu = new RibbonMenu('Edit');
@@ -116,3 +120,13 @@ Element.formIMG.addEventListener("submit", e => {
 
     ImageFunctions(img);
 })
+
+/* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "25%";
+  }
+
+  /* Set the width of the side navigation to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  } 
