@@ -1,60 +1,41 @@
-import { CustomImage } from './CustomImage';
+import { FrameComponent } from './FrameComponent';
+import { FrameTreeIterator } from './FrameTreeIterator';
 
 export class ProjectTree{
 
-    private static images : CustomImage[] = [];
-    private static currentSelectedIndex = 0;
+    private static rootFrame : FrameComponent;
+    private static selectedFrame : FrameComponent;
 
-    static GetIndex( image: CustomImage) : number{
+    static Initialize() {
 
-        return this.images.indexOf(image);
-
-    }
-
-    static AddImage( image: CustomImage) {
-        this.images.push(image);
-    }
-
-    static RemoveImage( image: CustomImage){
-
-        let index = this.GetIndex(image);
-
-        if(index == -1) return;
-
-        this.images.slice(index, 1);
+        ProjectTree.rootFrame = new FrameComponent(null)
+        ProjectTree.selectedFrame = ProjectTree.rootFrame;
 
     }
 
-    static PopulateSelect( selectMenu : HTMLSelectElement){
+    static AppendToSelected( frame: FrameComponent) {
 
-        for(let index = length-1 ; index >= 0; index--){
-
-            selectMenu.remove(index);
-
-        }
-
-        for(let image of this.images){
-            selectMenu.add(image.toOption());
-        }
-        
-    }
-
-    static SelectImage (image : CustomImage){
-
-        let index = this.GetIndex(image);
-
-        if (index == -1) return;
-
-        this.currentSelectedIndex = index;
+        this.selectedFrame.append(frame);
 
     }
 
-    static GetSelectedImage () : CustomImage{
-        return this.images[this.currentSelectedIndex];
+    static RemoveFrame( frame: FrameComponent){
+
+        this.rootFrame.removeChild(frame);
+
     }
 
-    static getImages() : CustomImage[]{
-        return ProjectTree.images;
+    static SelectImage (image : HTMLElement){
+
+        ProjectTree.selectedFrame = this.rootFrame.frameComponentFromImageDiv(image);
+
     }
 
+    static GetSelectedFrame () : FrameComponent{
+        return ProjectTree.selectedFrame;
+    }
+
+    static GetRootFrame() : FrameComponent{
+        return ProjectTree.rootFrame;
+    }
 }

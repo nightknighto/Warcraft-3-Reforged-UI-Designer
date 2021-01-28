@@ -1,4 +1,5 @@
 import { CustomImage } from "./CustomImage";
+import { FrameComponent } from "./FrameComponent";
 import { ICallableDivInstance } from "./ICallableDivInstance";
 import { ImageFunctions } from "./ImageFunctions";
 import { ProjectTree } from "./ProjectTree";
@@ -19,9 +20,10 @@ export class FrameBuilder implements ICallableDivInstance{
     public Run(){
 
         let el = document.createElement('img');
-        let frame = new CustomImage('Frame ' + FrameBuilder.framesCreated , el, this.imageSource);
-        ProjectTree.AddImage(frame);
-        ImageFunctions(frame);
+        let frameImage = new CustomImage('Frame ' + FrameBuilder.framesCreated , el, this.imageSource);
+        let frame = new FrameComponent(frameImage);
+        ProjectTree.AppendToSelected(frame);
+        ImageFunctions(frameImage);
     }
 
 }

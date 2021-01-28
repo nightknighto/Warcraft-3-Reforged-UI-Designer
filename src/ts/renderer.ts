@@ -81,7 +81,6 @@ insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop Templa
 insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop Template', new FrameBuilder('./files/images/QuestButtonDisabledBackdropTemplate.png')));
 insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', new FrameBuilder('./files/images/EscMenuBackdrop.png')));
 TabsMenu.AddTab(insertMenu);
-//Requires a builder function for each of these.
 
 let windowMenu = new RibbonMenu('Window');
 windowMenu.AddRibbonOption(new RibbonOption('About', null));

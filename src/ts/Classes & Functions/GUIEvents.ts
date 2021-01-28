@@ -38,7 +38,7 @@ export class GUIEvents {
     static InputWidth(ev: Event) {
 
         let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = ProjectTree.GetSelectedImage();
+        let focusedImage = ProjectTree.GetSelectedFrame().getImage();
 
         if (this.CheckInputValue(+inputElement.value)) {
 
@@ -54,7 +54,7 @@ export class GUIEvents {
     static InputHeight(ev: Event) {
 
         let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = ProjectTree.GetSelectedImage();
+        let focusedImage = ProjectTree.GetSelectedFrame().getImage();
 
         if (this.CheckInputValue(+inputElement.value)) {
 
@@ -92,7 +92,7 @@ export class GUIEvents {
 
         let inputElement = ev.target as HTMLInputElement;
 
-        ProjectTree.GetSelectedImage().UpdateName(inputElement.value);
+        ProjectTree.GetSelectedFrame().getImage().UpdateName(inputElement.value);
         debug('Name changed to "' + inputElement.value);
 
     }
@@ -101,7 +101,7 @@ export class GUIEvents {
 
         let selectElement = ev.target as HTMLSelectElement;
 
-        ProjectTree.GetSelectedImage().type = selectElement.selectedOptions[0].value;
+        ProjectTree.GetSelectedFrame().getImage().type = selectElement.selectedOptions[0].value;
         debug('Type changed to ' + selectElement.selectedOptions[0].value);
     }
     
@@ -118,7 +118,7 @@ export class GUIEvents {
 
         const loc = (ev.target as HTMLInputElement).value;
 
-        ProjectTree.GetSelectedImage().element.style.left = `${(+loc * workspace.width) / 800 + workspace.x}px`
+        ProjectTree.GetSelectedFrame().getImage().element.style.left = `${(+loc * workspace.width) / 800 + workspace.x}px`
 
     }
 
@@ -126,7 +126,7 @@ export class GUIEvents {
 
         const loc = (ev.target as HTMLInputElement).value;
 
-        ProjectTree.GetSelectedImage().element.style.top = `${workspace.height - ((+loc * workspace.height) / 600 + workspace.y)}px`
+        ProjectTree.GetSelectedFrame().getImage().element.style.top = `${workspace.height - ((+loc * workspace.height) / 600 + workspace.y)}px`
 
     }
 
@@ -134,14 +134,14 @@ export class GUIEvents {
 
         let inputElement = ev.target as HTMLInputElement;
 
-        ProjectTree.GetSelectedImage().texturePath = inputElement.value;
+        ProjectTree.GetSelectedFrame().getImage().texturePath = inputElement.value;
         debug('Texture changed.');
 
     }
 
     static DeleteSelectedImage(ev: Event){
 
-        ProjectTree.RemoveImage(ProjectTree.GetSelectedImage())
+        ProjectTree.RemoveFrame(ProjectTree.GetSelectedFrame())
 
     }
 
