@@ -18,6 +18,7 @@ import { RibbonOption } from "./menus/RibbonOption";
 import { FrameBuilder } from "./Classes & Functions/FrameBuilder";
 import { CustomImage } from "./Classes & Functions/CustomImage";
 import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
+import { Export } from "./Classes & Functions/Export";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -42,7 +43,6 @@ Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow;
 Element.inputElementWidth.disabled          = true
 Element.inputElementHeight.disabled         = true
 Element.inputElementName.disabled           = true
-Element.inputElementName.disabled           = true
 Element.selectElementType.disabled          = true
 Element.selectElementParent.disabled        = true
 Element.inputElementCoordinates.disabled    = true
@@ -58,7 +58,7 @@ let fileMenu = new RibbonMenu('File')
 fileMenu.AddRibbonOption(new RibbonOption('New', null));
 fileMenu.AddRibbonOption(new RibbonOption('Open', null));
 fileMenu.AddRibbonOption(new RibbonOption('Save', null));
-fileMenu.AddRibbonOption(new RibbonOption('Export', null));
+fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
 TabsMenu.AddTab(fileMenu);
 
 let editMenu = new RibbonMenu('Edit');

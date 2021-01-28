@@ -2,6 +2,8 @@
 import {CustomImage} from "./CustomImage"
 import {ProjectTree} from "./ProjectTree"
 import {workspace} from "../Constants/Elements"
+import { writeFile, appendFile } from "original-fs"
+import { ICallableDivInstance } from "./ICallableDivInstance"
 
 export namespace JASS{
     export const globals = "globals \n"
@@ -28,7 +30,20 @@ export namespace JASS{
 }
 
 /**0 for globals, 1 the body */
+export class Export implements ICallableDivInstance {
+    public Run() {
+        writeFile('experiment.txt', JASS.globals, ()=>{
+            appendFile('experiment.txt', TemplateReplace(0), ()=>{
+                appendFile('experiment.txt', JASS.endglobals, ()=>{
+                    appendFile('experiment.txt', JASS.library, ()=>{
+                        appendFile('experiment.txt', TemplateReplace(1), ()=>{
+                            appendFile('experiment.txt', JASS.endlibrary, ()=>{
+                                alert("File Created in Output folder")})})})})})})
 
+    }
+}
+
+/** 0 for globals */
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""

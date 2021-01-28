@@ -1,4 +1,5 @@
 import { CustomImage } from './CustomImage';
+import { UpdateFields } from './UpdateFields';
 
 export class ProjectTree{
 
@@ -23,6 +24,8 @@ export class ProjectTree{
         if(index == -1) return;
 
         this.images.slice(index, 1);
+        image.Delete()
+        UpdateFields(null)
 
     }
 
