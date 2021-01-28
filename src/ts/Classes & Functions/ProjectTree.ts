@@ -3,8 +3,7 @@ import { UpdateFields } from './UpdateFields';
 
 export class ProjectTree{
 
-    //this should be private (TemplateReplace issue)
-    static images : CustomImage[] = [];
+    private static images : CustomImage[] = [];
     private static currentSelectedIndex = 0;
 
     static GetIndex( image: CustomImage) : number{
@@ -55,6 +54,10 @@ export class ProjectTree{
 
     static GetSelectedImage () : CustomImage{
         return this.images[this.currentSelectedIndex];
+    }
+
+    static getImages() : CustomImage[]{
+        return ProjectTree.images;
     }
 
 }

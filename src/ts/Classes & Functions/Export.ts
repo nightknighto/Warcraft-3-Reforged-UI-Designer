@@ -47,7 +47,7 @@ export class Export implements ICallableDivInstance {
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
-    for(const el of ProjectTree.images) {
+    for(const el of ProjectTree.getImages()) {
         if(kind == 0) {
             if(el.type == 'button') {
                 text = JASS.declaresBUTTON
