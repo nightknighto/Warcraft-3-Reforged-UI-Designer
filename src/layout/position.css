@@ -80,6 +80,12 @@ body{
     left:0;
 }
 
+#panelClose{
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+}
+
 #tableParameters{
 
     height: min-content;
@@ -132,6 +138,13 @@ body{
     right: 0;
     top:120px;
     bottom:0px
+}
+
+#treeClose{
+    position: relative;
+    right: 100%;
+    width: fit-content;
+    height: fit-content;
 }
 
 #panelDebug{

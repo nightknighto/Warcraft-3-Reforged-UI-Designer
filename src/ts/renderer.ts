@@ -23,6 +23,7 @@ window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
 
 //technically, inputing works, but not without an element to input into.
+Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.inputElementWidth.oninput           = GUIEvents.InputWidth;
 Element.inputElementHeight.oninput          = GUIEvents.InputHeight;
 Element.inputElementName.oninput            = GUIEvents.InputName;
@@ -37,6 +38,9 @@ Element.barWindow.ondrag                    = GUIEvents.DragWindow; //needs impl
 Element.btnCloseWindow.onclick              = GUIEvents.CloseApplication;
 Element.btnMaximizeWindow.onclick           = GUIEvents.MaximizeWindow; 
 Element.btnMinimizeWindow.onclick           = GUIEvents.MinimizeWindow; 
+
+
+Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 //By default have it disabled because no selected element.
 Element.inputElementWidth.disabled          = true
@@ -117,3 +121,13 @@ Element.formIMG.addEventListener("submit", e => {
 
     ImageFunctions(img);
 })
+
+/* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "25%";
+  }
+
+  /* Set the width of the side navigation to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  } 
