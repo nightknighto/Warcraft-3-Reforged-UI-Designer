@@ -7,7 +7,7 @@ import { InputEdit } from "./Mini-Functions";
 const ParentOptions: HTMLOptionElement[] = []
 /**if null, then remove values and disable fields  */
 export function UpdateFields(focusIMG: any) {
-    const horizontalMargin = 240/1920*Element.workspace.width
+    const horizontalMargin = 240/1920*Element.workspaceImage.width
 
     if(focusIMG) {        
         DisableFields(false)
@@ -22,10 +22,10 @@ export function UpdateFields(focusIMG: any) {
 
         Element.selectElementParent.selectedIndex = focusIMG.parentIndex
         Element.inputElementName.value = focusIMG.name
-        Element.inputElementWidth.value = InputEdit(focusIMG.element.width * 800 / (Element.workspace.width - 2*horizontalMargin))
-        Element.inputElementHeight.value = InputEdit(focusIMG.element.height * 600 / Element.workspace.height)
-        Element.inputElementCoordinateX.value = `${InputEdit((focusIMG.element.offsetLeft - Element.workspace.getBoundingClientRect().x - horizontalMargin)/(Element.workspace.width - 2*horizontalMargin) * 800) }`;
-        Element.inputElementCoordinateY.value = `${InputEdit((Element.workspace.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/Element.workspace.height * 600)}`;
+        Element.inputElementWidth.value = InputEdit(focusIMG.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
+        Element.inputElementHeight.value = InputEdit(focusIMG.element.height * 600 / Element.workspaceImage.height)
+        Element.inputElementCoordinateX.value = `${InputEdit((focusIMG.element.offsetLeft - Element.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(Element.workspaceImage.width - 2*horizontalMargin) * 800) }`;
+        Element.inputElementCoordinateY.value = `${InputEdit((Element.workspaceImage.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/Element.workspaceImage.height * 600)}`;
         Element.inputElementTexture.value = focusIMG.texturePath
 
         if(!focusIMG.typeEditable) {

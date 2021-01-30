@@ -14,10 +14,10 @@ import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { TabsMenu } from "./menus/TabsMenu";
 import { RibbonMenu } from "./menus/RibbonMenu";
 import { RibbonOption } from "./menus/RibbonOption";
-import { FrameBuilder } from "./Classes & Functions/FrameBuilder";
-import { CustomImage } from "./Classes & Functions/CustomImage";
-import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
+import { FrameBuilder } from "./FrameLogic/FrameBuilder";
 import { Export } from "./Classes & Functions/Export";
+import { ProjectTree } from "./FrameLogic/ProjectTree";
+import { FrameType } from "./FrameLogic/FrameType";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -54,6 +54,9 @@ Element.inputElementCoordinateY.disabled    = true
 Element.inputElementTexture.disabled        = true
 Element.buttonElementTextureBrowse.disabled = true
 
+//need better way, this is invisible dependancy.
+ProjectTree.GetInstance().SetProjectTreeElement(Element.panelTree);
+
 //Initialize menus
 RibbonMenu.SetRibbonBar(Element.barRibbon);
 
@@ -75,15 +78,52 @@ viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
 TabsMenu.AddTab(viewMenu);
 
 let insertMenu = new RibbonMenu('Insert');
-insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', new FrameBuilder('./files/images/ScriptDialogButton.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Browser Button', new FrameBuilder('./files/images/BrowserButton.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Quest Check Box', new FrameBuilder('./files/images/QuestCheckBox.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Checklist Box', new FrameBuilder('./files/images/CheckListBox.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop Template', new FrameBuilder('./files/images/OptionsPopupMenuBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base Template', new FrameBuilder('./files/images/QuestButtonBaseTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop Template', new FrameBuilder('./files/images/QuestButtonPushedBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop Template', new FrameBuilder('./files/images/QuestButtonDisabledBackdropTemplate.png')));
-insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', new FrameBuilder('./files/images/EscMenuBackdrop.png')));
+
+let newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
+newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
+insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/BrowserButton.png';
+newFrameBuilder.type = FrameType.BROWSER_BUTTON;
+insertMenu.AddRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/QuestCheckBox.png';
+newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
+insertMenu.AddRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/CheckListBox.png';
+newFrameBuilder.type = FrameType.CHECKLIST_BOX;
+insertMenu.AddRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
+newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
+insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop Template', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
+newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base Template', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
+newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop Template', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
+newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
+insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop Template', newFrameBuilder));
+
+newFrameBuilder = new FrameBuilder();
+newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';
+newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
+insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
+
 TabsMenu.AddTab(insertMenu);
 
 let windowMenu = new RibbonMenu('Window');
@@ -92,17 +132,6 @@ TabsMenu.AddTab(windowMenu);
 
 TabsMenu.Show(Element.barTab);
 
-/* Obsolete, no generate button, generation is to be done via exporting.
-Generate.onclick = () => {
-    writeFile('experiment.txt', JASS.globals, ()=>{
-        appendFile('experiment.txt', TemplateReplace(0), ()=>{
-            appendFile('experiment.txt', JASS.endglobals, ()=>{
-                appendFile('experiment.txt', JASS.library, ()=>{
-                    appendFile('experiment.txt', TemplateReplace(1), ()=>{
-                        appendFile('experiment.txt', JASS.endlibrary, ()=>{
-                            alert("File Created in Output folder")})})})})})})
-}
-*/
 //# sourceMappingURL=renderer.js.map
 
 //required:
@@ -113,20 +142,12 @@ Generate.onclick = () => {
 //mouse cursor change before drag or resize
 const input = document.getElementById('img') as HTMLInputElement
 
-Element.formIMG.addEventListener("submit", e => {
-    e.preventDefault();
-    const el = document.createElement("img")
-    const img = new CustomImage("name",el, input.files)
-
-    ImageFunctions(img);
-})
-
-/* Set the width of the side navigation to 250px */
+// Set the width of the side navigation to 250px 
 function openNav() {
     document.getElementById("mySidenav").style.width = "25%";
   }
 
-  /* Set the width of the side navigation to 0 */
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-  } 
+  // Set the width of the side navigation to 0 
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+} 

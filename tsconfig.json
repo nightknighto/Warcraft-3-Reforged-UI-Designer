@@ -9,6 +9,7 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "outDir": "build",
+    "downlevelIteration": true,
   },
   "exclude": [ "node_modules" ] 
 }

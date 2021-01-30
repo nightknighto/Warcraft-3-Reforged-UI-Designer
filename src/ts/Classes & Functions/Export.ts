@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {CustomImage} from "./CustomImage"
-import {ProjectTree} from "./ProjectTree"
-import {workspace} from "../Constants/Elements"
+import {CustomImage} from "../FrameLogic/CustomImage"
+import {ProjectTree} from "../FrameLogic/ProjectTree"
+import {workspaceImage} from "../Constants/Elements"
 import {JASS} from '../Templates/Templates'
 import {ICallableDivInstance} from './ICallableDivInstance'
 import {writeFile, appendFile} from 'fs';
+import { FrameType } from "../FrameLogic/FrameType"
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
@@ -24,9 +25,9 @@ export class Export implements ICallableDivInstance {
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
-    for(const el of []) { //ProjectTree.GetRootFrame()
+    for(const el of ProjectTree.GetInstance().GetIterator()) {
         if(kind == 0) {
-            if(el.image.type == 'button') {
+            if(el.type == FrameType.BUTTON) {
                 text = JASS.declaresBUTTON
             } else {
                 text = JASS.declares
@@ -34,58 +35,56 @@ export function TemplateReplace(kind: number) {try{
         } else {
             text = JassGetTypeText(el.type)
         }
-        let textEdit = text.replace(/FRvar/gi, el.name )
+        let textEdit = text.replace(/FRvar/gi, el.GetName())
         if(kind == 0) {
             sumText += textEdit;
             continue;
         }
         
-        if(el.parentIndex == 0) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
-        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.element.offsetLeft - workspace.getBoundingClientRect().x)/workspace.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${((workspace.getBoundingClientRect().bottom - el.element.getBoundingClientRect().top)/workspace.height * 0.6).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.element.offsetLeft - workspace.getBoundingClientRect().x + el.element.width)/workspace.offsetWidth * 0.8).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${((workspace.getBoundingClientRect().bottom - el.element.getBoundingClientRect().bottom)/workspace.height * 0.6).toPrecision(6)}`)
-        textEdit = textEdit.replace("PATHvar", '"'+el.texturePath+'"')
+        if(el.type == FrameType.ORIGIN) textEdit = textEdit.replace("OWNERvar", "BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)");
+        textEdit = textEdit.replace("TOPLEFTXvar", `${((el.image.element.offsetLeft - workspaceImage.getBoundingClientRect().x)/workspaceImage.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${((workspaceImage.getBoundingClientRect().bottom - el.image.element.getBoundingClientRect().top)/workspaceImage.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${((el.image.element.offsetLeft - workspaceImage.getBoundingClientRect().x + el.image.element.width)/workspaceImage.offsetWidth * 0.8).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${((workspaceImage.getBoundingClientRect().bottom - el.image.element.getBoundingClientRect().bottom)/workspaceImage.height * 0.6).toPrecision(6)}`)
+        textEdit = textEdit.replace("PATHvar", '"'+el.image.GetTexture()+'"')
         sumText += textEdit;
     }
     return sumText;
 }catch(e){alert(e)}} 
 
-function JassGetTypeText(type: string) {
-    //no breaks because return already stops the code
+function JassGetTypeText(type: FrameType) : string{
+    
     switch (type) {
-        case "backdrop":
+        case FrameType.BACKDROP:
             return JASS.backdrop
-        case "button":
+        case FrameType.BUTTON:
             return JASS.button
             
-        case "ScriptDialogButton":
+        case FrameType.SCRIPT_DIALOG_BUTTON:
             return JASS.ScriptDialogButton
                 
-        case "BrowserButton":
+        case FrameType.BROWSER_BUTTON:
             return JASS.BrowserButton
                     
-        case "CheckListBox":
+        case FrameType.CHECKLIST_BOX:
             return JASS.CheckListBox
         
-
-        case "EscMenuBackdrop":
+        case FrameType.ESC_MENU_BACKDROP:
             return JASS.EscMenuBackdrop
                 
-        case "OptionsPopupMenuBackdropTemplate":
+        case FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE:
             return JASS.OptionsPopupMenuBackdropTemplate
                     
-
-        case "QuestButtonBaseTemplate":
+        case FrameType.QUEST_BUTTON_BASE_TEMPLATE:
             return JASS.QuestButtonBaseTemplate
     
-        case "QuestButtonDisabledBackdropTemplate":
+        case FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE:
             return JASS.QuestButtonDisabledBackdropTemplate
             
-        case "QuestButtonPushedBackdropTemplate":
+        case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
             return JASS.QuestButtonPushedBackdropTemplate
                 
-        case "QuestCheckBox":
+        case FrameType.QUEST_CHECKBOX:
             return JASS.QuestCheckBox    
     }
     return ""

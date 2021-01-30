@@ -1,5 +1,5 @@
-import { workspace, debugGameCoordinates, formIMG } from '../Constants/Elements'
-import { ProjectTree } from './ProjectTree';
+import { workspaceImage, debugGameCoordinates, formIMG } from '../Constants/Elements'
+import { ProjectTree } from '../FrameLogic/ProjectTree';
 import { debug } from './Mini-Functions'
 import { remote } from 'electron';
 
@@ -10,16 +10,16 @@ const TreeDefaultSize = document.getElementById("panelTree").style.width
 export class GUIEvents {
 
     static DisplayGameCoords(ev: MouseEvent) {
-        const horizontalMargin = 240/1920*workspace.width
+        const horizontalMargin = 240/1920*workspaceImage.width
 
         let gameCoordsString: string;
-        let workspaceRect: DOMRect = workspace.getBoundingClientRect();
+        let workspaceImageRect: DOMRect = workspaceImage.getBoundingClientRect();
 
-        if (ev.x >= workspaceRect.left + horizontalMargin && ev.x <= workspaceRect.right - horizontalMargin
-            && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {
+        if (ev.x >= workspaceImageRect.left + horizontalMargin && ev.x <= workspaceImageRect.right - horizontalMargin
+            && ev.y >= workspaceImageRect.top && ev.y <= workspaceImageRect.bottom) {
 
-            let gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspace.width - 2*240/1920*workspace.width) * 800)/1000;
-            let gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspace.offsetHeight * 600))/1000
+            let gameX = Math.floor((ev.x - workspaceImageRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
+            let gameY = Math.floor(600-((ev.y - workspaceImageRect.top) / workspaceImage.offsetHeight * 600))/1000
             gameCoordsString = 'Game X/Y: (' + gameX + ' , ' + gameY + ')';
             debugGameCoordinates.innerText = gameCoordsString;
 
@@ -42,32 +42,32 @@ export class GUIEvents {
     static InputWidth(ev: Event) {
 
         let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = ProjectTree.GetSelectedFrame().getImage();
+        let focusedImage = ProjectTree.GetInstance().GetSelectedFrame().image;
 
         if (this.CheckInputValue(+inputElement.value)) {
 
-            focusedImage.element.width = 20 / 800 * workspace.width;
+            focusedImage.element.width = 20 / 800 * workspaceImage.width;
 
         }
 
         else
-            focusedImage.element.width = +inputElement.value / 800 * workspace.width
+            focusedImage.element.width = +inputElement.value / 800 * workspaceImage.width
 
     }
 
     static InputHeight(ev: Event) {
 
         let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = ProjectTree.GetSelectedFrame().getImage();
+        let focusedImage = ProjectTree.GetInstance().GetSelectedFrame().image;
 
         if (this.CheckInputValue(+inputElement.value)) {
 
-            focusedImage.element.height = 20 / 600 * workspace.height;
+            focusedImage.element.height = 20 / 600 * workspaceImage.height;
 
         }
 
         else
-            focusedImage.element.height = +inputElement.value / 600 * workspace.height;
+            focusedImage.element.height = +inputElement.value / 600 * workspaceImage.height;
 
 
     }
@@ -96,7 +96,7 @@ export class GUIEvents {
 
         let inputElement = ev.target as HTMLInputElement;
 
-        ProjectTree.GetSelectedFrame().getImage().UpdateName(inputElement.value);
+        ProjectTree.GetInstance().GetSelectedFrame().SetName(inputElement.value);
         debug('Name changed to "' + inputElement.value);
 
     }
@@ -105,7 +105,8 @@ export class GUIEvents {
 
         let selectElement = ev.target as HTMLSelectElement;
 
-        ProjectTree.GetSelectedFrame().getImage().type = selectElement.selectedOptions[0].value;
+        throw "Needs a new class for this"
+        //ProjectTree.GetInstance().GetSelectedFrame().type = selectElement.selectedOptions[0].value;
         debug('Type changed to ' + selectElement.selectedOptions[0].value);
     }
     
@@ -122,7 +123,7 @@ export class GUIEvents {
 
         const loc = (ev.target as HTMLInputElement).value;
 
-        ProjectTree.GetSelectedFrame().getImage().element.style.left = `${(+loc * workspace.width) / 800 + workspace.x}px`
+        ProjectTree.GetInstance().GetSelectedFrame().image.element.style.left = `${(+loc * workspaceImage.width) / 800 + workspaceImage.x}px`
 
     }
 
@@ -130,7 +131,7 @@ export class GUIEvents {
 
         const loc = (ev.target as HTMLInputElement).value;
 
-        ProjectTree.GetSelectedFrame().getImage().element.style.top = `${workspace.height - ((+loc * workspace.height) / 600 + workspace.y)}px`
+        ProjectTree.GetInstance().GetSelectedFrame().image.element.style.top = `${workspaceImage.height - ((+loc * workspaceImage.height) / 600 + workspaceImage.y)}px`
 
     }
 
@@ -138,14 +139,14 @@ export class GUIEvents {
 
         let inputElement = ev.target as HTMLInputElement;
 
-        ProjectTree.GetSelectedFrame().getImage().texturePath = inputElement.value;
+        ProjectTree.GetInstance().GetSelectedFrame().image.SetTexture(inputElement.value);
         debug('Texture changed.');
 
     }
 
     static DeleteSelectedImage(ev: Event){
 
-        ProjectTree.RemoveFrame(ProjectTree.GetSelectedFrame())
+        ProjectTree.GetInstance().RemoveFrame(ProjectTree.GetInstance().GetSelectedFrame())
 
     }
 
