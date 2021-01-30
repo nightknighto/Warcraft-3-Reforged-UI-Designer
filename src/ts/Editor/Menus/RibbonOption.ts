@@ -1,8 +1,8 @@
-import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
+import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 
 export class RibbonOption{
 
-    private name : string;
+    public readonly name : string;
     private callbackObject : ICallableDivInstance;
 
     public constructor(name : string, callbackObject : ICallableDivInstance){

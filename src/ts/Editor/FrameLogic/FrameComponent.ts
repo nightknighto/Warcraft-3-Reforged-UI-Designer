@@ -16,7 +16,7 @@ export class FrameComponent{
 
     public SetName(newName : string){
         this.name = newName;
-        this.treeElement.innerText = newName;
+        (this.treeElement.firstChild as HTMLElement).innerText = newName;
     }
 
     public type : FrameType;

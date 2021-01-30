@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {CustomImage} from "../FrameLogic/CustomImage"
-import {ProjectTree} from "../FrameLogic/ProjectTree"
 import {workspaceImage} from "../Constants/Elements"
 import {JASS} from '../Templates/Templates'
 import {ICallableDivInstance} from './ICallableDivInstance'
 import {writeFile, appendFile} from 'fs';
-import { FrameType } from "../FrameLogic/FrameType"
+import { FrameType } from "../Editor/FrameLogic/FrameType"
+import { Editor } from "../Editor/Editor"
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
@@ -25,7 +24,7 @@ export class Export implements ICallableDivInstance {
 export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
-    for(const el of ProjectTree.GetInstance().GetIterator()) {
+    for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
         if(kind == 0) {
             if(el.type == FrameType.BUTTON) {
                 text = JASS.declaresBUTTON

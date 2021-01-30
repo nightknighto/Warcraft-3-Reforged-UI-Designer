@@ -1,7 +1,8 @@
 import { FrameComponent } from "./FrameComponent";
 import { FrameType } from "./FrameType";
-import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
-import { ProjectTree } from "./ProjectTree";
+import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
+import { ProjectTree } from "../ProjectTree";
+import { Editor } from "../Editor";
 
 export class FrameBuilder implements ICallableDivInstance{
 
@@ -17,7 +18,7 @@ export class FrameBuilder implements ICallableDivInstance{
 
     public Run(){
         
-        ProjectTree.GetInstance().AppendToSelected(this);
+        Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
 
     }
 

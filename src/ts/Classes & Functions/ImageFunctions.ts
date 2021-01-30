@@ -1,4 +1,4 @@
-import { CustomImage } from "../FrameLogic/CustomImage";
+import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { UpdateFields } from "./UpdateFields"
 import { debug, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"

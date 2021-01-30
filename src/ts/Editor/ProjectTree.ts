@@ -1,17 +1,18 @@
 import { Queue } from 'queue-typescript';
-import { CustomImage } from './CustomImage';
-import { FrameComponent } from './FrameComponent';
+import { CustomImage } from './FrameLogic/CustomImage';
+import { FrameComponent } from './FrameLogic/FrameComponent';
 import { UpdateFields } from '../Classes & Functions/UpdateFields';
 import { ImageFunctions } from '../Classes & Functions/ImageFunctions';
-import { FrameBuilder } from './FrameBuilder';
-import { FrameType } from './FrameType';
+import { FrameBuilder } from './FrameLogic/FrameBuilder';
+import { FrameType } from './FrameLogic/FrameType';
 
 export class ProjectTree implements IterableIterator<FrameComponent>{
 
-    //Singleton class
-    private static instance : ProjectTree = null;
+    public readonly rootFrame : FrameComponent;
+    public readonly panelTree : HTMLElement;
+    private selectedFrame : FrameComponent;
 
-    private constructor(){
+    public constructor(){
 
         let originBuilder : FrameBuilder = new FrameBuilder();
 
@@ -25,30 +26,15 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         this.rootFrame = new FrameComponent(originBuilder);
         this.selectedFrame = this.rootFrame;
 
-    }
+        this.panelTree = document.getElementById('panelTree');
 
-    public static GetInstance(){
-        if (ProjectTree.instance == null) ProjectTree.instance = new ProjectTree();
-        return ProjectTree.instance;
-    }
+        for (let i = this.panelTree.children.length - 1; i >= 0; i--) {
 
-    //View manager
-    public readonly rootFrame : FrameComponent;
-    private selectedFrame : FrameComponent;
-    private treePanelDiv : HTMLElement = null;
-
-    public SetProjectTreeElement(treePanelElement : HTMLElement){
-        
-        if(this.treePanelDiv != null ) this.treePanelDiv.removeChild(this.rootFrame.treeElement);
-        this.treePanelDiv = treePanelElement;
-
-        for (let i = treePanelElement.children.length - 1; i >= 0; i--) {
-
-            treePanelElement.removeChild(treePanelElement.children[i]);
+            this.panelTree.removeChild(this.panelTree.children[i]);
 
         }
 
-        this.treePanelDiv.appendChild(this.rootFrame.treeElement);
+        this.panelTree.appendChild(this.rootFrame.treeElement);
 
     }
 

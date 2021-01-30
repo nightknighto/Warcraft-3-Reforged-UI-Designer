@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, screen} from "electron";
 import * as path from "path";
 
-import { ContextMenu } from './menus/contextMenu';
+import { ContextMenu } from './Editor/Menus/contextMenu';
 
 let mainWindow : BrowserWindow;
 let contextMenu : ContextMenu;

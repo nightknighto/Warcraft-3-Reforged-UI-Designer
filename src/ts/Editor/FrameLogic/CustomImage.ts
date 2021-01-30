@@ -1,9 +1,9 @@
 import { ipcRenderer } from "electron";
-import { UpdateFields } from "../Classes & Functions/UpdateFields";
-import { debug } from "../Classes & Functions/Mini-Functions";
-import { workspace } from "../Constants/Elements";
+import { UpdateFields } from "../../Classes & Functions/UpdateFields";
+import { debug } from "../../Classes & Functions/Mini-Functions";
+import { workspace } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
-import { ProjectTree } from "./ProjectTree";
+import { Editor } from "../Editor";
 
 export class CustomImage {
 
@@ -64,12 +64,12 @@ export class CustomImage {
     }
 
     public Select(){
-        let selectedFrame = ProjectTree.GetInstance().GetSelectedFrame();
+        let selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
 
         if(selectedFrame)
             selectedFrame.image.element.style.outlineStyle = 'none';
             
-        ProjectTree.GetInstance().Select(this.frameComponent);
+        Editor.GetDocumentEditor().projectTree.Select(this.frameComponent);
         UpdateFields(this.frameComponent)
     }
 
