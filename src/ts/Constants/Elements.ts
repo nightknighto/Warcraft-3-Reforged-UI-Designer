@@ -27,7 +27,8 @@ export const buttonElementTextureBrowse = document.getElementById('buttonBrowseT
 
 export const treeButton                 = document.getElementById('treeClose') as HTMLButtonElement;
 //Workspace
-export const workspace                  = document.getElementById('workspace') as HTMLImageElement;
+export const workspaceImage             = document.getElementById('workspace') as HTMLImageElement;
+export const workspace                  = document.getElementById('workspaceContainer') as HTMLElement;
 
 //Debug
 export const debugLine                  = document.getElementById('debugLine');
