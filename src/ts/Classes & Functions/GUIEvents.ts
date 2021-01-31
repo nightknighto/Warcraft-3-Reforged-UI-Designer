@@ -1,4 +1,4 @@
-import { workspace, debugGameCoordinates, formIMG } from '../Constants/Elements'
+import { workspace, debugGameCoordinates, formIMG, treeButton } from '../Constants/Elements'
 import { ProjectTree } from './ProjectTree';
 import { debug } from './Mini-Functions'
 import { remote } from 'electron';
@@ -205,7 +205,6 @@ export class GUIEvents {
         let panel = document.getElementById("panelTree")
         if(panel.style.width == TreeDefaultSize) {
             panel.style.width = "0";
-
         } else {
             panel.style.width = TreeDefaultSize;
         }
