@@ -1,12 +1,12 @@
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "./Mini-Functions";
+const ParentOptions: HTMLOptionElement[] = []
 /**
  * 
  * @param focusIMG : CustomImage
- */
-const ParentOptions: HTMLOptionElement[] = []
-/**if null, then remove values and disable fields  */
-export function UpdateFields(focusIMG: any) {
+ * 
+if null, then remove values and disable fields  */
+export function UpdateFields(focusIMG: any) { try{
     const horizontalMargin = 240/1920*Element.workspaceImage.width
 
     if(focusIMG) {        
@@ -15,13 +15,13 @@ export function UpdateFields(focusIMG: any) {
         for(const el of ParentOptions)
             el.hidden = false;
 
-        focusIMG.parentOption.hidden = true;
+        //focusIMG.parentOption.hidden = true;
         focusIMG.element.style.outlineStyle = "dashed"
         focusIMG.element.style.outlineColor = "red"
         focusIMG.element.style.outlineOffset = "-3px"
 
         Element.selectElementParent.selectedIndex = focusIMG.parentIndex
-        Element.inputElementName.value = focusIMG.name
+        Element.inputElementName.value = focusIMG.frameComponent.GetName();
         Element.inputElementWidth.value = InputEdit(focusIMG.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
         Element.inputElementHeight.value = InputEdit(focusIMG.element.height * 600 / Element.workspaceImage.height)
         Element.inputElementCoordinateX.value = `${InputEdit((focusIMG.element.offsetLeft - Element.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(Element.workspaceImage.width - 2*horizontalMargin) * 800) }`;
@@ -38,6 +38,7 @@ export function UpdateFields(focusIMG: any) {
         EmptyFields()
     }
 
+}catch(e){alert(e)}
 }
 
 function DisableFields(disable: boolean) {

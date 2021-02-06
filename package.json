@@ -32,6 +32,7 @@
   "dependencies": {
     "del": "^6.0.0",
     "interactjs": "^1.10.1",
+    "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",
     "webpack": "^5.11.1"
   }

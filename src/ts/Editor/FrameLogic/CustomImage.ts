@@ -4,6 +4,7 @@ import { debug } from "../../Classes & Functions/Mini-Functions";
 import { workspace } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
+import { ImageFunctions } from "../../Classes & Functions/ImageFunctions";
 
 export class CustomImage {
 
@@ -70,7 +71,7 @@ export class CustomImage {
             selectedFrame.image.element.style.outlineStyle = 'none';
             
         Editor.GetDocumentEditor().projectTree.Select(this.frameComponent);
-        UpdateFields(this.frameComponent)
+        UpdateFields(this)
     }
 
     constructor(frameComponent : FrameComponent, texturePath : string, width : number, height : number, x : number, y : number) {try{
@@ -90,6 +91,7 @@ export class CustomImage {
         this.element.style.top = '40vh';
         this.element.style.left = '40vw';
         workspace.appendChild(this.element);
+        ImageFunctions(this);
 
         (this.element as any).customImage = this;
 

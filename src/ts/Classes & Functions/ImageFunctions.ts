@@ -9,6 +9,8 @@ export function ImageFunctions(img: CustomImage) {
     img.element.onmousedown = function (e) {
         horizontalMargin = 240/1920*workspaceImage.width //refresh the value
 
+        img.Select()
+
         let posx1 = e.clientX;
         let posy1 = e.clientY;
         let posx2 = 0;
@@ -29,7 +31,7 @@ export function ImageFunctions(img: CustomImage) {
                     img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                 }
 
-                if (workspaceImage.getBoundingClientRect().bottom - (img.element.offsetTop - posy2 + img.element.height) >= 0 && workspaceImage.getBoundingClientRect().top - (img.element.offsetTop - posy2) <= 0) {
+                if (workspaceImage.getBoundingClientRect().bottom - (img.element.getBoundingClientRect().bottom - posy2) >= 0 && workspaceImage.getBoundingClientRect().top - (img.element.getBoundingClientRect().top - posy2) <= 0) {
                     img.element.style.top = `${img.element.offsetTop - posy2}px`;
                 }
                 inputElementsUpdate(img)

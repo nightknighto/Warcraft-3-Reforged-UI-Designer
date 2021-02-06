@@ -12,6 +12,9 @@ import { ipcRenderer } from "electron";
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
+import { CustomImage } from "./Editor/FrameLogic/CustomImage";
+import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
+import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -40,3 +43,12 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 } 
+
+Element.formIMG.addEventListener("submit", e => {
+  const frameBuilder = new FrameBuilder();
+
+  frameBuilder.name = "name";
+  frameBuilder.texture =  URL.createObjectURL(input.files[0]);
+  
+  frameBuilder.Run();
+})
