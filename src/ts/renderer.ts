@@ -15,6 +15,7 @@ import { Editor } from "./Editor/Editor";
 import { CustomImage } from "./Editor/FrameLogic/CustomImage";
 import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
 import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
+import { ParameterEditor } from "./Editor/ParameterEditor";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -32,7 +33,7 @@ let editor = new Editor(document);
 //duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
-const input = document.getElementById('img') as HTMLInputElement
+const input = document.getElementById('imgFile') as HTMLInputElement
 
 // Set the width of the side navigation to 250px 
 function openNav() {
@@ -45,6 +46,7 @@ function closeNav() {
 } 
 
 Element.formIMG.addEventListener("submit", e => {
+  e.preventDefault()
   const frameBuilder = new FrameBuilder();
 
   frameBuilder.name = "name";
@@ -52,3 +54,5 @@ Element.formIMG.addEventListener("submit", e => {
   
   frameBuilder.Run();
 })
+
+new ParameterEditor()

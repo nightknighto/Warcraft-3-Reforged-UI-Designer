@@ -34,5 +34,5 @@ export const workspace                  = document.getElementById('workspaceCont
 export const debugLine                  = document.getElementById('debugLine');
 export const debugGameCoordinates       = document.getElementById('debugGameCoordinates');
 
-export const formIMG = document.getElementById('formIMG') as HTMLInputElement
+export const formIMG = document.getElementById('formIMG');
 export const containerUI = document.getElementById('containerUI')

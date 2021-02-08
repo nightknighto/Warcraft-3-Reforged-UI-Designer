@@ -38,7 +38,7 @@ function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindo
     },
     resizable: true,
     movable: true,
-    frame: false,
+    frame: true,
   });
   
   return browserWindow;

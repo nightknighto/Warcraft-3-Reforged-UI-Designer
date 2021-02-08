@@ -1,5 +1,6 @@
 import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
+import { workspaceImage } from '../Constants/Elements';
 
 export class ParameterEditor{
 
@@ -41,8 +42,8 @@ export class ParameterEditor{
         this.inputElementTexture.disabled           = true
         this.btnElementTextureBrowse.disabled       = true
 
-        this.inputElementWidth.oninput              = ParameterEditor.InputWidth;
-        this.inputElementHeight.oninput             = ParameterEditor.InputHeight;
+        this.inputElementWidth.onchange              = ParameterEditor.InputWidth;
+        this.inputElementHeight.onchange             = ParameterEditor.InputHeight;
         this.inputElementName.oninput               = ParameterEditor.InputName;
         this.inputElementName.onchange              = ParameterEditor.ChangeName;
         this.selectElementType.onchange             = ParameterEditor.ChangeType;
@@ -55,13 +56,13 @@ export class ParameterEditor{
     
     private static CheckInputValue(value : number) : boolean{
 
-        let result = value < 20;
+        let result = value < 0.02;
         if(result){
 
-            debug("Minimal Value is 20.");
+            debug("Minimum Value is 0.02.");
         }
         
-        return !result;
+        return result;
 
     }
 
@@ -69,34 +70,59 @@ export class ParameterEditor{
 
         let inputElement = ev.target as HTMLInputElement;
         let focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+        let workspace = Editor.GetDocumentEditor().workspaceImage
+        let rect = workspaceImage.getBoundingClientRect()
+        const horizontalMargin = 240/1920*rect.width
 
-        if (this.CheckInputValue(+inputElement.value)) {
-
-            focusedImage.element.width = 20 / 800 * Editor.GetDocumentEditor().workspaceImage.width;
-
+        if(+inputElement.value > 0.8) {
+            debug("Input refused. Width is limited to 0 and 0.8.")
+            return
         }
 
-        else
-            focusedImage.element.width = +inputElement.value / 800 * Editor.GetDocumentEditor().workspaceImage.width
+        if(focusedImage.element.getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width-2*horizontalMargin) > workspace.getBoundingClientRect().right-horizontalMargin) {
+            debug("Input refused. Image right edge will be out of screen.")
+            return
+        }
+
+        if (ParameterEditor.CheckInputValue(+inputElement.value)) {
+
+            focusedImage.element.width = 0.02 / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin);
+
+        } else {
+            focusedImage.element.width = +inputElement.value / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+        }
 
     }
 
-    static InputHeight(ev: Event) {
+    static InputHeight(ev: Event) {try{
 
         let inputElement = ev.target as HTMLInputElement;
         let focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+        let workspace = Editor.GetDocumentEditor().workspaceImage
+        let rect = workspaceImage.getBoundingClientRect()
 
-        if (this.CheckInputValue(+inputElement.value)) {
-
-            focusedImage.element.height = 20 / 600 * Editor.GetDocumentEditor().workspaceImage.height;
-
+        if(+inputElement.value > 0.6) {
+            debug("Input refused. Height is limited to 0 and 0.6.")
+            return
         }
 
-        else
-            focusedImage.element.height = +inputElement.value / 600 * Editor.GetDocumentEditor().workspaceImage.height;
+        if(focusedImage.element.getBoundingClientRect().bottom - +inputElement.value / 0.6 * workspace.height < workspace.getBoundingClientRect().top) {
+            debug("Input refused. Image top edge will be out of screen.")
+            return
+        }
+
+        if (ParameterEditor.CheckInputValue(+inputElement.value)) {
+
+            focusedImage.element.style.top = `${focusedImage.element.offsetTop + focusedImage.element.height - +0.02*rect.height/0.6}px`
+            focusedImage.element.style.height = `${+0.02 / 0.6 * workspace.getBoundingClientRect().height}px`;
+
+        } else {
+            focusedImage.element.style.top = `${focusedImage.element.offsetTop + focusedImage.element.height - +inputElement.value*rect.height/0.6}px`
+            focusedImage.element.style.height = `${+inputElement.value / 0.6 * workspace.getBoundingClientRect().height}px`;
+        }
 
 
-    }
+    }catch(e) {alert(e)};}
 
     private static format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
     static InputName(ev: Event){
@@ -118,14 +144,14 @@ export class ParameterEditor{
 
     }
 
-    static ChangeName(ev: Event){
+    static ChangeName(ev: Event){ try{
 
         let inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().SetName(inputElement.value);
         debug('Name changed to "' + inputElement.value);
 
-    }
+    }catch(e){alert(e)}}
 
     static ChangeType(ev: Event){
 
@@ -146,20 +172,45 @@ export class ParameterEditor{
     }
 
     static InputCoordinateX(ev: Event){
-
         const loc = (ev.target as HTMLInputElement).value;
+        let rect = workspaceImage.getBoundingClientRect()
+        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
+        const horizontalMargin = 240/1920*rect.width
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element.style.left = `${(+loc * Editor.GetDocumentEditor().workspaceImage.width) / 800 + Editor.GetDocumentEditor().workspaceImage.x}px`
+        if(+loc > 0.8) {
+            debug("Input refused. X coordinate is limited to 0 and 0.8.")
+            return
+        }
+        if(+loc + image.getBoundingClientRect().width/(rect.width-2*horizontalMargin)*0.8 > 0.8) {
+            debug("Input refused. Image right edge will be out of screen.")
+            return
+        }
+
+        debug(`${ +loc*rect.width/0.8 + rect.left + horizontalMargin}px`)
+        image.style.left = `${ +loc*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
 
     }
 
-    static InputCoordinateY(ev: Event){
+    static InputCoordinateY(ev: Event){ try{
 
         const loc = (ev.target as HTMLInputElement).value;
+        let rect = workspaceImage.getBoundingClientRect()
+        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element.style.top = `${Editor.GetDocumentEditor().workspaceImage.height - ((+loc * Editor.GetDocumentEditor().workspaceImage.height) / 600 + Editor.GetDocumentEditor().workspaceImage.y)}px`
+        if(+loc > 0.6) {
+            debug("Input refused. Y coordinate is limited to 0 and 0.6.")
+            return
+        }
+        if(+loc + image.getBoundingClientRect().height/rect.height*0.6 > 0.6) {
+            debug("Input refused. Image top edge will be out of screen.")
+            return
+        }
+        //alert(`${rect.bottom}, ${+loc*rect.height/0.6}, ${image.height}, ${rect.bottom - +loc*rect.height/0.6 - image.height}`)
+        image.style.top = `${rect.bottom - +loc*rect.height/0.6 - image.height - 120}px`
+        //Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element.style.bottom = `${Editor.GetDocumentEditor().workspaceImage.height - ((+loc * Editor.GetDocumentEditor().workspaceImage.height) / 600 + Editor.GetDocumentEditor().workspaceImage.y)}px`
+        //image.style.top = `${workspaceImage.height - ((+loc * workspaceImage.height) / 0.6 + workspaceImage.y)}px`
 
-    }
+    }catch(e){alert(e)}}
 
     static InputTexture(ev: Event){
 
