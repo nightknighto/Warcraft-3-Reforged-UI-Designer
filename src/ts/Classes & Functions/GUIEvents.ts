@@ -1,5 +1,6 @@
 import { debugGameCoordinates, workspaceImage } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
+import { ProjectTree } from '../Editor/ProjectTree'
 
 const panelDefaultSize = document.getElementById("panelParameters").style.width
 const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
@@ -29,7 +30,8 @@ export class GUIEvents {
     static DeleteSelectedImage(){
         let projectTree = Editor.GetDocumentEditor().projectTree;
 
-        projectTree.RemoveFrame(projectTree.GetSelectedFrame());
+        //projectTree.RemoveFrame(projectTree.GetSelectedFrame());
+        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame())
 
     }
 

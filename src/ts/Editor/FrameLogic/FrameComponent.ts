@@ -8,7 +8,9 @@ export class FrameComponent{
     public readonly image : CustomImage;
     public readonly treeElement : HTMLElement;
 
+    public exist = true;
     private name : string;
+    private static nameNumber = 0;
 
     public GetName() : string{
         return this.name;
@@ -26,17 +28,18 @@ export class FrameComponent{
         let ul : HTMLElement = document.createElement('ul');
         let li : HTMLElement = document.createElement('li');
         
-        li.innerText = frameBuildOptions.name;
+        li.innerText = frameBuildOptions.name+FrameComponent.nameNumber;
         ul.append(li);
 
         this.type = frameBuildOptions.type;
-        this.name = frameBuildOptions.name;
+        this.name = frameBuildOptions.name+FrameComponent.nameNumber;
         this.treeElement = ul;
         this.children = [];
         this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
         
         (ul as any).frameComponent = this;
 
+        FrameComponent.nameNumber++;
     }
 
     public Append(childFrame : FrameComponent){
@@ -49,6 +52,7 @@ export class FrameComponent{
     public RemoveChild(childFrame : FrameComponent){
 
         let index = this.children.indexOf(childFrame);
+        childFrame.exist = false;
 
         if(index == -1){
 
@@ -65,7 +69,7 @@ export class FrameComponent{
 
         this.treeElement.removeChild(childFrame.treeElement);
         this.children.slice(index, 1);
-        if(this.image != null) this.image.Delete();
+        if(childFrame.image != null) childFrame.image.Delete();
         
     }
 
@@ -74,7 +78,8 @@ export class FrameComponent{
         for(let child of this.children){
             child.RemoveAll();
             child.treeElement.remove();
-            if(this.image != null) this.image.Delete();
+            child.exist = false;
+            if(child.image != null) child.image.Delete();
         }
 
         this.children = [];

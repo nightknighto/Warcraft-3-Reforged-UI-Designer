@@ -16,18 +16,19 @@ export function UpdateFields(focusIMG: any) { try{
             el.hidden = false;
 
         //focusIMG.parentOption.hidden = true;
-        focusIMG.element.style.outlineStyle = "dashed"
         focusIMG.element.style.outlineColor = "red"
-        focusIMG.element.style.outlineOffset = "-3px"
 
-        Element.selectElementParent.selectedIndex = focusIMG.parentIndex
+        //Element.selectElementParent.selectedIndex = focusIMG.parentIndex
         Element.inputElementName.value = focusIMG.frameComponent.GetName();
         Element.inputElementWidth.value = InputEdit(focusIMG.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
         Element.inputElementHeight.value = InputEdit(focusIMG.element.height * 600 / Element.workspaceImage.height)
         Element.inputElementCoordinateX.value = `${InputEdit((focusIMG.element.offsetLeft - Element.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(Element.workspaceImage.width - 2*horizontalMargin) * 800) }`;
         Element.inputElementCoordinateY.value = `${InputEdit((Element.workspaceImage.getBoundingClientRect().bottom - focusIMG.element.getBoundingClientRect().bottom)/Element.workspaceImage.height * 600)}`;
-        Element.inputElementTexture.value = focusIMG.texturePath
-
+        Element.inputElementDiskTexture.value = focusIMG.GetTexture()
+        Element.inputElementWC3Texture.value = focusIMG.textureWC3Path
+        Element.inputElementText.value = focusIMG.text
+        Element.inputElementTrigVar.value = focusIMG.TrigVar
+        
         if(!focusIMG.typeEditable) {
             Element.selectElementType.disabled = true
         } else {
@@ -50,8 +51,11 @@ function DisableFields(disable: boolean) {
     //Element.inputElementCoordinates.disabled    = disable
     Element.inputElementCoordinateX.disabled    = disable
     Element.inputElementCoordinateY.disabled    = disable
-    Element.inputElementTexture.disabled        = disable
+    Element.inputElementDiskTexture.disabled        = disable
     Element.buttonElementTextureBrowse.disabled = disable
+    Element.inputElementWC3Texture.disabled = disable
+    Element.inputElementText.disabled = disable
+    Element.inputElementTrigVar.disabled = disable
 }
 
 function EmptyFields() {
@@ -63,8 +67,9 @@ function EmptyFields() {
     //Element.inputElementCoordinates.value    = " "
     Element.inputElementCoordinateX.value    = " "
     Element.inputElementCoordinateY.value    = " "
-    Element.inputElementTexture.value
-    
-    = " "
+    Element.inputElementDiskTexture.value    = " "
+    Element.inputElementWC3Texture.value = " "
+    Element.inputElementText.value = " "
+    Element.inputElementTrigVar.value = " "
 
 }

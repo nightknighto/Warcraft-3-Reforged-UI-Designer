@@ -24,6 +24,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         originBuilder.y = 0;
 
         this.rootFrame = new FrameComponent(originBuilder);
+        this.rootFrame.SetName('Origin')
         this.selectedFrame = this.rootFrame;
 
         this.panelTree = document.getElementById('panelTreeView');
@@ -57,6 +58,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         else if(frame instanceof CustomImage) this.selectedFrame = frame.frameComponent
         else if(frame instanceof HTMLImageElement) this.selectedFrame = CustomImage.GetCustomImageFromHTMLImageElement(frame).frameComponent;
         else if(frame instanceof HTMLElement) this.selectedFrame = FrameComponent.GetFrameComponent(frame);
+        else if(frame == null) this.selectedFrame = null;
         
         else return;
 

@@ -11,64 +11,62 @@ export class CustomImage {
     public readonly frameComponent : FrameComponent;
     public readonly element : HTMLImageElement;
 
-    private texturePath : string;
+    private textureDiskPath : string;
+    textureWC3Path : string = 'null.blp';
+
+    text: string = "text"
+    TrigVar: string = "";
 
     public GetTexture() : string{
-        return this.texturePath;
+        return this.textureDiskPath;
     }
 
-    public SetTexture(newTexturePath : string){
-        this.texturePath = newTexturePath;
+    public SetDiskTexture(newTexturePath : string){
+        this.textureDiskPath = newTexturePath;
         this.element.src = newTexturePath;
     }
 
-    private width : number;
-
-    public GetWidth() : number{
-        return this.width
+    public SetWC3Texture(newTexturePath : string){
+        this.textureWC3Path = newTexturePath;
+    }
+    
+    public SetText(Text : string){
+        this.text = Text;
     }
 
+    public SetTrigVar(VarName: string) {
+        this.TrigVar = VarName
+    }
+
+    width : number;
+
     public SetWidth(newWidth : number){
-        this.element.width = newWidth;
         this.width = newWidth;
     }
 
-    private height : number;
-
-    public GetHeight() : number{
-        return this.height;
-    }
+    height : number;
 
     public SetHeight(newHeight : number){
-        this.element.height = newHeight;
         this.height = newHeight
     }
 
-    private coordsX : number;
+    LeftX : number;
 
-    public GetX() : number{
-        return this.coordsX;
+    public SetLeftX(newX : number){
+        this.LeftX = newX;
     }
 
-    public SetX(newX : number){
-        this.coordsX = newX;
-    }
+    BotY : number;
 
-    private coordsY : number;
-
-    public GetY() : number{
-        return this.coordsY;
-    }
-
-    public SetY(newY : number){
-        this.coordsY = newY;
+    public SetBotY(newY : number){
+        this.BotY = newY;
     }
 
     public Select(){
         let selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
 
         if(selectedFrame)
-            selectedFrame.image.element.style.outlineStyle = 'none';
+            selectedFrame.image.element.style.outlineColor = 'green';
             
         Editor.GetDocumentEditor().projectTree.Select(this.frameComponent);
         UpdateFields(this)
@@ -76,20 +74,24 @@ export class CustomImage {
 
     constructor(frameComponent : FrameComponent, texturePath : string, width : number, height : number, x : number, y : number) {try{
         this.frameComponent = frameComponent;
-        this.texturePath = texturePath;
+        this.textureDiskPath = texturePath;
         this.width = width;
         this.height = height;
-        this.coordsX = x;
-        this.coordsY = y;
+        this.LeftX = x;
+        this.BotY = y;
 
         this.element = document.createElement('img');
         this.element.src = texturePath;
-        this.element.height = height;
-        this.element.width = width;
+        this.element.height = height*1000;
+        this.element.width = width*1000;
         this.element.draggable = false;
         this.element.style.position = "absolute";
         this.element.style.top = '40vh';
         this.element.style.left = '40vw';
+        this.element.style.outlineStyle = "dashed"
+        this.element.style.outlineColor = "green"
+        this.element.style.outlineOffset = "-3px"
+
         workspace.appendChild(this.element);
         ImageFunctions(this);
 
@@ -108,6 +110,7 @@ export class CustomImage {
     Delete() {
 
         this.element.remove()
+        Editor.GetDocumentEditor().projectTree.Select(null);
 
         debug("Deleted CustomImage Object")
     }
