@@ -1,12 +1,13 @@
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "./Mini-Functions";
+import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 const ParentOptions: HTMLOptionElement[] = []
 /**
  * 
  * @param focusIMG : CustomImage
  * 
 if null, then remove values and disable fields  */
-export function UpdateFields(focusIMG: any) { try{
+export function UpdateFields(focusIMG: CustomImage) { try{
     const horizontalMargin = 240/1920*Element.workspaceImage.width
 
     if(focusIMG) {        
@@ -29,10 +30,11 @@ export function UpdateFields(focusIMG: any) { try{
         Element.inputElementText.value = focusIMG.text
         Element.inputElementTrigVar.value = focusIMG.TrigVar
         
-        if(!focusIMG.typeEditable) {
-            Element.selectElementType.disabled = true
-        } else {
+        if(focusIMG.frameComponent.type == 1 || focusIMG.frameComponent.type == 2) {
             Element.selectElementType.disabled = false
+            Element.selectElementType.selectedIndex = focusIMG.frameComponent.type - 1
+        } else {
+            Element.selectElementType.disabled = true
         }
     } else {
         DisableFields(true)
@@ -59,17 +61,17 @@ function DisableFields(disable: boolean) {
 }
 
 function EmptyFields() {
-    Element.inputElementWidth.value          = " "
-    Element.inputElementHeight.value         = " "
-    Element.inputElementName.value           = " "
-    Element.selectElementType.value          = " "
-    Element.selectElementParent.value        = " "
-    //Element.inputElementCoordinates.value    = " "
-    Element.inputElementCoordinateX.value    = " "
-    Element.inputElementCoordinateY.value    = " "
-    Element.inputElementDiskTexture.value    = " "
-    Element.inputElementWC3Texture.value = " "
-    Element.inputElementText.value = " "
-    Element.inputElementTrigVar.value = " "
+    Element.inputElementWidth.value          = ""
+    Element.inputElementHeight.value         = ""
+    Element.inputElementName.value           = ""
+    Element.selectElementType.value          = ""
+    Element.selectElementParent.value        = ""
+    //Element.inputElementCoordinates.value    = ""
+    Element.inputElementCoordinateX.value    = ""
+    Element.inputElementCoordinateY.value    = ""
+    Element.inputElementDiskTexture.value    = ""
+    Element.inputElementWC3Texture.value = ""
+    Element.inputElementText.value = ""
+    Element.inputElementTrigVar.value = ""
 
 }

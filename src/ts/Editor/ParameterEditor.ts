@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
 import { workspaceImage } from '../Constants/Elements';
@@ -145,7 +146,7 @@ export class ParameterEditor{
     private static format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
     static InputName(ev: Event){
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
         const text = inputElement.value;
 
         //checks only the first character if it is number or not
@@ -175,9 +176,12 @@ export class ParameterEditor{
 
         let selectElement = ev.target as HTMLSelectElement;
 
-        throw "Needs a new class for this"
-        //Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type = selectElement.selectedOptions[0].value;
-        debug('Type changed to ' + selectElement.selectedOptions[0].value);
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type = +selectElement.selectedOptions[0].value;
+
+        let typeText = ""
+        if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 1) typeText = "Backdrop";
+        if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 2) typeText = "Button";
+        debug('Type changed to ' + typeText);
     }
     
     static ChangeParent(ev: Event){

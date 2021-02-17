@@ -68,7 +68,7 @@ export class FrameComponent{
         childFrame.RemoveAll();
 
         this.treeElement.removeChild(childFrame.treeElement);
-        this.children.slice(index, 1);
+        this.children.splice(index, 1);
         if(childFrame.image != null) childFrame.image.Delete();
         
     }

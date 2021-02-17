@@ -28,8 +28,6 @@ let editor = new Editor(document);
 //# sourceMappingURL=renderer.js.map
 
 //required:
-//something visible on the selected image to know that it is selected
-//a field for the variable that will have its value changed when frame event occurs
 //duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
