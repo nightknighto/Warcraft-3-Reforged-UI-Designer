@@ -78,6 +78,10 @@ body{
     max-width: 200px;
     min-width: 80px;
     left:0;
+    
+    overflow-y: auto;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
 }
 
 #panelClose{

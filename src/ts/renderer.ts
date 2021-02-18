@@ -33,16 +33,6 @@ let editor = new Editor(document);
 //mouse cursor change before drag or resize
 const input = document.getElementById('imgFile') as HTMLInputElement
 
-// Set the width of the side navigation to 250px 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "25%";
-  }
-
-  // Set the width of the side navigation to 0 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-} 
-
 Element.formIMG.addEventListener("submit", e => {
   e.preventDefault()
   const frameBuilder = new FrameBuilder();

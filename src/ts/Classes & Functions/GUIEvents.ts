@@ -1,6 +1,5 @@
-import { debugGameCoordinates, workspaceImage } from '../Constants/Elements'
+import { debugGameCoordinates, workspaceImage, panelButton } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
-import { ProjectTree } from '../Editor/ProjectTree'
 
 const panelDefaultSize = document.getElementById("panelParameters").style.width
 const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
@@ -37,18 +36,18 @@ export class GUIEvents {
 
     static PanelOpenClose() {
         let panel = document.getElementById("panelParameters")
-        let table = document.getElementById("tableParameters")
-        if(panel.style.width == panelDefaultSize) {
-            panel.style.minWidth = "0";
-            panel.style.width = "0";
-            table.style.display = "none"
+        if(panel.style.visibility == "visible") {
+            // panel.style.minWidth = "0";
+            // panel.style.width = "0";
+            panel.style.visibility = "hidden"
+            panelButton.style.visibility = "visible"
             document.getElementById("img").style.display = "none"
             document.getElementById("imgBUTTON").style.display = "none"
 
         } else {
-            panel.style.minWidth = panelDefaultminSize;
-            panel.style.width = panelDefaultSize;
-            table.style.display = "initial"
+            // panel.style.minWidth = panelDefaultminSize;
+            // panel.style.width = panelDefaultSize;
+            panel.style.visibility = "visible"
             document.getElementById("img").style.display = "initial"
             document.getElementById("imgBUTTON").style.display = "initial"
         }

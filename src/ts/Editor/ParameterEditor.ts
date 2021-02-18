@@ -12,7 +12,6 @@ export class ParameterEditor{
     public readonly selectElementParent         : HTMLSelectElement;
     public readonly inputElementWidth           : HTMLInputElement;
     public readonly inputElementHeight          : HTMLInputElement;
-    public readonly inputElementCoordinates     : HTMLInputElement;
     public readonly inputElementCoordinateX     : HTMLInputElement;
     public readonly inputElementCoordinateY     : HTMLInputElement;
     public readonly inputElementDiskTexture     : HTMLInputElement;
@@ -29,7 +28,6 @@ export class ParameterEditor{
         this.selectElementParent                    = document.getElementById('elementParent') as HTMLSelectElement;
         this.inputElementWidth                      = document.getElementById('elementWidth') as HTMLInputElement;
         this.inputElementHeight                     = document.getElementById('elementHeight') as HTMLInputElement;
-        this.inputElementCoordinates                = document.getElementById('elementCoordinates') as HTMLInputElement;
         this.inputElementCoordinateX                = document.getElementById('elementCoordinateX') as HTMLInputElement;
         this.inputElementCoordinateY                = document.getElementById('elementCoordinateY') as HTMLInputElement;
         this.inputElementDiskTexture                = document.getElementById('elementDiskTexture') as HTMLInputElement;
@@ -43,7 +41,6 @@ export class ParameterEditor{
         this.inputElementName.disabled              = true
         this.selectElementType.disabled             = true
         this.selectElementParent.disabled           = true
-        this.inputElementCoordinates.disabled       = true
         this.inputElementCoordinateX.disabled       = true
         this.inputElementCoordinateY.disabled       = true
         this.inputElementDiskTexture.disabled       = true

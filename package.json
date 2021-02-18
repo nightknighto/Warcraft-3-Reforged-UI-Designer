@@ -30,6 +30,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@material/textfield": "^10.0.0",
     "del": "^6.0.0",
     "interactjs": "^1.10.1",
     "queue": "^6.0.2",
