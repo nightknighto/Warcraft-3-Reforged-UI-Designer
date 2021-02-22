@@ -1,5 +1,6 @@
-import { debugGameCoordinates, workspaceImage, panelButton } from '../Constants/Elements'
+import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
+import { UpdateFields } from './UpdateFields'
 
 const panelDefaultSize = document.getElementById("panelParameters").style.width
 const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
@@ -31,7 +32,7 @@ export class GUIEvents {
 
         //projectTree.RemoveFrame(projectTree.GetSelectedFrame());
         let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame())
-
+        UpdateFields(null)
     }
 
     static PanelOpenClose() {
@@ -55,10 +56,11 @@ export class GUIEvents {
     
     static TreeOpenClose() {
         let panel = document.getElementById("panelTree")
-        if(panel.style.width == TreeDefaultSize) {
-            panel.style.width = "0";
+        if(panel.style.visibility == "visible") {
+            panel.style.visibility = "hidden"
+            treeButton.style.visibility = "visible"
         } else {
-            panel.style.width = TreeDefaultSize;
+            panel.style.visibility = "visible"
         }
     }
 

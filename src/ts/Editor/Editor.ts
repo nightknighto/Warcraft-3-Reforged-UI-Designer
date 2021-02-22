@@ -59,7 +59,7 @@ export class Editor{
         editMenu.AddRibbonOption(new RibbonOption('Undo', null));
         editMenu.AddRibbonOption(new RibbonOption('Redo', null));
         
-        viewMenu.AddRibbonOption(new RibbonOption('Zoom in', null));
+        viewMenu.AddRibbonOption(new RibbonOption('Color Theme', null));
         viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
         
         let newFrameBuilder = new FrameBuilder();

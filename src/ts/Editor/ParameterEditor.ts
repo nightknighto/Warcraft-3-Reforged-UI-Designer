@@ -62,7 +62,7 @@ export class ParameterEditor{
         this.inputElementWC3Texture.onchange       = ParameterEditor.InputWC3Texture;
         this.inputElementText.onchange                = ParameterEditor.InputText;
         this.inputElementTrigVar.onchange             = ParameterEditor.InputTrigVar;
-
+        
     }
     
     /** checks whether value is smaller than 0.2. True if smaller. */

@@ -3,15 +3,15 @@
 }
 
 #barTitle{
-    background-color: teal;
+    background-color: rgb(69,49,26);
 }
 
 #barTab{
-    background-color: yellow;
+    background-color: rgba(142,80,39,255);
 }
 
 #barRibbon{
-    background-color: turquoise;
+    background-color: rgba(112,81,61,255);
 }
 
 #panelParameters{
@@ -19,11 +19,11 @@
 }
 
 #panelTree{
-    background-color: violet;
+    background-color: rgb(167, 114, 45);
 }
 
 #panelDebug{
-    background-color: yellowgreen;   
+    background-color: rgba(153,102,75,255);   
 }
 
 #workspaceContainer{

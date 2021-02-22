@@ -18,11 +18,11 @@
 
         <div id="workspaceContainer">
 
-            <img id="workspace" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
+            <img id="workspace" class="row justify-content-center" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
 
         </div>
 
-        <div id="barTitle">
+        <div id="barTitle" style='color: rgb(248,224,197);'>
 
             <div id="appInfo">
 
@@ -41,7 +41,7 @@
 
         </div>
 
-        <div id="barTab">
+        <div id="barTab" style='color: rgb(248,224,197);'>
 
             <div class="tab">File</div>
             <div class="tab">Edit</div>
@@ -51,7 +51,7 @@
 
         </div>
 
-        <div id="barRibbon">
+        <div id="barRibbon" style='color: rgb(248,224,197);'>
 
             <div class="ribbonOption">New</div>
             <div class="ribbonOption">Open</div>
@@ -62,7 +62,7 @@
 
         <div id="panelParameters">
             <div class='row justify-content-start'>
-                <button class='col-4 btn btn-success' id='panelClose'>Panel</button>
+                <button class='col-4 btn btn-warning' id='panelClose'>Panel</button>
             </div>
             <label for="elementCoordinates"><b>Details</b></label>
             <div class="form-floating mb-1">
@@ -160,12 +160,14 @@
         </div>
 
         <div id="panelTree">
-            <button id='treeClose'>Tree</button>
+            <div class='row justify-content-end'>
+                <button class='col-4 btn btn-warning' id='treeClose'>Tree</button>
+            </div>
             <div id="panelTreeView"></div>
 
         </div>
 
-        <div id="panelDebug">
+        <div id="panelDebug" style='color: rgb(248,224,197);'>
 
             <div id='debugLine'>Debug Line for this unlimited UI reforging the reforged editor. Life too good to be true man</div>
             <div id='debugGameCoordinates'>Game: (x , y)</div>

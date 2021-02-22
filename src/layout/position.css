@@ -59,6 +59,7 @@ body{
     width: 100vw;
 
     display: flex;
+    overflow-x: auto;
 }
 
 #barRibbon .ribbonOption{
@@ -133,6 +134,8 @@ body{
     position: relative;
     height: 100%;
     width:auto;
+    margin: auto;
+    
 }
 
 #panelTree{
@@ -141,11 +144,15 @@ body{
 
     right: 0;
     top:120px;
-    bottom:0px
+    bottom:0px;
+    overflow-x: auto;
+    overflow-y: auto;
+
+    padding-right: 0.5%;
+    
 }
 
 #treeClose{
-    position: relative;
     right: 100%;
     width: fit-content;
     height: fit-content;

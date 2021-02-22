@@ -50,7 +50,6 @@ function DisableFields(disable: boolean) {
     Element.inputElementName.disabled           = disable
     Element.selectElementType.disabled          = disable
     Element.selectElementParent.disabled        = disable
-    //Element.inputElementCoordinates.disabled    = disable
     Element.inputElementCoordinateX.disabled    = disable
     Element.inputElementCoordinateY.disabled    = disable
     Element.inputElementDiskTexture.disabled        = disable
@@ -66,7 +65,6 @@ function EmptyFields() {
     Element.inputElementName.value           = ""
     Element.selectElementType.value          = ""
     Element.selectElementParent.value        = ""
-    //Element.inputElementCoordinates.value    = ""
     Element.inputElementCoordinateX.value    = ""
     Element.inputElementCoordinateY.value    = ""
     Element.inputElementDiskTexture.value    = ""
