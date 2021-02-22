@@ -45,7 +45,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
     }
 
     public RemoveFrame(frameComponent : FrameComponent){
-        this.rootFrame.RemoveChild(frameComponent);
+        this.rootFrame.RemoveChild(frameComponent, true);
     }
 
     public GetSelectedFrame() : FrameComponent{

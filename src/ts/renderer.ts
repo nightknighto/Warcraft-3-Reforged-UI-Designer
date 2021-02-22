@@ -8,6 +8,7 @@
 // needed in the renderer process.
 
 import { ipcRenderer } from "electron";
+import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
@@ -69,3 +70,10 @@ window.onresize = () => {
 
   }
 }
+
+new Titlebar({
+  backgroundColor: new Color( new RGBA(69,49,26,255)),
+  icon: "./files/images/backgroundWorkspace.png",
+  menu: null,
+
+})

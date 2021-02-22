@@ -89,6 +89,7 @@ body{
     position: relative;
     width: fit-content;
     height: fit-content;
+    visibility: visible;
 }
 
 #tableParameters{
@@ -156,6 +157,7 @@ body{
     right: 100%;
     width: fit-content;
     height: fit-content;
+    visibility: visible;
 }
 
 #panelDebug{
@@ -167,10 +169,10 @@ body{
     left: 0;
     right: 0;
     margin: auto;
+
+    padding: 10px;
 }
 
 #panelDebug #debugLine{
-
-    padding: 10px;
-
+    padding-bottom: 14px;
 }

@@ -38,6 +38,7 @@ function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindo
     },
     resizable: true,
     movable: true,
+    titleBarStyle: "hidden",
     frame: false,
   });
   

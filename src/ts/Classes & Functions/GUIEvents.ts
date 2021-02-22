@@ -31,7 +31,7 @@ export class GUIEvents {
         let projectTree = Editor.GetDocumentEditor().projectTree;
 
         //projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame())
+        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame(), true)
         UpdateFields(null)
     }
 
