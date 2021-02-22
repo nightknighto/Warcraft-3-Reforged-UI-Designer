@@ -8,6 +8,7 @@
 // needed in the renderer process.
 
 import { ipcRenderer } from "electron";
+import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
@@ -33,16 +34,6 @@ let editor = new Editor(document);
 //mouse cursor change before drag or resize
 const input = document.getElementById('imgFile') as HTMLInputElement
 
-// Set the width of the side navigation to 250px 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "25%";
-  }
-
-  // Set the width of the side navigation to 0 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-} 
-
 Element.formIMG.addEventListener("submit", e => {
   e.preventDefault()
   const frameBuilder = new FrameBuilder();
@@ -54,3 +45,35 @@ Element.formIMG.addEventListener("submit", e => {
 })
 
 new ParameterEditor()
+
+window.onresize = () => {
+  for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+    if(el.type == 0) { //base
+      continue;
+    }
+    
+    const image = el.image.element
+    const rect = Element.workspaceImage.getBoundingClientRect() 
+    const workspace = Editor.GetDocumentEditor().workspaceImage
+    const horizontalMargin = 240/1920*rect.width
+
+    const x = el.image.LeftX
+    const y = el.image.BotY
+    const w = el.image.width
+    const h = el.image.height
+
+    image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+    image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
+
+    image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+    image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
+
+  }
+}
+
+new Titlebar({
+  backgroundColor: new Color( new RGBA(69,49,26,255)),
+  icon: "./files/images/backgroundWorkspace.png",
+  menu: null,
+
+})

@@ -2,6 +2,7 @@
 import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
 import { workspaceImage } from '../Constants/Elements';
+import * as Element from "../Constants/Elements";
 
 export class ParameterEditor{
 
@@ -12,11 +13,10 @@ export class ParameterEditor{
     public readonly selectElementParent         : HTMLSelectElement;
     public readonly inputElementWidth           : HTMLInputElement;
     public readonly inputElementHeight          : HTMLInputElement;
-    public readonly inputElementCoordinates     : HTMLInputElement;
     public readonly inputElementCoordinateX     : HTMLInputElement;
     public readonly inputElementCoordinateY     : HTMLInputElement;
     public readonly inputElementDiskTexture     : HTMLInputElement;
-    public readonly btnElementTextureBrowse     : HTMLButtonElement;
+    public readonly fileElementTextureBrowse     : HTMLInputElement;
     public readonly inputElementWC3Texture   : HTMLInputElement;
     public readonly inputElementText            : HTMLInputElement;
     public readonly inputElementTrigVar         : HTMLInputElement;
@@ -29,11 +29,10 @@ export class ParameterEditor{
         this.selectElementParent                    = document.getElementById('elementParent') as HTMLSelectElement;
         this.inputElementWidth                      = document.getElementById('elementWidth') as HTMLInputElement;
         this.inputElementHeight                     = document.getElementById('elementHeight') as HTMLInputElement;
-        this.inputElementCoordinates                = document.getElementById('elementCoordinates') as HTMLInputElement;
         this.inputElementCoordinateX                = document.getElementById('elementCoordinateX') as HTMLInputElement;
         this.inputElementCoordinateY                = document.getElementById('elementCoordinateY') as HTMLInputElement;
         this.inputElementDiskTexture                = document.getElementById('elementDiskTexture') as HTMLInputElement;
-        this.btnElementTextureBrowse                = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
+        this.fileElementTextureBrowse                = document.getElementById('buttonBrowseTexture') as HTMLInputElement;
         this.inputElementWC3Texture              = document.getElementById('elementWC3Texture') as HTMLInputElement;
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
@@ -43,11 +42,10 @@ export class ParameterEditor{
         this.inputElementName.disabled              = true
         this.selectElementType.disabled             = true
         this.selectElementParent.disabled           = true
-        this.inputElementCoordinates.disabled       = true
         this.inputElementCoordinateX.disabled       = true
         this.inputElementCoordinateY.disabled       = true
         this.inputElementDiskTexture.disabled       = true
-        this.btnElementTextureBrowse.disabled       = true
+        this.fileElementTextureBrowse.disabled       = true
         this.inputElementWC3Texture.disabled     = true
         this.inputElementText.disabled              = true
         this.inputElementTrigVar.disabled           = true
@@ -61,11 +59,12 @@ export class ParameterEditor{
         this.selectElementParent.onchange           = ParameterEditor.ChangeParent;
         this.inputElementCoordinateX.onchange       = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange       = ParameterEditor.InputCoordinateY;
-        this.inputElementDiskTexture.onchange           = ParameterEditor.InputDiskTexture;
+        this.inputElementDiskTexture.onchange           = ParameterEditor.TextInputDiskTexture;
+        this.fileElementTextureBrowse.onchange          = ParameterEditor.ButtonInputDiskTexture;          
         this.inputElementWC3Texture.onchange       = ParameterEditor.InputWC3Texture;
         this.inputElementText.onchange                = ParameterEditor.InputText;
         this.inputElementTrigVar.onchange             = ParameterEditor.InputTrigVar;
-
+        
     }
     
     /** checks whether value is smaller than 0.2. True if smaller. */
@@ -184,16 +183,26 @@ export class ParameterEditor{
         debug('Type changed to ' + typeText);
     }
     
-    static ChangeParent(ev: Event){
+    static ChangeParent(ev: Event){try{
 
         let selectElement = ev.target as HTMLSelectElement;
+        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
 
-        //
+        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+            if(!el.ParentOption) continue;
+            
+            if(el.ParentOption == selectElement.selectedOptions[0]) {
+                image.GetParent().RemoveChild(image, false)
+                el.Append(image)
+                break;
+            }
+        }
+        debug(image.GetParent().GetName())
         //selectElement.options.item(0).selected
         //needs some index to CustomImage to whatever bullshit going on.
         //ProjectTree.GetSelectedImage().parent = selectElement.selectedOption[0].value;
 
-    }
+    }catch(e){alert(e)}}
 
     static InputCoordinateX(ev: Event){
         const loc = (ev.target as HTMLInputElement).value;
@@ -239,13 +248,24 @@ export class ParameterEditor{
 
     }catch(e){alert(e)}}
 
-    static InputDiskTexture(ev: Event){
+    static TextInputDiskTexture(ev: Event){
 
         let inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(inputElement.value);
         debug('Disk Texture changed.');
 
+    }
+
+    static ButtonInputDiskTexture(ev: Event){
+        let inputElement = ev.target as HTMLInputElement;
+        let path = URL.createObjectURL(inputElement.files[0])
+        
+
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(path);
+        
+        Element.inputElementDiskTexture.value = path
+        debug("Disk Texture changed. However, the app can't know the path of this texture.")
     }
     
     static InputWC3Texture(ev: Event){

@@ -7,6 +7,7 @@ export class FrameComponent{
     private children : FrameComponent[];
     public readonly image : CustomImage;
     public readonly treeElement : HTMLElement;
+    public ParentOption : HTMLOptionElement;
 
     public exist = true;
     private name : string;
@@ -19,6 +20,7 @@ export class FrameComponent{
     public SetName(newName : string){
         this.name = newName;
         (this.treeElement.firstChild as HTMLElement).innerText = newName;
+        if(this.ParentOption) this.ParentOption.text = newName;
     }
 
     public type : FrameType;
@@ -49,27 +51,31 @@ export class FrameComponent{
 
     }
 
-    public RemoveChild(childFrame : FrameComponent){
+    /**If deleing = true, deletes the element. 
+     * If false, then just removes from children, used to migrate to another parent */
+    public RemoveChild(childFrame : FrameComponent, deleting : boolean){
 
         let index = this.children.indexOf(childFrame);
-        childFrame.exist = false;
+        if(deleting) {
+            childFrame.exist = false;
 
-        if(index == -1){
+            if(index == -1){
 
-            for(let child of this.children){
+                for(let child of this.children){
 
-                child.RemoveChild(childFrame);
+                    child.RemoveChild(childFrame, true);
 
+                }
+
+                return;
             }
 
-            return;
+            childFrame.RemoveAll();
+
+            this.treeElement.removeChild(childFrame.treeElement);
+            if(childFrame.image != null) childFrame.image.Delete();
         }
-
-        childFrame.RemoveAll();
-
-        this.treeElement.removeChild(childFrame.treeElement);
         this.children.splice(index, 1);
-        if(childFrame.image != null) childFrame.image.Delete();
         
     }
 

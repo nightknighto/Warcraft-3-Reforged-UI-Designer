@@ -27,7 +27,7 @@ export function TemplateReplace(kind: number) {try{
     let text: string;
     let sumText = ""
     for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-        if(el.type == 0 || !el.exist) { //Origin
+        if(el.type == 0) { //Origin
             continue;
         }
 

@@ -59,7 +59,7 @@ export class Editor{
         editMenu.AddRibbonOption(new RibbonOption('Undo', null));
         editMenu.AddRibbonOption(new RibbonOption('Redo', null));
         
-        viewMenu.AddRibbonOption(new RibbonOption('Zoom in', null));
+        viewMenu.AddRibbonOption(new RibbonOption('Color Theme', null));
         viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
         
         let newFrameBuilder = new FrameBuilder();
@@ -85,22 +85,22 @@ export class Editor{
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop Template', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base Template', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop Template', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop Template', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';

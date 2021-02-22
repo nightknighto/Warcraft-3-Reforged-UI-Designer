@@ -1,6 +1,6 @@
-import { debugGameCoordinates, workspaceImage } from '../Constants/Elements'
+import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
-import { ProjectTree } from '../Editor/ProjectTree'
+import { UpdateFields } from './UpdateFields'
 
 const panelDefaultSize = document.getElementById("panelParameters").style.width
 const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
@@ -31,24 +31,24 @@ export class GUIEvents {
         let projectTree = Editor.GetDocumentEditor().projectTree;
 
         //projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame())
-
+        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame(), true)
+        UpdateFields(null)
     }
 
     static PanelOpenClose() {
         let panel = document.getElementById("panelParameters")
-        let table = document.getElementById("tableParameters")
-        if(panel.style.width == panelDefaultSize) {
-            panel.style.minWidth = "0";
-            panel.style.width = "0";
-            table.style.display = "none"
+        if(panel.style.visibility == "visible") {
+            // panel.style.minWidth = "0";
+            // panel.style.width = "0";
+            panel.style.visibility = "hidden"
+            panelButton.style.visibility = "visible"
             document.getElementById("img").style.display = "none"
             document.getElementById("imgBUTTON").style.display = "none"
 
         } else {
-            panel.style.minWidth = panelDefaultminSize;
-            panel.style.width = panelDefaultSize;
-            table.style.display = "initial"
+            // panel.style.minWidth = panelDefaultminSize;
+            // panel.style.width = panelDefaultSize;
+            panel.style.visibility = "visible"
             document.getElementById("img").style.display = "initial"
             document.getElementById("imgBUTTON").style.display = "initial"
         }
@@ -56,10 +56,11 @@ export class GUIEvents {
     
     static TreeOpenClose() {
         let panel = document.getElementById("panelTree")
-        if(panel.style.width == TreeDefaultSize) {
-            panel.style.width = "0";
+        if(panel.style.visibility == "visible") {
+            panel.style.visibility = "hidden"
+            treeButton.style.visibility = "visible"
         } else {
-            panel.style.width = TreeDefaultSize;
+            panel.style.visibility = "visible"
         }
     }
 

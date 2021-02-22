@@ -1,6 +1,8 @@
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "./Mini-Functions";
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
+import { Editor } from "../Editor/Editor";
+import { FrameComponent } from "../Editor/FrameLogic/FrameComponent";
 const ParentOptions: HTMLOptionElement[] = []
 /**
  * 
@@ -36,6 +38,30 @@ export function UpdateFields(focusIMG: CustomImage) { try{
         } else {
             Element.selectElementType.disabled = true
         }
+
+        const optionArray = Element.selectElementParent.options
+
+        while (true) {
+            if(optionArray[0]) {
+                optionArray[0].remove()
+            } else {
+                break;
+            }
+        }
+
+        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+            if(el.image == focusIMG || focusIMG.frameComponent.GetChildren().indexOf(el) >= 0) { //itself or first children
+                continue;
+            }
+
+            const option = document.createElement('option') as HTMLOptionElement
+            option.text = el.GetName()
+            el.ParentOption = option
+            optionArray.add(option)
+            
+            if(focusIMG.frameComponent.GetParent() == el) option.selected = true;
+        }
+
     } else {
         DisableFields(true)
         EmptyFields()
@@ -50,7 +76,6 @@ function DisableFields(disable: boolean) {
     Element.inputElementName.disabled           = disable
     Element.selectElementType.disabled          = disable
     Element.selectElementParent.disabled        = disable
-    //Element.inputElementCoordinates.disabled    = disable
     Element.inputElementCoordinateX.disabled    = disable
     Element.inputElementCoordinateY.disabled    = disable
     Element.inputElementDiskTexture.disabled        = disable
@@ -66,7 +91,6 @@ function EmptyFields() {
     Element.inputElementName.value           = ""
     Element.selectElementType.value          = ""
     Element.selectElementParent.value        = ""
-    //Element.inputElementCoordinates.value    = ""
     Element.inputElementCoordinateX.value    = ""
     Element.inputElementCoordinateY.value    = ""
     Element.inputElementDiskTexture.value    = ""
