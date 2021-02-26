@@ -20,6 +20,7 @@ import { ParameterEditor } from "./Editor/ParameterEditor";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
+ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage);
 
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
@@ -46,30 +47,9 @@ Element.formIMG.addEventListener("submit", e => {
 
 new ParameterEditor()
 
-window.onresize = () => {
-  for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-    if(el.type == 0) { //base
-      continue;
-    }
-    
-    const image = el.image.element
-    const rect = Element.workspaceImage.getBoundingClientRect() 
-    const workspace = Editor.GetDocumentEditor().workspaceImage
-    const horizontalMargin = 240/1920*rect.width
+window.onresize = GUIEvents.RefreshElements;
 
-    const x = el.image.LeftX
-    const y = el.image.BotY
-    const w = el.image.width
-    const h = el.image.height
 
-    image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
-    image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
-
-    image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-    image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
-
-  }
-}
 
 new Titlebar({
   backgroundColor: new Color( new RGBA(69,49,26,255)),

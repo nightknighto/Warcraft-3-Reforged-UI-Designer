@@ -20,6 +20,9 @@ export class ContextMenu{
         item.click = () => {this.mainWindow.webContents.send('Delete')}
         this.contextMenu.append(item)
 
+        item = new MenuItem( { label: 'Duplicate', id: 'Duplicate'} )
+        item.click = () => {this.mainWindow.webContents.send('Duplicate')}
+        this.contextMenu.append(item)
     }
 
     public showContextMenu(){

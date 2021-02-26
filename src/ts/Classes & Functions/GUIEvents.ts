@@ -1,10 +1,10 @@
 import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
 import { UpdateFields } from './UpdateFields'
+import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
+import { debug } from '../Classes & Functions/Mini-Functions'
+import { ProjectTree } from '../Editor/ProjectTree'
 
-const panelDefaultSize = document.getElementById("panelParameters").style.width
-const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
-const TreeDefaultSize = document.getElementById("panelTree").style.width
 
 export class GUIEvents {
 
@@ -30,10 +30,34 @@ export class GUIEvents {
     static DeleteSelectedImage(){
         let projectTree = Editor.GetDocumentEditor().projectTree;
 
-        //projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-        let parent = projectTree.GetSelectedFrame().GetParent().RemoveChild(projectTree.GetSelectedFrame(), true)
+        projectTree.RemoveFrame(projectTree.GetSelectedFrame());
         UpdateFields(null)
     }
+
+    static DuplicateSelectedImage(){try{
+        let selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
+        selected.GetParent().image.Select() //Appends to Parent
+
+        let frameBuilder =  new FrameBuilder()
+        frameBuilder.type = selected.type;
+        frameBuilder.texture = selected.image.element.src
+
+        let newFrame = frameBuilder.Run();
+        Object.keys(newFrame.image).forEach( prop => {
+            if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+        })
+
+        newFrame.SetName(selected.GetName()+'Copy')
+        newFrame.image.SetLeftX(selected.image.LeftX+0.03)
+        newFrame.image.SetBotY(selected.image.BotY-0.03)
+        
+
+        newFrame.image.Select()
+        UpdateFields(newFrame.image)
+        GUIEvents.RefreshElements()
+        
+        debug('Duplicated.')
+    }catch(e){alert(e)}}
 
     static PanelOpenClose() {
         let panel = document.getElementById("panelParameters")
@@ -63,5 +87,30 @@ export class GUIEvents {
             panel.style.visibility = "visible"
         }
     }
+
+    static RefreshElements() {
+        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+          if(el.type == 0) { //base
+            continue;
+          }
+          
+          const image = el.image.element
+          const rect = workspaceImage.getBoundingClientRect() 
+          const workspace = Editor.GetDocumentEditor().workspaceImage
+          const horizontalMargin = 240/1920*rect.width
+      
+          const x = el.image.LeftX
+          const y = el.image.BotY
+          const w = el.image.width
+          const h = el.image.height
+      
+          image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+          image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
+      
+          image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
+      
+        }
+      }
 
 }

@@ -40,8 +40,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
     }
 
     public AppendToSelected(newFrame : FrameBuilder){
-        if (this.selectedFrame == null) this.rootFrame.Append(new FrameComponent(newFrame));
-        else this.selectedFrame.Append(new FrameComponent(newFrame));
+        const frame = new FrameComponent(newFrame)
+        if (this.selectedFrame == null) this.rootFrame.Append(frame);
+        else this.selectedFrame.Append(frame);
+
+        return frame
     }
 
     public RemoveFrame(frameComponent : FrameComponent){

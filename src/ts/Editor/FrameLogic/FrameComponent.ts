@@ -25,7 +25,7 @@ export class FrameComponent{
 
     public type : FrameType;
 
-    public constructor(frameBuildOptions : FrameBuilder){
+    public constructor(frameBuildOptions : FrameBuilder){try{
         
         let ul : HTMLElement = document.createElement('ul');
         let li : HTMLElement = document.createElement('li');
@@ -42,7 +42,7 @@ export class FrameComponent{
         (ul as any).frameComponent = this;
 
         FrameComponent.nameNumber++;
-    }
+    }catch(e){alert('FrameComp Const: '+e)}}
 
     public Append(childFrame : FrameComponent){
 

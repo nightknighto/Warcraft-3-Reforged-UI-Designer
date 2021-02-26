@@ -18,7 +18,7 @@ export class FrameBuilder implements ICallableDivInstance{
 
     public Run(){
         
-        Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
+        return Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
 
     }
 
