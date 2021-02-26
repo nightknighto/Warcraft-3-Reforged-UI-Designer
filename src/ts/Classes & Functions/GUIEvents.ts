@@ -1,9 +1,10 @@
-import { debugGameCoordinates, workspaceImage } from '../Constants/Elements'
+import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements'
 import { Editor } from '../Editor/Editor'
+import { UpdateFields } from './UpdateFields'
+import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
+import { debug } from '../Classes & Functions/Mini-Functions'
+import { ProjectTree } from '../Editor/ProjectTree'
 
-const panelDefaultSize = document.getElementById("panelParameters").style.width
-const panelDefaultminSize = document.getElementById("panelParameters").style.minWidth
-const TreeDefaultSize = document.getElementById("panelTree").style.width
 
 export class GUIEvents {
 
@@ -30,23 +31,48 @@ export class GUIEvents {
         let projectTree = Editor.GetDocumentEditor().projectTree;
 
         projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-
+        UpdateFields(null)
     }
+
+    static DuplicateSelectedImage(){try{
+        let selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
+        selected.GetParent().image.Select() //Appends to Parent
+
+        let frameBuilder =  new FrameBuilder()
+        frameBuilder.type = selected.type;
+        frameBuilder.texture = selected.image.element.src
+
+        let newFrame = frameBuilder.Run();
+        Object.keys(newFrame.image).forEach( prop => {
+            if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+        })
+
+        newFrame.SetName(selected.GetName()+'Copy')
+        newFrame.image.SetLeftX(selected.image.LeftX+0.03)
+        newFrame.image.SetBotY(selected.image.BotY-0.03)
+        
+
+        newFrame.image.Select()
+        UpdateFields(newFrame.image)
+        GUIEvents.RefreshElements()
+        
+        debug('Duplicated.')
+    }catch(e){alert(e)}}
 
     static PanelOpenClose() {
         let panel = document.getElementById("panelParameters")
-        let table = document.getElementById("tableParameters")
-        if(panel.style.width == panelDefaultSize) {
-            panel.style.minWidth = "0";
-            panel.style.width = "0";
-            table.style.display = "none"
+        if(panel.style.visibility == "visible") {
+            // panel.style.minWidth = "0";
+            // panel.style.width = "0";
+            panel.style.visibility = "hidden"
+            panelButton.style.visibility = "visible"
             document.getElementById("img").style.display = "none"
             document.getElementById("imgBUTTON").style.display = "none"
 
         } else {
-            panel.style.minWidth = panelDefaultminSize;
-            panel.style.width = panelDefaultSize;
-            table.style.display = "initial"
+            // panel.style.minWidth = panelDefaultminSize;
+            // panel.style.width = panelDefaultSize;
+            panel.style.visibility = "visible"
             document.getElementById("img").style.display = "initial"
             document.getElementById("imgBUTTON").style.display = "initial"
         }
@@ -54,11 +80,37 @@ export class GUIEvents {
     
     static TreeOpenClose() {
         let panel = document.getElementById("panelTree")
-        if(panel.style.width == TreeDefaultSize) {
-            panel.style.width = "0";
+        if(panel.style.visibility == "visible") {
+            panel.style.visibility = "hidden"
+            treeButton.style.visibility = "visible"
         } else {
-            panel.style.width = TreeDefaultSize;
+            panel.style.visibility = "visible"
         }
     }
+
+    static RefreshElements() {
+        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+          if(el.type == 0) { //base
+            continue;
+          }
+          
+          const image = el.image.element
+          const rect = workspaceImage.getBoundingClientRect() 
+          const workspace = Editor.GetDocumentEditor().workspaceImage
+          const horizontalMargin = 240/1920*rect.width
+      
+          const x = el.image.LeftX
+          const y = el.image.BotY
+          const w = el.image.width
+          const h = el.image.height
+      
+          image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+          image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
+      
+          image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
+      
+        }
+      }
 
 }

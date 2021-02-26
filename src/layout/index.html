@@ -5,8 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Warcraft 3 UI Maker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
     <link rel="stylesheet" href="position.css">
     <link rel="stylesheet" href="./styles/highlight.css">
+    
 </head>
 
 <body>
@@ -15,16 +18,16 @@
 
         <div id="workspaceContainer">
 
-            <img id="workspace" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
+            <img id="workspace" class="row justify-content-center" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
 
         </div>
 
-        <div id="barTitle">
+        <div id="barTitle" style='color: rgb(243, 46, 11);'>
 
             <div id="appInfo">
 
                 <img id="appIcon" src="" alt="icon">
-                <span id="appTitle">Warcraft 3 UI Maker</span>
+                <span id="appTitle">Warcraft 3 UI Makersssss</span>
 
             </div>
 
@@ -38,7 +41,7 @@
 
         </div>
 
-        <div id="barTab">
+        <div id="barTab" style='color: rgb(248,224,197);'>
 
             <div class="tab">File</div>
             <div class="tab">Edit</div>
@@ -48,7 +51,7 @@
 
         </div>
 
-        <div id="barRibbon">
+        <div id="barRibbon" style='color: rgb(248,224,197);'>
 
             <div class="ribbonOption">New</div>
             <div class="ribbonOption">Open</div>
@@ -58,119 +61,121 @@
         </div>
 
         <div id="panelParameters">
-            <button id='panelClose'>Panel</button>
+            <div class='row justify-content-start'>
+                <button class='col-4 btn btn-warning' id='panelClose'>Panel</button>
+            </div>
+            <label for="elementCoordinates"><b>Details</b></label>
+            <div class="form-floating mb-1">
+                <input type="text" class="form-control" id="elementName" placeholder="name">
+                <label for="elementName">Name</label> 
+            </div>
 
-            <table id="tableParameters">
+            <label for="elementType" class="col-4">Type: </label>
+            <select name="elementType" id="elementType">
+                <option value="1">Backdrop</option>
+                <option value="2">Button</option>
+            </select>
 
-                <tr>
-                    <th>Element</th>
-                    <th>Value</th>
-                </tr>
+            <label for="elementParent" class="col-4">Parent: </label>
+            <select name="elementParent" id="elementParent" class="parameter">
+                <option value="parentTest1">Parent1</option>
+                <option value="parentTest1">Parent2</option>
+                <option value="parentTest1">Parent3</option>
+            </select>
+                <hr>
 
-                <tr>
+            <label for="elementCoordinates"><b>Coordinates (bottom left)</b></label>
 
-                    <td><label for="elementName">Name: </label></td>
-                    <td><input type="text" name="elementName" id="elementName" class="parameter"></td>
+            <div class='row gx-1 justify-content-evenly'>
+                <div class="col-6 form-floating mb-1 ">
+                    <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateX" id="elementCoordinateX" class="form-control" placeholder="name">
+                    <label for="elementCoordinateX">X</label>
+                </div>
+                <div class="col form-floating mb-2">
+                    <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateY" id="elementCoordinateY" class="form-control" placeholder="name">
+                    <label for="elementCoordinateY">Y</label>
+                </div>
+            </div>
+
+
+            <div class="form-floating mb-1">
+                <input type="number" min="0" max="0.8" step="0.01" name="elementWidth" id="elementWidth" class="form-control" placeholder="name">
+                <label for="elementWidth">Width</label>
+            </div>
+
+        
+
+        
+            <div class="form-floating mb-3">
+                <input type="number" min="0" max="0.8" step="0.01" name="elementHeight" id="elementHeight" class="form-control" placeholder="name">
+                <label for="elementHeight">Height: </label>
+            </div>
+
+            
+            <hr>
+                
+
+            <label for=""><b>Texture Paths</b></label>
+            <div class='row gx-1'>
+                <div class="col-9 form-floating mb-1">
+                    <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
+                    <label for="elementDiskTexture">Texture Path</label>
+                </div>
+
+                <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
+                <input type="file" style="display:none" id="buttonBrowseTexture">
+            </div>
                     
 
-                </tr>
+            <div class="form-floating mb-3">
+                <input type="text" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
+                <label for="elementWC3Texture">Texture Path (WE)</label>
+            </div>
 
-                <tr>
-                    <td><label for="elementType">Type: </label></td>
-                    <td>
-                        <select name="elementType" id="elementType" class="parameter">
-                            
-                            <option value="typeTest1">Test1</option>
-                            <option value="typeTest2">Test2</option>
-                            <option value="typeTest3">Test3</option>
-
-                        </select>
-                    </td>
-
-                </tr>
-
-                <tr>
-                    <td><label for="elementParent">Parent: </label></td>
-                    <td>
-                        <select name="elementParent" id="elementParent" class="parameter">
-
-                            <option value="parentTest1">Parent1</option>
-                            <option value="parentTest1">Parent2</option>
-                            <option value="parentTest1">Parent3</option>
+            <hr>
 
 
-                        </select>
-                        
-                    </td>
-                </tr>
+            <label for=""><b>Functionality</b></label>
+            <div class="form-floating mb-1">
+                <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
+                <label for="elementText">Text</label>
+            </div>
 
-                <tr>
-                    <td><label for="elementWidth">Width: </label></td>
-                    <td><input type="number" name="elementWidth" id="elementWidth" class="parameter"></td>
-                </tr>
+        
 
-                <tr>
-                    <td><label for="elementHeight">Height: </label></td>
-                    <td><input type="number" name="elementHeight" id="elementHeight" class="parameter"></td>
-                </tr>
-
-                <tr>
-                    <td><label for="elementCoordinates">Coordinates<br>(bottom left): </label></td>
-                    <td><input type="text" name="elementCoordinates" id="elementCoordinates" class="parameter"></td>
-                </tr>
-
-                <tr>
-
-                    <td><label for="elementCoordinateX">├ X:</label></td>
-                    <td><input type="text" name="elementCoordinateX" id="elementCoordinateX" class="parameter"></td>
-
-                </tr>
-
-                <tr>
-
-                    <td><label for="elementCoordinateY">└ Y:</label></td>
-                    <td><input type="text" name="elementCoordinateY" id="elementCoordinateY" class="parameter"></td>
-
-                </tr>
-
-                <tr>
-                    <td><label>Texture: </label></td>
-                    <td class="browseOption">
-
-                        <input type="text" id="elementTexture" class="parameter">
-                        <button id="buttonBrowseTexture">...</button>
-
-                    </td>
-
-                </tr>
-
-                <tr>
-                    <form id="formIMG">
-                        <!--<label for="img">Select image:</label>-->
-                        <input type="file" id="imgFile" name="imgFile" accept="image/*">
-                        <input type="submit" id="imgBUTTON">
-                    </form>
-                </tr>
-
-            </table>
+            <div class="form-floating mb-3">
+                <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
+                <label for="elementTrigVar">Triggered Variable</label>
+            </div>
+        
+            <hr>
+        
+            <label for=""><b>Custom Texture</b></label>
+            <form id="formIMG" >
+                <!--<label for="img">Select image:</label>-->
+                <input type="file" id="imgFile" name="imgFile" accept="image/*">
+                <input type="submit" id="imgBUTTON">
+            </form>
+                
 
         </div>
 
         <div id="panelTree">
-            <button id='treeClose'>Tree</button>
+            <div class='row justify-content-end'>
+                <button class='col-3 btn btn-warning' id='treeClose'>Tree</button>
+            </div>
             <div id="panelTreeView"></div>
 
         </div>
 
-        <div id="panelDebug">
+        <div id="panelDebug" style='color: rgb(248,224,197);'>
 
-            <div id='debugLine'>Debug Line for this unlimited UI reforging the reforged editor. Life too good to be true man</div>
-            <div id='debugGameCoordinates'>Game: (x , y)</div>
+            <b><div id='debugLine'>Debug Line for this unlimited UI reforging the reforged editor. Life too good to be true man</div></b>
+            <div id='debugGameCoordinates' style="color: black;">Game: (x , y)</div>
         </div>
 
-    </div>
-
     <script type="module" src="renderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 </body>
 

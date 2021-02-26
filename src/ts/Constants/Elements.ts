@@ -22,8 +22,11 @@ export const inputElementHeight         = document.getElementById('elementHeight
 export const inputElementCoordinates    = document.getElementById('elementCoordinates') as HTMLInputElement;
 export const inputElementCoordinateX    = document.getElementById('elementCoordinateX') as HTMLInputElement;
 export const inputElementCoordinateY    = document.getElementById('elementCoordinateY') as HTMLInputElement;
-export const inputElementTexture        = document.getElementById('elementTexture') as HTMLInputElement;
+export const inputElementDiskTexture        = document.getElementById('elementDiskTexture') as HTMLInputElement;
 export const buttonElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
+export const inputElementWC3Texture        = document.getElementById('elementWC3Texture') as HTMLInputElement;
+export const inputElementText               = document.getElementById('elementText') as HTMLInputElement;
+export const inputElementTrigVar       = document.getElementById('elementTrigVar') as HTMLInputElement;
 
 export const treeButton                 = document.getElementById('treeClose') as HTMLButtonElement;
 //Workspace

@@ -1,7 +1,7 @@
 export enum FrameType{
     ORIGIN = 0,
-    BUTTON = 1,
-    BACKDROP = 2,
+    BACKDROP = 1,
+    BUTTON = 2,
     SCRIPT_DIALOG_BUTTON = 3,
     BROWSER_BUTTON = 4,
     CHECKLIST_BOX = 5,

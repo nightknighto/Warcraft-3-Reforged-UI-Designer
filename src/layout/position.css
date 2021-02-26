@@ -59,6 +59,7 @@ body{
     width: 100vw;
 
     display: flex;
+    overflow-x: auto;
 }
 
 #barRibbon .ribbonOption{
@@ -78,12 +79,17 @@ body{
     max-width: 200px;
     min-width: 80px;
     left:0;
+    
+    overflow-y: auto;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
 }
 
 #panelClose{
     position: relative;
     width: fit-content;
     height: fit-content;
+    visibility: visible;
 }
 
 #tableParameters{
@@ -129,6 +135,8 @@ body{
     position: relative;
     height: 100%;
     width:auto;
+    margin: auto;
+    
 }
 
 #panelTree{
@@ -137,14 +145,19 @@ body{
 
     right: 0;
     top:120px;
-    bottom:0px
+    bottom:0px;
+    overflow-x: auto;
+    overflow-y: auto;
+
+    padding-right: 0.5%;
+    
 }
 
 #treeClose{
-    position: relative;
     right: 100%;
     width: fit-content;
     height: fit-content;
+    visibility: visible;
 }
 
 #panelDebug{
@@ -156,10 +169,10 @@ body{
     left: 0;
     right: 0;
     margin: auto;
+
+    padding: 10px;
 }
 
 #panelDebug #debugLine{
-
-    padding: 10px;
-
+    padding-bottom: 14px;
 }

@@ -8,6 +8,7 @@
 // needed in the renderer process.
 
 import { ipcRenderer } from "electron";
+import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
@@ -19,6 +20,7 @@ import { ParameterEditor } from "./Editor/ParameterEditor";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
+ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage);
 
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
@@ -28,22 +30,10 @@ let editor = new Editor(document);
 //# sourceMappingURL=renderer.js.map
 
 //required:
-//something visible on the selected image to know that it is selected
-//a field for the variable that will have its value changed when frame event occurs
 //duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
 const input = document.getElementById('imgFile') as HTMLInputElement
-
-// Set the width of the side navigation to 250px 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "25%";
-  }
-
-  // Set the width of the side navigation to 0 
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-} 
 
 Element.formIMG.addEventListener("submit", e => {
   e.preventDefault()
@@ -56,3 +46,14 @@ Element.formIMG.addEventListener("submit", e => {
 })
 
 new ParameterEditor()
+
+window.onresize = GUIEvents.RefreshElements;
+
+
+
+new Titlebar({
+  backgroundColor: new Color( new RGBA(69,49,26,255)),
+  icon: "./files/images/backgroundWorkspace.png",
+  menu: null,
+
+})
