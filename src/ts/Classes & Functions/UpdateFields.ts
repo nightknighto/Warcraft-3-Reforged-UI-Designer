@@ -2,14 +2,13 @@ import * as Element from "../Constants/Elements";
 import { InputEdit } from "./Mini-Functions";
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { Editor } from "../Editor/Editor";
-import { FrameComponent } from "../Editor/FrameLogic/FrameComponent";
 const ParentOptions: HTMLOptionElement[] = []
 /**
  * 
  * @param focusIMG : CustomImage
  * 
 if null, then remove values and disable fields  */
-export function UpdateFields(focusIMG: CustomImage) { try{
+export function UpdateFields(focusIMG: CustomImage) : void { try{
     const horizontalMargin = 240/1920*Element.workspaceImage.width
 
     if(focusIMG) {        
@@ -41,6 +40,8 @@ export function UpdateFields(focusIMG: CustomImage) { try{
 
         const optionArray = Element.selectElementParent.options
 
+        console.log("Note to self: this 'delay' thinggy has to be fixed eventually");
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             if(optionArray[0]) {
                 optionArray[0].remove()

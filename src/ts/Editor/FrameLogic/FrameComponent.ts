@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
@@ -17,7 +18,7 @@ export class FrameComponent{
         return this.name;
     }
 
-    public SetName(newName : string){
+    public SetName(newName : string) : void{
         this.name = newName;
         (this.treeElement.firstChild as HTMLElement).innerText = newName;
         if(this.ParentOption) this.ParentOption.text = newName;
@@ -27,8 +28,8 @@ export class FrameComponent{
 
     public constructor(frameBuildOptions : FrameBuilder){try{
         
-        let ul : HTMLElement = document.createElement('ul');
-        let li : HTMLElement = document.createElement('li');
+        const ul : HTMLElement = document.createElement('ul');
+        const li : HTMLElement = document.createElement('li');
         
         li.innerText = frameBuildOptions.name+FrameComponent.nameNumber;
         ul.append(li);
@@ -39,12 +40,13 @@ export class FrameComponent{
         this.children = [];
         this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
         
+        console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
         (ul as any).frameComponent = this;
 
         FrameComponent.nameNumber++;
     }catch(e){alert('FrameComp Const: '+e)}}
 
-    public Append(childFrame : FrameComponent){
+    public Append(childFrame : FrameComponent) : void{
 
         this.children.push(childFrame);
         this.treeElement.append(childFrame.treeElement);
@@ -53,15 +55,15 @@ export class FrameComponent{
 
     /**If deleing = true, deletes the element. 
      * If false, then just removes from children, used to migrate to another parent */
-    public RemoveChild(childFrame : FrameComponent, deleting : boolean){
+    public RemoveChild(childFrame : FrameComponent, deleting : boolean) : void{
 
-        let index = this.children.indexOf(childFrame);
+        const index = this.children.indexOf(childFrame);
         if(deleting) {
             childFrame.exist = false;
 
             if(index == -1){
 
-                for(let child of this.children){
+                for(const child of this.children){
 
                     child.RemoveChild(childFrame, true);
 
@@ -79,9 +81,9 @@ export class FrameComponent{
         
     }
 
-    public RemoveAll(){
+    public RemoveAll() : void{
 
-        for(let child of this.children){
+        for(const child of this.children){
             child.RemoveAll();
             child.treeElement.remove();
             child.exist = false;
@@ -94,6 +96,7 @@ export class FrameComponent{
 
     public static GetFrameComponent(ProjectTreeElement : HTMLElement) : FrameComponent{
 
+        console.log("'As any' fetching of frameComponents from HTMLElements");
         return (ProjectTreeElement as any).frameComponent;
 
     }

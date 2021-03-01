@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen} from "electron";
+import { app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './Editor/Menus/contextMenu';
@@ -27,7 +27,7 @@ function initialize() {
 function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
   // Create the browser window.
 
-  let browserWindow = new BrowserWindow({
+  const browserWindow = new BrowserWindow({
     height: windowHeight,
     width: windowWidth,
     minWidth: minWindowWidth,

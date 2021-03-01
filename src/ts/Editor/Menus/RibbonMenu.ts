@@ -14,13 +14,13 @@ export class RibbonMenu implements ICallableDivInstance{
 
     }
 
-    public AddRibbonOption(option : RibbonOption){
+    public AddRibbonOption(option : RibbonOption) : void{
 
         this.ribbonOptions.push(option);
 
     }
 
-    public Run(){
+    public Run() : void{
 
         //Remove everything from div.
         for (let i = this.ribbonBar.children.length - 1; i >= 0; i--) {
@@ -30,7 +30,7 @@ export class RibbonMenu implements ICallableDivInstance{
         }
 
         //Fill it back up
-        for (let option of this.ribbonOptions) {
+        for (const option of this.ribbonOptions) {
 
             this.ribbonBar.append(option.CreateHTMLElement());
 
@@ -39,7 +39,7 @@ export class RibbonMenu implements ICallableDivInstance{
 
     public CreateHTMLElement() : HTMLElement{
 
-        let menu = document.createElement('div');
+        const menu = document.createElement('div');
 
         menu.setAttribute('class', 'tab');
         menu.innerText = this.tabName;

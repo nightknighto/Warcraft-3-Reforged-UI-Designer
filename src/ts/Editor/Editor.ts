@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Export } from "../Classes & Functions/Export";
 import { remote } from 'electron';
 import { FrameBuilder } from "./FrameLogic/FrameBuilder";
@@ -37,13 +38,13 @@ export class Editor{
 
     private initializeMenus() : TabsMenu{
 
-        let tabsMenu = new TabsMenu();
+        const tabsMenu = new TabsMenu();
 
-        let fileMenu = new RibbonMenu('File')
-        let editMenu = new RibbonMenu('Edit');
-        let viewMenu = new RibbonMenu('View');
-        let insertMenu = new RibbonMenu('Insert');
-        let windowMenu = new RibbonMenu('Window');
+        const fileMenu = new RibbonMenu('File')
+        const editMenu = new RibbonMenu('Edit');
+        const viewMenu = new RibbonMenu('View');
+        const insertMenu = new RibbonMenu('Insert');
+        const windowMenu = new RibbonMenu('Window');
 
         tabsMenu.AddTab(fileMenu);
         tabsMenu.AddTab(editMenu);
@@ -116,6 +117,7 @@ export class Editor{
 
     public constructor(document : HTMLDocument){
 
+        console.log("Again, cleaner way than doing 'as any' for editor");
         (document as any).editor        = this;
         
         this.barWindow                  = document.getElementById('barTitle');
@@ -137,7 +139,6 @@ export class Editor{
         this.projectTree                = new ProjectTree();
         this.tabsMenu                   = this.initializeMenus();
 
-        this.barWindow.ondrag           = Editor.DragWindow; //needs implementation
         this.btnCloseWindow.onclick     = Editor.CloseApplication;
         this.btnMaximizeWindow.onclick  = Editor.MaximizeWindow; 
         this.btnMinimizeWindow.onclick  = Editor.MinimizeWindow; 
@@ -146,16 +147,17 @@ export class Editor{
 
     public static GetDocumentEditor() : Editor{
 
+        console.log("Again, cleaner way than doing 'as any' for editor");
         return (document as any).editor;
     }
 
-    static CloseApplication(ev: Event){
+    static CloseApplication() : void{
 
         remote.app.quit();
 
     }
 
-    static MaximizeWindow(ev: Event){
+    static MaximizeWindow() : void{
 
         const window = remote.getCurrentWindow();
         //cannot unmaximize...
@@ -169,16 +171,9 @@ export class Editor{
         }
     }
 
-    static MinimizeWindow(ev: Event){
+    static MinimizeWindow() : void{
 
         remote.getCurrentWindow().minimize();
-
-    }
-
-    static DragWindow(ev: Event){
-
-        const window = remote.getCurrentWindow();
-        //Dragging functionality goes here
 
     }
 }

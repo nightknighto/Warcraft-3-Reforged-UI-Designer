@@ -1,11 +1,10 @@
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
-import { UpdateFields } from "./UpdateFields"
 import { debug, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 
 let horizontalMargin = 240/1920*workspaceImage.width //width changes so this variable is changed
 
-export function ImageFunctions(img: CustomImage) {
+export function ImageFunctions(img: CustomImage) : void{
     img.element.onmousedown = function (e) {
         horizontalMargin = 240/1920*workspaceImage.width //refresh the value
 
@@ -139,7 +138,7 @@ export function ImageFunctions(img: CustomImage) {
                     window.onmousemove = function (e) {
                         posy2 = posy1 - e.clientY;
                         posy1 = e.clientY;
-                        debug(+img.element.style.height);
+                        debug(img.element.style.height);
     
                         if ((img.element.height + posy2) * 0.6 / workspaceImage.height <= 0.02) {
                             img.element.height = 0.02 * workspaceImage.height / 0.6;
@@ -164,7 +163,7 @@ export function ImageFunctions(img: CustomImage) {
                         posy2 = posy1 - e.clientY;
                         posx1 = e.clientX;
                         posy1 = e.clientY;
-                        debug(+img.element.style.height);
+                        debug(img.element.style.height);
     
                         if ((img.element.width + posx2) * 800 / workspaceImage.width <= 20) {
                             img.element.width = 20 * workspaceImage.width / 800;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
 import { UpdateFields } from "../../Classes & Functions/UpdateFields";
 import { debug } from "../../Classes & Functions/Mini-Functions";
@@ -12,58 +13,58 @@ export class CustomImage {
     public readonly element : HTMLImageElement;
 
     private textureDiskPath : string;
-    textureWC3Path : string = 'null.blp';
+    textureWC3Path = 'null.blp';
 
-    text: string = "text"
-    TrigVar: string = "";
+    text = "text"
+    TrigVar = "";
 
     public GetTexture() : string{
         return this.textureDiskPath;
     }
 
-    public SetDiskTexture(newTexturePath : string){
+    public SetDiskTexture(newTexturePath : string) : void{
         this.textureDiskPath = newTexturePath;
         this.element.src = newTexturePath;
     }
 
-    public SetWC3Texture(newTexturePath : string){
+    public SetWC3Texture(newTexturePath : string) : void{
         this.textureWC3Path = newTexturePath;
     }
     
-    public SetText(Text : string){
+    public SetText(Text : string) : void{
         this.text = Text;
     }
 
-    public SetTrigVar(VarName: string) {
+    public SetTrigVar(VarName: string) : void{
         this.TrigVar = VarName
     }
 
     width : number;
 
-    public SetWidth(newWidth : number){
+    public SetWidth(newWidth : number) : void{
         this.width = newWidth;
     }
 
     height : number;
 
-    public SetHeight(newHeight : number){
+    public SetHeight(newHeight : number) : void{
         this.height = newHeight
     }
 
     LeftX : number;
 
-    public SetLeftX(newX : number){
+    public SetLeftX(newX : number) : void{
         this.LeftX = newX;
     }
 
     BotY : number;
 
-    public SetBotY(newY : number){
+    public SetBotY(newY : number) : void{
         this.BotY = newY;
     }
 
-    public Select(){
-        let selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
+    public Select() : void{
+        const selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
 
         if(selectedFrame)
             selectedFrame.image.element.style.outlineColor = 'green';
@@ -95,6 +96,7 @@ export class CustomImage {
         workspace.appendChild(this.element);
         ImageFunctions(this);
 
+        console.log("There has to be a better way of doing this below.");
         (this.element as any).customImage = this;
 
         //step 1: event sent to main.ts to display the menu.
@@ -107,7 +109,7 @@ export class CustomImage {
 
     }catch(e){alert(e)}}
 
-    Delete() {
+    Delete() : void{
 
         this.element.remove()
         Editor.GetDocumentEditor().projectTree.Select(null);
@@ -116,6 +118,7 @@ export class CustomImage {
     }
 
     public static GetCustomImageFromHTMLImageElement(imageElement : HTMLImageElement) : CustomImage{
+        console.log("Fetching custom images from HTMLImageElement, 'as any' problem.");
         return (imageElement as any).customImage;
     }
 

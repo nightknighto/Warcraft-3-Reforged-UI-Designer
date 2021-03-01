@@ -6,7 +6,7 @@ export class TabsMenu {
 
     public constructor() {
 
-        this.barTab = document.getElementById('barTab');;
+        this.barTab = document.getElementById('barTab');
         this.tabs = [];
 
         for (let i = this.barTab.children.length - 1; i >= 0; i--) 
@@ -16,7 +16,7 @@ export class TabsMenu {
 
     private tabs: RibbonMenu[];
 
-    public AddTab(newTabMenu: RibbonMenu) {
+    public AddTab(newTabMenu: RibbonMenu) : void{
 
         this.tabs.push(newTabMenu);
         this.barTab.append(newTabMenu.CreateHTMLElement());

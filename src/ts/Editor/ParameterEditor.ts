@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
 import { workspaceImage } from '../Constants/Elements';
@@ -70,7 +69,7 @@ export class ParameterEditor{
     /** checks whether value is smaller than 0.2. True if smaller. */
     private static CheckInputValue(value : number) : boolean{
 
-        let result = value < 0.02;
+        const result = value < 0.02;
         if(result){
 
             debug("Minimum Value is 0.02.");
@@ -80,12 +79,12 @@ export class ParameterEditor{
 
     }
 
-    static InputWidth(ev: Event) {
+    static InputWidth(ev: Event) : void {
 
-        let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-        let workspace = Editor.GetDocumentEditor().workspaceImage
-        let rect = workspaceImage.getBoundingClientRect()
+        const inputElement = ev.target as HTMLInputElement;
+        const focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const rect = workspaceImage.getBoundingClientRect()
         const horizontalMargin = 240/1920*rect.width
 
         if(+inputElement.value > 0.8) {
@@ -110,12 +109,12 @@ export class ParameterEditor{
 
     }
 
-    static InputHeight(ev: Event) {try{
+    static InputHeight(ev: Event) : void{try{
 
-        let inputElement = ev.target as HTMLInputElement;
-        let focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-        let workspace = Editor.GetDocumentEditor().workspaceImage
-        let rect = workspaceImage.getBoundingClientRect()
+        const inputElement = ev.target as HTMLInputElement;
+        const focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const rect = workspaceImage.getBoundingClientRect()
 
         if(+inputElement.value > 0.6) {
             debug("Input refused. Height is limited to 0 and 0.6.")
@@ -140,10 +139,10 @@ export class ParameterEditor{
         }
 
 
-    }catch(e) {alert(e)};}
+    }catch(e) {alert(e)}}
 
-    private static format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/; 
-    static InputName(ev: Event){
+    private static format = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/; 
+    static InputName(ev: Event) : void{
 
         const inputElement = ev.target as HTMLInputElement;
         const text = inputElement.value;
@@ -162,18 +161,18 @@ export class ParameterEditor{
 
     }
 
-    static ChangeName(ev: Event){ try{
+    static ChangeName(ev: Event) : void{ try{
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().SetName(inputElement.value);
         debug('Name changed to "' + inputElement.value+'"');
 
     }catch(e){alert(e)}}
 
-    static ChangeType(ev: Event){
+    static ChangeType(ev: Event) : void{
 
-        let selectElement = ev.target as HTMLSelectElement;
+        const selectElement = ev.target as HTMLSelectElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type = +selectElement.selectedOptions[0].value;
 
@@ -183,10 +182,10 @@ export class ParameterEditor{
         debug('Type changed to ' + typeText);
     }
     
-    static ChangeParent(ev: Event){try{
+    static ChangeParent(ev: Event) : void{try{
 
-        let selectElement = ev.target as HTMLSelectElement;
-        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
+        const selectElement = ev.target as HTMLSelectElement;
+        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
 
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
             if(!el.ParentOption) continue;
@@ -204,10 +203,10 @@ export class ParameterEditor{
 
     }catch(e){alert(e)}}
 
-    static InputCoordinateX(ev: Event){
+    static InputCoordinateX(ev: Event) : void{
         const loc = (ev.target as HTMLInputElement).value;
-        let rect = workspaceImage.getBoundingClientRect()
-        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
+        const rect = workspaceImage.getBoundingClientRect()
+        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
         const horizontalMargin = 240/1920*rect.width
 
         if(+loc > 0.8) {
@@ -226,11 +225,11 @@ export class ParameterEditor{
 
     }
 
-    static InputCoordinateY(ev: Event){ try{
+    static InputCoordinateY(ev: Event) : void{ try{
 
         const loc = (ev.target as HTMLInputElement).value;
-        let rect = workspaceImage.getBoundingClientRect()
-        let image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
+        const rect = workspaceImage.getBoundingClientRect()
+        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
 
         if(+loc > 0.6) {
             debug("Input refused. Y coordinate is limited to 0 and 0.6.")
@@ -248,18 +247,18 @@ export class ParameterEditor{
 
     }catch(e){alert(e)}}
 
-    static TextInputDiskTexture(ev: Event){
+    static TextInputDiskTexture(ev: Event) : void{
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(inputElement.value);
         debug('Disk Texture changed.');
 
     }
 
-    static ButtonInputDiskTexture(ev: Event){
-        let inputElement = ev.target as HTMLInputElement;
-        let path = URL.createObjectURL(inputElement.files[0])
+    static ButtonInputDiskTexture(ev: Event) : void{
+        const inputElement = ev.target as HTMLInputElement;
+        const path = URL.createObjectURL(inputElement.files[0])
         
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(path);
@@ -268,27 +267,27 @@ export class ParameterEditor{
         debug("Disk Texture changed. However, the app can't know the path of this texture.")
     }
     
-    static InputWC3Texture(ev: Event){
+    static InputWC3Texture(ev: Event) : void{
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetWC3Texture(inputElement.value);
         debug('WC3 Texture changed.');
 
     }
         
-    static InputText(ev: Event){
+    static InputText(ev: Event) : void{
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetText(inputElement.value);
         debug("Text changed.");
 
     }
             
-    static InputTrigVar(ev: Event){
+    static InputTrigVar(ev: Event) : void{
 
-        let inputElement = ev.target as HTMLInputElement;
+        const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetTrigVar(inputElement.value);
         debug("Triggered Variable changed.");

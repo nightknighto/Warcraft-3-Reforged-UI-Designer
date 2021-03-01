@@ -14,7 +14,7 @@ export class RibbonOption{
 
     public CreateHTMLElement() : HTMLElement{
 
-        let div = document.createElement('div');
+        const div = document.createElement('div');
 
         div.setAttribute('class', 'ribbonOption');
         div.innerText = this.name;

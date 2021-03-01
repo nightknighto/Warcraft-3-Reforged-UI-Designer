@@ -13,8 +13,6 @@ import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
-import { CustomImage } from "./Editor/FrameLogic/CustomImage";
-import { ImageFunctions } from "./Classes & Functions/ImageFunctions";
 import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
 import { ParameterEditor } from "./Editor/ParameterEditor";
 
@@ -25,7 +23,7 @@ ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage);
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
-let editor = new Editor(document);
+const editor = new Editor(document);
 
 //# sourceMappingURL=renderer.js.map
 

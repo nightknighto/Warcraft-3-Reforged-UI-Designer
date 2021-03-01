@@ -1,8 +1,6 @@
 import { Queue } from 'queue-typescript';
 import { CustomImage } from './FrameLogic/CustomImage';
 import { FrameComponent } from './FrameLogic/FrameComponent';
-import { UpdateFields } from '../Classes & Functions/UpdateFields';
-import { ImageFunctions } from '../Classes & Functions/ImageFunctions';
 import { FrameBuilder } from './FrameLogic/FrameBuilder';
 import { FrameType } from './FrameLogic/FrameType';
 
@@ -14,7 +12,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
 
     public constructor(){
 
-        let originBuilder : FrameBuilder = new FrameBuilder();
+        const originBuilder : FrameBuilder = new FrameBuilder();
 
         originBuilder.name = 'Origin';
         originBuilder.type = FrameType.ORIGIN;
@@ -39,7 +37,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
 
     }
 
-    public AppendToSelected(newFrame : FrameBuilder){
+    public AppendToSelected(newFrame : FrameBuilder) : FrameComponent{
         const frame = new FrameComponent(newFrame)
         if (this.selectedFrame == null) this.rootFrame.Append(frame);
         else this.selectedFrame.Append(frame);
@@ -47,7 +45,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         return frame
     }
 
-    public RemoveFrame(frameComponent : FrameComponent){
+    public RemoveFrame(frameComponent : FrameComponent) : void{
         this.rootFrame.RemoveChild(frameComponent, true);
     }
 
@@ -55,7 +53,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         return this.selectedFrame;
     }
 
-    public Select(frame : FrameComponent | CustomImage | HTMLImageElement | HTMLElement){
+    public Select(frame : FrameComponent | CustomImage | HTMLImageElement | HTMLElement) : void{
 
         if(frame instanceof FrameComponent) this.selectedFrame = frame;
         else if(frame instanceof CustomImage) this.selectedFrame = frame.frameComponent
@@ -73,12 +71,14 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
     public GetIterator() : IterableIterator<FrameComponent>{
 
         this.iteratorQueue = new Queue<FrameComponent>();
-        let tempQueue = new Queue<FrameComponent>();
+        const tempQueue = new Queue<FrameComponent>();
         let currentNode : FrameComponent;
 
         this.iteratorQueue.enqueue(this.rootFrame);
         tempQueue.enqueue(this.rootFrame);
 
+        console.log("A infinite while loop condition.");
+        // eslint-disable-next-line no-constant-condition
         while(1){
 
             currentNode = tempQueue.dequeue();
@@ -99,7 +99,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
     }
 
     public next(): {done: boolean, value : FrameComponent}{
-        var returnValue = this.iteratorQueue.dequeue();
+        const returnValue = this.iteratorQueue.dequeue();
 
         return {done :(returnValue == null)?(true):(false),
                 value: returnValue};

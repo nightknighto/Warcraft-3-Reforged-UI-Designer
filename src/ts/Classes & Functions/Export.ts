@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {workspaceImage} from "../Constants/Elements"
 import {JASS} from '../Templates/Templates'
 import {ICallableDivInstance} from './ICallableDivInstance'
 import {writeFile, appendFile} from 'fs';
@@ -8,7 +7,7 @@ import { Editor } from "../Editor/Editor"
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
-    public Run() {
+    public Run() : void{
         writeFile('experiment.txt', JASS.globals, ()=>{
             appendFile('experiment.txt', TemplateReplace(0), ()=>{
                 appendFile('experiment.txt', JASS.endglobals, ()=>{
@@ -23,7 +22,7 @@ export class Export implements ICallableDivInstance {
 }
 
 /** 0 for globals, 1 for Function Creation*/
-export function TemplateReplace(kind: number) {try{
+export function TemplateReplace(kind: number) : string {try{
     let text: string;
     let sumText = ""
     for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {

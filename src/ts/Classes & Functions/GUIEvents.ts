@@ -3,22 +3,21 @@ import { Editor } from '../Editor/Editor'
 import { UpdateFields } from './UpdateFields'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
 import { debug } from '../Classes & Functions/Mini-Functions'
-import { ProjectTree } from '../Editor/ProjectTree'
 
 
 export class GUIEvents {
 
-    static DisplayGameCoords(ev: MouseEvent) {
+    static DisplayGameCoords(ev: MouseEvent) : void {
         const horizontalMargin = 240/1920*workspaceImage.width
 
         let gameCoordsString: string;
-        let workspaceRect: DOMRect = workspaceImage.getBoundingClientRect();
+        const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect();
 
         if (ev.x >= workspaceRect.left + horizontalMargin && ev.x <= workspaceRect.right - horizontalMargin
             && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {
 
-            let gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
-            let gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
+            const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
+            const gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
             gameCoordsString = `Game X/Y: (${gameX} , ${gameY}). Client X/Y: (${ev.clientX}, ${ev.clientY})`;
             debugGameCoordinates.innerText = gameCoordsString;
 
@@ -27,22 +26,22 @@ export class GUIEvents {
     }
 
 
-    static DeleteSelectedImage(){
-        let projectTree = Editor.GetDocumentEditor().projectTree;
+    static DeleteSelectedImage() : void{
+        const projectTree = Editor.GetDocumentEditor().projectTree;
 
         projectTree.RemoveFrame(projectTree.GetSelectedFrame());
         UpdateFields(null)
     }
 
-    static DuplicateSelectedImage(){try{
-        let selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
+    static DuplicateSelectedImage() : void{try{
+        const selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
         selected.GetParent().image.Select() //Appends to Parent
 
-        let frameBuilder =  new FrameBuilder()
+        const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
         frameBuilder.texture = selected.image.element.src
 
-        let newFrame = frameBuilder.Run();
+        const newFrame = frameBuilder.Run();
         Object.keys(newFrame.image).forEach( prop => {
             if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
         })
@@ -59,8 +58,8 @@ export class GUIEvents {
         debug('Duplicated.')
     }catch(e){alert(e)}}
 
-    static PanelOpenClose() {
-        let panel = document.getElementById("panelParameters")
+    static PanelOpenClose() : void {
+        const panel = document.getElementById("panelParameters")
         if(panel.style.visibility == "visible") {
             // panel.style.minWidth = "0";
             // panel.style.width = "0";
@@ -78,8 +77,8 @@ export class GUIEvents {
         }
     }
     
-    static TreeOpenClose() {
-        let panel = document.getElementById("panelTree")
+    static TreeOpenClose() : void {
+        const panel = document.getElementById("panelTree")
         if(panel.style.visibility == "visible") {
             panel.style.visibility = "hidden"
             treeButton.style.visibility = "visible"
@@ -88,7 +87,7 @@ export class GUIEvents {
         }
     }
 
-    static RefreshElements() {
+    static RefreshElements() : void {
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
           if(el.type == 0) { //base
             continue;

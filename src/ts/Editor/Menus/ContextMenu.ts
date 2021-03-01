@@ -25,7 +25,7 @@ export class ContextMenu{
         this.contextMenu.append(item)
     }
 
-    public showContextMenu(){
+    public showContextMenu() : void{
         this.contextMenu.popup();
     }
 
