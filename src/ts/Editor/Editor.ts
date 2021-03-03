@@ -138,10 +138,6 @@ export class Editor{
 
         this.projectTree                = new ProjectTree();
         this.tabsMenu                   = this.initializeMenus();
-
-        this.btnCloseWindow.onclick     = Editor.CloseApplication;
-        this.btnMaximizeWindow.onclick  = Editor.MaximizeWindow; 
-        this.btnMinimizeWindow.onclick  = Editor.MinimizeWindow; 
         
     }
 

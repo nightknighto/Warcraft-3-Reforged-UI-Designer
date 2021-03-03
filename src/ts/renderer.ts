@@ -25,8 +25,6 @@ Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 const editor = new Editor(document);
 
-//# sourceMappingURL=renderer.js.map
-
 //required:
 //duplicate option for elements
 //undo option
@@ -55,3 +53,5 @@ new Titlebar({
   menu: null,
 
 })
+
+//# sourceMappingURL=renderer.js.map

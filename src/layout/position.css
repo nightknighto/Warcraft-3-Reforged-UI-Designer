@@ -1,4 +1,8 @@
 
+.window-title{
+    color: yellow;
+}
+
 body{
     margin: 0;  
 
@@ -8,28 +12,6 @@ body{
     width: 100vw;
     height: 100vh;
     position: fixed;
-}
-
-#barTitle{
-    position: absolute;
-    top:0;
-    height: 30px;
-    width: 100vw;
-    
-    display:flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-}
-
-#barTitle div{
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 0.3%;
-    margin-right: 0.3%;
-}
-
-#barTitle #appInfo, #barTitle #windowButtons{
-    height:fit-content;
 }
 
 #barTab{
