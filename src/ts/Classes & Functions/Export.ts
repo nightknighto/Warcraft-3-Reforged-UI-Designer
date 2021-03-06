@@ -1,22 +1,62 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {JASS} from '../Templates/Templates'
-import {ICallableDivInstance} from './ICallableDivInstance'
-import {writeFile, appendFile} from 'fs';
+import { JASS } from '../Templates/Templates'
+import { ICallableDivInstance } from './ICallableDivInstance'
+import { writeFile, appendFile } from 'fs';
 import { FrameType } from "../Editor/FrameLogic/FrameType"
 import { Editor } from "../Editor/Editor"
+import { SaveDialogReturnValue, remote } from 'electron';
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
-    public Run() : void{
-        writeFile('experiment.txt', JASS.globals, ()=>{
-            appendFile('experiment.txt', TemplateReplace(0), ()=>{
-                appendFile('experiment.txt', JASS.endglobals, ()=>{
-                    appendFile('experiment.txt', JASS.library, ()=>{
-                        appendFile('experiment.txt', TemplateReplace(1), () => {
-                            appendFile('experiment.txt', JASS.libraryInit, ()=>{
-                                appendFile('experiment.txt', TemplateReplace(2), ()=>{
-                                    appendFile('experiment.txt', JASS.endlibrary, ()=>{
-                                        alert("File Created. Name: Experiment.txt")})})})})})})})})
+
+    public SaveJASS(filepath : string) : void{
+
+        writeFile(filepath, JASS.globals, () => {
+            appendFile(filepath, TemplateReplace(0), () => {
+                appendFile(filepath, JASS.endglobals, () => {
+                    appendFile(filepath, JASS.library, () => {
+                        appendFile(filepath, TemplateReplace(1), () => {
+                            appendFile(filepath, JASS.libraryInit, () => {
+                                appendFile(filepath, TemplateReplace(2), () => {
+                                    appendFile(filepath, JASS.endlibrary, () => {
+                                        alert(`File Created. Path: ${filepath}`);
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+
+    }
+
+    public SaveLUA(filepath : string) : void{
+        alert("Not yet implemented!");
+    }
+
+    public Run(): void {
+
+        const saveParams = remote.dialog.showSaveDialog({filters: [
+            {name: 'JASS file', extensions: ['j']},
+            {name: 'LUA file', extensions: ['lua']},
+            {name: 'Typescript file', extensions: ['ts']}
+        ] ,properties: [ 'createDirectory'] });
+
+        saveParams.then((saveData : SaveDialogReturnValue) => {
+            
+            const filepathsections = saveData.filePath.split('.');
+            const fileExtension = filepathsections[filepathsections.length - 1];
+
+            if(saveData.canceled) return;
+
+            switch(fileExtension){
+                case 'j': this.SaveJASS(saveData.filePath); break;
+                case 'lua': this.SaveLUA(saveData.filePath); break;
+                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+            }
+
+        });
 
     }
 }
