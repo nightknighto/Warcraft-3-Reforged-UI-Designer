@@ -49,7 +49,7 @@ window.onresize = GUIEvents.RefreshElements;
 
 new Titlebar({
   backgroundColor: new Color( new RGBA(69,49,26,255)),
-  icon: "./files/images/backgroundWorkspace.png",
+  icon: "./files/icon.png",
   menu: null,
 
 })
