@@ -11,7 +11,7 @@ export class FrameBuilder implements ICallableDivInstance{
     public y = 0.250;
     public name = 'Frame';
     public type : FrameType = FrameType.BACKDROP;
-    public texture = "null.png";
+    public texture = "";
     
     public constructor(){ return this; }
 

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Export } from "../Classes & Functions/Export";
-import { remote } from 'electron';
 import { FrameBuilder } from "./FrameLogic/FrameBuilder";
 import { FrameType } from "./FrameLogic/FrameType";
 import { RibbonMenu } from "./Menus/RibbonMenu";
@@ -10,12 +9,6 @@ import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
 
 export class Editor{
-
-    //Window Bar elements   
-    public readonly barWindow                   : HTMLElement;
-    public readonly btnMinimizeWindow           : HTMLImageElement;
-    public readonly btnMaximizeWindow           : HTMLImageElement;
-    public readonly btnCloseWindow              : HTMLImageElement;
 
     //Application bars      
     public readonly panelDebug                  : HTMLElement;
@@ -120,11 +113,6 @@ export class Editor{
         console.log("Again, cleaner way than doing 'as any' for editor");
         (document as any).editor        = this;
         
-        this.barWindow                  = document.getElementById('barTitle');
-        this.btnMinimizeWindow          = document.getElementById('btnMinimizeWindow') as HTMLImageElement;
-        this.btnMaximizeWindow          = document.getElementById('btnMaximizeWindow') as HTMLImageElement;
-        this.btnCloseWindow             = document.getElementById('btnCloseWindow') as HTMLImageElement;
-        
         this.panelDebug                 = document.getElementById('panelDebug');
 
         this.btnCloseTreePanel          = document.getElementById('treeClose') as HTMLButtonElement;
@@ -145,31 +133,5 @@ export class Editor{
 
         console.log("Again, cleaner way than doing 'as any' for editor");
         return (document as any).editor;
-    }
-
-    static CloseApplication() : void{
-
-        remote.app.quit();
-
-    }
-
-    static MaximizeWindow() : void{
-
-        const window = remote.getCurrentWindow();
-        //cannot unmaximize...
-        if(window.isMaximized()){
-            window.unmaximize();
-            console.log("Unmaximized");
-        }
-        else{
-            window.maximize();
-            console.log("Maximized");
-        }
-    }
-
-    static MinimizeWindow() : void{
-
-        remote.getCurrentWindow().minimize();
-
     }
 }

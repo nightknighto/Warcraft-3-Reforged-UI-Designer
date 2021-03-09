@@ -1,9 +1,3 @@
-//Window Bar elements
-export const barWindow                  = document.getElementById('barTitle');
-export const btnMinimizeWindow          = document.getElementById('btnMinimizeWindow') as HTMLImageElement;
-export const btnMaximizeWindow          = document.getElementById('btnMaximizeWindow') as HTMLImageElement;
-export const btnCloseWindow             = document.getElementById('btnCloseWindow') as HTMLImageElement;
-
 //Application bars
 export const barTab                     = document.getElementById('barTab');
 export const barRibbon                  = document.getElementById('barRibbon');
