@@ -190,16 +190,14 @@ export class ParameterEditor{
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
             if(!el.ParentOption) continue;
             
-            // if(el.ParentOption == selectElement.selectedOptions[0]) {
-            //     selectedFrame.GetParent().Destroy();
-            //     el.Append(selectedFrame)
-            //     break;
-            // }
+            if(el.ParentOption == selectElement.selectedOptions[0]) {
+
+                el.MakeParentTo(selectedFrame);
+                break;
+
+            }
         }
         debug(selectedFrame.GetParent().GetName())
-        //selectElement.options.item(0).selected
-        //needs some index to CustomImage to whatever bullshit going on.
-        //ProjectTree.GetSelectedImage().parent = selectElement.selectedOption[0].value;
 
     }catch(e){alert(e)}}
 

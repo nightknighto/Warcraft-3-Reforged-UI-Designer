@@ -43,8 +43,22 @@ export class FrameComponent{
     }catch(e){alert('FrameComp Const: '+e)}}
 
     private AppendFrame(frame : FrameComponent) : void{
+
         this.children.push(frame);
         this.treeElement.append(frame.treeElement);
+
+    }
+
+    public RemoveFrame(whatFrame : FrameComponent) : boolean{
+
+        const childIndex = this.children.indexOf(whatFrame);
+
+        if(childIndex == -1) return false;
+
+            this.children.splice(childIndex,1);
+
+        return true;
+
     }
 
     public CreateAsChild(newFrame : FrameBuilder) : FrameComponent{
@@ -58,6 +72,7 @@ export class FrameComponent{
     public Destroy() : void{
 
         const parent = this.GetParent();
+        parent.RemoveFrame(this);
 
         for(const child of this.children) {
             parent.AppendFrame(child);
@@ -65,6 +80,34 @@ export class FrameComponent{
 
         this.treeElement.remove();
         if(this.image != null) this.image.Delete();
+        if(this.ParentOption != null) this.ParentOption.remove();
+    }
+    
+    public MakeParentTo(newChild : FrameComponent) : boolean{
+
+        if(newChild == this) return false;
+
+        let traverseNode : FrameComponent = this; 
+        let previousNode : FrameComponent = this;
+
+        do{
+            
+            if(traverseNode == newChild) {
+
+                newChild.RemoveFrame(previousNode);
+                newChild.GetParent().AppendFrame(previousNode);
+                
+                break;
+            }
+
+            previousNode = traverseNode;
+            traverseNode = traverseNode.GetParent();
+
+        }while(traverseNode != null);
+
+        newChild.GetParent().RemoveFrame(newChild);
+        this.AppendFrame(newChild);
+
     }
 
     public static GetFrameComponent(ProjectTreeElement : HTMLElement) : FrameComponent{

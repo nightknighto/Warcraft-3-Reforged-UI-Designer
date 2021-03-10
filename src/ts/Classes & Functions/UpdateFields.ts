@@ -38,27 +38,20 @@ export function UpdateFields(focusIMG: CustomImage) : void { try{
             Element.selectElementType.disabled = true
         }
 
-        const optionArray = Element.selectElementParent.options
+        const options = Element.selectElementParent.options
 
-        console.log("Note to self: this 'delay' thinggy has to be fixed eventually");
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-            if(optionArray[0]) {
-                optionArray[0].remove()
-            } else {
-                break;
-            }
+        while(options.length > 0){
+            options.remove(0);
         }
-
+        
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-            if(el.image == focusIMG || focusIMG.frameComponent.GetChildren().indexOf(el) >= 0) { //itself or first children
-                continue;
-            }
+
+            if(el.image == focusIMG) continue;
 
             const option = document.createElement('option') as HTMLOptionElement
             option.text = el.GetName()
             el.ParentOption = option
-            optionArray.add(option)
+            options.add(option)
             
             if(focusIMG.frameComponent.GetParent() == el) option.selected = true;
         }
