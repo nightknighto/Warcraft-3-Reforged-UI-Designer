@@ -26,7 +26,6 @@ Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 const editor = new Editor(document);
 
 //required:
-//duplicate option for elements
 //undo option
 //mouse cursor change before drag or resize
 const input = document.getElementById('imgFile') as HTMLInputElement

@@ -10,10 +10,7 @@ export class FrameComponent{
     public readonly treeElement : HTMLElement;
     public ParentOption : HTMLOptionElement;
 
-    public exist = true;
     private name : string;
-    private static nameNumber = 0;
-
     public GetName() : string{
         return this.name;
     }
@@ -31,11 +28,11 @@ export class FrameComponent{
         const ul : HTMLElement = document.createElement('ul');
         const li : HTMLElement = document.createElement('li');
         
-        li.innerText = frameBuildOptions.name+FrameComponent.nameNumber;
+        li.innerText = frameBuildOptions.name;
         ul.append(li);
 
         this.type = frameBuildOptions.type;
-        this.name = frameBuildOptions.name+FrameComponent.nameNumber;
+        this.name = frameBuildOptions.name;
         this.treeElement = ul;
         this.children = [];
         this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
@@ -43,55 +40,31 @@ export class FrameComponent{
         console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
         (ul as any).frameComponent = this;
 
-        FrameComponent.nameNumber++;
     }catch(e){alert('FrameComp Const: '+e)}}
 
-    public Append(childFrame : FrameComponent) : void{
-
-        this.children.push(childFrame);
-        this.treeElement.append(childFrame.treeElement);
-
+    private AppendFrame(frame : FrameComponent) : void{
+        this.children.push(frame);
+        this.treeElement.append(frame.treeElement);
     }
 
-    /**If deleing = true, deletes the element. 
-     * If false, then just removes from children, used to migrate to another parent */
-    public RemoveChild(childFrame : FrameComponent, deleting : boolean) : void{
-
-        const index = this.children.indexOf(childFrame);
-        if(deleting) {
-            childFrame.exist = false;
-
-            if(index == -1){
-
-                for(const child of this.children){
-
-                    child.RemoveChild(childFrame, true);
-
-                }
-
-                return;
-            }
-
-            childFrame.RemoveAll();
-
-            this.treeElement.removeChild(childFrame.treeElement);
-            if(childFrame.image != null) childFrame.image.Delete();
-        }
-        this.children.splice(index, 1);
+    public CreateAsChild(newFrame : FrameBuilder) : FrameComponent{
+        const newChild = new FrameComponent(newFrame);
         
+        this.AppendFrame(newChild);
+
+        return newChild;
     }
 
-    public RemoveAll() : void{
+    public Destroy() : void{
 
-        for(const child of this.children){
-            child.RemoveAll();
-            child.treeElement.remove();
-            child.exist = false;
-            if(child.image != null) child.image.Delete();
+        const parent = this.GetParent();
+
+        for(const child of this.children) {
+            parent.AppendFrame(child);
         }
 
-        this.children = [];
-
+        this.treeElement.remove();
+        if(this.image != null) this.image.Delete();
     }
 
     public static GetFrameComponent(ProjectTreeElement : HTMLElement) : FrameComponent{
@@ -106,8 +79,6 @@ export class FrameComponent{
     }
 
     public GetParent() : FrameComponent{
-
         return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
-
     }
 }

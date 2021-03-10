@@ -5,6 +5,8 @@ import { Editor } from "../Editor";
 
 export class FrameBuilder implements ICallableDivInstance{
 
+    public static frameNumber = 1;
+
     public width = 0.250;
     public height = 0.250;
     public x = 0.250;
@@ -15,9 +17,15 @@ export class FrameBuilder implements ICallableDivInstance{
     
     public constructor(){ return this; }
 
-    public Run() : FrameComponent{
+    //Used for ICallableDivInstance, aka Insert Menu
+    public Run() : void{
         
-        return Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
+        const name = this.name;
+
+        this.name += ` ${FrameBuilder.frameNumber++}`;
+        Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
+
+        this.name = name;
 
     }
 

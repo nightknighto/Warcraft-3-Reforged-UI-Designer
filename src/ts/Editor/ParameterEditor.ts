@@ -15,8 +15,8 @@ export class ParameterEditor{
     public readonly inputElementCoordinateX     : HTMLInputElement;
     public readonly inputElementCoordinateY     : HTMLInputElement;
     public readonly inputElementDiskTexture     : HTMLInputElement;
-    public readonly fileElementTextureBrowse     : HTMLInputElement;
-    public readonly inputElementWC3Texture   : HTMLInputElement;
+    public readonly fileElementTextureBrowse    : HTMLInputElement;
+    public readonly inputElementWC3Texture      : HTMLInputElement;
     public readonly inputElementText            : HTMLInputElement;
     public readonly inputElementTrigVar         : HTMLInputElement;
 
@@ -31,8 +31,8 @@ export class ParameterEditor{
         this.inputElementCoordinateX                = document.getElementById('elementCoordinateX') as HTMLInputElement;
         this.inputElementCoordinateY                = document.getElementById('elementCoordinateY') as HTMLInputElement;
         this.inputElementDiskTexture                = document.getElementById('elementDiskTexture') as HTMLInputElement;
-        this.fileElementTextureBrowse                = document.getElementById('buttonBrowseTexture') as HTMLInputElement;
-        this.inputElementWC3Texture              = document.getElementById('elementWC3Texture') as HTMLInputElement;
+        this.fileElementTextureBrowse               = document.getElementById('buttonBrowseTexture') as HTMLInputElement;
+        this.inputElementWC3Texture                 = document.getElementById('elementWC3Texture') as HTMLInputElement;
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
 
@@ -44,26 +44,26 @@ export class ParameterEditor{
         this.inputElementCoordinateX.disabled       = true
         this.inputElementCoordinateY.disabled       = true
         this.inputElementDiskTexture.disabled       = true
-        this.fileElementTextureBrowse.disabled       = true
-        this.inputElementWC3Texture.disabled     = true
+        this.fileElementTextureBrowse.disabled      = true
+        this.inputElementWC3Texture.disabled        = true
         this.inputElementText.disabled              = true
         this.inputElementTrigVar.disabled           = true
         
 
-        this.inputElementWidth.onchange              = ParameterEditor.InputWidth;
-        this.inputElementHeight.onchange             = ParameterEditor.InputHeight;
+        this.inputElementWidth.onchange             = ParameterEditor.InputWidth;
+        this.inputElementHeight.onchange            = ParameterEditor.InputHeight;
         this.inputElementName.oninput               = ParameterEditor.InputName;
         this.inputElementName.onchange              = ParameterEditor.ChangeName;
         this.selectElementType.onchange             = ParameterEditor.ChangeType;
         this.selectElementParent.onchange           = ParameterEditor.ChangeParent;
         this.inputElementCoordinateX.onchange       = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange       = ParameterEditor.InputCoordinateY;
-        this.inputElementDiskTexture.onchange           = ParameterEditor.TextInputDiskTexture;
-        this.fileElementTextureBrowse.onchange          = ParameterEditor.ButtonInputDiskTexture;          
-        this.inputElementWC3Texture.onchange       = ParameterEditor.InputWC3Texture;
-        this.inputElementText.onchange                = ParameterEditor.InputText;
-        this.inputElementTrigVar.onchange             = ParameterEditor.InputTrigVar;
-        
+        this.inputElementDiskTexture.onchange       = ParameterEditor.TextInputDiskTexture;
+        this.fileElementTextureBrowse.onchange      = ParameterEditor.ButtonInputDiskTexture;
+        this.inputElementWC3Texture.onchange        = ParameterEditor.InputWC3Texture;
+        this.inputElementText.onchange              = ParameterEditor.InputText;
+        this.inputElementTrigVar.onchange           = ParameterEditor.InputTrigVar;
+
     }
     
     /** checks whether value is smaller than 0.2. True if smaller. */
@@ -185,18 +185,18 @@ export class ParameterEditor{
     static ChangeParent(ev: Event) : void{try{
 
         const selectElement = ev.target as HTMLSelectElement;
-        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
+        const selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
 
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
             if(!el.ParentOption) continue;
             
-            if(el.ParentOption == selectElement.selectedOptions[0]) {
-                image.GetParent().RemoveChild(image, false)
-                el.Append(image)
-                break;
-            }
+            // if(el.ParentOption == selectElement.selectedOptions[0]) {
+            //     selectedFrame.GetParent().Destroy();
+            //     el.Append(selectedFrame)
+            //     break;
+            // }
         }
-        debug(image.GetParent().GetName())
+        debug(selectedFrame.GetParent().GetName())
         //selectElement.options.item(0).selected
         //needs some index to CustomImage to whatever bullshit going on.
         //ProjectTree.GetSelectedImage().parent = selectElement.selectedOption[0].value;

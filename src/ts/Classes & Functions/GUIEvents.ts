@@ -1,9 +1,8 @@
-import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements'
-import { Editor } from '../Editor/Editor'
-import { UpdateFields } from './UpdateFields'
-import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
-import { debug } from '../Classes & Functions/Mini-Functions'
-
+import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements';
+import { Editor } from '../Editor/Editor';
+import { UpdateFields } from './UpdateFields';
+import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
+import { debug } from '../Classes & Functions/Mini-Functions';
 
 export class GUIEvents {
 
@@ -40,17 +39,16 @@ export class GUIEvents {
         const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
         frameBuilder.texture = selected.image.element.src
+        frameBuilder.name = selected.GetName() + ' Copy';
 
-        const newFrame = frameBuilder.Run();
+        const newFrame = selected.CreateAsChild(frameBuilder);
         Object.keys(newFrame.image).forEach( prop => {
             if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
         })
 
-        newFrame.SetName(selected.GetName()+'Copy')
         newFrame.image.SetLeftX(selected.image.LeftX+0.03)
         newFrame.image.SetBotY(selected.image.BotY-0.03)
         
-
         newFrame.image.Select()
         UpdateFields(newFrame.image)
         GUIEvents.RefreshElements()

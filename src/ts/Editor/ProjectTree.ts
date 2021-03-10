@@ -37,16 +37,13 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
 
     }
 
-    public AppendToSelected(newFrame : FrameBuilder) : FrameComponent{
-        const frame = new FrameComponent(newFrame)
-        if (this.selectedFrame == null) this.rootFrame.Append(frame);
-        else this.selectedFrame.Append(frame);
-
-        return frame
+    public AppendToSelected(newFrame : FrameBuilder) : void{
+        if (this.selectedFrame == null) this.rootFrame.CreateAsChild(newFrame);
+        else this.selectedFrame.CreateAsChild(newFrame);
     }
 
     public RemoveFrame(frameComponent : FrameComponent) : void{
-        this.rootFrame.RemoveChild(frameComponent, true);
+        frameComponent.Destroy();
     }
 
     public GetSelectedFrame() : FrameComponent{
@@ -77,19 +74,15 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         this.iteratorQueue.enqueue(this.rootFrame);
         tempQueue.enqueue(this.rootFrame);
 
-        console.log("A infinite while loop condition.");
-        // eslint-disable-next-line no-constant-condition
-        while(1){
-
+        do{
             currentNode = tempQueue.dequeue();
-            if (currentNode == null) break;
 
             for(const child of currentNode.GetChildren()){
                 tempQueue.enqueue(child);
                 this.iteratorQueue.enqueue(child);
             }
 
-        }
+        }while(tempQueue.front != null);
 
         return this;
     }
