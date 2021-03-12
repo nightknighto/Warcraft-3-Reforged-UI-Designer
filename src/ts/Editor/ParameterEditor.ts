@@ -332,10 +332,6 @@ export class ParameterEditor{
         if(frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {        
             this.DisableFields(false)
     
-            //focusIMG.parentOption.hidden = true;
-            frame.image.element.style.outlineColor = "red"
-    
-            //Element.selectElementParent.selectedIndex = focusIMG.parentIndex
             this.inputElementName.value = frame.GetName();
             this.inputElementWidth.value = InputEdit(frame.image.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
             this.inputElementHeight.value = InputEdit(frame.image.element.height * 600 / Element.workspaceImage.height)

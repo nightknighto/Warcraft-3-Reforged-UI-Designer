@@ -1,6 +1,7 @@
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debug, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
+import { Editor } from "../Editor/Editor";
 
 let horizontalMargin = 240/1920*workspaceImage.width //width changes so this variable is changed
 
@@ -8,8 +9,8 @@ export function ImageFunctions(img: CustomImage) : void{
     img.element.onmousedown = function (e) {
         horizontalMargin = 240/1920*workspaceImage.width //refresh the value
 
-        img.Select()
-
+        Editor.GetDocumentEditor().projectTree.Select(img);
+        
         let posx1 = e.clientX;
         let posy1 = e.clientY;
         let posx2 = 0;

@@ -32,8 +32,10 @@ export class GUIEvents {
     }
 
     static DuplicateSelectedImage() : void{try{
-        const selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
-        selected.GetParent().image.Select() //Appends to Parent
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const selected = projectTree.GetSelectedFrame();
+
+        projectTree.Select(selected.GetParent());
 
         const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
@@ -48,7 +50,7 @@ export class GUIEvents {
         newFrame.image.SetLeftX(selected.image.LeftX+0.03)
         newFrame.image.SetBotY(selected.image.BotY-0.03)
         
-        newFrame.image.Select()
+        projectTree.Select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         

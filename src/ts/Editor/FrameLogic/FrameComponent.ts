@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Editor } from "../Editor";
 import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
@@ -43,7 +44,7 @@ export class FrameComponent{
         (ul as any).frameComponent = this;
 
         li.onclick = () => {
-            this.image.Select();
+            Editor.GetDocumentEditor().projectTree.Select(this);
         }
 
     }catch(e){alert('FrameComp Const: '+e)}}

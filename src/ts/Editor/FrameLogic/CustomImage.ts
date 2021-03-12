@@ -62,16 +62,6 @@ export class CustomImage {
         this.BotY = newY;
     }
 
-    public Select() : void{
-        const selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame();
-
-        if(selectedFrame)
-            selectedFrame.image.element.style.outlineColor = 'green';
-            
-        Editor.GetDocumentEditor().projectTree.Select(this.frameComponent);
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(this.frameComponent);
-    }
-
     constructor(frameComponent : FrameComponent, texturePath : string, width : number, height : number, x : number, y : number) {try{
         this.frameComponent = frameComponent;
         this.textureDiskPath = texturePath;
@@ -99,9 +89,9 @@ export class CustomImage {
         (this.element as any).customImage = this;
 
         //step 1: event sent to main.ts to display the menu.
-        this.element.oncontextmenu = () => {
+        this.element.oncontextmenu = (ev : Event) => {
 
-            this.Select();
+            Editor.GetDocumentEditor().projectTree.Select(ev.target as HTMLImageElement);
 
             ipcRenderer.send('show-context-menu')
         }
