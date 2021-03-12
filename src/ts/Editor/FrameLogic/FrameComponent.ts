@@ -4,14 +4,12 @@ import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
 
-//Need to do a proper select method
-
 export class FrameComponent{
 
     private children : FrameComponent[];
     public readonly image : CustomImage;
     public readonly treeElement : HTMLElement;
-    public ParentOption : HTMLOptionElement;
+    public parentOption : HTMLOptionElement;
 
     private name : string;
     public GetName() : string{
@@ -21,7 +19,7 @@ export class FrameComponent{
     public SetName(newName : string) : void{
         this.name = newName;
         (this.treeElement.firstChild as HTMLElement).innerText = newName;
-        if(this.ParentOption) this.ParentOption.text = newName;
+        if(this.parentOption) this.parentOption.text = newName;
     }
 
     public type : FrameType;
@@ -39,7 +37,9 @@ export class FrameComponent{
         this.treeElement = ul;
         this.children = [];
         this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
-        
+        this.parentOption = document.createElement('option');
+        this.parentOption.text = this.name;
+
         console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
         (ul as any).frameComponent = this;
 
@@ -87,7 +87,7 @@ export class FrameComponent{
 
         this.treeElement.remove();
         if(this.image != null) this.image.Delete();
-        if(this.ParentOption != null) this.ParentOption.remove();
+        if(this.parentOption != null) this.parentOption.remove();
     }
     
     public MakeParentTo(newChild : FrameComponent) : boolean{

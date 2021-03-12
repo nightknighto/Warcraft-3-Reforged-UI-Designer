@@ -192,9 +192,9 @@ export class ParameterEditor{
         const selectedFrame = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
 
         for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-            if(!el.ParentOption) continue;
+            if(!el.parentOption) continue;
             
-            if(el.ParentOption == selectElement.selectedOptions[0]) {
+            if(el.parentOption == selectElement.selectedOptions[0]) {
 
                 el.MakeParentTo(selectedFrame);
                 break;
@@ -358,13 +358,9 @@ export class ParameterEditor{
             for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
     
                 if(el == frame) continue;
-    
-                const option = document.createElement('option') as HTMLOptionElement
-                option.text = el.GetName()
-                el.ParentOption = option
-                options.add(option)
-                
-                if(frame.GetParent() == el) option.selected = true;
+                options.add(el.parentOption)
+                el.parentOption.selected = false;
+                if(frame.GetParent() == el) el.parentOption.selected = true;
             }
     
         } else {
