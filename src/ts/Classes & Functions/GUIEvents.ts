@@ -1,6 +1,5 @@
 import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements';
 import { Editor } from '../Editor/Editor';
-import { UpdateFields } from './UpdateFields';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
 import { debug } from '../Classes & Functions/Mini-Functions';
 
@@ -29,7 +28,7 @@ export class GUIEvents {
         const projectTree = Editor.GetDocumentEditor().projectTree;
 
         projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-        UpdateFields(null)
+        Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);
     }
 
     static DuplicateSelectedImage() : void{try{
@@ -50,7 +49,7 @@ export class GUIEvents {
         newFrame.image.SetBotY(selected.image.BotY-0.03)
         
         newFrame.image.Select()
-        UpdateFields(newFrame.image)
+        Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
         debug('Duplicated.')

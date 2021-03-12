@@ -125,6 +125,7 @@ export class Editor{
         this.debugGameCoordinates       = document.getElementById('debugGameCoordinates');
 
         this.projectTree                = new ProjectTree();
+        this.parameterEditor            = new ParameterEditor();
         this.tabsMenu                   = this.initializeMenus();
         
     }

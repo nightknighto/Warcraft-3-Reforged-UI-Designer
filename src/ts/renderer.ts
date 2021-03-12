@@ -14,7 +14,6 @@ import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
-import { ParameterEditor } from "./Editor/ParameterEditor";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -40,11 +39,7 @@ Element.formIMG.addEventListener("submit", e => {
   frameBuilder.Run();
 })
 
-new ParameterEditor()
-
 window.onresize = GUIEvents.RefreshElements;
-
-
 
 new Titlebar({
   backgroundColor: new Color( new RGBA(69,49,26,255)),

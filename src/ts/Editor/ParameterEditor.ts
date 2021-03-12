@@ -2,6 +2,8 @@ import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
 import { workspaceImage } from '../Constants/Elements';
 import * as Element from "../Constants/Elements";
+import { InputEdit } from "../Classes & Functions/Mini-Functions";
+import { FrameComponent } from './FrameLogic/FrameComponent';
 
 export class ParameterEditor{
 
@@ -19,6 +21,7 @@ export class ParameterEditor{
     public readonly inputElementWC3Texture      : HTMLInputElement;
     public readonly inputElementText            : HTMLInputElement;
     public readonly inputElementTrigVar         : HTMLInputElement;
+    public readonly butttonElementTextureBrowse : HTMLButtonElement;
 
     public constructor(){
 
@@ -35,6 +38,7 @@ export class ParameterEditor{
         this.inputElementWC3Texture                 = document.getElementById('elementWC3Texture') as HTMLInputElement;
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
+        this.butttonElementTextureBrowse            = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
 
         this.inputElementWidth.disabled             = true
         this.inputElementHeight.disabled            = true
@@ -290,5 +294,88 @@ export class ParameterEditor{
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetTrigVar(inputElement.value);
         debug("Triggered Variable changed.");
 
+    }
+
+    public EmptyFields() {
+        this.inputElementWidth.value         = ""
+        this.inputElementHeight.value        = ""
+        this.inputElementName.value          = ""
+        this.selectElementType.value         = ""
+        this.selectElementParent.value       = ""
+        this.inputElementCoordinateX.value   = ""
+        this.inputElementCoordinateY.value   = ""
+        this.inputElementDiskTexture.value   = ""
+        this.inputElementWC3Texture.value    = ""
+        this.inputElementText.value          = ""
+        this.inputElementTrigVar.value       = ""
+    
+    }
+
+    public DisableFields(disable: boolean) {
+        this.inputElementWidth.disabled             = disable
+        this.inputElementHeight.disabled            = disable
+        this.inputElementName.disabled              = disable
+        this.selectElementType.disabled             = disable
+        this.selectElementParent.disabled           = disable
+        this.inputElementCoordinateX.disabled       = disable
+        this.inputElementCoordinateY.disabled       = disable
+        this.inputElementDiskTexture.disabled       = disable
+        this.butttonElementTextureBrowse.disabled   = disable
+        this.inputElementWC3Texture.disabled        = disable
+        this.inputElementText.disabled              = disable
+        this.inputElementTrigVar.disabled           = disable
+    }
+
+    public UpdateFields(frame: FrameComponent) : void { try{
+        const horizontalMargin = 240/1920*Element.workspaceImage.width
+    
+        if(frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {        
+            this.DisableFields(false)
+    
+            //focusIMG.parentOption.hidden = true;
+            frame.image.element.style.outlineColor = "red"
+    
+            //Element.selectElementParent.selectedIndex = focusIMG.parentIndex
+            this.inputElementName.value = frame.GetName();
+            this.inputElementWidth.value = InputEdit(frame.image.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
+            this.inputElementHeight.value = InputEdit(frame.image.element.height * 600 / Element.workspaceImage.height)
+            this.inputElementCoordinateX.value = `${InputEdit((frame.image.element.offsetLeft - Element.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(Element.workspaceImage.width - 2*horizontalMargin) * 800) }`;
+            this.inputElementCoordinateY.value = `${InputEdit((Element.workspaceImage.getBoundingClientRect().bottom - frame.image.element.getBoundingClientRect().bottom)/Element.workspaceImage.height * 600)}`;
+            this.inputElementDiskTexture.value = frame.image.GetTexture()
+            this.inputElementWC3Texture.value = frame.image.textureWC3Path
+            this.inputElementText.value = frame.image.text
+            this.inputElementTrigVar.value = frame.image.TrigVar
+            
+            if(frame.type == 1 || frame.type == 2) {
+                Element.selectElementType.disabled = false
+                Element.selectElementType.selectedIndex = frame.type - 1
+            } else {
+                Element.selectElementType.disabled = true
+            }
+    
+            const options = Element.selectElementParent.options
+    
+            while(options.length > 0){
+                options.remove(0);
+            }
+            
+            for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+    
+                if(el == frame) continue;
+    
+                const option = document.createElement('option') as HTMLOptionElement
+                option.text = el.GetName()
+                el.ParentOption = option
+                options.add(option)
+                
+                if(frame.GetParent() == el) option.selected = true;
+            }
+    
+        } else {
+            this.DisableFields(true)
+            this.EmptyFields()
+        }
+    
+    }catch(e){alert(e)}
     }
 }

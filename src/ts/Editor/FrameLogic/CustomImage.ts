@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
-import { UpdateFields } from "../../Classes & Functions/UpdateFields";
 import { debug } from "../../Classes & Functions/Mini-Functions";
 import { workspace } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
@@ -70,7 +69,7 @@ export class CustomImage {
             selectedFrame.image.element.style.outlineColor = 'green';
             
         Editor.GetDocumentEditor().projectTree.Select(this.frameComponent);
-        UpdateFields(this)
+        Editor.GetDocumentEditor().parameterEditor.UpdateFields(this.frameComponent);
     }
 
     constructor(frameComponent : FrameComponent, texturePath : string, width : number, height : number, x : number, y : number) {try{
