@@ -22,7 +22,7 @@ export class FrameBuilder implements ICallableDivInstance{
         
         const name = this.name;
 
-        this.name += ` ${FrameBuilder.frameNumber++}`;
+        this.name += `${FrameBuilder.frameNumber++}`;
         Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
 
         this.name = name;

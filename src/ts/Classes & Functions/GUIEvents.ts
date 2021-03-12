@@ -40,7 +40,7 @@ export class GUIEvents {
         const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
         frameBuilder.texture = selected.image.element.src
-        frameBuilder.name = selected.GetName() + ' Copy';
+        frameBuilder.name = selected.GetName() + 'Copy';
 
         const newFrame = selected.CreateAsChild(frameBuilder);
         Object.keys(newFrame.image).forEach( prop => {
