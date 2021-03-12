@@ -54,15 +54,17 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
     public Select(frame : FrameComponent | CustomImage | HTMLImageElement | HTMLElement) : void{
 
         //should go to workspace class?
-        this.selectedFrame.image.element.style.outlineColor = "green"
+        if(this.selectedFrame != null) this.selectedFrame.image.element.style.outlineColor = "green"
 
         if(frame instanceof FrameComponent) this.selectedFrame = frame;
         else if(frame instanceof CustomImage) this.selectedFrame = frame.frameComponent
         else if(frame instanceof HTMLImageElement) this.selectedFrame = CustomImage.GetCustomImageFromHTMLImageElement(frame).frameComponent;
         else if(frame instanceof HTMLElement) this.selectedFrame = FrameComponent.GetFrameComponent(frame);
-        else if(frame == null) this.selectedFrame = null;
-        else return;
-
+        else{
+            this.selectedFrame = null;
+            return;
+        } 
+        
         this.selectedFrame.image.element.style.outlineColor = 'red';
 
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(this.selectedFrame);
