@@ -11,7 +11,7 @@ if null, then remove values and disable fields  */
 export function UpdateFields(focusIMG: CustomImage) : void { try{
     const horizontalMargin = 240/1920*Element.workspaceImage.width
 
-    if(focusIMG) {        
+    if(focusIMG && focusIMG != Editor.GetDocumentEditor().projectTree.rootFrame.image) {        
         DisableFields(false)
 
         for(const el of ParentOptions)

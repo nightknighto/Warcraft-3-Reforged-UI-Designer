@@ -3,6 +3,8 @@ import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
 
+//Need to do a proper select method
+
 export class FrameComponent{
 
     private children : FrameComponent[];
@@ -39,6 +41,10 @@ export class FrameComponent{
         
         console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
         (ul as any).frameComponent = this;
+
+        li.onclick = () => {
+            this.image.Select();
+        }
 
     }catch(e){alert('FrameComp Const: '+e)}}
 
