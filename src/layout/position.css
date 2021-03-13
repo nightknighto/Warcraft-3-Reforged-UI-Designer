@@ -3,6 +3,10 @@
     color: yellow;
 }
 
+.window-appicon{
+    background-size: 25px !important;
+}
+
 body{
     margin: 0;  
 
