@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
 import { debug } from "../../Classes & Functions/Mini-Functions";
-import { workspace } from "../../Constants/Elements";
+import { workspace, workspaceImage } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
 import { ImageFunctions } from "../../Classes & Functions/ImageFunctions";
+import { GUIEvents } from "../../Classes & Functions/GUIEvents";
 
 export class CustomImage {
 
@@ -70,14 +71,17 @@ export class CustomImage {
         this.LeftX = x;
         this.BotY = y;
 
+        const horizontalMargin = 240/1920*workspaceImage.width
+        const rect = workspaceImage.getBoundingClientRect()
+
         this.element = document.createElement('img');
         this.element.src = texturePath;
-        this.element.height = height*1000;
-        this.element.width = width*1000;
+        this.element.style.height = `${+height / 0.6 * workspace.getBoundingClientRect().height}px`;
+        this.element.width = +width / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin);
         this.element.draggable = false;
         this.element.style.position = "absolute";
-        this.element.style.top = '40vh';
-        this.element.style.left = '40vw';
+        this.element.style.top = `${rect.bottom - y*rect.height/0.6 - this.element.height - 120}px`
+        this.element.style.left = `${ +x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`;
         this.element.style.outlineStyle = "dashed"
         this.element.style.outlineColor = "green"
         this.element.style.outlineOffset = "-3px"
