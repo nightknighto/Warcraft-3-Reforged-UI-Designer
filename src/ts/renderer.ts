@@ -29,6 +29,11 @@ ipcRenderer.on('TableArray', () => {try{
     movable: true,
     alwaysOnTop: true,
     autoHideMenuBar: true,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
+    },
+    
   })
   win.show()
   win.focus()
@@ -44,6 +49,10 @@ ipcRenderer.on('CircularArray', () => {
     movable: true,
     alwaysOnTop: true,
     autoHideMenuBar: true,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
+    },
   
   })
   win.show()
@@ -51,14 +60,15 @@ ipcRenderer.on('CircularArray', () => {
   win.loadFile(path.join(__dirname, "./CircularArray.html"));
 });
 
-ipcRenderer.on('TableArraySubmit', (event, args) => {
+ipcRenderer.on('TableArraySubmit', (event, args) => {try{
+  alert(args)
   let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-  GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2]. args[3], args[4])
-})
+  GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
+}catch(e){alert(e)}})
 
 ipcRenderer.on('CircularArraySubmit', (event, args) => {
   let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-  GUIEvents.DuplicateArrayCircular(source.LeftX + source.width/2, source.BotY - source.height/2, args[0], args[1], args[2]. args[3])
+  GUIEvents.DuplicateArrayCircular(source.LeftX, source.BotY, args[0], args[1], args[2])
 })
 
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;

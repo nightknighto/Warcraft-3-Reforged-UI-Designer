@@ -52,12 +52,10 @@ function setupEvents(mainWindow: BrowserWindow){
   })
 
   ipcMain.on('TableArraySubmit', (event, args) => {
-    alert('ipcMain on!'+' '+args[1])
     mainWindow.webContents.send('TableArraySubmit', args)
   })
   
   ipcMain.on('CircularArraySubmit', (event, args) => {
-    alert('ipcMain on!'+' '+args[1])
     mainWindow.webContents.send('CircularArraySubmit', args)
   })
 
