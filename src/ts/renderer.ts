@@ -61,7 +61,6 @@ ipcRenderer.on('CircularArray', () => {
 });
 
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
-  alert(args)
   let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
   GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
 }catch(e){alert(e)}})

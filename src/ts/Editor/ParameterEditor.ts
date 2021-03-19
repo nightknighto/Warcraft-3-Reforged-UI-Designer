@@ -91,7 +91,7 @@ export class ParameterEditor{
         const rect = workspaceImage.getBoundingClientRect()
         const horizontalMargin = 240/1920*rect.width
 
-        if(+inputElement.value > 0.8) {
+        if(+inputElement.value > 0.8 || +inputElement.value < 0) {
             debug("Input refused. Width is limited to 0 and 0.8.")
             return
         }
@@ -120,7 +120,7 @@ export class ParameterEditor{
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspaceImage.getBoundingClientRect()
 
-        if(+inputElement.value > 0.6) {
+        if(+inputElement.value > 0.6 || +inputElement.value < 0) {
             debug("Input refused. Height is limited to 0 and 0.6.")
             return
         }
@@ -211,7 +211,7 @@ export class ParameterEditor{
         const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
         const horizontalMargin = 240/1920*rect.width
 
-        if(+loc > 0.8) {
+        if(+loc > 0.8 || +loc < 0) {
             debug("Input refused. X coordinate is limited to 0 and 0.8.")
             return
         }
@@ -233,7 +233,7 @@ export class ParameterEditor{
         const rect = workspaceImage.getBoundingClientRect()
         const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
 
-        if(+loc > 0.6) {
+        if(+loc > 0.6 || +loc < 0) {
             debug("Input refused. Y coordinate is limited to 0 and 0.6.")
             return
         }
