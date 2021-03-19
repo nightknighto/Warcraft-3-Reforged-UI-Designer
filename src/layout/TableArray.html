@@ -1,0 +1,57 @@
+<script>var exports = {};</script>
+<style>
+body {
+    padding: 10px;
+    font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+    color: #fff;
+    background-color: #8aba87 !important;
+    text-align: center;
+    font-size: 34px;
+  }
+  
+  #close {
+    color: white;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  </style>
+
+  <head>
+    <title>Table Array</title>
+    <link rel="stylesheet" href="bootstrap.css">
+  </head>
+
+  <body>
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="10" step="1" name="rows" id="rows" class="form-control" placeholder="name">
+        <label for="rows">Rows: </label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="10" step="1" name="columns" id="columns" class="form-control" placeholder="name">
+        <label for="columns">Columns: </label>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="0.4" step="0.01" name="gapX" id="gapX" class="form-control" placeholder="name">
+        <label for="gapX">X-Gap: </label>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="0.4" step="0.1" name="gapY" id="gapY" class="form-control" placeholder="name">
+        <label for="gapY">Y-Gap: </label>
+    </div>
+
+    <div class='row justify-content-center'>
+        <button class='col-3 btn btn-success' id='submit'>Submit</button>
+        <button class='col-3 btn btn-danger' onclick="window.close()">Close</button>
+      </div>
+
+      <script type="module" src="TableArray.js"></script>
+
+    </body>

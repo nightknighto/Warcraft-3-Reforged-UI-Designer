@@ -56,6 +56,75 @@ export class GUIEvents {
         
         debug('Duplicated.')
     }catch(e){alert(e)}}
+    
+    static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const selected = projectTree.GetSelectedFrame();
+
+        projectTree.Select(selected.GetParent());
+        
+        const angDisp = Math.PI * 2 / count;
+        for(let i = 0; i < count; i++) {
+            const frameBuilder =  new FrameBuilder()
+            frameBuilder.type = selected.type;
+            frameBuilder.texture = selected.image.element.src
+            frameBuilder.name = selected.GetName() + 'Circ'+i;
+
+            const newFrame = selected.CreateAsChild(frameBuilder);
+            Object.keys(newFrame.image).forEach( prop => {
+                if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+            })
+
+            let width = newFrame.image.width;
+            const height = newFrame.image.height;
+
+            let newX = CenterX + (radius+0.5*width)*Math.cos(initAng + angDisp*i)
+            let newY = CenterY + (radius-0.5*height)*Math.sin(initAng + angDisp*i)
+            newFrame.image.SetLeftX(newX) 
+            newFrame.image.SetBotY(newY)
+        }
+        
+        projectTree.Select(selected);
+        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
+        GUIEvents.RefreshElements()
+        
+        debug('Duplicated Circular.')
+    }catch(e){alert(e)}}
+
+    static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const selected = projectTree.GetSelectedFrame();
+
+        projectTree.Select(selected.GetParent());
+        
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < columns; j++){
+                const frameBuilder =  new FrameBuilder()
+                frameBuilder.type = selected.type;
+                frameBuilder.texture = selected.image.element.src
+                frameBuilder.name = selected.GetName() + 'Table'+i+j;
+
+                const newFrame = selected.CreateAsChild(frameBuilder);
+                Object.keys(newFrame.image).forEach( prop => {
+                    if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+                })
+
+                const width = newFrame.image.width;
+                const height = newFrame.image.height;
+
+                let newX = LeftX + (width + gapX)*j 
+                let newY = TopY + height + (height + gapY)*i
+                newFrame.image.SetLeftX(newX) 
+                newFrame.image.SetBotY(newY)
+            }
+        }
+        
+        projectTree.Select(selected);
+        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
+        GUIEvents.RefreshElements()
+        
+        debug('Duplicated Table form.')
+    }catch(e){alert(e)}}
 
     static PanelOpenClose() : void {
         const panel = document.getElementById("panelParameters")
