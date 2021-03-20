@@ -1,36 +1,47 @@
 {
-  "name": "electron-quick-start-typescript",
+  "name": "wc3-ui-maker",
   "version": "1.0.0",
-  "files": [
-    "!**/*.ts"
-  ],
-  "description": "A minimal Electron application written with Typescript",
+  "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
+  "main": "./app/main.js",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
+    "delete-app": ".\\wipe_folder.bat \".\\app\\\"",
+    "delete-build": ".\\wipe_folder.bat \".\\build\\\"",
+    "compile-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "update-layout": "xcopy /E /I /y \".\\src\\layout\\*\" \".\\app\\\"",
+    "update-styles": "xcopy /E /I /y \".\\src\\styles\\*\" \".\\app\\styles\"",
+    "update-js": "xcopy /E /I /y \".\\build\\*\" \".\\app\\\"",
+    "update-files": "xcopy /E /I /y \".\\files\\*\" \".\\app\\files\"",
+    "build": "npm run delete-app && npm run delete-build && npm run compile-ts && npm run update-layout && npm run update-styles && npm run update-js && npm run update-files",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "start": "npm run build && electron ./dist/main.js"
+    "run": "electron ./app/main.js",
+    "start": "npm run build && npm run run",
+    "pack": "npm run build && electron-builder"
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo",
-    "typescript"
-  ],
-  "author": "GitHub",
+  "author": "Deadreyo",
   "license": "CC0-1.0",
+  "build":{
+    "icon": "files/icon.png",
+    "appId": "org.Deadreyo.W3RUID",
+    "productName": "Reforged UI Designer",
+    "buildVersion": "1.0.0"
+  },
   "devDependencies": {
     "@interactjs/types": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
-    "electron": "^9.3.1",
+    "electron": "^9.4.3",
+    "electron-builder": "^22.9.1",
     "eslint": "^7.3.1",
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "interactjs": "^1.10.1"
+    "@material/textfield": "^10.0.0",
+    "custom-electron-titlebar": "^3.2.6",
+    "del": "^6.0.0",
+    "interactjs": "^1.10.1",
+    "queue": "^6.0.2",
+    "queue-typescript": "^1.0.1",
+    "webpack": "^5.11.1"
   }
 }

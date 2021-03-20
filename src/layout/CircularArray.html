@@ -1,0 +1,52 @@
+<script>var exports = {};</script>
+<style>
+body {
+    padding: 10px;
+    font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+    color: #fff;
+    background-color: #8aba87 !important;
+    text-align: center;
+    font-size: 34px;
+  }
+  
+  #close {
+    color: white;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  </style>
+
+  <head>
+    <title>Circular Array</title>
+    <link rel="stylesheet" href="bootstrap.css">
+  </head>
+
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="0.4" step="0.01" name="radius" id="radius" class="form-control" placeholder="name">
+        <label for="radius">Radius: </label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="10" step="1" name="count" id="count" class="form-control" placeholder="name">
+        <label for="count">Count: </label>
+    </div>
+    
+    <div class="form-floating mb-3">
+        <input type="number" min="0" max="360" step="1" name="initAng" id="initAng" class="form-control" placeholder="name">
+        <label for="initAng">Initial Angle (degrees): </label>
+    </div>
+
+    <div class='row justify-content-center'>
+        <button class='col-3 btn btn-success' id='submit'>Submit</button>
+      </div>
+      <div class='row justify-content-center'>
+        <button class='col-3 btn btn-danger' onclick="window.close()">Close</button>
+      </div>
+
+      <script type="module" src="CircularArray.js"></script>
+      

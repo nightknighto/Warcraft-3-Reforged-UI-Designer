@@ -1,3 +1,6 @@
-node_modules
-dist
 .vscode
+app
+build
+dist
+node_modules
+*.txt

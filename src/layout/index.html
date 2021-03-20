@@ -1,0 +1,166 @@
+<script>var exports = {};</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Warcraft 3 UI Maker</title>
+    <link rel="stylesheet" href="bootstrap.css">
+
+    <link rel="stylesheet" href="position.css">
+    <link rel="stylesheet" href="./styles/highlight.css">
+    
+</head>
+
+<body>
+
+    <div id="containerUI">
+
+        <div id="workspaceContainer">
+
+            <img id="workspace" class="row justify-content-center" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
+
+        </div>
+
+        <div id="barTab" style='color: rgb(248,224,197);'>
+
+            <div class="tab">File</div>
+            <div class="tab">Edit</div>
+            <div class="tab">View</div>
+            <div class="tab">Insert</div>
+            <div class="tab">Window</div>
+
+        </div>
+
+        <div id="barRibbon" style='color: rgb(248,224,197);'>
+
+            <div class="ribbonOption">New</div>
+            <div class="ribbonOption">Open</div>
+            <div class="ribbonOption">Save</div>
+            <div class="ribbonOption">Export</div>
+
+        </div>
+
+        <div id="panelParameters">
+            <div class='row justify-content-start'>
+                <button class='col-4 btn btn-warning' id='panelClose'>Panel</button>
+            </div>
+            <label for="elementCoordinates"><b>Details</b></label>
+            <div class="form-floating mb-1">
+                <input type="text" class="form-control" id="elementName" placeholder="name">
+                <label for="elementName">Name</label> 
+            </div>
+
+            <label for="elementType" class="col-4">Type: </label>
+            <select name="elementType" id="elementType">
+                <option value="1">Backdrop</option>
+                <option value="2">Button</option>
+            </select>
+
+            <label for="elementParent" class="col-4">Parent: </label>
+            <select name="elementParent" id="elementParent" class="parameter">
+                <option value="parentTest1">Parent1</option>
+                <option value="parentTest1">Parent2</option>
+                <option value="parentTest1">Parent3</option>
+            </select>
+                <hr>
+
+            <label for="elementCoordinates"><b>Coordinates (bottom left)</b></label>
+
+            <div class='row gx-1 justify-content-evenly'>
+                <div class="col-6 form-floating mb-1 ">
+                    <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateX" id="elementCoordinateX" class="form-control" placeholder="name">
+                    <label for="elementCoordinateX">X</label>
+                </div>
+                <div class="col form-floating mb-2">
+                    <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateY" id="elementCoordinateY" class="form-control" placeholder="name">
+                    <label for="elementCoordinateY">Y</label>
+                </div>
+            </div>
+
+
+            <div class="form-floating mb-1">
+                <input type="number" min="0" max="0.8" step="0.01" name="elementWidth" id="elementWidth" class="form-control" placeholder="name">
+                <label for="elementWidth">Width</label>
+            </div>
+
+        
+
+        
+            <div class="form-floating mb-3">
+                <input type="number" min="0" max="0.8" step="0.01" name="elementHeight" id="elementHeight" class="form-control" placeholder="name">
+                <label for="elementHeight">Height: </label>
+            </div>
+
+            
+            <hr>
+                
+
+            <label for=""><b>Texture Paths</b></label>
+            <div class='row gx-1'>
+                <div class="col-9 form-floating mb-1">
+                    <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
+                    <label for="elementDiskTexture">Texture Path</label>
+                </div>
+
+                <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
+                <input type="file" style="display:none" id="buttonBrowseTexture">
+            </div>
+                    
+
+            <div class="form-floating mb-3">
+                <input type="text" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
+                <label for="elementWC3Texture">Texture Path (WE)</label>
+            </div>
+
+            <hr>
+
+
+            <label for=""><b>Functionality</b></label>
+            <div class="form-floating mb-1">
+                <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
+                <label for="elementText">Text</label>
+            </div>
+
+        
+
+            <div class="form-floating mb-3">
+                <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
+                <label for="elementTrigVar">Triggered Variable</label>
+            </div>
+        
+            <hr>
+        
+            <label for=""><b>Custom Texture</b></label>
+            <form id="formIMG" >
+                <!--<label for="img">Select image:</label>-->
+                <input type="file" id="imgFile" name="imgFile" accept="image/*">
+                <input type="submit" id="imgBUTTON">
+            </form>
+                
+
+        </div>
+
+        <div id="panelTree">
+            <div class='row justify-content-end'>
+                <button class='col-3 btn btn-warning' id='treeClose'>Tree</button>
+            </div>
+            <div id="panelTreeView"></div>
+
+        </div>
+
+        <div id="panelDebug" style='color: rgb(248,224,197);'>
+
+            <div class='row justify-content-evenly'>
+                <b id='debugLine' class="col-5">Debug Line</b>
+                <div id='debugGameCoordinates' style="color: black;" class="col-7" >Game: (x , y)</div>
+            </div>
+            <div id='credits' style="color: black;" class="col-12">Developed by: NightKnight & Insanity_AI. Consider Supporting!</div>
+            
+        </div>
+
+    <script type="module" src="renderer.js"></script>
+
+</body>
+
+</html>

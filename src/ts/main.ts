@@ -1,49 +1,62 @@
-import { app, BrowserWindow, ipcMain, MenuItem, Menu } from "electron";
+import { app, BrowserWindow, ipcMain, ipcRenderer} from "electron";
 import * as path from "path";
 
-import { ContextMenu } from './menus/contextMenu';
-import { ActionBar } from './menus/actionbar';
+import { ContextMenu } from './Editor/Menus/contextMenu';
 
 let mainWindow : BrowserWindow;
 let contextMenu : ContextMenu;
-let actionBar : ActionBar;
+
+const minWindowWidth = 1024;
+const minWindowHeight = 640;
 
 function initialize() {
 
-  mainWindow = createWindow();
+  //in the future, there should be a settings file that will load previously stored settings, one of which would be initial window size.
+
+  mainWindow = createWindow(minWindowWidth, minWindowHeight);
   contextMenu = new ContextMenu(mainWindow);
-  actionBar = new ActionBar(mainWindow);
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  mainWindow.loadFile(path.join(__dirname, "./index.html"));
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
-  setupEvents();
+  setupEvents(mainWindow);
 
-  mainWindow.maximize();
 }
-
-function createWindow() :  BrowserWindow{
+function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
   // Create the browser window.
-  let browserWindow = new BrowserWindow({
-    height: 800,
+
+  const browserWindow = new BrowserWindow({
+    height: windowHeight,
+    width: windowWidth,
+    minWidth: minWindowWidth,
+    minHeight: minWindowHeight,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
     },
-    width: 1000,
-    resizable: false,
-    movable: false,
+    resizable: true,
+    movable: true,
+    titleBarStyle: "hidden",
+    frame: false,
   });
-
+  
   return browserWindow;
 }
 
-function setupEvents(){
+function setupEvents(mainWindow: BrowserWindow){
 
   ipcMain.on('show-context-menu', () => {
     contextMenu.showContextMenu();
+  })
+
+  ipcMain.on('TableArraySubmit', (event, args) => {
+    mainWindow.webContents.send('TableArraySubmit', args)
+  })
+  
+  ipcMain.on('CircularArraySubmit', (event, args) => {
+    mainWindow.webContents.send('CircularArraySubmit', args)
   })
 
 }
