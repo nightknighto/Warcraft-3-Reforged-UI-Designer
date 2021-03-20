@@ -47,16 +47,17 @@ export class Editor{
         tabsMenu.AddTab(windowMenu);
 
         fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
-        fileMenu.AddRibbonOption(new RibbonOption('Open', null));
-        fileMenu.AddRibbonOption(new RibbonOption('Save', null));
+        fileMenu.AddRibbonOption(new RibbonOption('Open(Not made)', null));
+        fileMenu.AddRibbonOption(new RibbonOption('Save(Not made)', null));
         fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
                 
-        editMenu.AddRibbonOption(new RibbonOption('Undo', null));
-        editMenu.AddRibbonOption(new RibbonOption('Redo', null));
+        editMenu.AddRibbonOption(new RibbonOption('Undo(Not made)', null));
+        editMenu.AddRibbonOption(new RibbonOption('Redo(Not made)', null));
         
-        viewMenu.AddRibbonOption(new RibbonOption('Color Theme', null));
-        viewMenu.AddRibbonOption(new RibbonOption('Zoom out', null));
+        viewMenu.AddRibbonOption(new RibbonOption('Color Theme(Not made)', null));
         
+        windowMenu.AddRibbonOption(new RibbonOption('About(Not made)', null));
+
         let newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
@@ -102,7 +103,6 @@ export class Editor{
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
         insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
 
-        windowMenu.AddRibbonOption(new RibbonOption('About', null));
         
         fileMenu.Run();
         return tabsMenu;
