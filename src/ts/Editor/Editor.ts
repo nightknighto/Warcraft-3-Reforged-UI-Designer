@@ -7,6 +7,7 @@ import { RibbonOption } from "./Menus/RibbonOption";
 import { TabsMenu } from "./Menus/TabsMenu";
 import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
+import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 
 export class Editor{
 
@@ -45,7 +46,7 @@ export class Editor{
         tabsMenu.AddTab(insertMenu);
         tabsMenu.AddTab(windowMenu);
 
-        fileMenu.AddRibbonOption(new RibbonOption('New', null));
+        fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
         fileMenu.AddRibbonOption(new RibbonOption('Open', null));
         fileMenu.AddRibbonOption(new RibbonOption('Save', null));
         fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
@@ -134,5 +135,11 @@ export class Editor{
 
         console.log("Again, cleaner way than doing 'as any' for editor");
         return (document as any).editor;
+    }
+}
+
+class RibbonOptionsNew implements ICallableDivInstance { 
+    public Run() {
+        window.location.reload()
     }
 }
