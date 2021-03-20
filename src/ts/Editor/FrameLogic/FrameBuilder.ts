@@ -7,8 +7,8 @@ export class FrameBuilder implements ICallableDivInstance{
 
     public static frameNumber = 1;
 
-    public width = 0.250;
-    public height = 0.250;
+    public width = 0.20;
+    public height = 0.20;
     public x = 0.250;
     public y = 0.250;
     public name = 'Frame';

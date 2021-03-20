@@ -156,9 +156,5 @@ body{
     right: 0;
     margin: auto;
 
-    padding: 10px;
-}
-
-#panelDebug #debugLine{
-    padding-bottom: 14px;
+    padding: 5px;
 }

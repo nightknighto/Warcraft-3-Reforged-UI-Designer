@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain} from "electron";
+import { app, BrowserWindow, ipcMain, ipcRenderer} from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './Editor/Menus/contextMenu';
@@ -21,7 +21,7 @@ function initialize() {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
 
-  setupEvents();
+  setupEvents(mainWindow);
 
 }
 function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
@@ -45,10 +45,18 @@ function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindo
   return browserWindow;
 }
 
-function setupEvents(){
+function setupEvents(mainWindow: BrowserWindow){
 
   ipcMain.on('show-context-menu', () => {
     contextMenu.showContextMenu();
+  })
+
+  ipcMain.on('TableArraySubmit', (event, args) => {
+    mainWindow.webContents.send('TableArraySubmit', args)
+  })
+  
+  ipcMain.on('CircularArraySubmit', (event, args) => {
+    mainWindow.webContents.send('CircularArraySubmit', args)
   })
 
 }
