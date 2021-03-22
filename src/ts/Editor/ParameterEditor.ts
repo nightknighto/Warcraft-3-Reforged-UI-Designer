@@ -201,7 +201,7 @@ export class ParameterEditor{
 
             }
         }
-        debugText(selectedFrame.GetParent().GetName())
+        debugText("Parent changed to "+selectedFrame.GetParent().GetName())
 
     }catch(e){alert(e)}}
 

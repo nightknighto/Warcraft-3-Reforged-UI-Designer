@@ -2,6 +2,7 @@ import { FrameComponent } from "./FrameComponent";
 import { FrameType } from "./FrameType";
 import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 import { Editor } from "../Editor";
+import { debugText } from "../../Classes & Functions/Mini-Functions";
 
 export class FrameBuilder implements ICallableDivInstance{
 
@@ -26,7 +27,7 @@ export class FrameBuilder implements ICallableDivInstance{
         Editor.GetDocumentEditor().projectTree.AppendToSelected(this);
 
         this.name = name;
-
+        debugText('Element Created')
     }
 
 }
