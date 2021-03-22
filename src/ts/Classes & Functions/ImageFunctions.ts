@@ -1,5 +1,5 @@
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
-import { debug, InputEdit } from "./Mini-Functions"
+import { debugText, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 import { Editor } from "../Editor/Editor";
 
@@ -26,8 +26,8 @@ export function ImageFunctions(img: CustomImage) : void{
                 posx1 = e.clientX;
                 posy1 = e.clientY;
 
-                debug(`(${img.element.offsetLeft},${img.element.offsetTop})`);
-                debug('drag')
+                debugText(`(${img.element.offsetLeft},${img.element.offsetTop})`);
+                debugText('drag')
                 if (((img.element.offsetLeft - posx2) - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / workspaceImage.offsetWidth * 800 >= 0 && ((img.element.offsetLeft - posx2 + img.element.width) - (workspaceImage.getBoundingClientRect().x - horizontalMargin)) / workspaceImage.offsetWidth * 800 <= 800) {
                     img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                 }
@@ -47,8 +47,8 @@ export function ImageFunctions(img: CustomImage) : void{
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
                         posx1 = e.clientX;
-                        debug(`(${img.element.width}, ${img.element.height})`);
-                        debug('resize right')
+                        debugText(`(${img.element.width}, ${img.element.height})`);
+                        debugText('resize right')
                         if ((img.element.width - posx2) * 0.8 / workspaceImage.width <= .02) {
                             img.element.width = 0.02 * workspaceImage.width / 0.8;
                         }
@@ -67,8 +67,8 @@ export function ImageFunctions(img: CustomImage) : void{
                     window.onmousemove = function (e) {
                         posy2 = posy1 - e.clientY;
                         posy1 = e.clientY;
-                        debug(`(${img.element.width}, ${img.element.height})`);
-                        debug('resize bot')
+                        debugText(`(${img.element.width}, ${img.element.height})`);
+                        debugText('resize bot')
     
                         if ((img.element.height - posy2) * 600 / workspaceImage.height <= 20) {
                             img.element.style.height = `${20 * workspaceImage.height / 600}px`;
@@ -90,7 +90,7 @@ export function ImageFunctions(img: CustomImage) : void{
                     posy2 = posy1 - e.clientY;
                     posx1 = e.clientX;
                     posy1 = e.clientY;
-                    debug(`(${img.element.width}, ${img.element.height})`);
+                    debugText(`(${img.element.width}, ${img.element.height})`);
                     if ((img.element.width - posx2) * 800 / workspaceImage.width <= 20) {
                         img.element.width = 20 * workspaceImage.width / 800;
                     }
@@ -122,7 +122,7 @@ export function ImageFunctions(img: CustomImage) : void{
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
                         posx1 = e.clientX;
-                        debug('resize left')
+                        debugText('resize left')
     
                         if ((img.element.width + posx2) * 0.8 / workspaceImage.width <= 0.02) {
                             img.element.width = 0.02 * workspaceImage.width / 0.8;
@@ -146,7 +146,7 @@ export function ImageFunctions(img: CustomImage) : void{
                     window.onmousemove = function (e) {
                         posy2 = posy1 - e.clientY;
                         posy1 = e.clientY;
-                        debug('resize top');
+                        debugText('resize top');
     
                         if ((img.element.height + posy2) * 0.6 / workspaceImage.height <= 0.02) {
                             img.element.style.height = `${0.02 * workspaceImage.height / 0.6}`;
@@ -172,7 +172,7 @@ export function ImageFunctions(img: CustomImage) : void{
                         posy2 = posy1 - e.clientY;
                         posx1 = e.clientX;
                         posy1 = e.clientY;
-                        debug(img.element.style.height);
+                        debugText(img.element.style.height);
     
                         if ((img.element.width + posx2) * 800 / workspaceImage.width <= 20) {
                             img.element.width = 20 * workspaceImage.width / 800;

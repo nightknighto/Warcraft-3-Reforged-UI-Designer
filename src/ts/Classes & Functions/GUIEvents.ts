@@ -1,7 +1,7 @@
 import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements';
 import { Editor } from '../Editor/Editor';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
-import { debug } from '../Classes & Functions/Mini-Functions';
+import { debugText } from '../Classes & Functions/Mini-Functions';
 
 export class GUIEvents {
 
@@ -28,7 +28,6 @@ export class GUIEvents {
         const projectTree = Editor.GetDocumentEditor().projectTree;
 
         projectTree.RemoveFrame(projectTree.GetSelectedFrame());
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);
     }
 
     static DuplicateSelectedImage() : void{try{
@@ -52,7 +51,7 @@ export class GUIEvents {
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
-        debug('Duplicated.')
+        debugText('Duplicated.')
     }catch(e){alert(e)}}
     
     static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
@@ -85,7 +84,7 @@ export class GUIEvents {
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
-        debug('Duplicated Circular.')
+        debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
 
     static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
@@ -120,7 +119,7 @@ export class GUIEvents {
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
-        debug('Duplicated Table form.')
+        debugText('Duplicated Table form.')
     }catch(e){alert(e)}}
 
     static PanelOpenClose() : void {

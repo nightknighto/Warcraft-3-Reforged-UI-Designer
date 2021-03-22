@@ -355,13 +355,15 @@ export class ParameterEditor{
                 options.remove(0);
             }
             
+            let selected: HTMLOptionElement;
             for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
     
                 if(el == frame) continue;
                 options.add(el.parentOption)
                 el.parentOption.selected = false;
-                if(frame.GetParent() == el) el.parentOption.selected = true;
+                if(frame.GetParent() == el) selected = el.parentOption;
             }
+            selected.selected = true;
     
         } else {
             this.DisableFields(true)

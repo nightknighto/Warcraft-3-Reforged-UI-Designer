@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
-import { debug } from "../../Classes & Functions/Mini-Functions";
+import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { workspace, workspaceImage } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
@@ -107,7 +107,7 @@ export class CustomImage {
         this.element.remove()
         Editor.GetDocumentEditor().projectTree.Select(null);
 
-        debug("Deleted CustomImage Object")
+        debugText("Deleted CustomImage Object")
     }
 
     public static GetCustomImageFromHTMLImageElement(imageElement : HTMLImageElement) : CustomImage{

@@ -15,7 +15,7 @@ import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
 import * as path from "path";
-import { debug } from './Classes & Functions/Mini-Functions';
+import { debugText } from './Classes & Functions/Mini-Functions';
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);

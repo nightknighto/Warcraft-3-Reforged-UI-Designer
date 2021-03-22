@@ -8,6 +8,7 @@ import { TabsMenu } from "./Menus/TabsMenu";
 import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
+import { debugText } from '../Classes & Functions/Mini-Functions'
 
 export class Editor{
 
@@ -145,6 +146,7 @@ class RibbonOptionsNew implements ICallableDivInstance {
                 continue;
             }
             el.Destroy()
+            debugText('New page.')
         }
     }
 }
