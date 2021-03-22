@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
 import { debug } from "../../Classes & Functions/Mini-Functions";
-import { workspace, workspaceImage } from "../../Constants/Elements";
 import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
 import { ImageFunctions } from "../../Classes & Functions/ImageFunctions";
-import { GUIEvents } from "../../Classes & Functions/GUIEvents";
 
 export class CustomImage {
 
@@ -70,6 +68,10 @@ export class CustomImage {
         this.height = height;
         this.LeftX = x;
         this.BotY = y;
+
+        const editor = Editor.GetDocumentEditor();
+        const workspace = editor.workspace;
+        const workspaceImage = editor.workspaceImage;
 
         const horizontalMargin = 240/1920*workspaceImage.width
         const rect = workspaceImage.getBoundingClientRect()

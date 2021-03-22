@@ -1,6 +1,5 @@
 import { debug } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
-import { workspaceImage } from '../Constants/Elements';
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
@@ -88,7 +87,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
         const focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
         const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspaceImage.getBoundingClientRect()
+        const rect = workspace.getBoundingClientRect()
         const horizontalMargin = 240/1920*rect.width
 
         if(+inputElement.value > 0.8 || +inputElement.value < 0) {
@@ -118,7 +117,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
         const focusedImage = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
         const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspaceImage.getBoundingClientRect()
+        const rect = workspace.getBoundingClientRect()
 
         if(+inputElement.value > 0.6 || +inputElement.value < 0) {
             debug("Input refused. Height is limited to 0 and 0.6.")
@@ -207,8 +206,9 @@ export class ParameterEditor{
 
     static InputCoordinateX(ev: Event) : void{
         const loc = (ev.target as HTMLInputElement).value;
-        const rect = workspaceImage.getBoundingClientRect()
-        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
+        const editor = Editor.GetDocumentEditor();
+        const rect = editor.workspaceImage.getBoundingClientRect()
+        const image = editor.projectTree.GetSelectedFrame().image.element
         const horizontalMargin = 240/1920*rect.width
 
         if(+loc > 0.8 || +loc < 0) {
@@ -230,8 +230,9 @@ export class ParameterEditor{
     static InputCoordinateY(ev: Event) : void{ try{
 
         const loc = (ev.target as HTMLInputElement).value;
-        const rect = workspaceImage.getBoundingClientRect()
-        const image = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element
+        const editor = Editor.GetDocumentEditor();
+        const rect = editor.workspaceImage.getBoundingClientRect()
+        const image = editor.projectTree.GetSelectedFrame().image.element
 
         if(+loc > 0.6 || +loc < 0) {
             debug("Input refused. Y coordinate is limited to 0 and 0.6.")
@@ -262,10 +263,10 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
         const path = URL.createObjectURL(inputElement.files[0])
         
+        const editor = Editor.GetDocumentEditor();
+        editor.projectTree.GetSelectedFrame().image.SetDiskTexture(path);
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(path);
-        
-        Element.inputElementDiskTexture.value = path
+        editor.parameterEditor.inputElementDiskTexture.value = path;
         debug("Disk Texture changed. However, the app can't know the path of this texture.")
     }
     
@@ -327,29 +328,32 @@ export class ParameterEditor{
     }
 
     public UpdateFields(frame: FrameComponent) : void { try{
-        const horizontalMargin = 240/1920*Element.workspaceImage.width
+
+        const editor = Editor.GetDocumentEditor();
+
+        const horizontalMargin = 240/1920*editor.workspaceImage.width
     
         if(frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {        
             this.DisableFields(false)
     
             this.inputElementName.value = frame.GetName();
-            this.inputElementWidth.value = InputEdit(frame.image.element.width * 800 / (Element.workspaceImage.width - 2*horizontalMargin))
-            this.inputElementHeight.value = InputEdit(frame.image.element.height * 600 / Element.workspaceImage.height)
-            this.inputElementCoordinateX.value = `${InputEdit((frame.image.element.offsetLeft - Element.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(Element.workspaceImage.width - 2*horizontalMargin) * 800) }`;
-            this.inputElementCoordinateY.value = `${InputEdit((Element.workspaceImage.getBoundingClientRect().bottom - frame.image.element.getBoundingClientRect().bottom)/Element.workspaceImage.height * 600)}`;
+            this.inputElementWidth.value = InputEdit(frame.image.element.width * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
+            this.inputElementHeight.value = InputEdit(frame.image.element.height * 600 / editor.workspaceImage.height)
+            this.inputElementCoordinateX.value = `${InputEdit((frame.image.element.offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(editor.workspaceImage.width - 2*horizontalMargin) * 800) }`;
+            this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.image.element.getBoundingClientRect().bottom)/editor.workspaceImage.height * 600)}`;
             this.inputElementDiskTexture.value = frame.image.GetTexture()
             this.inputElementWC3Texture.value = frame.image.textureWC3Path
             this.inputElementText.value = frame.image.text
             this.inputElementTrigVar.value = frame.image.TrigVar
             
             if(frame.type == 1 || frame.type == 2) {
-                Element.selectElementType.disabled = false
-                Element.selectElementType.selectedIndex = frame.type - 1
+                this.selectElementType.disabled = false
+                this.selectElementType.selectedIndex = frame.type - 1
             } else {
-                Element.selectElementType.disabled = true
+                this.selectElementType.disabled = true
             }
     
-            const options = Element.selectElementParent.options
+            const options = this.selectElementParent.options
     
             while(options.length > 0){
                 options.remove(0);
