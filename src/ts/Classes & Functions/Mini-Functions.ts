@@ -1,6 +1,6 @@
 import { debugLine } from "../Constants/Elements";
 
-export function debug(stuff: string) : void{
+export function debugText(stuff: string) : void{
     debugLine.innerText = stuff
 }
 

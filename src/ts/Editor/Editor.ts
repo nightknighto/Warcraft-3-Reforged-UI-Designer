@@ -140,6 +140,11 @@ export class Editor{
 
 class RibbonOptionsNew implements ICallableDivInstance { 
     public Run() {
-        window.location.reload()
+        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+            if(el.type == 0) { //Origin
+                continue;
+            }
+            el.Destroy()
+        }
     }
 }
