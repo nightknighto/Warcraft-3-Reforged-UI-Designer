@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ipcRenderer } from "electron";
 import { debugText } from "../../Classes & Functions/Mini-Functions";
-import { workspace, workspaceImage } from "../../Constants/Elements";
-import { FrameComponent } from "./FrameComponent";
+import {FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
 import { ImageFunctions } from "../../Classes & Functions/ImageFunctions";
 
