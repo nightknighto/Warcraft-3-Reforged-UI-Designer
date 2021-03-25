@@ -1,4 +1,4 @@
-import { debug } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
@@ -75,7 +75,7 @@ export class ParameterEditor{
         const result = value < 0.02;
         if(result){
 
-            debug("Minimum Value is 0.02.");
+            debugText("Minimum Value is 0.02.");
         }
         
         return result;
@@ -91,12 +91,12 @@ export class ParameterEditor{
         const horizontalMargin = 240/1920*rect.width
 
         if(+inputElement.value > 0.8 || +inputElement.value < 0) {
-            debug("Input refused. Width is limited to 0 and 0.8.")
+            debugText("Input refused. Width is limited to 0 and 0.8.")
             return
         }
 
         if(focusedImage.element.getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width-2*horizontalMargin) > workspace.getBoundingClientRect().right-horizontalMargin) {
-            debug("Input refused. Image right edge will be out of screen.")
+            debugText("Input refused. Image right edge will be out of screen.")
             return
         }
 
@@ -120,12 +120,12 @@ export class ParameterEditor{
         const rect = workspace.getBoundingClientRect()
 
         if(+inputElement.value > 0.6 || +inputElement.value < 0) {
-            debug("Input refused. Height is limited to 0 and 0.6.")
+            debugText("Input refused. Height is limited to 0 and 0.6.")
             return
         }
 
         if(focusedImage.element.getBoundingClientRect().bottom - +inputElement.value / 0.6 * workspace.height < workspace.getBoundingClientRect().top) {
-            debug("Input refused. Image top edge will be out of screen.")
+            debugText("Input refused. Image top edge will be out of screen.")
             return
         }
 
@@ -153,13 +153,13 @@ export class ParameterEditor{
         //checks only the first character if it is number or not
         if (+text.charAt(0) >= 0 && +text.charAt(0) <= 9) {
             inputElement.value = ""
-            debug("Name can't start with a number")
+            debugText("Name can't start with a number")
         }
 
         //checks if the text contains special chars or not, if yes, deletes the last character (which will be the special char)
         if (this.format.test(text)) {
             inputElement.value = text.slice(0, text.length - 1)
-            debug("Special Characters refused")
+            debugText("Special Characters refused")
         }
 
     }
@@ -169,7 +169,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().SetName(inputElement.value);
-        debug('Name changed to "' + inputElement.value+'"');
+        debugText('Name changed to "' + inputElement.value+'"');
 
     }catch(e){alert(e)}}
 
@@ -182,7 +182,7 @@ export class ParameterEditor{
         let typeText = ""
         if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 1) typeText = "Backdrop";
         if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 2) typeText = "Button";
-        debug('Type changed to ' + typeText);
+        debugText('Type changed to ' + typeText);
     }
     
     static ChangeParent(ev: Event) : void{try{
@@ -200,7 +200,7 @@ export class ParameterEditor{
 
             }
         }
-        debug(selectedFrame.GetParent().GetName())
+        debugText("Parent changed to "+selectedFrame.GetParent().GetName())
 
     }catch(e){alert(e)}}
 
@@ -212,15 +212,15 @@ export class ParameterEditor{
         const horizontalMargin = 240/1920*rect.width
 
         if(+loc > 0.8 || +loc < 0) {
-            debug("Input refused. X coordinate is limited to 0 and 0.8.")
+            debugText("Input refused. X coordinate is limited to 0 and 0.8.")
             return
         }
         if(+loc + image.getBoundingClientRect().width/(rect.width-2*horizontalMargin)*0.8 > 0.8) {
-            debug("Input refused. Image right edge will be out of screen.")
+            debugText("Input refused. Image right edge will be out of screen.")
             return
         }
 
-        debug(`${ +loc*rect.width/0.8 + rect.left + horizontalMargin}px`)
+        debugText(`${ +loc*rect.width/0.8 + rect.left + horizontalMargin}px`)
         image.style.left = `${ +loc*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetLeftX(+loc)
@@ -235,11 +235,11 @@ export class ParameterEditor{
         const image = editor.projectTree.GetSelectedFrame().image.element
 
         if(+loc > 0.6 || +loc < 0) {
-            debug("Input refused. Y coordinate is limited to 0 and 0.6.")
+            debugText("Input refused. Y coordinate is limited to 0 and 0.6.")
             return
         }
         if(+loc + image.getBoundingClientRect().height/rect.height*0.6 > 0.6) {
-            debug("Input refused. Image top edge will be out of screen.")
+            debugText("Input refused. Image top edge will be out of screen.")
             return
         }
         //alert(`${rect.bottom}, ${+loc*rect.height/0.6}, ${image.height}, ${rect.bottom - +loc*rect.height/0.6 - image.height}`)
@@ -255,7 +255,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetDiskTexture(inputElement.value);
-        debug('Disk Texture changed.');
+        debugText('Disk Texture changed.');
 
     }
 
@@ -267,7 +267,7 @@ export class ParameterEditor{
         editor.projectTree.GetSelectedFrame().image.SetDiskTexture(path);
 
         editor.parameterEditor.inputElementDiskTexture.value = path;
-        debug("Disk Texture changed. However, the app can't know the path of this texture.")
+        debugText("Disk Texture changed. However, the app can't know the path of this texture.")
     }
     
     static InputWC3Texture(ev: Event) : void{
@@ -275,7 +275,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetWC3Texture(inputElement.value);
-        debug('WC3 Texture changed.');
+        debugText('WC3 Texture changed.');
 
     }
         
@@ -284,7 +284,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetText(inputElement.value);
-        debug("Text changed.");
+        debugText("Text changed.");
 
     }
             
@@ -293,7 +293,7 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
 
         Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetTrigVar(inputElement.value);
-        debug("Triggered Variable changed.");
+        debugText("Triggered Variable changed.");
 
     }
 
@@ -359,13 +359,15 @@ export class ParameterEditor{
                 options.remove(0);
             }
             
+            let selected: HTMLOptionElement;
             for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
     
                 if(el == frame) continue;
                 options.add(el.parentOption)
                 el.parentOption.selected = false;
-                if(frame.GetParent() == el) el.parentOption.selected = true;
+                if(frame.GetParent() == el) selected = el.parentOption;
             }
+            selected.selected = true;
     
         } else {
             this.DisableFields(true)

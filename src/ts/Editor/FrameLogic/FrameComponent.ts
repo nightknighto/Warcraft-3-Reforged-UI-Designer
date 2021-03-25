@@ -88,6 +88,8 @@ export class FrameComponent{
         this.treeElement.remove();
         if(this.image != null) this.image.Delete();
         if(this.parentOption != null) this.parentOption.remove();
+        
+        Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);
     }
     
     public MakeParentTo(newChild : FrameComponent) : boolean{

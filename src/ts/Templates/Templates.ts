@@ -11,7 +11,7 @@ export namespace JASS{
 
     export const library = "library REFORGEDUIMAKER initializer init \n"
     export const libraryInit = "private function init takes nothing returns nothing \n"
-    export const TriggerVariableInit = 'function FRvarFunc takes nothing returns nothing \n set TRIGvar = 1 \n endfunction \n \n'
+    export const TriggerVariableInit = 'function FRvarFunc takes nothing returns nothing \n set TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n endfunction \n \n'
 
     export const backdrop = 'set FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
     
@@ -44,7 +44,7 @@ export namespace LUA{
 
     export const library = "REFORGEDUIMAKER = {}\n"
     export const libraryInit = "REFORGEDUIMAKER.Initialize = function()\n"
-    export const TriggerVariableInit = 'REFORGEDUIMAKER.FRvarFunc = function() \nglobals.TRIGvar = 1 \nend \n \n'
+    export const TriggerVariableInit = 'REFORGEDUIMAKER.FRvarFunc = function() \nglobals.TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \nend \n \n'
 
     export const backdrop = 'FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
     
