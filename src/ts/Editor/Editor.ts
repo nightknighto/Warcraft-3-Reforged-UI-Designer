@@ -3,12 +3,14 @@ import { Export } from "../Classes & Functions/Export";
 import { FrameBuilder } from "./FrameLogic/FrameBuilder";
 import { FrameType } from "./FrameLogic/FrameType";
 import { RibbonMenu } from "./Menus/RibbonMenu";
-import { RibbonOption } from "./Menus/RibbonOption";
+import { RibbonCommand } from "./Menus/RibbonCommand";
 import { TabsMenu } from "./Menus/TabsMenu";
 import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 import { debugText } from '../Classes & Functions/Mini-Functions'
+import { PopupMenu } from "./Menus/PopupMenu";
+import { PopupOption } from "./Menus/PopupOption";
 
 export class Editor{
 
@@ -47,62 +49,71 @@ export class Editor{
         tabsMenu.AddTab(insertMenu);
         tabsMenu.AddTab(windowMenu);
 
-        fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
-        fileMenu.AddRibbonOption(new RibbonOption('Open(Not made)', null));
-        fileMenu.AddRibbonOption(new RibbonOption('Save(Not made)', null));
-        fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
+        fileMenu.AddRibbonOption(new RibbonCommand('New', new RibbonOptionsNew()));
+        fileMenu.AddRibbonOption(new RibbonCommand('Open(Not made)', null));
+        fileMenu.AddRibbonOption(new RibbonCommand('Save(Not made)', null));
+        fileMenu.AddRibbonOption(new RibbonCommand('Export',  new Export()));
                 
-        editMenu.AddRibbonOption(new RibbonOption('Undo(Not made)', null));
-        editMenu.AddRibbonOption(new RibbonOption('Redo(Not made)', null));
+        editMenu.AddRibbonOption(new RibbonCommand('Undo(Not made)', null));
+        editMenu.AddRibbonOption(new RibbonCommand('Redo(Not made)', null));
         
-        viewMenu.AddRibbonOption(new RibbonOption('Color Theme(Not made)', null));
+        viewMenu.AddRibbonOption(new RibbonCommand('Color Theme(Not made)', null));
         
-        windowMenu.AddRibbonOption(new RibbonOption('About(Not made)', null));
+        windowMenu.AddRibbonOption(new RibbonCommand('About(Not made)', null));
 
         let newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
-        insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
+
+        let popupOption = new PopupOption('Browser Button', newFrameBuilder)
+        let popupMenu = new PopupMenu('1st Collection', null)
+
+        popupMenu.AddPopupOption(popupOption)
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
-        insertMenu.AddRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
+        
+        popupOption = new PopupOption('Browser Button', newFrameBuilder)
+
+        popupMenu.AddPopupOption(popupOption)
+
+        insertMenu.AddRibbonOption(popupMenu);
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Quest Check Box', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
-        insertMenu.AddRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Checklist Box', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Options Popup Menu Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Quest Button Base', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Quest Button Pushed Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Quest Button Disabled Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
-        insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
+        insertMenu.AddRibbonOption(new RibbonCommand('Esc Menu Backdrop', newFrameBuilder));
 
         
         fileMenu.Run();
