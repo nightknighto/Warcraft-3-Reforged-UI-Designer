@@ -3,6 +3,7 @@ import { Editor } from './Editor';
 import * as Element from "../Constants/Elements";
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
+import { FrameType } from './FrameLogic/FrameType';
 
 export class ParameterEditor{
 
@@ -346,11 +347,23 @@ export class ParameterEditor{
             this.inputElementText.value = frame.image.text
             this.inputElementTrigVar.value = frame.image.TrigVar
             
-            if(frame.type == 1 || frame.type == 2) {
+            if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
                 this.selectElementType.disabled = false
                 this.selectElementType.selectedIndex = frame.type - 1
             } else {
                 this.selectElementType.disabled = true
+                this.inputElementDiskTexture.disabled = true
+                this.inputElementWC3Texture.disabled = true
+            }
+
+            const n = frame.type;
+            if(n != FrameType.BUTTON && n != FrameType.SCRIPT_DIALOG_BUTTON 
+            && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON) {
+                this.inputElementTrigVar.disabled = true
+            }
+
+            if(n != FrameType.SCRIPT_DIALOG_BUTTON && n != FrameType.BROWSER_BUTTON) {
+                this.inputElementText.disabled = true
             }
     
             const options = this.selectElementParent.options

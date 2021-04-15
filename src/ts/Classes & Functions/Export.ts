@@ -263,7 +263,8 @@ function LuaGetTypeText(type: FrameType, functionality: boolean) : string{
             return LUA.QuestCheckBox    
         
         case FrameType.INVIS_BUTTON:
-            return LUA.InvisButton    
+            return LUA.InvisButton
+                
     }
     return ""
 }
