@@ -216,6 +216,9 @@ function JassGetTypeText(type: FrameType, functionality: boolean) : string{
                 
         case FrameType.QUEST_CHECKBOX:
             return JASS.QuestCheckBox    
+        
+        case FrameType.INVIS_BUTTON:
+            return JASS.InvisButton    
     }
     return ""
 }
@@ -258,6 +261,9 @@ function LuaGetTypeText(type: FrameType, functionality: boolean) : string{
                 
         case FrameType.QUEST_CHECKBOX:
             return LUA.QuestCheckBox    
+        
+        case FrameType.INVIS_BUTTON:
+            return LUA.InvisButton    
     }
     return ""
 }

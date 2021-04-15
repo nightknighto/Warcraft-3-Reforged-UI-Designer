@@ -65,10 +65,21 @@ export class Editor{
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
 
+
         let popupOption = new PopupOption('Browser Button', newFrameBuilder)
         let popupMenu = new PopupMenu('1st Collection', null)
 
         popupMenu.AddPopupOption(popupOption)
+
+        // here mr insanity:
+        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder.texture = './files/images/InvisButton.png';
+        newFrameBuilder.type = FrameType.INVIS_BUTTON;
+
+        popupOption = new PopupOption('Invis Button', newFrameBuilder)
+
+        popupMenu.AddPopupOption(popupOption)
+        //end of mr insanity.
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/BrowserButton.png';
