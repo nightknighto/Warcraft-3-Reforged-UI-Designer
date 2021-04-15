@@ -71,16 +71,6 @@ export class Editor{
 
         popupMenu.AddPopupOption(popupOption)
 
-        // here mr insanity:
-        newFrameBuilder = new FrameBuilder();
-        newFrameBuilder.texture = './files/images/InvisButton.png';
-        newFrameBuilder.type = FrameType.INVIS_BUTTON;
-
-        popupOption = new PopupOption('Invis Button', newFrameBuilder)
-
-        popupMenu.AddPopupOption(popupOption)
-        //end of mr insanity.
-
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
@@ -91,6 +81,13 @@ export class Editor{
 
         insertMenu.AddRibbonOption(popupMenu);
 
+        // here mr insanity:
+        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder.texture = './files/images/InvisButton.png';
+        newFrameBuilder.type = FrameType.INVIS_BUTTON;
+        insertMenu.AddRibbonOption(new RibbonCommand('Invis Button', newFrameBuilder));
+        //end of mr insanity.
+        
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;

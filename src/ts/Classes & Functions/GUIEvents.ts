@@ -92,8 +92,8 @@ export class GUIEvents {
         const selected = projectTree.GetSelectedFrame();
         const parent = selected.GetParent()
         
-        for(let i = 0; i < columns; i++) {
-            for(let j = 0; j < rows; j++){
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < columns; j++){
                 if(i == 0 && j == 0) continue;
                 const frameBuilder =  new FrameBuilder()
                 frameBuilder.type = selected.type;

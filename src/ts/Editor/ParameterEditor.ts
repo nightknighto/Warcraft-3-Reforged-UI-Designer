@@ -354,16 +354,22 @@ export class ParameterEditor{
                 this.selectElementType.disabled = true
                 this.inputElementDiskTexture.disabled = true
                 this.inputElementWC3Texture.disabled = true
+
+                this.inputElementDiskTexture.value = ""
+                this.inputElementWC3Texture.value = ""
             }
 
             const n = frame.type;
             if(n != FrameType.BUTTON && n != FrameType.SCRIPT_DIALOG_BUTTON 
             && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON) {
                 this.inputElementTrigVar.disabled = true
+                this.inputElementTrigVar.value = ""
             }
 
             if(n != FrameType.SCRIPT_DIALOG_BUTTON && n != FrameType.BROWSER_BUTTON) {
                 this.inputElementText.disabled = true
+                this.inputElementText.value = ""
+
             }
     
             const options = this.selectElementParent.options
