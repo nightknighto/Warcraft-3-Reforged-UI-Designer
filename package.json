@@ -1,6 +1,6 @@
 {
   "name": "wc3-ui-maker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
   "main": "./app/main.js",
   "scripts": {
