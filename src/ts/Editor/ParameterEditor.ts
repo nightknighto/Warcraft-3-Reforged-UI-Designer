@@ -23,6 +23,12 @@ export class ParameterEditor{
     public readonly inputElementTrigVar         : HTMLInputElement;
     public readonly butttonElementTextureBrowse : HTMLButtonElement;
 
+    public readonly fieldTexture                : HTMLDivElement;
+    public readonly fieldType                   : HTMLDivElement;
+    public readonly fieldFunctionalityFull          : HTMLDivElement;
+    public readonly fieldFunctionalityText          : HTMLDivElement;
+    public readonly fieldFunctionalityVar          : HTMLDivElement;
+
     public constructor(){
 
         this.panelParameters                        = document.getElementById('panelParameters') as HTMLElement;
@@ -39,6 +45,13 @@ export class ParameterEditor{
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
         this.butttonElementTextureBrowse            = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
+
+        this.fieldTexture                           = document.getElementById('FieldTexture') as HTMLDivElement;
+        this.fieldType                           = document.getElementById('FieldType') as HTMLDivElement;
+        this.fieldFunctionalityFull                           = document.getElementById('FieldFunctionalityFull') as HTMLDivElement;
+        this.fieldFunctionalityText                           = document.getElementById('FieldFunctionalityText') as HTMLDivElement;
+        this.fieldFunctionalityVar                           = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
+
 
         this.inputElementWidth.disabled             = true
         this.inputElementHeight.disabled            = true
@@ -178,12 +191,17 @@ export class ParameterEditor{
 
         const selectElement = ev.target as HTMLSelectElement;
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type = +selectElement.selectedOptions[0].value;
+        const selected = Editor.GetDocumentEditor().projectTree.GetSelectedFrame()
+
+        selected.type = +selectElement.selectedOptions[0].value;
 
         let typeText = ""
-        if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 1) typeText = "Backdrop";
-        if(Editor.GetDocumentEditor().projectTree.GetSelectedFrame().type == 2) typeText = "Button";
+        if(selected.type == 1) typeText = "Backdrop";
+        if(selected.type == 2) typeText = "Button";
         debugText('Type changed to ' + typeText);
+
+        Editor.GetDocumentEditor().parameterEditor.UpdateFields(selected);
+        
     }
     
     static ChangeParent(ev: Event) : void{try{
@@ -347,16 +365,26 @@ export class ParameterEditor{
             this.inputElementText.value = frame.image.text
             this.inputElementTrigVar.value = frame.image.TrigVar
             
-            if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
-                this.selectElementType.disabled = false
-                this.selectElementType.selectedIndex = frame.type - 1
-            } else {
-                this.selectElementType.disabled = true
-                this.inputElementDiskTexture.disabled = true
-                this.inputElementWC3Texture.disabled = true
+            this.fieldType.style.display = "initial"
+            this.fieldTexture.style.display = "initial"
+            this.fieldFunctionalityFull.style.display = "initial"
+            this.fieldFunctionalityText.style.display = "initial"
+            this.fieldFunctionalityVar.style.display = "initial"
+            
 
-                this.inputElementDiskTexture.value = ""
-                this.inputElementWC3Texture.value = ""
+            if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
+                this.selectElementType.selectedIndex = frame.type - 1
+
+                if(frame.type == FrameType.BACKDROP) this.fieldFunctionalityFull.style.display = "none";
+            
+            } else {
+                this.fieldType.style.display = "none"
+                this.fieldTexture.style.display = "none"
+
+                if(frame.type != FrameType.BROWSER_BUTTON && frame.type != FrameType.SCRIPT_DIALOG_BUTTON) {
+                    if(frame.type == FrameType.INVIS_BUTTON) this.fieldFunctionalityText.style.display = "none";
+                    else this.fieldFunctionalityFull.style.display = "none";
+                }
             }
 
             const n = frame.type;

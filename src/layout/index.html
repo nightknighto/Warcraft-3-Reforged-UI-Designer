@@ -51,11 +51,13 @@
                 <label for="elementName">Name</label> 
             </div>
 
+            <div id='FieldType'>
             <label for="elementType" class="col-4">Type: </label>
             <select name="elementType" id="elementType">
                 <option value="1">Backdrop</option>
                 <option value="2">Button</option>
             </select>
+            </div>
 
             <label for="elementParent" class="col-4">Parent: </label>
             <select name="elementParent" id="elementParent" class="parameter">
@@ -95,7 +97,7 @@
             
             <hr>
                 
-
+            <div id='FieldTexture'>
             <label for=""><b>Texture Paths</b></label>
             <div class='row gx-1'>
                 <div class="col-9 form-floating mb-1">
@@ -114,23 +116,29 @@
             </div>
 
             <hr>
-
-
-            <label for=""><b>Functionality</b></label>
-            <div class="form-floating mb-1">
-                <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
-                <label for="elementText">Text</label>
             </div>
 
-        
+            <div id='FieldFunctionalityFull'>
+                <label for=""><b>Functionality</b></label>
 
-            <div class="form-floating mb-3">
-                <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
-                <label for="elementTrigVar">Triggered Variable</label>
+                
+                <div id='FieldFunctionalityText'>
+                    <div class="form-floating mb-1">
+                        <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
+                        <label for="elementText">Text</label>
+                    </div>
+                </div>
+
+               
+                <div id='FieldFunctionalityVar'>
+                    <div class="form-floating mb-3">
+                        <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
+                        <label for="elementTrigVar">Triggered Variable</label>
+                    </div>
+                </div>
+                <hr>
             </div>
-        
-            <hr>
-        
+
             <label for=""><b>Custom Element</b></label>
             <form id="formIMG" >
                 <!--<label for="img">Select image:</label>-->

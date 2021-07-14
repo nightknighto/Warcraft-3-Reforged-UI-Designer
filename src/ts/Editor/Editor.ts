@@ -80,6 +80,11 @@ export class Editor{
         popupMenu.AddPopupOption(popupOption)
 
         insertMenu.AddRibbonOption(popupMenu);
+        
+        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder.texture = './files/images/InvisButton.png';
+        newFrameBuilder.type = FrameType.INVIS_BUTTON;
+        insertMenu.AddRibbonOption(new RibbonCommand('Invis Button', newFrameBuilder));
 
         // here mr insanity:
         newFrameBuilder = new FrameBuilder();
