@@ -374,6 +374,7 @@ export class ParameterEditor{
 
             if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
                 this.selectElementType.selectedIndex = frame.type - 1
+                this.fieldFunctionalityText.style.display = "none"
 
                 if(frame.type == FrameType.BACKDROP) this.fieldFunctionalityFull.style.display = "none";
             
