@@ -1,10 +1,30 @@
 import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 
-export interface RibbonOption{
+export class RibbonOption{
 
-    readonly name : string;
-    readonly callbackObject : ICallableDivInstance
+    public readonly name : string;
+    private callbackObject : ICallableDivInstance;
 
-    CreateHTMLElement() : HTMLElement
+    public constructor(name : string, callbackObject : ICallableDivInstance){
+
+        this.name = name;
+        this.callbackObject = callbackObject;
+
+    }
+
+    public CreateHTMLElement() : HTMLElement{
+
+        const div = document.createElement('div');
+
+        div.setAttribute('class', 'ribbonOption');
+        div.innerText = this.name;
+    
+        ICallableDivInstance.Setup(div, this.callbackObject);
+        div.onclick = ICallableDivInstance.Call;
+
+        return div;
+
+    }
+
 
 }
