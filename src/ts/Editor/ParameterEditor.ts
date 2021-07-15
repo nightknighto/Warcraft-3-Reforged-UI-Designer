@@ -28,6 +28,8 @@ export class ParameterEditor{
     public readonly fieldFunctionalityFull          : HTMLDivElement;
     public readonly fieldFunctionalityText          : HTMLDivElement;
     public readonly fieldFunctionalityVar          : HTMLDivElement;
+    public readonly fieldGeneral                  : HTMLDivElement;
+    public readonly fieldElement                  : HTMLDivElement;
 
     public constructor(){
 
@@ -51,6 +53,8 @@ export class ParameterEditor{
         this.fieldFunctionalityFull                           = document.getElementById('FieldFunctionalityFull') as HTMLDivElement;
         this.fieldFunctionalityText                           = document.getElementById('FieldFunctionalityText') as HTMLDivElement;
         this.fieldFunctionalityVar                           = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
+        this.fieldGeneral                           = document.getElementById('FieldGeneral') as HTMLDivElement;
+        this.fieldElement                           = document.getElementById('FieldElement') as HTMLDivElement;
 
 
         this.inputElementWidth.disabled             = true
@@ -365,11 +369,13 @@ export class ParameterEditor{
             this.inputElementText.value = frame.image.text
             this.inputElementTrigVar.value = frame.image.TrigVar
             
+            this.fieldElement.style.display = "initial"
             this.fieldType.style.display = "initial"
             this.fieldTexture.style.display = "initial"
             this.fieldFunctionalityFull.style.display = "initial"
             this.fieldFunctionalityText.style.display = "initial"
             this.fieldFunctionalityVar.style.display = "initial"
+            this.fieldGeneral.style.display = "none"
             
 
             if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
@@ -420,6 +426,9 @@ export class ParameterEditor{
         } else {
             this.DisableFields(true)
             this.EmptyFields()
+            
+            this.fieldElement.style.display = "none"
+            this.fieldGeneral.style.display = "initial"
         }
     
     }catch(e){alert(e)}
