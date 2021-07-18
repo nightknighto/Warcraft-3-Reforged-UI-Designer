@@ -65,7 +65,7 @@ export class FrameComponent implements Saveable{
 
         for(const child of this.children){
 
-            const childSaveContainer = new SaveContainer();
+            const childSaveContainer = new SaveContainer(null);
             child.save(childSaveContainer);
             childrenSaveArray.push(childSaveContainer);
 
