@@ -44,7 +44,7 @@ export class GUIEvents {
             if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
         })
 
-        newFrame.image.SetLeftX(selected.image.LeftX+0.03)
+        newFrame.image.SetLeftXWithElement(selected.image.LeftX+0.03)
         newFrame.image.SetBotY(selected.image.BotY-0.03)
         
         projectTree.Select(newFrame);
@@ -76,7 +76,7 @@ export class GUIEvents {
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
             const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
-            newFrame.image.SetLeftX(newX) 
+            newFrame.image.SetLeftXWithElement(newX) 
             newFrame.image.SetBotY(newY)
         }
         
@@ -110,7 +110,7 @@ export class GUIEvents {
 
                 const newX = LeftX + (width + gapX)*j 
                 const newY = TopY + height - (height + gapY)*i
-                newFrame.image.SetLeftX(newX) 
+                newFrame.image.SetLeftXWithElement(newX) 
                 newFrame.image.SetBotY(newY)
             }
         }

@@ -6,6 +6,7 @@ import { FrameType } from './FrameLogic/FrameType';
 import { Editor } from './Editor';
 import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
+import { GUIEvents } from '../Classes & Functions/GUIEvents';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
@@ -106,7 +107,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 frameBuilder.load(frameData as SaveContainer);
 
             }
-
+            GUIEvents.RefreshElements()
         }
         else {
             console.error("Could not parse JSON");

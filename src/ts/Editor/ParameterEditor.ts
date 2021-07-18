@@ -242,10 +242,7 @@ export class ParameterEditor{
             return
         }
 
-        debugText(`${ +loc*rect.width/0.8 + rect.left + horizontalMargin}px`)
-        image.style.left = `${ +loc*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetLeftX(+loc)
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetLeftXWithElement(+loc)
 
     }
 
@@ -264,11 +261,8 @@ export class ParameterEditor{
             debugText("Input refused. Image top edge will be out of screen.")
             return
         }
-        //alert(`${rect.bottom}, ${+loc*rect.height/0.6}, ${image.height}, ${rect.bottom - +loc*rect.height/0.6 - image.height}`)
-        image.style.top = `${rect.bottom - +loc*rect.height/0.6 - image.height - 120}px`
-        //Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.element.style.bottom = `${Editor.GetDocumentEditor().workspaceImage.height - ((+loc * Editor.GetDocumentEditor().workspaceImage.height) / 600 + Editor.GetDocumentEditor().workspaceImage.y)}px`
-        //image.style.top = `${workspaceImage.height - ((+loc * workspaceImage.height) / 0.6 + workspaceImage.y)}px`
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetBotY(+loc)
+
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image.SetBotYWithElement(+loc)
 
     }catch(e){alert(e)}}
 

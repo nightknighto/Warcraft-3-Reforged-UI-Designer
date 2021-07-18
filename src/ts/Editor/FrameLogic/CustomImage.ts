@@ -66,10 +66,30 @@ export class CustomImage implements Saveable {
         this.LeftX = newX;
     }
 
+    public SetLeftXWithElement(newX : number) : void{
+        const editor = Editor.GetDocumentEditor();
+        const rect = editor.workspaceImage.getBoundingClientRect()
+        const horizontalMargin = 240/1920*rect.width
+
+        this.LeftX = newX;
+        this.element.style.left = `${ +newX*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+        
+        debugText(`${ +newX*rect.width/0.8 + rect.left + horizontalMargin}px`)
+    }
+
     BotY : number;
 
     public SetBotY(newY : number) : void{
         this.BotY = newY;
+    }
+
+    public SetBotYWithElement(newY : number) : void{
+        const editor = Editor.GetDocumentEditor();
+        const rect = editor.workspaceImage.getBoundingClientRect()
+
+        this.BotY = newY;
+        this.element.style.top = `${rect.bottom - +newY*rect.height/0.6 - this.element.height - 120}px`
+        
     }
 
     constructor(frameComponent : FrameComponent, texturePath : string, width : number, height : number, x : number, y : number) {try{
@@ -77,27 +97,26 @@ export class CustomImage implements Saveable {
         this.textureDiskPath = texturePath;
         this.width = width;
         this.height = height;
-        this.LeftX = x;
-        this.BotY = y;
 
         const editor = Editor.GetDocumentEditor();
         const workspace = editor.workspace;
-        const workspaceImage = editor.workspaceImage;
+        const workspaceImage = editor.workspaceImage.getBoundingClientRect();
 
         const horizontalMargin = 240/1920*workspaceImage.width
-        const rect = workspaceImage.getBoundingClientRect()
 
         this.element = document.createElement('img');
         this.element.src = texturePath;
-        this.element.style.height = `${+height / 0.6 * workspace.getBoundingClientRect().height}px`;
+        this.element.style.height = `${+height / 0.6 * workspaceImage.height}px`;
         this.element.width = +width / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin);
         this.element.draggable = false;
         this.element.style.position = "absolute";
-        this.element.style.top = `${rect.bottom - y*rect.height/0.6 - this.element.height - 120}px`
-        this.element.style.left = `${ +x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`;
         this.element.style.outlineStyle = "dashed"
         this.element.style.outlineColor = "green"
         this.element.style.outlineOffset = "-3px"
+        
+        //must be after creation of element
+        this.SetLeftXWithElement(x);
+        this.SetBotYWithElement(y);
 
         workspace.appendChild(this.element);
         ImageFunctions(this);
@@ -125,6 +144,14 @@ export class CustomImage implements Saveable {
         container.save(CustomImage.SAVE_KEY_BOTY, this.BotY);
         container.save(CustomImage.SAVE_KEY_TEXT, this.text);
         container.save(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.TrigVar);
+
+    }
+    
+    public load(container: SaveContainer) : void{
+
+        this.textureWC3Path = container.load(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH);
+        this.text = container.load(CustomImage.SAVE_KEY_TEXT);
+        this.TrigVar = container.load(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME);
 
     }
 
