@@ -71,7 +71,8 @@ export class FrameComponent implements Saveable{
 
         }
 
-        container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray);
+        if(childrenSaveArray.length > 0) 
+            container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray);
         
     }
 

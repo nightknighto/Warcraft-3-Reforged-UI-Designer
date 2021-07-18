@@ -1,15 +1,17 @@
 export default class SaveContainer{
 
-    private data : JSON;
+    private data = {};
 
     public constructor(){
         return this;
     }
 
+    // eslint-disable-next-line
     public save(key : string, value : any) : void{
         this.data[key] = value;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public load(key : string) : any{
         return this.data[key];
     }
@@ -22,8 +24,8 @@ export default class SaveContainer{
         return this.data[key] != undefined
     }
 
-    public exportToJSON() : JSON{
-        return this.data;
+    public exportToJSON() : string{
+        return JSON.stringify(this.data);
     }
 
 }

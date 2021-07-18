@@ -9,7 +9,7 @@ import SaveContainer from '../Persistence/SaveContainer';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable{
 
-    public static readonly SAVE_KEY_ORIGIN_CHILDREN;
+    public static readonly SAVE_KEY_ORIGIN_CHILDREN = "frames";
 
     public readonly rootFrame : FrameComponent;
     public readonly panelTree : HTMLElement;

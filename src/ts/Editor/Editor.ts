@@ -9,6 +9,7 @@ import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 import { debugText } from '../Classes & Functions/Mini-Functions'
+import Save from "../Persistence/Save";
 
 export class Editor{
 
@@ -49,7 +50,7 @@ export class Editor{
 
         fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
         fileMenu.AddRibbonOption(new RibbonOption('Open(Not made)', null));
-        fileMenu.AddRibbonOption(new RibbonOption('Save(Not made)', null));
+        fileMenu.AddRibbonOption(new RibbonOption('Save', new Save()));
         fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
                 
         editMenu.AddRibbonOption(new RibbonOption('Undo(Not made)', null));
