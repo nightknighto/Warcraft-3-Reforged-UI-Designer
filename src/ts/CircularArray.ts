@@ -14,9 +14,9 @@ namespace CircularArray {
 
     submit.onclick = () => {try{
         //conditions plz
-        if(+radius.value <= 0 || +radius.value > .4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
+        if(+radius.value < 0 || +radius.value > .4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
 
-            if(+radius.value <= 0 || +radius.value > .4) {radius.value = ""}
+            if(+radius.value < 0 || +radius.value > .4) {radius.value = ""}
             if(+count.value <= 0) {count.value = ''}
             if(+initAng.value < 0 || +initAng.value > 360) {initAng.value = ''}
             return;

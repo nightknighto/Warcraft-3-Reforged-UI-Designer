@@ -3,8 +3,14 @@ import { Editor } from "../Editor";
 import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
+import Saveable from "../../Persistence/Saveable";
+import SaveContainer from "../../Persistence/SaveContainer";
 
-export class FrameComponent{
+export class FrameComponent implements Saveable{
+
+    public static readonly SAVE_KEY_NAME = "name";
+    public static readonly SAVE_KEY_CHILDREN = "children";
+    public static readonly SAVE_KEY_TYPE = "type";
 
     private children : FrameComponent[];
     public readonly image : CustomImage;
@@ -48,6 +54,27 @@ export class FrameComponent{
         }
 
     }catch(e){alert('FrameComp Const: '+e)}}
+
+    save(container: SaveContainer): void {
+
+        container.save(FrameComponent.SAVE_KEY_NAME, this.name);
+        container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
+        this.image.save(container);
+
+        const childrenSaveArray = [];
+
+        for(const child of this.children){
+
+            const childSaveContainer = new SaveContainer();
+            child.save(childSaveContainer);
+            childrenSaveArray.push(childSaveContainer);
+
+        }
+
+        if(childrenSaveArray.length > 0) 
+            container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray);
+        
+    }
 
     private AppendFrame(frame : FrameComponent) : void{
 
@@ -96,7 +123,9 @@ export class FrameComponent{
 
         if(newChild == this) return false;
 
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         let traverseNode : FrameComponent = this; 
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         let previousNode : FrameComponent = this;
 
         do{
