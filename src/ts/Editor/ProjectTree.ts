@@ -4,8 +4,12 @@ import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameBuilder } from './FrameLogic/FrameBuilder';
 import { FrameType } from './FrameLogic/FrameType';
 import { Editor } from './Editor';
+import Saveable from '../Persistence/Saveable';
+import SaveContainer from '../Persistence/SaveContainer';
 
-export class ProjectTree implements IterableIterator<FrameComponent>{
+export class ProjectTree implements IterableIterator<FrameComponent>, Saveable{
+
+    public static readonly SAVE_KEY_ORIGIN_CHILDREN;
 
     public readonly rootFrame : FrameComponent;
     public readonly panelTree : HTMLElement;
@@ -35,6 +39,22 @@ export class ProjectTree implements IterableIterator<FrameComponent>{
         }
 
         this.panelTree.appendChild(this.rootFrame.treeElement);
+
+    }
+
+    save(container: SaveContainer): void {
+    
+        const originChildrenArray = [];
+
+        for(const frame of this.rootFrame.GetChildren()){
+
+            const frameSaveContainer = new SaveContainer();
+            frame.save(frameSaveContainer);
+            originChildrenArray.push(frameSaveContainer);
+
+        }
+
+        container.save(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN, originChildrenArray);
 
     }
 

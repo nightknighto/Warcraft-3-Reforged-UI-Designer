@@ -4,8 +4,19 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import {FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
 import { ImageFunctions } from "../../Classes & Functions/ImageFunctions";
+import Saveable from "../../Persistence/Saveable";
+import SaveContainer from "../../Persistence/SaveContainer";
 
-export class CustomImage {
+export class CustomImage implements Saveable {
+
+    public static readonly SAVE_KEY_TEXTURE_DISK_PATH = "textureDiskPath";
+    public static readonly SAVE_KEY_TEXTURE_WC3_PATH = "textureWc3Path"
+    public static readonly SAVE_KEY_TEXT = "text";
+    public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
+    public static readonly SAVE_KEY_HEIGHT = "height";
+    public static readonly SAVE_KEY_WIDTH = "width";
+    public static readonly SAVE_KEY_LEFTX = "leftX";
+    public static readonly SAVE_KEY_BOTY = "botY";
 
     public readonly frameComponent : FrameComponent;
     public readonly element : HTMLImageElement;
@@ -103,6 +114,19 @@ export class CustomImage {
         }
 
     }catch(e){alert(e)}}
+
+    save(container: SaveContainer): void {
+
+        container.save(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH, this.textureDiskPath);
+        container.save(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH, this.textureWC3Path);
+        container.save(CustomImage.SAVE_KEY_HEIGHT, this.height);
+        container.save(CustomImage.SAVE_KEY_WIDTH, this.width);
+        container.save(CustomImage.SAVE_KEY_LEFTX, this.LeftX);
+        container.save(CustomImage.SAVE_KEY_BOTY, this.BotY);
+        container.save(CustomImage.SAVE_KEY_TEXT, this.text);
+        container.save(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.TrigVar);
+
+    }
 
     Delete() : void{
 
