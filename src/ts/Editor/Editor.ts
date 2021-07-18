@@ -10,6 +10,7 @@ import { ProjectTree } from "./ProjectTree";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 import { debugText } from '../Classes & Functions/Mini-Functions'
 import Save from "../Persistence/Save";
+import Load from "../Persistence/Load";
 
 export class Editor{
 
@@ -49,7 +50,7 @@ export class Editor{
         tabsMenu.AddTab(windowMenu);
 
         fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
-        fileMenu.AddRibbonOption(new RibbonOption('Open(Not made)', null));
+        fileMenu.AddRibbonOption(new RibbonOption('Open', new Load()));
         fileMenu.AddRibbonOption(new RibbonOption('Save', new Save()));
         fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
                 

@@ -8,7 +8,7 @@ export default class Save implements ICallableDivInstance{
 
     public save(filepath : string) : void{
 
-        const data = new SaveContainer();
+        const data = new SaveContainer(null);
         Editor.GetDocumentEditor().projectTree.save(data);
 
         writeFile(filepath,data.exportToJSON(), (err)=>{

@@ -1,8 +1,10 @@
-import { FrameComponent } from "./FrameComponent";
 import { FrameType } from "./FrameType";
 import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 import { Editor } from "../Editor";
 import { debugText } from "../../Classes & Functions/Mini-Functions";
+import SaveContainer from "../../Persistence/SaveContainer";
+import { FrameComponent } from "./FrameComponent";
+import { CustomImage } from "./CustomImage";
 
 export class FrameBuilder implements ICallableDivInstance{
 
@@ -15,6 +17,11 @@ export class FrameBuilder implements ICallableDivInstance{
     public name = 'Frame';
     public type : FrameType = FrameType.BACKDROP;
     public texture = "";
+
+    //these are not used anywhere but whatever, someone added them into CustomImage without adding them here, they will have to face the concequences of fixing this.
+    public wc3Texture = "";
+    public text = "";
+    public trigVar = "";
     
     public constructor(){ return this; }
 
@@ -28,6 +35,45 @@ export class FrameBuilder implements ICallableDivInstance{
 
         this.name = name;
         debugText('Element Created')
+    }
+
+    public load(container: SaveContainer) : void{
+
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const originallySelectedFrame = projectTree.GetSelectedFrame();
+
+        if (!container.hasKey(FrameComponent.SAVE_KEY_NAME)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(FrameComponent.SAVE_KEY_TYPE)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_BOTY)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_HEIGHT)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_LEFTX)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_TEXT)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME)) {console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomImage.SAVE_KEY_WIDTH)) {console.error("Could not parse JSON."); return; }
+
+        this.name = container.load(FrameComponent.SAVE_KEY_NAME);
+        this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
+
+        this.texture = container.load(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH);
+        this.wc3Texture = container.load(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH);
+        this.text = container.load(CustomImage.SAVE_KEY_TEXT);
+        this.x = container.load(CustomImage.SAVE_KEY_LEFTX);
+        this.y = container.load(CustomImage.SAVE_KEY_BOTY);
+        this.height = container.load(CustomImage.SAVE_KEY_HEIGHT);
+        this.width = container.load(CustomImage.SAVE_KEY_WIDTH);
+        this.trigVar = container.load(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME);
+
+        projectTree.Select(projectTree.AppendToSelected(this));
+
+        if(container.hasKey(FrameComponent.SAVE_KEY_CHILDREN))
+            for(const frameData of container.load(FrameComponent.SAVE_KEY_CHILDREN))
+                new FrameBuilder().load(frameData);
+        
+
+        projectTree.Select(originallySelectedFrame);
+
     }
 
 }
