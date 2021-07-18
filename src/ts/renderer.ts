@@ -7,7 +7,7 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { ipcRenderer, BrowserWindow, remote } from "electron";
+import { ipcRenderer, remote } from "electron";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import * as Element from "./Constants/Elements";
@@ -15,7 +15,6 @@ import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
 import * as path from "path";
-import { debugText } from './Classes & Functions/Mini-Functions';
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -61,23 +60,20 @@ ipcRenderer.on('CircularArray', () => {
 });
 
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
-  let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
   GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
 }catch(e){alert(e)}})
 
 ipcRenderer.on('CircularArraySubmit', (event, args) => {
-  let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
   GUIEvents.DuplicateArrayCircular(source.LeftX, source.BotY, args[0], args[1], args[2])
 })
 
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const editor = new Editor(document);
-
-//required:
-//undo option
-//mouse cursor change before drag or resize
 const input = document.getElementById('imgFile') as HTMLInputElement
 
 Element.formIMG.addEventListener("submit", e => {

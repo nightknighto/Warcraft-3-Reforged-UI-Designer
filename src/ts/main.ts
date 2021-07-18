@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, ipcRenderer} from "electron";
+import { app, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './Editor/Menus/contextMenu';

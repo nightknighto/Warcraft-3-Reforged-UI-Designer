@@ -1,6 +1,5 @@
 import { debugText } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor';
-import * as Element from "../Constants/Elements";
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
@@ -320,7 +319,7 @@ export class ParameterEditor{
 
     }
 
-    public EmptyFields() {
+    public EmptyFields() : void {
         this.inputElementWidth.value         = ""
         this.inputElementHeight.value        = ""
         this.inputElementName.value          = ""
@@ -335,7 +334,7 @@ export class ParameterEditor{
     
     }
 
-    public DisableFields(disable: boolean) {
+    public DisableFields(disable: boolean) : void {
         this.inputElementWidth.disabled             = disable
         this.inputElementHeight.disabled            = disable
         this.inputElementName.disabled              = disable
