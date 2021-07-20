@@ -74,7 +74,7 @@ Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const editor = new Editor(document);
-const input = document.getElementById('imgFile') as HTMLInputElement
+/*const input = document.getElementById('imgFile') as HTMLInputElement
 
 Element.formIMG.addEventListener("submit", e => {
   e.preventDefault()
@@ -85,6 +85,7 @@ Element.formIMG.addEventListener("submit", e => {
   
   frameBuilder.Run();
 })
+*/
 
 window.onresize = GUIEvents.RefreshElements;
 
@@ -95,4 +96,5 @@ new Titlebar({
 
 })
 
+Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
 //# sourceMappingURL=renderer.js.map

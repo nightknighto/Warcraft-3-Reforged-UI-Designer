@@ -62,6 +62,11 @@ export class Editor{
         windowMenu.AddRibbonOption(new RibbonOption('About(Not made)', null));
 
         let newFrameBuilder = new FrameBuilder();
+        newFrameBuilder.texture = './files/images/CustomFrame.png';
+        newFrameBuilder.type = FrameType.BACKDROP;
+        insertMenu.AddRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
         insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
