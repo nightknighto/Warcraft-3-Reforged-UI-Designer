@@ -96,5 +96,9 @@ new Titlebar({
 
 })
 
+//general Initializations
 Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
+document.getElementById("panelTree").style.visibility = "visible"
+document.getElementById("panelParameters").style.visibility = "visible"
+
 //# sourceMappingURL=renderer.js.map
