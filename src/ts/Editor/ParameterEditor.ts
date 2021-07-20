@@ -3,6 +3,7 @@ import { Editor } from './Editor';
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
+import { ProjectTree } from './ProjectTree';
 
 export class ParameterEditor{
 
@@ -20,7 +21,11 @@ export class ParameterEditor{
     public readonly inputElementWC3Texture      : HTMLInputElement;
     public readonly inputElementText            : HTMLInputElement;
     public readonly inputElementTrigVar         : HTMLInputElement;
-    public readonly butttonElementTextureBrowse : HTMLButtonElement;
+    public readonly buttonElementTextureBrowse : HTMLButtonElement;
+    public readonly inputLibraryName              : HTMLInputElement;
+    public readonly checkboxGameUI              : HTMLInputElement;
+    public readonly checkboxHeroBar              : HTMLInputElement;
+    public readonly checkboxMiniMap              : HTMLInputElement;
 
     public readonly fieldTexture                : HTMLDivElement;
     public readonly fieldType                   : HTMLDivElement;
@@ -45,7 +50,11 @@ export class ParameterEditor{
         this.inputElementWC3Texture                 = document.getElementById('elementWC3Texture') as HTMLInputElement;
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
-        this.butttonElementTextureBrowse            = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
+        this.buttonElementTextureBrowse            = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
+        this.inputLibraryName                        = document.getElementById('generalLibName') as HTMLInputElement;
+        this.checkboxGameUI                         = document.getElementById('generalGameUI') as HTMLInputElement;
+        this.checkboxHeroBar                         = document.getElementById('generalHeroBar') as HTMLInputElement;
+        this.checkboxMiniMap                        = document.getElementById('generalMiniMap') as HTMLInputElement;
 
         this.fieldTexture                           = document.getElementById('FieldTexture') as HTMLDivElement;
         this.fieldType                           = document.getElementById('FieldType') as HTMLDivElement;
@@ -337,7 +346,7 @@ export class ParameterEditor{
         this.inputElementCoordinateX.disabled       = disable
         this.inputElementCoordinateY.disabled       = disable
         this.inputElementDiskTexture.disabled       = disable
-        this.butttonElementTextureBrowse.disabled   = disable
+        this.buttonElementTextureBrowse.disabled   = disable
         this.inputElementWC3Texture.disabled        = disable
         this.inputElementText.disabled              = disable
         this.inputElementTrigVar.disabled           = disable
@@ -422,6 +431,7 @@ export class ParameterEditor{
             
             this.fieldElement.style.display = "none"
             this.fieldGeneral.style.display = "initial"
+
         }
     
     }catch(e){alert(e)}

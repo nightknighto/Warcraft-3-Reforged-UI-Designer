@@ -16,6 +16,20 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public readonly panelTree: HTMLElement;
     private selectedFrame: FrameComponent;
 
+    public static LibraryName = "REFORGEDUIMAKER"
+    public static HideGameUI = false;
+    public static HideHeroBar = false;
+    public static HideMiniMap = false;
+    
+    public static saveGeneralOptions(): void {
+        
+        const par = Editor.GetDocumentEditor().parameterEditor
+        ProjectTree.LibraryName = par.inputLibraryName.value;
+        ProjectTree.HideGameUI = par.checkboxGameUI.checked
+        ProjectTree.HideHeroBar = par.checkboxHeroBar.checked
+        ProjectTree.HideMiniMap = par.checkboxMiniMap.checked
+    }
+
     public constructor() {
 
         const originBuilder: FrameBuilder = new FrameBuilder();
@@ -108,6 +122,13 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
             }
             GUIEvents.RefreshElements()
+            
+            //this should happen after those values are loaded
+            const par = Editor.GetDocumentEditor().parameterEditor
+            par.inputLibraryName.value = ProjectTree.LibraryName
+            par.checkboxGameUI.checked = ProjectTree.HideGameUI
+            par.checkboxHeroBar.checked = ProjectTree.HideHeroBar
+            par.checkboxMiniMap.checked = ProjectTree.HideMiniMap
         }
         else {
             console.error("Could not parse JSON");

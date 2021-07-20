@@ -3,6 +3,7 @@ import { writeFile } from "original-fs";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 import { Editor } from "../Editor/Editor";
 import SaveContainer from "./SaveContainer";
+import { ProjectTree } from "../Editor/ProjectTree";
 
 export default class Save implements ICallableDivInstance{
 
@@ -19,6 +20,8 @@ export default class Save implements ICallableDivInstance{
     }
 
     public Run() : void{
+
+        ProjectTree.saveGeneralOptions();
 
         const saveParams = remote.dialog.showSaveDialog({
             filters: [ {name: 'JSON', extensions: ['json'] } ],

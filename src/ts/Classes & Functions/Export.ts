@@ -5,21 +5,24 @@ import { writeFile, appendFile } from 'fs';
 import { FrameType } from "../Editor/FrameLogic/FrameType"
 import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote } from 'electron';
+import { ProjectTree } from '../Editor/ProjectTree';
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
 
-    public SaveJASS(filepath : string) : void{
+    public SaveJASS(filepath : string) : void{try{
 
         writeFile(filepath, JASS.globals, () => {
             appendFile(filepath, JASSTemplateReplace(0), () => {
                 appendFile(filepath, JASS.endglobals, () => {
-                    appendFile(filepath, JASS.library, () => {
+                    appendFile(filepath, JASS.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
                         appendFile(filepath, JASSTemplateReplace(1), () => {
                             appendFile(filepath, JASS.libraryInit, () => {
-                                appendFile(filepath, JASSTemplateReplace(2), () => {
-                                    appendFile(filepath, JASS.endlibrary, () => {
-                                        alert(`File Created. Path: ${filepath}`);
+                                appendFile(filepath, generalOptions('jass'), () => {
+                                    appendFile(filepath, JASSTemplateReplace(2), () => {
+                                        appendFile(filepath, JASS.endlibrary, () => {
+                                            alert(`File Created. Path: ${filepath}`);
+                                        })
                                     })
                                 })
                             })
@@ -29,19 +32,21 @@ export class Export implements ICallableDivInstance {
             })
         })
 
-    }
+    }catch(e){alert("SaveJASS: "+e)}}
 
     public SaveLUA(filepath : string) : void{
 
         writeFile(filepath, LUA.globals, () => {
             appendFile(filepath, LUATemplateReplace(0), () => {
                 appendFile(filepath, LUA.endglobals, () => {
-                    appendFile(filepath, LUA.library, () => {
+                    appendFile(filepath, LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
                         appendFile(filepath, LUATemplateReplace(1), () => {
-                            appendFile(filepath, LUA.libraryInit, () => {
-                                appendFile(filepath, LUATemplateReplace(2), () => {
-                                    appendFile(filepath, LUA.endlibrary, () => {
-                                        alert(`File Created. Path: ${filepath}`);
+                            appendFile(filepath, LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
+                                appendFile(filepath, generalOptions('lua'), () => {
+                                    appendFile(filepath, LUATemplateReplace(2), () => {
+                                        appendFile(filepath, LUA.endlibrary, () => {
+                                            alert(`File Created. Path: ${filepath}`);
+                                        })
                                     })
                                 })
                             })
@@ -54,6 +59,8 @@ export class Export implements ICallableDivInstance {
     }
 
     public Run(): void {
+
+        ProjectTree.saveGeneralOptions();
 
         const saveParams = remote.dialog.showSaveDialog({filters: [
             {name: 'JASS file', extensions: ['j']},
@@ -98,13 +105,14 @@ export function JASSTemplateReplace(kind: number) : string {try{
         } else if(kind == 1) {
             if(el.image.TrigVar == "") continue;
             text = JASS.TriggerVariableInit
-        } else {
+        } else if(kind == 2) {
             let functionality = false
             if (el.image.TrigVar != "") functionality = true;
             text = JassGetTypeText(el.type, functionality)
         }
 
-        let textEdit = text.replace(/FRvar/gi, el.GetName())
+        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
         textEdit = textEdit.replace(/TRIGvar/gi, el.image.TrigVar)
         if(kind == 0) {
             sumText += textEdit;
@@ -138,7 +146,7 @@ export function LUATemplateReplace(kind: number) : string {try{
             continue;
         }
 
-        if(kind == 0) {
+        if(kind == 0) { //declare element
             if(el.type == FrameType.BUTTON) {
                 text = LUA.declaresBUTTON
             } else {
@@ -148,13 +156,14 @@ export function LUATemplateReplace(kind: number) : string {try{
         } else if(kind == 1) {
             if(el.image.TrigVar == "") continue;
             text = LUA.TriggerVariableInit
-        } else {
+        } else if(kind == 2) {
             let functionality = false
             if (el.image.TrigVar != "") functionality = true;
             text = LuaGetTypeText(el.type, functionality)
         }
 
-        let textEdit = text.replace(/FRvar/gi, el.GetName())
+        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
         textEdit = textEdit.replace(/TRIGvar/gi, el.image.TrigVar)
         if(kind == 0) {
             sumText += textEdit;
@@ -177,6 +186,23 @@ export function LUATemplateReplace(kind: number) : string {try{
     }
     return sumText;
 }catch(e){alert(e)}} 
+
+
+function generalOptions(type:'lua'|'jass') {
+    let sumText = ""
+    if(type == 'jass') {
+        if(ProjectTree.HideGameUI) sumText += JASS.HideGameUI;
+        if(ProjectTree.HideHeroBar) sumText += JASS.HideHeroBar;
+        if(ProjectTree.HideMiniMap) sumText += JASS.HideMiniMap;
+    } else if(type == 'lua') {
+        if(ProjectTree.HideGameUI) sumText += LUA.HideGameUI;
+        if(ProjectTree.HideHeroBar) sumText += LUA.HideHeroBar;
+        if(ProjectTree.HideMiniMap) sumText += LUA.HideMiniMap;
+    }
+
+    return sumText+"\n";
+}
+
 
 function JassGetTypeText(type: FrameType, functionality: boolean) : string{
     

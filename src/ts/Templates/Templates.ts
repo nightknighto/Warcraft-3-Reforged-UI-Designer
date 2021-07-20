@@ -9,7 +9,7 @@ export namespace JASS{
 
     export const endglobals = "endglobals \n \n"
 
-    export const library = "library REFORGEDUIMAKER initializer init \n"
+    export const library = "library FRlib initializer init \n"
     export const libraryInit = "private function init takes nothing returns nothing \n"
     export const TriggerVariableInit = 'function FRvarFunc takes nothing returns nothing \n set TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n endfunction \n \n'
 
@@ -31,6 +31,11 @@ export namespace JASS{
     export const TriggerVariableFinal = 'set FRvarTrigger = CreateTrigger() \n call BlzTriggerRegisterFrameEvent(FRvarTrigger, FRvar, FRAMEEVENT_CONTROL_CLICK) \n call TriggerAddAction(FRvarTrigger, function FRvarFunc) \n'
 
     export const endlibrary = "endfunction \nendlibrary\n"
+
+
+    export const HideGameUI = 'call BlzHideOriginFrames(true) \ncall BlzFrameSetSize(BlzGetFrameByName("ConsoleUIBackdrop",0), 0, 0.0001)\n'
+    export const HideHeroBar = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0), false)\n';
+    export const HideMiniMap = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0), false)\n'
 }
 
 export namespace LUA{
@@ -43,9 +48,9 @@ export namespace LUA{
 
     export const endglobals = ""
 
-    export const library = "REFORGEDUIMAKER = {}\n"
-    export const libraryInit = "REFORGEDUIMAKER.Initialize = function()\n"
-    export const TriggerVariableInit = 'REFORGEDUIMAKER.FRvarFunc = function() \nglobals.TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \nend \n \n'
+    export const library = "FRlib = {}\n"
+    export const libraryInit = "FRlib.Initialize = function()\n"
+    export const TriggerVariableInit = 'FRlib.FRvarFunc = function() \nglobals.TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \nend \n \n'
 
     export const backdrop = 'FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
     
@@ -62,7 +67,12 @@ export namespace LUA{
     export const QuestCheckBox = 'FRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const InvisButton = 'FRvar = BlzCreateFrameByType("GLUEBUTTON", "name", OWNERvar, "",0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
 
-    export const TriggerVariableFinal = 'FRvarTrigger = CreateTrigger() \nBlzTriggerRegisterFrameEvent(FRvarTrigger, FRvar, FRAMEEVENT_CONTROL_CLICK) \nTriggerAddAction(FRvarTrigger, REFORGEDUIMAKER.FRvarFunc) \n'
+    export const TriggerVariableFinal = 'FRvarTrigger = CreateTrigger() \nBlzTriggerRegisterFrameEvent(FRvarTrigger, FRvar, FRAMEEVENT_CONTROL_CLICK) \nTriggerAddAction(FRvarTrigger, FRlib.FRvarFunc) \n'
 
     export const endlibrary = "end\n"
+
+
+    export const HideGameUI = 'BlzHideOriginFrames(true) \nBlzFrameSetSize(BlzGetFrameByName("ConsoleUIBackdrop",0), 0, 0.0001)\n'
+    export const HideHeroBar = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0), false)\n';
+    export const HideMiniMap = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0), false)\n'
 }
