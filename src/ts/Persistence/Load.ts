@@ -8,7 +8,7 @@ export default class Load implements ICallableDivInstance{
 
     public load(filepath : string) : void{
 
-        readFile(filepath, (err, data)=>{
+        readFile(filepath, (err, data)=>{try{
             if(err != null){
                 console.error("Failed opening file: " + err.message);
             }else if(data != null){
@@ -17,9 +17,9 @@ export default class Load implements ICallableDivInstance{
                 Editor.GetDocumentEditor().projectTree.load(loadData);
 
             }
-        });
+        }catch(e){alert('Load: '+e)}});
         
-
+        
     }
     
     public Run() : void{

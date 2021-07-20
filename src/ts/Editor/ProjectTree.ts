@@ -12,6 +12,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     public static readonly SAVE_KEY_ORIGIN_CHILDREN = "frames";
 
+    public static readonly SAVE_KEY_LIBRARY_NAME = "LibraryName";
+    public static readonly SAVE_KEY_HIDE_GAMEUI = "GameUI";
+    public static readonly SAVE_KEY_HIDE_HEROBAR = "HeroBar";
+    public static readonly SAVE_KEY_HIDE_MINIMAP = "MiniMap";
+
     public readonly rootFrame: FrameComponent;
     public readonly panelTree: HTMLElement;
     private selectedFrame: FrameComponent;
@@ -20,7 +25,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideGameUI = false;
     public static HideHeroBar = false;
     public static HideMiniMap = false;
-    
+
     public static saveGeneralOptions(): void {
         
         const par = Editor.GetDocumentEditor().parameterEditor
@@ -70,6 +75,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
 
         container.save(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN, originChildrenArray);
+        container.save(ProjectTree.SAVE_KEY_LIBRARY_NAME, ProjectTree.LibraryName);
+        container.save(ProjectTree.SAVE_KEY_HIDE_GAMEUI, ProjectTree.HideGameUI);
+        container.save(ProjectTree.SAVE_KEY_HIDE_HEROBAR, ProjectTree.HideHeroBar);
+        container.save(ProjectTree.SAVE_KEY_HIDE_MINIMAP, ProjectTree.HideMiniMap);
 
     }
 
@@ -110,8 +119,12 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         if (container.hasKey(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN)) {
             //Clear the entire project tree first.
-            for (const frame of this.rootFrame.GetChildren())
-                this.RemoveFrame(frame);
+            for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+                if(el.type == 0) { //Origin
+                    continue;
+                }
+                el.Destroy()
+            }
 
             const frames = container.load(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN);
 
@@ -122,6 +135,12 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
             }
             GUIEvents.RefreshElements()
+            
+            ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
+            ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
+            ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);
+            ProjectTree.HideMiniMap = container.load(ProjectTree.SAVE_KEY_HIDE_MINIMAP);
+
             
             //this should happen after those values are loaded
             const par = Editor.GetDocumentEditor().parameterEditor

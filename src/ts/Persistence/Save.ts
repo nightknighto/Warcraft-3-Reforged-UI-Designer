@@ -7,7 +7,7 @@ import { ProjectTree } from "../Editor/ProjectTree";
 
 export default class Save implements ICallableDivInstance{
 
-    public save(filepath : string) : void{
+    public save(filepath : string) : void{try{
 
         const data = new SaveContainer(null);
         Editor.GetDocumentEditor().projectTree.save(data);
@@ -17,7 +17,7 @@ export default class Save implements ICallableDivInstance{
                 console.error("Failed saving file: " + err.message);
             }
         });
-    }
+    }catch(e){alert('Save: '+e)}}
 
     public Run() : void{
 
