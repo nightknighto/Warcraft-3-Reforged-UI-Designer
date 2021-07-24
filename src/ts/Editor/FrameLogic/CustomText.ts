@@ -22,10 +22,27 @@ export class CustomText implements Saveable {
 
     text = "Text Frame"
     scale = 1
-    color = ""
+    color = "#FFFFFF"
+
+    public setScale(val: number) {
+        if(val <= 0) {
+            debugText("Scale can't be zero or less")
+            return;
+        }
+        this.scale = val;
+        this.element.style.fontSize = val-0.1+"vw"
+        debugText("Scale changed.")
+    }
+
+    public setColor(val: string) {
+        this.element.style.color = val
+        this.color = val
+        debugText("Color changed.")
+    }
     
     public SetText(Text : string) : void{
         this.text = Text;
+        this.element.innerText = Text;
     }
 
     width : number;
@@ -95,6 +112,8 @@ export class CustomText implements Saveable {
         this.element.style.overflowY = "hidden"
         this.element.innerText = "Text Frame"
         this.element.style.userSelect = "none";
+        this.element.style.color = "#ffffff"
+        this.element.style.fontSize = "0.9vw"
         
         //must be after creation of element
         this.SetLeftXWithElement(x);

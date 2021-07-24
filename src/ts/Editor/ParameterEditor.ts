@@ -22,6 +22,9 @@ export class ParameterEditor{
     public readonly inputElementWC3Texture      : HTMLInputElement;
     public readonly inputElementText            : HTMLInputElement;
     public readonly inputElementTrigVar         : HTMLInputElement;
+    public readonly inputElementTextBig         : HTMLInputElement;
+    public readonly inputElementTextScale         : HTMLInputElement;
+    public readonly inputElementTextColor         : HTMLInputElement;
     public readonly buttonElementTextureBrowse : HTMLButtonElement;
     public readonly inputLibraryName              : HTMLInputElement;
     public readonly checkboxGameUI              : HTMLInputElement;
@@ -35,6 +38,7 @@ export class ParameterEditor{
     public readonly fieldFunctionalityVar          : HTMLDivElement;
     public readonly fieldGeneral                  : HTMLDivElement;
     public readonly fieldElement                  : HTMLDivElement;
+    public readonly fieldTextFrame                  : HTMLDivElement;
 
     public constructor(){
 
@@ -50,6 +54,9 @@ export class ParameterEditor{
         this.fileElementTextureBrowse               = document.getElementById('buttonBrowseTexture') as HTMLInputElement;
         this.inputElementWC3Texture                 = document.getElementById('elementWC3Texture') as HTMLInputElement;
         this.inputElementText                       = document.getElementById('elementText') as HTMLInputElement;
+        this.inputElementTextBig                       = document.getElementById('elementTextBig') as HTMLInputElement;
+        this.inputElementTextScale                       = document.getElementById('elementTextScale') as HTMLInputElement;
+        this.inputElementTextColor                       = document.getElementById('elementTextColor') as HTMLInputElement;
         this.inputElementTrigVar                    = document.getElementById('elementTrigVar') as HTMLInputElement;
         this.buttonElementTextureBrowse            = document.getElementById('buttonBrowseTexture') as HTMLButtonElement;
         this.inputLibraryName                        = document.getElementById('generalLibName') as HTMLInputElement;
@@ -64,6 +71,7 @@ export class ParameterEditor{
         this.fieldFunctionalityVar                           = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
         this.fieldGeneral                           = document.getElementById('FieldGeneral') as HTMLDivElement;
         this.fieldElement                           = document.getElementById('FieldElement') as HTMLDivElement;
+        this.fieldTextFrame                           = document.getElementById('FieldFunctionalityTextFrame') as HTMLDivElement;
 
 
         this.inputElementWidth.disabled             = true
@@ -92,6 +100,9 @@ export class ParameterEditor{
         this.fileElementTextureBrowse.onchange      = ParameterEditor.ButtonInputDiskTexture;
         this.inputElementWC3Texture.onchange        = ParameterEditor.InputWC3Texture;
         this.inputElementText.onchange              = ParameterEditor.InputText;
+        this.inputElementTextBig.onchange              = ParameterEditor.InputText;
+        this.inputElementTextScale.onchange              = ParameterEditor.InputTextScale;
+        this.inputElementTextColor.onchange              = ParameterEditor.InputTextColor;
         this.inputElementTrigVar.onchange           = ParameterEditor.InputTrigVar;
 
     }
@@ -340,6 +351,20 @@ export class ParameterEditor{
         debugText("Triggered Variable changed.");
 
     }
+            
+    static InputTextScale(ev: Event) : void{
+
+        const inputElement = ev.target as HTMLInputElement;
+        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomText).setScale(+inputElement.value);
+
+    }
+            
+    static InputTextColor(ev: Event) : void{
+
+        const inputElement = ev.target as HTMLInputElement;
+        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomText).setColor(inputElement.value);
+
+    }
 
     public EmptyFields() : void {
         this.inputElementWidth.value         = ""
@@ -352,6 +377,9 @@ export class ParameterEditor{
         this.inputElementDiskTexture.value   = ""
         this.inputElementWC3Texture.value    = ""
         this.inputElementText.value          = ""
+        this.inputElementTextBig.value       = ""
+        this.inputElementTextScale.value     = ""
+        this.inputElementTextColor.value          = "#FFFFFF"
         this.inputElementTrigVar.value       = ""
     
     }
@@ -385,22 +413,22 @@ export class ParameterEditor{
             if(frame.custom instanceof CustomImage) {
                 this.inputElementWidth.value = InputEdit(frame.custom.element.width * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
                 this.inputElementHeight.value = InputEdit(frame.custom.element.height * 600 / editor.workspaceImage.height)
+                
+                this.inputElementDiskTexture.value = frame.custom.GetTexture()
+                this.inputElementWC3Texture.value = frame.custom.textureWC3Path
+                this.inputElementTrigVar.value = frame.custom.TrigVar
             } else {
                 this.inputElementWidth.value = InputEdit(+frame.custom.element.offsetWidth * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
                 this.inputElementHeight.value = InputEdit(+frame.custom.element.offsetHeight * 600 / editor.workspaceImage.height)
+                
+                this.inputElementTextScale.value = frame.custom.scale+""
+                this.inputElementTextColor.value = frame.custom.color
             }
 
             this.inputElementCoordinateX.value = `${InputEdit((frame.custom.element.offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(editor.workspaceImage.width - 2*horizontalMargin) * 800) }`;
             this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.element.getBoundingClientRect().bottom)/editor.workspaceImage.height * 600)}`;
             this.inputElementText.value = frame.custom.text
-
-            if(frame.custom instanceof CustomImage) {
-                this.inputElementDiskTexture.value = frame.custom.GetTexture()
-                this.inputElementWC3Texture.value = frame.custom.textureWC3Path
-                this.inputElementTrigVar.value = frame.custom.TrigVar
-            } else {
-                //scale, color
-            }
+            this.inputElementTextBig.value = frame.custom.text
             
             this.fieldElement.style.display = "initial"
             this.fieldType.style.display = "initial"
@@ -409,6 +437,7 @@ export class ParameterEditor{
             this.fieldFunctionalityText.style.display = "initial"
             this.fieldFunctionalityVar.style.display = "initial"
             this.fieldGeneral.style.display = "none"
+            this.fieldTextFrame.style.display = "none"
             
 
             if(frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
@@ -421,9 +450,16 @@ export class ParameterEditor{
                 this.fieldType.style.display = "none"
                 this.fieldTexture.style.display = "none"
 
-                if(frame.type != FrameType.BROWSER_BUTTON && frame.type != FrameType.SCRIPT_DIALOG_BUTTON) {
+                if(frame.type != FrameType.BROWSER_BUTTON && frame.type != FrameType.SCRIPT_DIALOG_BUTTON && frame.type != FrameType.TEXT_FRAME) {
                     if(frame.type == FrameType.INVIS_BUTTON) this.fieldFunctionalityText.style.display = "none";
                     else this.fieldFunctionalityFull.style.display = "none";
+                }
+
+                
+                else if(frame.type == FrameType.TEXT_FRAME) {
+                    this.fieldTextFrame.style.display = "initial";
+                    this.fieldFunctionalityText.style.display = "none";
+                    this.fieldFunctionalityVar.style.display = "none";
                 }
             }
 

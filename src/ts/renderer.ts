@@ -88,7 +88,7 @@ Element.formIMG.addEventListener("submit", e => {
   frameBuilder.Run();
 })
 */
-
+try{
 window.onresize = GUIEvents.RefreshElements;
 
 new Titlebar({
@@ -116,3 +116,4 @@ document.getElementById("panelTree").style.visibility = "visible"
 document.getElementById("panelParameters").style.visibility = "visible"
 
 //# sourceMappingURL=renderer.js.map
+}catch(e){alert("renderer"+e)}
