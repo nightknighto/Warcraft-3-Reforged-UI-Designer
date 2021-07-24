@@ -36,16 +36,16 @@ export class GUIEvents {
 
         const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
-        frameBuilder.texture = selected.image.element.src
+        //frameBuilder.texture = selected.custom.element.src
         frameBuilder.name = selected.GetName() + 'Copy';
 
         const newFrame = selected.GetParent().CreateAsChild(frameBuilder);
-        Object.keys(newFrame.image).forEach( prop => {
-            if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+        Object.keys(newFrame.custom).forEach( prop => {
+            if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
         })
 
-        newFrame.image.SetLeftXWithElement(selected.image.LeftX+0.03)
-        newFrame.image.SetBotY(selected.image.BotY-0.03)
+        newFrame.custom.SetLeftXWithElement(selected.custom.LeftX+0.03)
+        newFrame.custom.SetBotY(selected.custom.BotY-0.03)
         
         projectTree.Select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
@@ -63,12 +63,12 @@ export class GUIEvents {
         for(let i = 0; i < count; i++) {
             const frameBuilder =  new FrameBuilder()
             frameBuilder.type = selected.type;
-            frameBuilder.texture = selected.image.element.src
+            //frameBuilder.texture = selected.custom.element.src
             frameBuilder.name = selected.GetName() + 'Circ'+i;
 
             const newFrame = parent.CreateAsChild(frameBuilder);
-            Object.keys(newFrame.image).forEach( prop => {
-                if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+            Object.keys(newFrame.custom).forEach( prop => {
+                if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
             })
 
             //const width = newFrame.image.width;
@@ -76,8 +76,8 @@ export class GUIEvents {
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
             const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
-            newFrame.image.SetLeftXWithElement(newX) 
-            newFrame.image.SetBotY(newY)
+            newFrame.custom.SetLeftXWithElement(newX) 
+            newFrame.custom.SetBotY(newY)
         }
         
         projectTree.Select(selected);
@@ -97,21 +97,21 @@ export class GUIEvents {
                 if(i == 0 && j == 0) continue;
                 const frameBuilder =  new FrameBuilder()
                 frameBuilder.type = selected.type;
-                frameBuilder.texture = selected.image.element.src
+                //frameBuilder.texture = selected.custom.element.src
                 frameBuilder.name = selected.GetName() + 'Table'+i+j;
 
                 const newFrame = parent.CreateAsChild(frameBuilder);
-                Object.keys(newFrame.image).forEach( prop => {
-                    if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
+                Object.keys(newFrame.custom).forEach( prop => {
+                    if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
                 })
 
-                const width = newFrame.image.width;
-                const height = newFrame.image.height;
+                const width = newFrame.custom.width;
+                const height = newFrame.custom.height;
 
                 const newX = LeftX + (width + gapX)*j 
                 const newY = TopY + height - (height + gapY)*i
-                newFrame.image.SetLeftXWithElement(newX) 
-                newFrame.image.SetBotY(newY)
+                newFrame.custom.SetLeftXWithElement(newX) 
+                newFrame.custom.SetBotY(newY)
             }
         }
         
@@ -157,21 +157,21 @@ export class GUIEvents {
             continue;
           }
           
-          const image = el.image.element
+          const image = el.custom.element
           const rect = workspaceImage.getBoundingClientRect() 
           const workspace = Editor.GetDocumentEditor().workspaceImage
           const horizontalMargin = 240/1920*rect.width
       
-          const x = el.image.LeftX
-          const y = el.image.BotY
-          const w = el.image.width
-          const h = el.image.height
+          const x = el.custom.LeftX
+          const y = el.custom.BotY
+          const w = el.custom.width
+          const h = el.custom.height
       
-          image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+          //image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
           image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
       
           image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
+          //image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
       
         }
       }

@@ -12,4 +12,5 @@ export enum FrameType{
     QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE = 10,
     QUEST_CHECKBOX = 11,
     INVIS_BUTTON = 12,
+    TEXT_FRAME = 13,
 }

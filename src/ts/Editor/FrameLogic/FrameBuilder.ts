@@ -58,7 +58,7 @@ export class FrameBuilder implements ICallableDivInstance{
         this.width = container.load(CustomImage.SAVE_KEY_WIDTH);
 
         const FrameComp = projectTree.AppendToSelected(this)
-        FrameComp.image.load(container)
+        FrameComp.custom.load(container)
 
 
         projectTree.Select(FrameComp);

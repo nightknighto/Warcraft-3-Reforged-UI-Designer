@@ -1,4 +1,4 @@
-import { OpenDialogReturnValue, remote, SaveDialogReturnValue } from "electron";
+import { OpenDialogReturnValue, remote } from "electron";
 import { readFile } from "original-fs";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
 import { Editor } from "../Editor/Editor";
@@ -18,7 +18,6 @@ export default class Load implements ICallableDivInstance{
 
             }
         }catch(e){alert('Load: '+e)}});
-        
         
     }
     

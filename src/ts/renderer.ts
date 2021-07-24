@@ -13,8 +13,11 @@ import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
-import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
 import * as path from "path";
+import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
+import { CustomText } from "./Editor/FrameLogic/CustomText";
+import { FrameComponent } from "./Editor/FrameLogic/FrameComponent";
+import { FrameType } from "./Editor/FrameLogic/FrameType";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -60,12 +63,12 @@ ipcRenderer.on('CircularArray', () => {
 });
 
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
-  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
   GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
 }catch(e){alert(e)}})
 
 ipcRenderer.on('CircularArraySubmit', (event, args) => {
-  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
+  const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
   GUIEvents.DuplicateArrayCircular(source.LeftX, source.BotY, args[0], args[1], args[2])
 })
 
@@ -73,7 +76,6 @@ Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const editor = new Editor(document);
 /*const input = document.getElementById('imgFile') as HTMLInputElement
 
 Element.formIMG.addEventListener("submit", e => {
@@ -95,6 +97,18 @@ new Titlebar({
   menu: null,
 
 })
+//general Initializations
+new Editor(document)
+Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
+document.getElementById("panelTree").style.visibility = "visible"
+document.getElementById("panelParameters").style.visibility = "visible"
+let test = document.getElementById("test")
+test.onclick = () => {try{
+  let fb = new FrameBuilder()
+  fb.name = "alalala"
+  fb.type = FrameType.TEXT_FRAME
+  fb.Run()
+}catch(e){alert(e)}}
 
 //general Initializations
 Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"

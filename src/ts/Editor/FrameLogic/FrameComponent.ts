@@ -5,6 +5,7 @@ import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
 import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
+import { CustomText } from "./CustomText";
 
 export class FrameComponent implements Saveable{
 
@@ -13,7 +14,7 @@ export class FrameComponent implements Saveable{
     public static readonly SAVE_KEY_TYPE = "type";
 
     private children : FrameComponent[];
-    public readonly image : CustomImage;
+    public readonly custom : CustomImage | CustomText;
     public readonly treeElement : HTMLElement;
     public parentOption : HTMLOptionElement;
 
@@ -42,7 +43,11 @@ export class FrameComponent implements Saveable{
         this.name = frameBuildOptions.name;
         this.treeElement = ul;
         this.children = [];
-        this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
+        if(this.type == FrameType.TEXT_FRAME)
+            this.custom = new CustomText(this,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
+        else
+            this.custom = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
+        
         this.parentOption = document.createElement('option');
         this.parentOption.text = this.name;
 
@@ -59,7 +64,7 @@ export class FrameComponent implements Saveable{
 
         container.save(FrameComponent.SAVE_KEY_NAME, this.name);
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
-        this.image.save(container);
+        this.custom.save(container);
 
         const childrenSaveArray = [];
 
@@ -113,7 +118,7 @@ export class FrameComponent implements Saveable{
         }
 
         this.treeElement.remove();
-        if(this.image != null) this.image.Delete();
+        if(this.custom != null) this.custom.Delete();
         if(this.parentOption != null) this.parentOption.remove();
         
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);

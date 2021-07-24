@@ -88,51 +88,51 @@ export class Export implements ICallableDivInstance {
 
 /** 0 for globals, 1 for Function Creation*/
 export function JASSTemplateReplace(kind: number) : string {try{
-    let text: string;
+//     let text: string;
     let sumText = ""
-    for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-        if(el.type == 0) { //Origin
-            continue;
-        }
+//     for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+//         if(el.type == 0) { //Origin
+//             continue;
+//         }
 
-        if(kind == 0) {
-            if(el.type == FrameType.BUTTON) {
-                text = JASS.declaresBUTTON
-            } else {
-                text = JASS.declares
-            }
-            if(el.image.TrigVar != "") text += JASS.declaresFUNCTIONALITY;
-        } else if(kind == 1) {
-            if(el.image.TrigVar == "") continue;
-            text = JASS.TriggerVariableInit
-        } else if(kind == 2) {
-            let functionality = false
-            if (el.image.TrigVar != "") functionality = true;
-            text = JassGetTypeText(el.type, functionality)
-        }
+//         if(kind == 0) {
+//             if(el.type == FrameType.BUTTON) {
+//                 text = JASS.declaresBUTTON
+//             } else {
+//                 text = JASS.declares
+//             }
+//             if(el.custom.TrigVar != "") text += JASS.declaresFUNCTIONALITY;
+//         } else if(kind == 1) {
+//             if(el.custom.TrigVar == "") continue;
+//             text = JASS.TriggerVariableInit
+//         } else if(kind == 2) {
+//             let functionality = false
+//             if (el.custom.TrigVar != "") functionality = true;
+//             text = JassGetTypeText(el.type, functionality)
+//         }
 
-        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-        textEdit = textEdit.replace(/TRIGvar/gi, el.image.TrigVar)
-        if(kind == 0) {
-            sumText += textEdit;
-            continue;
-        }
+//         let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+//         textEdit = textEdit.replace(/FRvar/gi, el.GetName())
+//         textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+//         if(kind == 0) {
+//             sumText += textEdit;
+//             continue;
+//         }
         
-        if(el) {
-            if(el.GetParent()) {
-                textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
-            }
-        }
-        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.image.LeftX).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.image.BotY+el.image.height).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.image.LeftX+el.image.width).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.image.BotY).toPrecision(6)}`)
-        textEdit = textEdit.replace("PATHvar", '"'+el.image.textureWC3Path+'"')
-        textEdit = textEdit.replace("TEXTvar", '"'+el.image.text+'"')
-        textEdit = textEdit.replace("TRIGvar", '"'+el.image.TrigVar+'"')
-        sumText += textEdit;
-    }
+//         if(el) {
+//             if(el.GetParent()) {
+//                 textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
+//             }
+//         }
+//         textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
+//         textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
+//         textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
+//         textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
+//         textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
+//         textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
+//         textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
+//         sumText += textEdit;
+//     }
     return sumText;
 }catch(e){alert(e)}} 
 
@@ -141,49 +141,49 @@ export function JASSTemplateReplace(kind: number) : string {try{
 export function LUATemplateReplace(kind: number) : string {try{
     let text: string;
     let sumText = ""
-    for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-        if(el.type == 0) { //Origin
-            continue;
-        }
+    // for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+    //     if(el.type == 0) { //Origin
+    //         continue;
+    //     }
 
-        if(kind == 0) { //declare element
-            if(el.type == FrameType.BUTTON) {
-                text = LUA.declaresBUTTON
-            } else {
-                text = LUA.declares
-            }
-            if(el.image.TrigVar != "") text += LUA.declaresFUNCTIONALITY;
-        } else if(kind == 1) {
-            if(el.image.TrigVar == "") continue;
-            text = LUA.TriggerVariableInit
-        } else if(kind == 2) {
-            let functionality = false
-            if (el.image.TrigVar != "") functionality = true;
-            text = LuaGetTypeText(el.type, functionality)
-        }
+    //     if(kind == 0) { //declare element
+    //         if(el.type == FrameType.BUTTON) {
+    //             text = LUA.declaresBUTTON
+    //         } else {
+    //             text = LUA.declares
+    //         }
+    //         if(el.custom.TrigVar != "") text += LUA.declaresFUNCTIONALITY;
+    //     } else if(kind == 1) {
+    //         if(el.custom.TrigVar == "") continue;
+    //         text = LUA.TriggerVariableInit
+    //     } else if(kind == 2) {
+    //         let functionality = false
+    //         if (el.custom.TrigVar != "") functionality = true;
+    //         text = LuaGetTypeText(el.type, functionality)
+    //     }
 
-        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-        textEdit = textEdit.replace(/TRIGvar/gi, el.image.TrigVar)
-        if(kind == 0) {
-            sumText += textEdit;
-            continue;
-        }
+    //     let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+    //     textEdit = textEdit.replace(/FRvar/gi, el.GetName())
+    //     textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+    //     if(kind == 0) {
+    //         sumText += textEdit;
+    //         continue;
+    //     }
         
-        if(el) {
-            if(el.GetParent()) {
-                textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
-            }
-        }
-        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.image.LeftX).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.image.BotY+el.image.height).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.image.LeftX+el.image.width).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.image.BotY).toPrecision(6)}`)
-        textEdit = textEdit.replace("PATHvar", '"'+el.image.textureWC3Path+'"')
-        textEdit = textEdit.replace("TEXTvar", '"'+el.image.text+'"')
-        textEdit = textEdit.replace("TRIGvar", '"'+el.image.TrigVar+'"')
-        sumText += textEdit;
-    }
+    //     if(el) {
+    //         if(el.GetParent()) {
+    //             textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
+    //         }
+    //     }
+    //     textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
+    //     textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
+    //     textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
+    //     textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
+    //     textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
+    //     textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
+    //     textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
+    //     sumText += textEdit;
+    // }
     return sumText;
 }catch(e){alert(e)}} 
 
