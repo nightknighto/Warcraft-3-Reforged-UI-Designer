@@ -43,15 +43,12 @@ export class FrameBuilder implements ICallableDivInstance{
         if (!container.hasKey(CustomImage.SAVE_KEY_HEIGHT)) {console.error("Could not parse JSON."); return; }
         if (!container.hasKey(CustomImage.SAVE_KEY_LEFTX)) {console.error("Could not parse JSON."); return; }
         if (!container.hasKey(CustomImage.SAVE_KEY_TEXT)) {console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH)) {console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH)) {console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME)) {console.error("Could not parse JSON."); return; }
         if (!container.hasKey(CustomImage.SAVE_KEY_WIDTH)) {console.error("Could not parse JSON."); return; }
 
 
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
-        this.texture = container.load(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH);
+        if(this.type != FrameType.TEXT_FRAME) this.texture = container.load(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH);
         this.x = container.load(CustomImage.SAVE_KEY_LEFTX);
         this.y = container.load(CustomImage.SAVE_KEY_BOTY);
         this.height = container.load(CustomImage.SAVE_KEY_HEIGHT);

@@ -67,6 +67,10 @@ export class Editor{
         insertMenu.AddRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
+        newFrameBuilder.type = FrameType.TEXT_FRAME;
+        insertMenu.AddRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
         insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));

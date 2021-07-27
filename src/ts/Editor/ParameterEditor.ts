@@ -98,12 +98,12 @@ export class ParameterEditor{
         this.inputElementCoordinateY.onchange       = ParameterEditor.InputCoordinateY;
         this.inputElementDiskTexture.onchange       = ParameterEditor.TextInputDiskTexture;
         this.fileElementTextureBrowse.onchange      = ParameterEditor.ButtonInputDiskTexture;
-        this.inputElementWC3Texture.onchange        = ParameterEditor.InputWC3Texture;
-        this.inputElementText.onchange              = ParameterEditor.InputText;
-        this.inputElementTextBig.onchange              = ParameterEditor.InputText;
+        this.inputElementWC3Texture.oninput        = ParameterEditor.InputWC3Texture;
+        this.inputElementText.oninput              = ParameterEditor.InputText;
+        this.inputElementTextBig.oninput              = ParameterEditor.InputText;
         this.inputElementTextScale.onchange              = ParameterEditor.InputTextScale;
         this.inputElementTextColor.onchange              = ParameterEditor.InputTextColor;
-        this.inputElementTrigVar.onchange           = ParameterEditor.InputTrigVar;
+        this.inputElementTrigVar.oninput           = ParameterEditor.InputTrigVar;
 
     }
     

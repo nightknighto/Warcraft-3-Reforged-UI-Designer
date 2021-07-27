@@ -30,7 +30,7 @@ export class CustomText implements Saveable {
             return;
         }
         this.scale = val;
-        this.element.style.fontSize = val-0.1+"vw"
+        this.element.style.fontSize = (val) * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width / 100 + "px"
         debugText("Scale changed.")
     }
 
@@ -108,12 +108,15 @@ export class CustomText implements Saveable {
         this.element.style.outlineStyle = "dashed"
         this.element.style.outlineColor = "green"
         this.element.style.outlineOffset = "-3px"
-        this.element.style.wordBreak = "break-all"
+        this.element.style.wordBreak = "break-word"
         this.element.style.overflowY = "hidden"
         this.element.innerText = "Text Frame"
         this.element.style.userSelect = "none";
         this.element.style.color = "#ffffff"
-        this.element.style.fontSize = "0.9vw"
+        //this.element.style.fontSize = "0.9vw"
+        this.element.style.fontSize = 1 * workspaceImage.width / 100 + "px"
+        this.element.style.lineHeight = "1";
+        
         
         //must be after creation of element
         this.SetLeftXWithElement(x);
@@ -150,9 +153,9 @@ export class CustomText implements Saveable {
     
     public load(container: SaveContainer) : void{
 
-        this.scale = container.load(CustomText.SAVE_KEY_SCALE);
-        this.text = container.load(CustomText.SAVE_KEY_TEXT);
-        this.color = container.load(CustomText.SAVE_KEY_COLOR);
+        this.setScale(container.load(CustomText.SAVE_KEY_SCALE));
+        this.SetText(container.load(CustomText.SAVE_KEY_TEXT));
+        this.setColor(container.load(CustomText.SAVE_KEY_COLOR));
 
     }
 

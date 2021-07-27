@@ -102,13 +102,6 @@ new Editor(document)
 Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
 document.getElementById("panelTree").style.visibility = "visible"
 document.getElementById("panelParameters").style.visibility = "visible"
-let test = document.getElementById("test")
-test.onclick = () => {try{
-  let fb = new FrameBuilder()
-  fb.name = "alalala"
-  fb.type = FrameType.TEXT_FRAME
-  fb.Run()
-}catch(e){alert(e)}}
 
 //general Initializations
 Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"

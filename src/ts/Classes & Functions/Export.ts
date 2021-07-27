@@ -6,6 +6,8 @@ import { FrameType } from "../Editor/FrameLogic/FrameType"
 import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
+import { CustomImage } from '../Editor/FrameLogic/CustomImage';
+import { CustomText } from '../Editor/FrameLogic/CustomText';
 
 /**0 for globals, 1 the body */
 export class Export implements ICallableDivInstance {
@@ -86,53 +88,66 @@ export class Export implements ICallableDivInstance {
     }
 }
 
-/** 0 for globals, 1 for Function Creation*/
+/** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
 export function JASSTemplateReplace(kind: number) : string {try{
-//     let text: string;
+    let text: string;
     let sumText = ""
-//     for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-//         if(el.type == 0) { //Origin
-//             continue;
-//         }
+    for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+        if(el.type == 0) { //Origin
+            continue;
+        }
 
-//         if(kind == 0) {
-//             if(el.type == FrameType.BUTTON) {
-//                 text = JASS.declaresBUTTON
-//             } else {
-//                 text = JASS.declares
-//             }
-//             if(el.custom.TrigVar != "") text += JASS.declaresFUNCTIONALITY;
-//         } else if(kind == 1) {
-//             if(el.custom.TrigVar == "") continue;
-//             text = JASS.TriggerVariableInit
-//         } else if(kind == 2) {
-//             let functionality = false
-//             if (el.custom.TrigVar != "") functionality = true;
-//             text = JassGetTypeText(el.type, functionality)
-//         }
+        if(kind == 0) {
+            if(el.type == FrameType.BUTTON) {
+                text = JASS.declaresBUTTON
+            } else {
+                text = JASS.declares
+            }
+            if(el.custom instanceof CustomImage && el.custom.TrigVar != "") text += JASS.declaresFUNCTIONALITY;
+        } else if(kind == 1) {
+            if(el.custom instanceof CustomText) continue;
+            if(el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON ) continue;
 
-//         let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-//         textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-//         textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
-//         if(kind == 0) {
-//             sumText += textEdit;
-//             continue;
-//         }
+            text = JASS.TriggerButtonDisableStart
+            if(el.custom.TrigVar == "") {
+                text += JASS.TriggerButtonDisableEnd
+            } else {
+                text += JASS.TriggerVariableInit
+                text += JASS.TriggerButtonDisableEnd
+            }
+        } else if(kind == 2) {
+            let functionality = false
+            if (el.custom instanceof CustomImage && el.custom.TrigVar != "") functionality = true;
+            text = JassGetTypeText(el.type, functionality)
+        }
+
+        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
+        if(el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+        if(kind == 0) {
+            sumText += textEdit;
+            continue;
+        }
         
-//         if(el) {
-//             if(el.GetParent()) {
-//                 textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
-//             }
-//         }
-//         textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
-//         textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
-//         textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
-//         textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
-//         textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
-//         textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
-//         textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
-//         sumText += textEdit;
-//     }
+        if(el) {
+            if(el.GetParent()) {
+                textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
+            }
+        }
+        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
+        if(el.custom instanceof CustomImage) {
+            textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
+            textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
+            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
+        } else {
+            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text+'|r"')
+            textEdit = textEdit.replace("FRscale", `${(1/0.7*el.custom.scale - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale)
+        }
+        sumText += textEdit;
+    }
     return sumText;
 }catch(e){alert(e)}} 
 
@@ -141,49 +156,62 @@ export function JASSTemplateReplace(kind: number) : string {try{
 export function LUATemplateReplace(kind: number) : string {try{
     let text: string;
     let sumText = ""
-    // for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-    //     if(el.type == 0) { //Origin
-    //         continue;
-    //     }
+    for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+        if(el.type == 0) { //Origin
+            continue;
+        }
 
-    //     if(kind == 0) { //declare element
-    //         if(el.type == FrameType.BUTTON) {
-    //             text = LUA.declaresBUTTON
-    //         } else {
-    //             text = LUA.declares
-    //         }
-    //         if(el.custom.TrigVar != "") text += LUA.declaresFUNCTIONALITY;
-    //     } else if(kind == 1) {
-    //         if(el.custom.TrigVar == "") continue;
-    //         text = LUA.TriggerVariableInit
-    //     } else if(kind == 2) {
-    //         let functionality = false
-    //         if (el.custom.TrigVar != "") functionality = true;
-    //         text = LuaGetTypeText(el.type, functionality)
-    //     }
+        if(kind == 0) { //declare element
+            if(el.type == FrameType.BUTTON) {
+                text = LUA.declaresBUTTON
+            } else {
+                text = LUA.declares
+            }
+            if(el.custom instanceof CustomImage && el.custom.TrigVar != "") text += LUA.declaresFUNCTIONALITY;
+        } else if(kind == 1 && el.custom instanceof CustomImage) {
+            if(el.custom instanceof CustomText) continue;
+            if(el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON ) continue;
 
-    //     let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-    //     textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-    //     textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
-    //     if(kind == 0) {
-    //         sumText += textEdit;
-    //         continue;
-    //     }
+            text = LUA.TriggerButtonDisableStart
+            if(el.custom.TrigVar == "") {
+                text += LUA.TriggerButtonDisableEnd
+            } else {
+                text += LUA.TriggerVariableInit
+                text += LUA.TriggerButtonDisableEnd
+            }
+        } else if(kind == 2) {
+            let functionality = false
+            if (el.custom instanceof CustomImage && el.custom.TrigVar != "") functionality = true;
+            text = LuaGetTypeText(el.type, functionality)
+        }
+
+        let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+        textEdit = textEdit.replace(/FRvar/gi, el.GetName())
+        if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+        if(kind == 0) {
+            sumText += textEdit;
+            continue;
+        }
         
-    //     if(el) {
-    //         if(el.GetParent()) {
-    //             textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
-    //         }
-    //     }
-    //     textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
-    //     textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
-    //     textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
-    //     textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
-    //     textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
-    //     textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
-    //     textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
-    //     sumText += textEdit;
-    // }
+        if(el) {
+            if(el.GetParent()) {
+                textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
+            }
+        }
+        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
+        if(el.custom instanceof CustomImage) {
+            textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
+            textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
+            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
+        } else {
+            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text+'|r"')
+            textEdit = textEdit.replace("FRscale", `${(1/0.7*el.custom.scale - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale)
+        }
+        sumText += textEdit;
+    }
     return sumText;
 }catch(e){alert(e)}} 
 
@@ -244,7 +272,11 @@ function JassGetTypeText(type: FrameType, functionality: boolean) : string{
             return JASS.QuestCheckBox    
         
         case FrameType.INVIS_BUTTON:
+            if (functionality) return JASS.InvisButton + JASS.TriggerVariableFinal;
             return JASS.InvisButton    
+        
+        case FrameType.TEXT_FRAME:
+            return JASS.TextFrame    
     }
     return ""
 }
@@ -289,7 +321,11 @@ function LuaGetTypeText(type: FrameType, functionality: boolean) : string{
             return LUA.QuestCheckBox    
         
         case FrameType.INVIS_BUTTON:
+            if (functionality) return LUA.InvisButton + LUA.TriggerVariableFinal;
             return LUA.InvisButton
+        
+        case FrameType.TEXT_FRAME:
+            return LUA.TextFrame
                 
     }
     return ""

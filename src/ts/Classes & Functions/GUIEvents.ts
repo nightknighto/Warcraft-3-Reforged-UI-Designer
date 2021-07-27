@@ -2,6 +2,7 @@ import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '.
 import { Editor } from '../Editor/Editor';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
 import { debugText } from '../Classes & Functions/Mini-Functions';
+import { CustomText } from '../Editor/FrameLogic/CustomText';
 
 export class GUIEvents {
 
@@ -167,11 +168,15 @@ export class GUIEvents {
           const w = el.custom.width
           const h = el.custom.height
       
-          //image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
+          image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
           image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
       
           image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-          //image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
+          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
+
+          if(el.custom instanceof CustomText) {
+              image.style.fontSize = (el.custom.scale) * rect.width / 100 + "px"
+          }
       
         }
       }
