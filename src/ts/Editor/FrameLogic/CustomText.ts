@@ -24,7 +24,7 @@ export class CustomText implements Saveable {
     scale = 1
     color = "#FFFFFF"
 
-    public setScale(val: number) {
+    public setScale(val: number) : void{
         if(val <= 0) {
             debugText("Scale can't be zero or less")
             return;
@@ -34,7 +34,7 @@ export class CustomText implements Saveable {
         debugText("Scale changed.")
     }
 
-    public setColor(val: string) {
+    public setColor(val: string) : void{
         this.element.style.color = val
         this.color = val
         debugText("Color changed.")
@@ -85,7 +85,7 @@ export class CustomText implements Saveable {
         const rect = editor.workspaceImage.getBoundingClientRect()
 
         this.BotY = newY;
-        let num = rect.bottom - +newY*rect.height/0.6 - this.element.offsetHeight - 120
+        const num = rect.bottom - +newY*rect.height/0.6 - this.element.offsetHeight - 120
         this.element.style.top = num+"px"
     }
 

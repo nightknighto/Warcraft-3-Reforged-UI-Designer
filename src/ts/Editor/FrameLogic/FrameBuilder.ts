@@ -5,6 +5,7 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";
 import { CustomImage } from "./CustomImage";
+import { GUIEvents } from "../../Classes & Functions/GUIEvents";
 
 export class FrameBuilder implements ICallableDivInstance{
 
@@ -30,6 +31,8 @@ export class FrameBuilder implements ICallableDivInstance{
 
         this.name = name;
         debugText('Element Created')
+        
+        GUIEvents.RefreshElements()
     }
 
     public load(container: SaveContainer) : void{
