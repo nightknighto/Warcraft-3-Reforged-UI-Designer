@@ -1,4 +1,3 @@
-import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debugText, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 import { Editor } from "../Editor/Editor";
@@ -185,6 +184,7 @@ export function TextFunctions(div: CustomText) : void{
                             div.element.style.width = div.element.offsetWidth + posx2 +'px';
                             div.element.style.left = `${div.element.offsetLeft - posx2}px`;
                         }
+
                         if ((div.element.offsetHeight + posy2) * 600 / workspaceImage.height <= 20) {
                             div.element.style.height = `${20 * workspaceImage.height / 600}px`
                         }
@@ -214,27 +214,15 @@ export function TextFunctions(div: CustomText) : void{
     };
 } 
 
-function inputElementsUpdate(img: CustomImage | CustomText) {
-    if(img instanceof CustomImage) {    
-        inputElementWidth.value = InputEdit((img.element.offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
-        img.SetWidth(+InputEdit((img.element.offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin))))
-        inputElementHeight.value = InputEdit(img.element.offsetHeight * 600 / workspaceImage.height);
-        img.SetHeight(+InputEdit(img.element.offsetHeight * 600 / workspaceImage.height))
-        inputElementCoordinateX.value = `${InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
-        img.SetLeftX(+InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800))
-        inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-        img.SetBotY(+InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600))
-    } else {
-        inputElementWidth.value = InputEdit((img.element.offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
-        img.SetWidth(+InputEdit((img.element.offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin))))
-        inputElementHeight.value = InputEdit(img.element.offsetHeight * 600 / workspaceImage.height);
-        img.SetHeight(+InputEdit(img.element.offsetHeight * 600 / workspaceImage.height))
-        inputElementCoordinateX.value = `${InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
-        img.SetLeftX(+InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800))
-        inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-        img.SetBotY(+InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600))
-        
-    }
+function inputElementsUpdate(div: CustomText) {
 
+        inputElementWidth.value = InputEdit((div.element.offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
+        div.SetWidth(+inputElementWidth.value)
+        inputElementHeight.value = InputEdit(div.element.offsetHeight * 600 / workspaceImage.height);
+        div.SetHeight(+inputElementHeight.value)
+        inputElementCoordinateX.value = `${InputEdit((div.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
+        div.SetLeftX(+inputElementCoordinateX.value)
+        inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - div.element.getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
+        div.SetBotY(+inputElementCoordinateY.value)
 
 }

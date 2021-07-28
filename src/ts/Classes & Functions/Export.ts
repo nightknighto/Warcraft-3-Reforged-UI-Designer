@@ -141,10 +141,11 @@ export function JASSTemplateReplace(kind: number) : string {try{
         if(el.custom instanceof CustomImage) {
             textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
             textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
-            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text+'"')
+            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text.replace(/\n/gi, "\\n")+'"')
         } else {
-            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text+'|r"')
+            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text.replace(/\n/gi, "\\n")+'|r"')
             textEdit = textEdit.replace("FRscale", `${(1/0.7*el.custom.scale - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale)
+            alert(el.custom.text.replace(/\n/gi, "\\n"))
         }
         sumText += textEdit;
     }

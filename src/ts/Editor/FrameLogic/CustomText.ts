@@ -48,12 +48,23 @@ export class CustomText implements Saveable {
     width : number;
 
     public SetWidth(newWidth : number) : void{
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const rect = workspace.getBoundingClientRect()
+        const horizontalMargin = 240/1920*rect.width
+        
         this.width = newWidth;
+        this.element.style.width = newWidth / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin) + "px"
     }
 
     height : number;
 
     public SetHeight(newHeight : number) : void{
+
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const rect = workspace.getBoundingClientRect()
+        
+        this.element.style.top = `${this.element.offsetTop + this.element.offsetHeight - newHeight*rect.height/0.6}px`
+        this.element.style.height = `${newHeight / 0.6 * workspace.getBoundingClientRect().height}px`;
         this.height = newHeight
     }
 

@@ -50,13 +50,13 @@ export function ImageFunctions(img: CustomImage) : void{
                         debugText(`(${img.element.width}, ${img.element.height})`);
                         debugText('resize right')
                         if ((img.element.width - posx2) * 0.8 / workspaceImage.width <= .02) {
-                            img.element.width = 0.02 * workspaceImage.width / 0.8;
+                            img.element.style.width = 0.02 * workspaceImage.width / 0.8 + "px";
                         }
                         else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.element.x + (img.element.width - posx2)) {
                             null;
                         }
                         else {
-                            img.element.width = img.element.width - posx2;
+                            img.element.style.width = img.element.width - posx2 + "px";
                         }
     
                         inputElementsUpdate(img)
@@ -91,14 +91,14 @@ export function ImageFunctions(img: CustomImage) : void{
                     posx1 = e.clientX;
                     posy1 = e.clientY;
                     debugText(`(${img.element.width}, ${img.element.height})`);
-                    if ((img.element.width - posx2) * 800 / workspaceImage.width <= 20) {
-                        img.element.width = 20 * workspaceImage.width / 800;
+                    if ((img.element.offsetWidth - posx2) * 800 / workspaceImage.width <= 20) {
+                        img.element.style.width = 20 * workspaceImage.width / 800 + "px";
                     }
                     else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.element.x + (img.element.width - posx2)) {
                         null;
                     }
                     else {
-                        img.element.width = img.element.width - posx2;
+                        img.element.style.width = img.element.width - posx2 + "px";
                     }
 
                     if ((img.element.height - posy2) * 600 / workspaceImage.height <= 20) {
@@ -125,13 +125,13 @@ export function ImageFunctions(img: CustomImage) : void{
                         debugText('resize left')
     
                         if ((img.element.width + posx2) * 0.8 / workspaceImage.width <= 0.02) {
-                            img.element.width = 0.02 * workspaceImage.width / 0.8;
+                            img.element.style.width = 0.02 * workspaceImage.width / 0.8 + "px";
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.element.x - posx2) {
                             null;
                         }
                         else {
-                            img.element.width = img.element.width + posx2;
+                            img.element.style.width = `${img.element.offsetWidth + posx2}px`
                             img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                         }
 
@@ -175,13 +175,13 @@ export function ImageFunctions(img: CustomImage) : void{
                         debugText(img.element.style.height);
     
                         if ((img.element.width + posx2) * 800 / workspaceImage.width <= 20) {
-                            img.element.width = 20 * workspaceImage.width / 800;
+                            img.element.style.width = 20 * workspaceImage.width / 800 + "px";
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.element.x - posx2) {
                             null;
                         }
                         else {
-                            img.element.width = img.element.width + posx2;
+                            img.element.style.width = `${img.element.offsetWidth + posx2}px`
                             img.element.style.left = `${img.element.offsetLeft - posx2}px`;
                         }
                         if ((img.element.height + posy2) * 600 / workspaceImage.height <= 20) {
@@ -215,11 +215,11 @@ export function ImageFunctions(img: CustomImage) : void{
 
 function inputElementsUpdate(img: CustomImage) {
     inputElementWidth.value = InputEdit((img.element.width * 800 / (workspaceImage.width - 2*horizontalMargin)));
-    img.SetWidth(+InputEdit((img.element.width * 800 / (workspaceImage.width - 2*horizontalMargin))))
+    img.SetWidth(+inputElementWidth.value)
     inputElementHeight.value = InputEdit(img.element.height * 600 / workspaceImage.height);
-    img.SetHeight(+InputEdit(img.element.height * 600 / workspaceImage.height))
+    img.SetHeight(+inputElementHeight.value)
     inputElementCoordinateX.value = `${InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
-    img.SetLeftX(+InputEdit((img.element.offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800))
+    img.SetLeftX(+inputElementCoordinateX.value)
     inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-    img.SetBotY(+InputEdit((workspaceImage.getBoundingClientRect().bottom - img.element.getBoundingClientRect().bottom) / workspaceImage.height * 600))
+    img.SetBotY(+inputElementCoordinateY.value)
 }

@@ -139,19 +139,8 @@ export class ParameterEditor{
         }
 
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            if(focusedCustom instanceof CustomImage)
-                focusedCustom.element.width = 0.02 / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin);
-            else
-                focusedCustom.element.style.width = `${0.02 / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)}px`;
-            
             focusedCustom.SetWidth(0.02)
-
         } else {
-            if(focusedCustom instanceof CustomImage)
-                focusedCustom.element.width = +inputElement.value / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
-            else
-                focusedCustom.element.style.width = +inputElement.value / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin) + "px"
-            
             focusedCustom.SetWidth(+inputElement.value)
         }
 
@@ -162,7 +151,6 @@ export class ParameterEditor{
         const inputElement = ev.target as HTMLInputElement;
         const focusedCustom = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
         const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspace.getBoundingClientRect()
 
         if(+inputElement.value > 0.6 || +inputElement.value < 0) {
             debugText("Input refused. Height is limited to 0 and 0.6.")
@@ -175,25 +163,8 @@ export class ParameterEditor{
         }
 
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            if(focusedCustom instanceof CustomImage)
-                focusedCustom.element.style.top = `${focusedCustom.element.offsetTop + focusedCustom.element.height - +0.02*rect.height/0.6}px`
-            else {
-                //const height = focusedCustom.element.style.height.slice(0, focusedCustom.element.style.height.indexOf("p")-1)
-                focusedCustom.element.style.top = `${focusedCustom.element.offsetTop + focusedCustom.element.offsetHeight - +0.02*rect.height/0.6}px`
-            }
-            
-            focusedCustom.element.style.height = `${+0.02 / 0.6 * workspace.getBoundingClientRect().height}px`;
             focusedCustom.SetHeight(0.02)
-
         } else {
-            if(focusedCustom instanceof CustomImage)
-                focusedCustom.element.style.top = `${focusedCustom.element.offsetTop + focusedCustom.element.height - +inputElement.value*rect.height/0.6}px`
-            else {                
-                //const height = focusedCustom.element.style.height.slice(0, focusedCustom.element.style.height.indexOf("p")-1)
-                focusedCustom.element.style.top = `${focusedCustom.element.offsetTop + focusedCustom.element.offsetHeight - +inputElement.value*rect.height/0.6}px`
-            }
-            
-            focusedCustom.element.style.height = `${+inputElement.value / 0.6 * workspace.getBoundingClientRect().height}px`;
             focusedCustom.SetHeight(+inputElement.value)
         }
 
