@@ -2,26 +2,25 @@
 import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
-import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { TextFunctions } from "../../Classes & Functions/TextFunctions";
 import FrameBaseContent from "./FrameBaseContent";
 
-export class CustomText extends FrameBaseContent implements Saveable {
+export class CustomText extends FrameBaseContent {
 
     public static readonly SAVE_KEY_TEXT = "text";
     public static readonly SAVE_KEY_SCALE = "scale";
     public static readonly SAVE_KEY_COLOR = "color";
 
-    private text: string //= "Text Frame";
-    private scale: number // = 1;
-    private color: string//= "#FFFFFF";
+    private text: string;
+    private scale: number;
+    private color: string;
 
-    public getElement() : HTMLDivElement{
+    public getElement(): HTMLDivElement {
         return this.element as HTMLDivElement;
     }
 
-    public getScale() : number{
+    public getScale(): number {
         return this.scale;
     }
 
@@ -35,7 +34,7 @@ export class CustomText extends FrameBaseContent implements Saveable {
         debugText("Scale changed.")
     }
 
-    public getColor() : string{
+    public getColor(): string {
         return this.color;
     }
 
@@ -45,7 +44,7 @@ export class CustomText extends FrameBaseContent implements Saveable {
         debugText("Color changed.")
     }
 
-    public getText() : string{
+    public getText(): string {
         return this.text;
     }
 
@@ -54,12 +53,12 @@ export class CustomText extends FrameBaseContent implements Saveable {
         this.element.innerText = Text;
     }
 
-    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, text : string, color : string, scale : number) {
+    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, color: string, scale: number) {
 
         try {
 
             const element = document.createElement('div');
-            super(frameComponent, element, width, height, x, y);
+            super(frameComponent, element, width, height, x, y, z);
 
             this.SetText(text);
             this.setColor(color);
@@ -79,6 +78,7 @@ export class CustomText extends FrameBaseContent implements Saveable {
 
     save(container: SaveContainer): void {
 
+        super.save(container);
         container.save(CustomText.SAVE_KEY_TEXT, this.text);
         container.save(CustomText.SAVE_KEY_SCALE, this.scale);
         container.save(CustomText.SAVE_KEY_COLOR, this.color);

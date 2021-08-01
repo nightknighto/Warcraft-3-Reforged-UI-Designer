@@ -35,11 +35,11 @@ export class CustomImage extends FrameBaseContent {
         return this.textureWc3Path;
     }
 
-    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, texturePath: string, wc3TexturePath: string) {
+    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string) {
         try {
 
             const element = document.createElement('img');
-            super(frameComponent, element, width, height, x, y);
+            super(frameComponent, element, width, height, x, y, z);
 
             this.setDiskTexture(texturePath);
             this.setWc3Texture(wc3TexturePath);

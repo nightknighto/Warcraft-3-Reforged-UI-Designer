@@ -45,7 +45,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         originBuilder.x = 0;
         originBuilder.y = 0;
 
-        this.rootFrame = new FrameComponent(originBuilder);
+        this.rootFrame = new FrameComponent(originBuilder, 30);
         this.rootFrame.SetName('Origin')
         this.selectedFrame = this.rootFrame;
 
@@ -82,12 +82,12 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     }
 
     public AppendToSelected(newFrame: FrameBuilder): FrameComponent {
-        if (this.selectedFrame == null) return this.rootFrame.CreateAsChild(newFrame);
-        else return this.selectedFrame.CreateAsChild(newFrame);
-    }
-
-    public RemoveFrame(frameComponent: FrameComponent): void {
-        frameComponent.Destroy();
+        if (this.selectedFrame == null){
+            return this.rootFrame.CreateAsChild(newFrame, this.rootFrame.custom.getZIndex() + this.rootFrame.GetChildren().length + 1);
+        }
+        else{
+            return this.selectedFrame.CreateAsChild(newFrame, this.selectedFrame.custom.getZIndex() + this.selectedFrame.GetChildren().length + 1);
+        } 
     }
 
     public GetSelectedFrame(): FrameComponent {

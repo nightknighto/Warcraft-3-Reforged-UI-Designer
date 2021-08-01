@@ -24,11 +24,10 @@ export class GUIEvents {
 
     }
 
-
     static DeleteSelectedImage() : void{
         const projectTree = Editor.GetDocumentEditor().projectTree;
 
-        projectTree.RemoveFrame(projectTree.GetSelectedFrame());
+        projectTree.GetSelectedFrame().Destroy();
     }
 
     static DuplicateSelectedImage() : void{try{
@@ -40,7 +39,7 @@ export class GUIEvents {
         //frameBuilder.texture = selected.custom.element.src
         frameBuilder.name = selected.GetName() + 'Copy';
 
-        const newFrame = selected.GetParent().CreateAsChild(frameBuilder);
+        const newFrame = selected.GetParent().CreateAsChild(frameBuilder,1);
         Object.keys(newFrame.custom).forEach( prop => {
             if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
         })
@@ -67,7 +66,7 @@ export class GUIEvents {
             //frameBuilder.texture = selected.custom.element.src
             frameBuilder.name = selected.GetName() + 'Circ'+i;
 
-            const newFrame = parent.CreateAsChild(frameBuilder);
+            const newFrame = parent.CreateAsChild(frameBuilder,1);
             Object.keys(newFrame.custom).forEach( prop => {
                 if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
             })
@@ -101,7 +100,7 @@ export class GUIEvents {
                 //frameBuilder.texture = selected.custom.element.src
                 frameBuilder.name = selected.GetName() + 'Table'+i+j;
 
-                const newFrame = parent.CreateAsChild(frameBuilder);
+                const newFrame = parent.CreateAsChild(frameBuilder,1);
                 Object.keys(newFrame.custom).forEach( prop => {
                     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
                 })

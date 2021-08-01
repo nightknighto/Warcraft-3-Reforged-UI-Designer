@@ -42,7 +42,7 @@ export class FrameComponent implements Saveable {
 
     public type: FrameType;
 
-    public constructor(frameBuildOptions: FrameBuilder) {
+    public constructor(frameBuildOptions: FrameBuilder, zIndex : number) {
         try {
 
             const ul: HTMLElement = document.createElement('ul');
@@ -56,9 +56,9 @@ export class FrameComponent implements Saveable {
             this.treeElement = ul;
             this.children = [];
             if (this.type == FrameType.TEXT_FRAME)
-                this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
+                this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
-                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.texture, frameBuildOptions.wc3Texture);
+                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.texture, frameBuildOptions.wc3Texture);
 
             this.parentOption = document.createElement('option');
             this.parentOption.text = this.name;
@@ -102,7 +102,7 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public RemoveFrame(whatFrame: FrameComponent): boolean {
+    private removeFrame(whatFrame: FrameComponent): boolean {
 
         const childIndex = this.children.indexOf(whatFrame);
 
@@ -114,8 +114,8 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public CreateAsChild(newFrame: FrameBuilder): FrameComponent {
-        const newChild = new FrameComponent(newFrame);
+    public CreateAsChild(newFrame: FrameBuilder, zIndex : number): FrameComponent {
+        const newChild = new FrameComponent(newFrame, zIndex);
 
         this.AppendFrame(newChild);
 
@@ -125,7 +125,7 @@ export class FrameComponent implements Saveable {
     public Destroy(): void {
 
         const parent = this.GetParent();
-        parent.RemoveFrame(this);
+        parent.removeFrame(this);
 
         for (const child of this.children) {
             parent.AppendFrame(child);
@@ -151,7 +151,7 @@ export class FrameComponent implements Saveable {
 
             if (traverseNode == newChild) {
 
-                newChild.RemoveFrame(previousNode);
+                newChild.removeFrame(previousNode);
                 newChild.GetParent().AppendFrame(previousNode);
 
                 break;
@@ -162,7 +162,7 @@ export class FrameComponent implements Saveable {
 
         } while (traverseNode != null);
 
-        newChild.GetParent().RemoveFrame(newChild);
+        newChild.GetParent().removeFrame(newChild);
         this.AppendFrame(newChild);
 
     }

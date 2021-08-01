@@ -18,15 +18,26 @@ export default abstract class FrameBaseContent implements Saveable {
     protected height: number;
     protected botY: number;
     protected leftX: number;
+    protected zIndex: number;
 
     public abstract delete(): void;
 
-    public getElement() : HTMLElement{
+    public getElement(): HTMLElement {
         return this.element;
     }
 
-    public getFrameComponent() : FrameComponent{
+    public getFrameComponent(): FrameComponent {
         return this.frameComponent;
+    }
+
+    public getZIndex(): number {
+        return this.zIndex;
+    }
+
+    public setZIndex(zIndex: number): void {
+
+        this.element.style.zIndex = `${zIndex}`;
+        this.zIndex = zIndex;
     }
 
     public getWidth(): number {
@@ -86,7 +97,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
     }
 
-    protected constructor(frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number) {
+    protected constructor(frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number, z: number) {
 
         const workspace = Editor.GetDocumentEditor().workspace;
         this.frameComponent = frameComponent;
@@ -96,6 +107,7 @@ export default abstract class FrameBaseContent implements Saveable {
         this.setHeight(height);
         this.setLeftX(x);
         this.setBotY(y);
+        this.setZIndex(z);
 
         this.element.draggable = false;
         this.element.style.position = "absolute";
@@ -118,7 +130,6 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public static GetFrameBaseContentFromHTMLImageElement(htmlElement: HTMLImageElement): FrameBaseContent {
-        console.log("Fetching custom images from HTMLImageElement, 'as any' problem.");
         return (htmlElement as any).frameBaseContent;
     }
 
