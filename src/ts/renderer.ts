@@ -10,14 +10,9 @@
 import { ipcRenderer, remote } from "electron";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
-import * as Element from "./Constants/Elements";
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import * as path from "path";
-import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
-import { CustomText } from "./Editor/FrameLogic/CustomText";
-import { FrameComponent } from "./Editor/FrameLogic/FrameComponent";
-import { FrameType } from "./Editor/FrameLogic/FrameType";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -72,9 +67,6 @@ ipcRenderer.on('CircularArraySubmit', (event, args) => {
   GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), args[0], args[1], args[2])
 })
 
-Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
-Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 /*const input = document.getElementById('imgFile') as HTMLInputElement
 
@@ -98,15 +90,18 @@ new Titlebar({
 
 })
 //general Initializations
-new Editor(document)
-Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
+const editor = new Editor(document)
+editor.parameterEditor.fieldElement.style.display = "none"
 document.getElementById("panelTree").style.visibility = "visible"
 document.getElementById("panelParameters").style.visibility = "visible"
 
 //general Initializations
-Editor.GetDocumentEditor().parameterEditor.fieldElement.style.display = "none"
+editor.parameterEditor.fieldElement.style.display = "none"
 document.getElementById("panelTree").style.visibility = "visible"
 document.getElementById("panelParameters").style.visibility = "visible"
 
-//# sourceMappingURL=renderer.js.map
+editor.panelButton.onclick                 = GUIEvents.PanelOpenClose;
+editor.treeButton.onclick                 = GUIEvents.TreeOpenClose;
+
 }catch(e){alert("renderer"+e)}
+//# sourceMappingURL=renderer.js.map

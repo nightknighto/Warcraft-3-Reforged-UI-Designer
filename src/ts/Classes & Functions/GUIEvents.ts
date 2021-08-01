@@ -1,4 +1,3 @@
-import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements';
 import { Editor } from '../Editor/Editor';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
 import { debugText } from '../Classes & Functions/Mini-Functions';
@@ -7,6 +6,10 @@ import { CustomText } from '../Editor/FrameLogic/CustomText';
 export class GUIEvents {
 
     static DisplayGameCoords(ev: MouseEvent) : void {
+
+        const editor = Editor.GetDocumentEditor();
+        const workspaceImage = editor.workspaceImage;
+
         const horizontalMargin = 240/1920*workspaceImage.width
 
         let gameCoordsString: string;
@@ -18,7 +21,7 @@ export class GUIEvents {
             const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
             const gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
             gameCoordsString = `Game X/Y: (${gameX} , ${gameY}). Client X/Y: (${ev.clientX}, ${ev.clientY})`;
-            debugGameCoordinates.innerText = gameCoordsString;
+            editor.debugGameCoordinates.innerText = gameCoordsString;
 
         }
 
@@ -123,7 +126,10 @@ export class GUIEvents {
     }catch(e){alert(e)}}
 
     static PanelOpenClose() : void {
-        const panel = document.getElementById("panelParameters")
+        const panel = Editor.GetDocumentEditor().parameterEditor.panelParameters;
+        const panelButton = Editor.GetDocumentEditor().panelButton;
+
+
         if(panel.style.visibility == "visible") {
             // panel.style.minWidth = "0";
             // panel.style.width = "0";
@@ -143,6 +149,7 @@ export class GUIEvents {
     
     static TreeOpenClose() : void {
         const panel = document.getElementById("panelTree")
+        const treeButton = Editor.GetDocumentEditor().treeButton;
         if(panel.style.visibility == "visible") {
             panel.style.visibility = "hidden"
             treeButton.style.visibility = "visible"
@@ -152,13 +159,16 @@ export class GUIEvents {
     }
 
     static RefreshElements() : void {
-        for(const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+
+        const editor = Editor.GetDocumentEditor();
+
+        for(const el of editor.projectTree.getIterator()) {
           if(el.type == 0) { //base
             continue;
           }
           
           const image = el.custom.getElement()
-          const rect = workspaceImage.getBoundingClientRect() 
+          const rect = editor.workspaceImage.getBoundingClientRect() 
           const workspace = Editor.GetDocumentEditor().workspaceImage
           const horizontalMargin = 240/1920*rect.width
       

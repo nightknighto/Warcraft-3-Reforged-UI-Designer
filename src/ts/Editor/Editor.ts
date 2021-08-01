@@ -33,6 +33,10 @@ export class Editor {
     public readonly projectTree: ProjectTree;
     public readonly parameterEditor: ParameterEditor;
 
+    //UI
+    public readonly treeButton: HTMLButtonElement;
+    public readonly panelButton: HTMLButtonElement;
+
     private initializeMenus(): TabsMenu {
 
         const tabsMenu = new TabsMenu();
@@ -130,7 +134,6 @@ export class Editor {
 
     public constructor(document: HTMLDocument) {
 
-        console.log("Again, cleaner way than doing 'as any' for editor");
         (document as any).editor = this;
 
         this.panelDebug = document.getElementById('panelDebug');
@@ -148,11 +151,12 @@ export class Editor {
         this.parameterEditor = new ParameterEditor();
         this.tabsMenu = this.initializeMenus();
 
+        this.treeButton = document.getElementById('treeClose') as HTMLButtonElement;
+        this.panelButton = document.getElementById('panelClose') as HTMLButtonElement;
+
     }
 
     public static GetDocumentEditor(): Editor {
-
-        console.log("Again, cleaner way than doing 'as any' for editor");
         return (document as any).editor;
     }
 }

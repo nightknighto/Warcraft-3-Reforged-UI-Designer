@@ -5,7 +5,7 @@ export abstract class ICallableDivInstance {
     public run: (() => void);
 
     public static call(ev: Event): void {
-        (ev.target as any).instance.Run();
+        (ev.target as any).instance.run();
     }
 
     public static setup(element: any, object: ICallableDivInstance): void {

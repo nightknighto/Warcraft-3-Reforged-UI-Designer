@@ -1,7 +1,8 @@
-import { debugLine } from "../Constants/Elements";
+import { Editor } from "../Editor/Editor";
 
 export function debugText(stuff: string) : void{
-    debugLine.innerText = stuff
+
+    Editor.GetDocumentEditor().debugLine.innerText = stuff;
 }
 
 /**This will divide the number by 1000, then set precision to 4 */

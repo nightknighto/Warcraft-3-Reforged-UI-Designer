@@ -1,13 +1,13 @@
 import { debugText, InputEdit } from "./Mini-Functions"
-import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 import { Editor } from "../Editor/Editor";
 import { CustomText } from "../Editor/FrameLogic/CustomText";
 
-let horizontalMargin = 240/1920*workspaceImage.width //width changes so this variable is changed
-
 export function TextFunctions(div: CustomText) : void{
+
+    const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
+
     div.getElement().onmousedown = function (e) {
-        horizontalMargin = 240/1920*workspaceImage.width //refresh the value
+        const horizontalMargin = 240/1920*workspaceImage.width;
 
         Editor.GetDocumentEditor().projectTree.select(div);
         
@@ -216,13 +216,18 @@ export function TextFunctions(div: CustomText) : void{
 
 function inputElementsUpdate(div: CustomText) {
 
-        inputElementWidth.value = InputEdit((div.getElement().offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
-        div.setWidth(+inputElementWidth.value)
-        inputElementHeight.value = InputEdit(div.getElement().offsetHeight * 600 / workspaceImage.height);
-        div.setHeight(+inputElementHeight.value)
-        inputElementCoordinateX.value = `${InputEdit((div.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
-        div.setLeftX(+inputElementCoordinateX.value)
-        inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - div.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-        div.setBotY(+inputElementCoordinateY.value)
+        const editor = Editor.GetDocumentEditor();
+        const workspaceImage = editor.workspaceImage;
+        const parameterEditor = editor.parameterEditor;
+        const horizontalMargin = 240/1920*workspaceImage.width
+
+        parameterEditor.inputElementWidth.value = InputEdit((div.getElement().offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
+        div.setWidth(+parameterEditor.inputElementWidth.value)
+        parameterEditor.inputElementHeight.value = InputEdit(div.getElement().offsetHeight * 600 / workspaceImage.height);
+        div.setHeight(+parameterEditor.inputElementHeight.value)
+        parameterEditor.inputElementCoordinateX.value = `${InputEdit((div.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
+        div.setLeftX(+parameterEditor.inputElementCoordinateX.value)
+        parameterEditor.inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - div.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
+        div.setBotY(+parameterEditor.inputElementCoordinateY.value)
 
 }

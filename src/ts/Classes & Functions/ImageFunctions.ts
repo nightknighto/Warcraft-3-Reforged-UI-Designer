@@ -1,13 +1,13 @@
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debugText, InputEdit } from "./Mini-Functions"
-import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 import { Editor } from "../Editor/Editor";
 
-let horizontalMargin = 240 / 1920 * workspaceImage.width //width changes so this variable is changed
-
 export function ImageFunctions(img: CustomImage): void {
+
+    const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
+
     img.getElement().onmousedown = function (e) {
-        horizontalMargin = 240 / 1920 * workspaceImage.width //refresh the value
+        const horizontalMargin = 240 / 1920 * workspaceImage.width //refresh the value
 
         Editor.GetDocumentEditor().projectTree.select(img);
 
@@ -215,12 +215,18 @@ export function ImageFunctions(img: CustomImage): void {
 }
 
 function inputElementsUpdate(img: CustomImage) {
-    inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2 * horizontalMargin)));
-    img.setWidth(+inputElementWidth.value)
-    inputElementHeight.value = InputEdit(img.getElement().height * 600 / workspaceImage.height);
-    img.setHeight(+inputElementHeight.value)
-    inputElementCoordinateX.value = `${InputEdit((img.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2 * horizontalMargin) * 800)}`;
-    img.setLeftX(+inputElementCoordinateX.value)
-    inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-    img.setBotY(+inputElementCoordinateY.value)
+
+    const editor = Editor.GetDocumentEditor();
+    const workspaceImage = editor.workspaceImage;
+    const parameterEditor = editor.parameterEditor;
+    const horizontalMargin = 240/1920*workspaceImage.width
+
+    parameterEditor.inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2 * horizontalMargin)));
+    img.setWidth(+parameterEditor.inputElementWidth.value)
+    parameterEditor.inputElementHeight.value = InputEdit(img.getElement().height * 600 / workspaceImage.height);
+    img.setHeight(+parameterEditor.inputElementHeight.value)
+    parameterEditor.inputElementCoordinateX.value = `${InputEdit((img.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2 * horizontalMargin) * 800)}`;
+    img.setLeftX(+parameterEditor.inputElementCoordinateX.value)
+    parameterEditor.inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
+    img.setBotY(+parameterEditor.inputElementCoordinateY.value)
 }
