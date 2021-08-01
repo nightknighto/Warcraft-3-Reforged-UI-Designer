@@ -164,7 +164,7 @@ export class Editor {
 class RibbonOptionsNew implements ICallableDivInstance {
     public run() {
         for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-            if (el.type == 0) { //Origin
+            if (el.type == FrameType.ORIGIN) {
                 continue;
             }
             el.destroy()
