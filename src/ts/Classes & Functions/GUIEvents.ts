@@ -27,19 +27,19 @@ export class GUIEvents {
     static DeleteSelectedImage() : void{
         const projectTree = Editor.GetDocumentEditor().projectTree;
 
-        projectTree.GetSelectedFrame().Destroy();
+        projectTree.getSelectedFrame().destroy();
     }
 
     static DuplicateSelectedImage() : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
+        const selected = projectTree.getSelectedFrame();
 
         const frameBuilder =  new FrameBuilder()
         frameBuilder.type = selected.type;
         //frameBuilder.texture = selected.custom.element.src
-        frameBuilder.name = selected.GetName() + 'Copy';
+        frameBuilder.name = selected.getName() + 'Copy';
 
-        const newFrame = selected.GetParent().CreateAsChild(frameBuilder,1);
+        const newFrame = selected.getParent().createAsChild(frameBuilder,1);
         Object.keys(newFrame.custom).forEach( prop => {
             if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
         })
@@ -47,8 +47,8 @@ export class GUIEvents {
         newFrame.custom.setLeftX(selected.custom.getLeftX()+0.03)
         newFrame.custom.setBotY(selected.custom.getBotY()-0.03)
         
-        projectTree.Select(newFrame);
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
+        projectTree.select(newFrame);
+        Editor.GetDocumentEditor().parameterEditor.updateFields(newFrame);
         GUIEvents.RefreshElements()
         
         debugText('Duplicated.')
@@ -56,17 +56,17 @@ export class GUIEvents {
     
     static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
-        const parent = selected.GetParent()
+        const selected = projectTree.getSelectedFrame();
+        const parent = selected.getParent()
         
         const angDisp = Math.PI * 2 / count;
         for(let i = 0; i < count; i++) {
             const frameBuilder =  new FrameBuilder()
             frameBuilder.type = selected.type;
             //frameBuilder.texture = selected.custom.element.src
-            frameBuilder.name = selected.GetName() + 'Circ'+i;
+            frameBuilder.name = selected.getName() + 'Circ'+i;
 
-            const newFrame = parent.CreateAsChild(frameBuilder,1);
+            const newFrame = parent.createAsChild(frameBuilder,1);
             Object.keys(newFrame.custom).forEach( prop => {
                 if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
             })
@@ -80,7 +80,7 @@ export class GUIEvents {
             newFrame.custom.setBotY(newY)
         }
         
-        projectTree.Select(selected);
+        projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
@@ -89,8 +89,8 @@ export class GUIEvents {
 
     static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
-        const parent = selected.GetParent()
+        const selected = projectTree.getSelectedFrame();
+        const parent = selected.getParent()
         
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < columns; j++){
@@ -98,9 +98,9 @@ export class GUIEvents {
                 const frameBuilder =  new FrameBuilder()
                 frameBuilder.type = selected.type;
                 //frameBuilder.texture = selected.custom.element.src
-                frameBuilder.name = selected.GetName() + 'Table'+i+j;
+                frameBuilder.name = selected.getName() + 'Table'+i+j;
 
-                const newFrame = parent.CreateAsChild(frameBuilder,1);
+                const newFrame = parent.createAsChild(frameBuilder,1);
                 Object.keys(newFrame.custom).forEach( prop => {
                     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
                 })
@@ -115,7 +115,7 @@ export class GUIEvents {
             }
         }
         
-        projectTree.Select(selected);
+        projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
         
@@ -152,7 +152,7 @@ export class GUIEvents {
     }
 
     static RefreshElements() : void {
-        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
+        for(const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
           if(el.type == 0) { //base
             continue;
           }

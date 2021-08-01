@@ -1,4 +1,4 @@
-export enum FrameType{
+export enum FrameType {
     ORIGIN = 0,
     BACKDROP = 1,
     BUTTON = 2,

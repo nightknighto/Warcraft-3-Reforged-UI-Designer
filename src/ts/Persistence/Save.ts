@@ -5,31 +5,34 @@ import { Editor } from "../Editor/Editor";
 import SaveContainer from "./SaveContainer";
 import { ProjectTree } from "../Editor/ProjectTree";
 
-export default class Save implements ICallableDivInstance{
+export default class Save implements ICallableDivInstance {
 
-    public save(filepath : string) : void{try{
+    public save(filepath: string): void {
+        try {
 
-        const data = new SaveContainer(null);
-        Editor.GetDocumentEditor().projectTree.save(data);
+            const data = new SaveContainer(null);
+            Editor.GetDocumentEditor().projectTree.save(data);
 
-        writeFile(filepath,data.exportToJSON(), (err)=>{
-            if(err != null){
-                console.error("Failed saving file: " + err.message);
-            }
-        });
-    }catch(e){alert('Save: '+e)}}
+            writeFile(filepath, data.exportToJSON(), (err) => {
+                if (err != null) {
+                    console.error("Failed saving file: " + err.message);
+                }
+            });
+        } catch (e) { alert('Save: ' + e) }
+    }
 
-    public Run() : void{
+    public run(): void {
 
         ProjectTree.saveGeneralOptions();
 
         const saveParams = remote.dialog.showSaveDialog({
-            filters: [ {name: 'JSON', extensions: ['json'] } ],
-            properties: [ 'createDirectory'] });    
+            filters: [{ name: 'JSON', extensions: ['json'] }],
+            properties: ['createDirectory']
+        });
 
-        saveParams.then((saveData : SaveDialogReturnValue) => {
+        saveParams.then((saveData: SaveDialogReturnValue) => {
 
-            if(saveData.canceled) return;
+            if (saveData.canceled) return;
             this.save(saveData.filePath)
 
         });

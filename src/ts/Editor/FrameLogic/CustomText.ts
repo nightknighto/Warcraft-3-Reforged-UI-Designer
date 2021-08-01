@@ -53,7 +53,7 @@ export class CustomText extends FrameBaseContent {
         this.element.innerText = Text;
     }
 
-    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, color: string, scale: number) {
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, color: string, scale: number) {
 
         try {
 
@@ -76,7 +76,7 @@ export class CustomText extends FrameBaseContent {
         } catch (e) { alert(e) }
     }
 
-    save(container: SaveContainer): void {
+    public save(container: SaveContainer): void {
 
         super.save(container);
         container.save(CustomText.SAVE_KEY_TEXT, this.text);
@@ -88,7 +88,7 @@ export class CustomText extends FrameBaseContent {
     public delete(): void {
 
         this.element.remove()
-        Editor.GetDocumentEditor().projectTree.Select(null);
+        Editor.GetDocumentEditor().projectTree.select(null);
 
         debugText("Deleted CustomText Object")
     }

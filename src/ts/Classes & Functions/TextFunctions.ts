@@ -9,7 +9,7 @@ export function TextFunctions(div: CustomText) : void{
     div.getElement().onmousedown = function (e) {
         horizontalMargin = 240/1920*workspaceImage.width //refresh the value
 
-        Editor.GetDocumentEditor().projectTree.Select(div);
+        Editor.GetDocumentEditor().projectTree.select(div);
         
         let posx1 = e.clientX;
         let posy1 = e.clientY;

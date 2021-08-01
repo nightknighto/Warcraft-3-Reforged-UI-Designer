@@ -14,7 +14,7 @@ export class CustomImage extends FrameBaseContent {
     private textureDiskPath: string;
     private textureWc3Path: string;
 
-    public getElement() : HTMLImageElement{
+    public getElement(): HTMLImageElement {
         return this.element as HTMLImageElement;
     }
 
@@ -35,7 +35,7 @@ export class CustomImage extends FrameBaseContent {
         return this.textureWc3Path;
     }
 
-    constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string) {
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string) {
         try {
 
             const element = document.createElement('img');
@@ -51,7 +51,7 @@ export class CustomImage extends FrameBaseContent {
         } catch (e) { alert(e) }
     }
 
-    save(container: SaveContainer): void {
+    public save(container: SaveContainer): void {
 
         super.save(container);
         container.save(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH, this.textureDiskPath);
@@ -62,7 +62,7 @@ export class CustomImage extends FrameBaseContent {
     public delete(): void {
 
         this.element.remove()
-        Editor.GetDocumentEditor().projectTree.Select(null);
+        Editor.GetDocumentEditor().projectTree.select(null);
 
         debugText("Deleted CustomImage Object")
     }

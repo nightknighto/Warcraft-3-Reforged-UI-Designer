@@ -15,18 +15,21 @@ export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
     public static readonly SAVE_KEY_TYPE = "type";
 
+    private name: string;
     private children: FrameComponent[];
     private trigVar: string;
+    public type: FrameType;
+    
     public readonly custom: FrameBaseContent;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
+    
 
-    private name: string;
-    public GetName(): string {
+    public getName(): string {
         return this.name;
     }
 
-    public SetName(newName: string): void {
+    public setName(newName: string): void {
         this.name = newName;
         (this.treeElement.firstChild as HTMLElement).innerText = newName;
         if (this.parentOption) this.parentOption.text = newName;
@@ -39,8 +42,6 @@ export class FrameComponent implements Saveable {
     public getTrigVar(): string {
         return this.trigVar;
     }
-
-    public type: FrameType;
 
     public constructor(frameBuildOptions: FrameBuilder, zIndex : number) {
         try {
@@ -67,13 +68,13 @@ export class FrameComponent implements Saveable {
             (ul as any).frameComponent = this;
 
             li.onclick = () => {
-                Editor.GetDocumentEditor().projectTree.Select(this);
+                Editor.GetDocumentEditor().projectTree.select(this);
             }
 
         } catch (e) { alert('FrameComp Const: ' + e) }
     }
 
-    save(container: SaveContainer): void {
+    public save(container: SaveContainer): void {
 
         container.save(FrameComponent.SAVE_KEY_NAME, this.name);
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
@@ -95,7 +96,7 @@ export class FrameComponent implements Saveable {
 
     }
 
-    private AppendFrame(frame: FrameComponent): void {
+    private appendFrame(frame: FrameComponent): void {
 
         this.children.push(frame);
         this.treeElement.append(frame.treeElement);
@@ -114,31 +115,31 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public CreateAsChild(newFrame: FrameBuilder, zIndex : number): FrameComponent {
+    public createAsChild(newFrame: FrameBuilder, zIndex : number): FrameComponent {
         const newChild = new FrameComponent(newFrame, zIndex);
 
-        this.AppendFrame(newChild);
+        this.appendFrame(newChild);
 
         return newChild;
     }
 
-    public Destroy(): void {
+    public destroy(): void {
 
-        const parent = this.GetParent();
+        const parent = this.getParent();
         parent.removeFrame(this);
 
         for (const child of this.children) {
-            parent.AppendFrame(child);
+            parent.appendFrame(child);
         }
 
         this.treeElement.remove();
         if (this.custom != null) this.custom.delete();
         if (this.parentOption != null) this.parentOption.remove();
 
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);
+        Editor.GetDocumentEditor().parameterEditor.updateFields(null);
     }
 
-    public MakeParentTo(newChild: FrameComponent): boolean {
+    public makeParentTo(newChild: FrameComponent): boolean {
 
         if (newChild == this) return false;
 
@@ -152,18 +153,18 @@ export class FrameComponent implements Saveable {
             if (traverseNode == newChild) {
 
                 newChild.removeFrame(previousNode);
-                newChild.GetParent().AppendFrame(previousNode);
+                newChild.getParent().appendFrame(previousNode);
 
                 break;
             }
 
             previousNode = traverseNode;
-            traverseNode = traverseNode.GetParent();
+            traverseNode = traverseNode.getParent();
 
         } while (traverseNode != null);
 
-        newChild.GetParent().removeFrame(newChild);
-        this.AppendFrame(newChild);
+        newChild.getParent().removeFrame(newChild);
+        this.appendFrame(newChild);
 
     }
 
@@ -174,11 +175,11 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public GetChildren(): FrameComponent[] {
+    public getChildren(): FrameComponent[] {
         return this.children;
     }
 
-    public GetParent(): FrameComponent {
+    public getParent(): FrameComponent {
         return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
     }
 }

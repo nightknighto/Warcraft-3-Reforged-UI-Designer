@@ -8,9 +8,10 @@ import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
 import { GUIEvents } from '../Classes & Functions/GUIEvents';
 import { CustomText } from './FrameLogic/CustomText';
-export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
-    public static readonly SAVE_KEY_ORIGIN_CHILDREN = "frames";
 
+export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
+
+    public static readonly SAVE_KEY_ORIGIN_CHILDREN = "frames";
     public static readonly SAVE_KEY_LIBRARY_NAME = "LibraryName";
     public static readonly SAVE_KEY_HIDE_GAMEUI = "GameUI";
     public static readonly SAVE_KEY_HIDE_HEROBAR = "HeroBar";
@@ -26,7 +27,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideMiniMap = false;
 
     public static saveGeneralOptions(): void {
-        
+
         const par = Editor.GetDocumentEditor().parameterEditor
         ProjectTree.LibraryName = par.inputLibraryName.value;
         ProjectTree.HideGameUI = par.checkboxGameUI.checked
@@ -46,7 +47,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         originBuilder.y = 0;
 
         this.rootFrame = new FrameComponent(originBuilder, 30);
-        this.rootFrame.SetName('Origin')
+        this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame;
 
         this.panelTree = document.getElementById('panelTreeView');
@@ -61,11 +62,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     }
 
-    save(container: SaveContainer): void {
+    public save(container: SaveContainer): void {
 
         const originChildrenArray = [];
 
-        for (const frame of this.rootFrame.GetChildren()) {
+        for (const frame of this.rootFrame.getChildren()) {
 
             const frameSaveContainer = new SaveContainer(null);
             frame.save(frameSaveContainer);
@@ -81,20 +82,20 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     }
 
-    public AppendToSelected(newFrame: FrameBuilder): FrameComponent {
-        if (this.selectedFrame == null){
-            return this.rootFrame.CreateAsChild(newFrame, this.rootFrame.custom.getZIndex() + this.rootFrame.GetChildren().length + 1);
+    public appendToSelected(newFrame: FrameBuilder): FrameComponent {
+        if (this.selectedFrame == null) {
+            return this.rootFrame.createAsChild(newFrame, this.rootFrame.custom.getZIndex() + this.rootFrame.getChildren().length + 1);
         }
-        else{
-            return this.selectedFrame.CreateAsChild(newFrame, this.selectedFrame.custom.getZIndex() + this.selectedFrame.GetChildren().length + 1);
-        } 
+        else {
+            return this.selectedFrame.createAsChild(newFrame, this.selectedFrame.custom.getZIndex() + this.selectedFrame.getChildren().length + 1);
+        }
     }
 
-    public GetSelectedFrame(): FrameComponent {
+    public getSelectedFrame(): FrameComponent {
         return this.selectedFrame;
     }
 
-    public Select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
+    public select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
 
         //should go to workspace class?
         if (this.selectedFrame != null) this.selectedFrame.custom.getElement().style.outlineColor = "green"
@@ -112,7 +113,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         this.selectedFrame.custom.getElement().style.outlineColor = 'red';
 
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(this.selectedFrame);
+        Editor.GetDocumentEditor().parameterEditor.updateFields(this.selectedFrame);
 
     }
 
@@ -120,29 +121,29 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         if (container.hasKey(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN)) {
             //Clear the entire project tree first.
-            for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-                if(el.type == 0) { //Origin
+            for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                if (el.type == 0) { //Origin
                     continue;
                 }
-                el.Destroy()
+                el.destroy()
             }
 
             const frames = container.load(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN);
 
-            for(const frameData of frames){
-                
+            for (const frameData of frames) {
+
                 const frameBuilder = new FrameBuilder();
                 frameBuilder.load(frameData as SaveContainer);
 
             }
             GUIEvents.RefreshElements()
-            
+
             ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
             ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
             ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);
             ProjectTree.HideMiniMap = container.load(ProjectTree.SAVE_KEY_HIDE_MINIMAP);
 
-            
+
             //this should happen after those values are loaded
             const par = Editor.GetDocumentEditor().parameterEditor
             par.inputLibraryName.value = ProjectTree.LibraryName
@@ -160,7 +161,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     //Iterator
     private iteratorQueue: Queue<FrameComponent>;
 
-    public GetIterator(): IterableIterator<FrameComponent> {
+    public getIterator(): IterableIterator<FrameComponent> {
 
         this.iteratorQueue = new Queue<FrameComponent>();
         const tempQueue = new Queue<FrameComponent>();
@@ -172,7 +173,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         do {
             currentNode = tempQueue.dequeue();
 
-            for (const child of currentNode.GetChildren()) {
+            for (const child of currentNode.getChildren()) {
                 tempQueue.enqueue(child);
                 this.iteratorQueue.enqueue(child);
             }

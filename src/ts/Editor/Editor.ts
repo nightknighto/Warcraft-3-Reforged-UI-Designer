@@ -12,28 +12,28 @@ import { debugText } from '../Classes & Functions/Mini-Functions'
 import Save from "../Persistence/Save";
 import Load from "../Persistence/Load";
 
-export class Editor{
+export class Editor {
 
     //Application bars      
-    public readonly panelDebug                  : HTMLElement;
+    public readonly panelDebug: HTMLElement;
 
-    public readonly btnCloseTreePanel           : HTMLButtonElement;
-    public readonly btnCloseParameterPanel      : HTMLButtonElement;
-    
+    public readonly btnCloseTreePanel: HTMLButtonElement;
+    public readonly btnCloseParameterPanel: HTMLButtonElement;
+
     //Workspace
-    public readonly workspaceImage              : HTMLImageElement; 
-    public readonly workspace                   : HTMLElement;      
-    
+    public readonly workspaceImage: HTMLImageElement;
+    public readonly workspace: HTMLElement;
+
     //Debug
-    public readonly debugLine                   : HTMLElement;
-    public readonly debugGameCoordinates        : HTMLElement;
+    public readonly debugLine: HTMLElement;
+    public readonly debugGameCoordinates: HTMLElement;
 
     //functional units
-    public readonly tabsMenu                    : TabsMenu;
-    public readonly projectTree                 : ProjectTree;
-    public readonly parameterEditor             : ParameterEditor;
+    public readonly tabsMenu: TabsMenu;
+    public readonly projectTree: ProjectTree;
+    public readonly parameterEditor: ParameterEditor;
 
-    private initializeMenus() : TabsMenu{
+    private initializeMenus(): TabsMenu {
 
         const tabsMenu = new TabsMenu();
 
@@ -43,127 +43,127 @@ export class Editor{
         const insertMenu = new RibbonMenu('Insert');
         const windowMenu = new RibbonMenu('Window');
 
-        tabsMenu.AddTab(fileMenu);
-        tabsMenu.AddTab(editMenu);
-        tabsMenu.AddTab(viewMenu);
-        tabsMenu.AddTab(insertMenu);
-        tabsMenu.AddTab(windowMenu);
+        tabsMenu.addTab(fileMenu);
+        tabsMenu.addTab(editMenu);
+        tabsMenu.addTab(viewMenu);
+        tabsMenu.addTab(insertMenu);
+        tabsMenu.addTab(windowMenu);
 
-        fileMenu.AddRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
-        fileMenu.AddRibbonOption(new RibbonOption('Open', new Load()));
-        fileMenu.AddRibbonOption(new RibbonOption('Save', new Save()));
-        fileMenu.AddRibbonOption(new RibbonOption('Export',  new Export()));
-                
-        editMenu.AddRibbonOption(new RibbonOption('Undo(Not made)', null));
-        editMenu.AddRibbonOption(new RibbonOption('Redo(Not made)', null));
-        
-        viewMenu.AddRibbonOption(new RibbonOption('Color Theme(Not made)', null));
-        
-        windowMenu.AddRibbonOption(new RibbonOption('About(Not made)', null));
+        fileMenu.addRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
+        fileMenu.addRibbonOption(new RibbonOption('Open', new Load()));
+        fileMenu.addRibbonOption(new RibbonOption('Save', new Save()));
+        fileMenu.addRibbonOption(new RibbonOption('Export', new Export()));
+
+        editMenu.addRibbonOption(new RibbonOption('Undo(Not made)', null));
+        editMenu.addRibbonOption(new RibbonOption('Redo(Not made)', null));
+
+        viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
+
+        windowMenu.addRibbonOption(new RibbonOption('About(Not made)', null));
 
         let newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/CustomFrame.png';
         newFrameBuilder.type = FrameType.BACKDROP;
-        insertMenu.AddRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.type = FrameType.TEXT_FRAME;
-        insertMenu.AddRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
-        insertMenu.AddRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
-        insertMenu.AddRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
 
         // here mr insanity:
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/InvisButton.png';
         newFrameBuilder.type = FrameType.INVIS_BUTTON;
-        insertMenu.AddRibbonOption(new RibbonOption('Invis Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Invis Button', newFrameBuilder));
         //end of mr insanity.
-        
+
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
-        insertMenu.AddRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
-        insertMenu.AddRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
-        insertMenu.AddRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
 
-        
-        fileMenu.Run();
+
+        fileMenu.run();
         return tabsMenu;
 
     }
 
-    public constructor(document : HTMLDocument){
+    public constructor(document: HTMLDocument) {
 
         console.log("Again, cleaner way than doing 'as any' for editor");
-        (document as any).editor        = this;
-        
-        this.panelDebug                 = document.getElementById('panelDebug');
+        (document as any).editor = this;
 
-        this.btnCloseTreePanel          = document.getElementById('treeClose') as HTMLButtonElement;
-        this.btnCloseParameterPanel     = document.getElementById('panelClose') as HTMLButtonElement;
+        this.panelDebug = document.getElementById('panelDebug');
 
-        this.workspaceImage             = document.getElementById('workspace') as HTMLImageElement;
-        this.workspace                  = document.getElementById('workspaceContainer') as HTMLElement;
+        this.btnCloseTreePanel = document.getElementById('treeClose') as HTMLButtonElement;
+        this.btnCloseParameterPanel = document.getElementById('panelClose') as HTMLButtonElement;
 
-        this.debugLine                  = document.getElementById('debugLine');
-        this.debugGameCoordinates       = document.getElementById('debugGameCoordinates');
+        this.workspaceImage = document.getElementById('workspace') as HTMLImageElement;
+        this.workspace = document.getElementById('workspaceContainer') as HTMLElement;
 
-        this.projectTree                = new ProjectTree();
-        this.parameterEditor            = new ParameterEditor();
-        this.tabsMenu                   = this.initializeMenus();
-        
+        this.debugLine = document.getElementById('debugLine');
+        this.debugGameCoordinates = document.getElementById('debugGameCoordinates');
+
+        this.projectTree = new ProjectTree();
+        this.parameterEditor = new ParameterEditor();
+        this.tabsMenu = this.initializeMenus();
+
     }
 
-    public static GetDocumentEditor() : Editor{
+    public static GetDocumentEditor(): Editor {
 
         console.log("Again, cleaner way than doing 'as any' for editor");
         return (document as any).editor;
     }
 }
 
-class RibbonOptionsNew implements ICallableDivInstance { 
-    public Run() {
-        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-            if(el.type == 0) { //Origin
+class RibbonOptionsNew implements ICallableDivInstance {
+    public run() {
+        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+            if (el.type == 0) { //Origin
                 continue;
             }
-            el.Destroy()
+            el.destroy()
             debugText('New page.')
         }
     }

@@ -3,19 +3,19 @@ import { debugText, InputEdit } from "./Mini-Functions"
 import { workspaceImage, inputElementCoordinateX, inputElementCoordinateY, inputElementHeight, inputElementWidth } from "../Constants/Elements"
 import { Editor } from "../Editor/Editor";
 
-let horizontalMargin = 240/1920*workspaceImage.width //width changes so this variable is changed
+let horizontalMargin = 240 / 1920 * workspaceImage.width //width changes so this variable is changed
 
-export function ImageFunctions(img: CustomImage) : void{
+export function ImageFunctions(img: CustomImage): void {
     img.getElement().onmousedown = function (e) {
-        horizontalMargin = 240/1920*workspaceImage.width //refresh the value
+        horizontalMargin = 240 / 1920 * workspaceImage.width //refresh the value
 
-        Editor.GetDocumentEditor().projectTree.Select(img);
-        
+        Editor.GetDocumentEditor().projectTree.select(img);
+
         let posx1 = e.clientX;
         let posy1 = e.clientY;
         let posx2 = 0;
         let posy2 = 0;
-        
+
         //debug((e.clientY - img.getElement().getBoundingClientRect().y))
         //check whether it is drag or resize
         if ((e.clientX - img.getElement().getBoundingClientRect().x) > 5 && (e.clientX - img.getElement().getBoundingClientRect().x) < img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < img.getElement().height - 5) {
@@ -43,7 +43,7 @@ export function ImageFunctions(img: CustomImage) : void{
             //now determine which edges
             if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 || (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
                 //right and bottom edge: just resize
-                if((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5) {
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5) {
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
                         posx1 = e.clientX;
@@ -58,18 +58,18 @@ export function ImageFunctions(img: CustomImage) : void{
                         else {
                             img.getElement().style.width = img.getElement().width - posx2 + "px";
                         }
-    
+
                         inputElementsUpdate(img)
                     };
                 }
 
-                if((e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                if ((e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
                     window.onmousemove = function (e) {
                         posy2 = posy1 - e.clientY;
                         posy1 = e.clientY;
                         debugText(`(${img.getElement().width}, ${img.getElement().height})`);
                         debugText('resize bot')
-    
+
                         if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 20) {
                             img.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
                         }
@@ -84,46 +84,47 @@ export function ImageFunctions(img: CustomImage) : void{
                 }
 
                 //corner
-                if((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) { 
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
                     window.onmousemove = function (e) {
-                    posx2 = posx1 - e.clientX;
-                    posy2 = posy1 - e.clientY;
-                    posx1 = e.clientX;
-                    posy1 = e.clientY;
-                    debugText(`(${img.getElement().width}, ${img.getElement().height})`);
-                    if ((img.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 20) {
-                        img.getElement().style.width = 20 * workspaceImage.width / 800 + "px";
-                    }
-                    else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
-                        null;
-                    }
-                    else {
-                        img.getElement().style.width = img.getElement().width - posx2 + "px";
-                    }
+                        posx2 = posx1 - e.clientX;
+                        posy2 = posy1 - e.clientY;
+                        posx1 = e.clientX;
+                        posy1 = e.clientY;
+                        debugText(`(${img.getElement().width}, ${img.getElement().height})`);
+                        if ((img.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 20) {
+                            img.getElement().style.width = 20 * workspaceImage.width / 800 + "px";
+                        }
+                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.width = img.getElement().width - posx2 + "px";
+                        }
 
-                    if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 20) {
-                        img.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
-                    }
-                    else if (workspaceImage.getBoundingClientRect().bottom < img.getElement().y + (img.getElement().height - posy2)) {
-                        null;
-                    }
-                    else {
-                        img.getElement().style.height = `${img.getElement().height - posy2}px`;
-                    }
-                    inputElementsUpdate(img)
-                };}
+                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 20) {
+                            img.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
+                        }
+                        else if (workspaceImage.getBoundingClientRect().bottom < img.getElement().y + (img.getElement().height - posy2)) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.height = `${img.getElement().height - posy2}px`;
+                        }
+                        inputElementsUpdate(img)
+                    };
+                }
 
 
-            } else if((e.clientX - img.getElement().getBoundingClientRect().x) < 5 || (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+            } else if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 || (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
                 //top and left edge: resize and drag
 
-                if((e.clientX - img.getElement().getBoundingClientRect().x) < 5){
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5) {
 
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
                         posx1 = e.clientX;
                         debugText('resize left')
-    
+
                         if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.02) {
                             img.getElement().style.width = 0.02 * workspaceImage.width / 0.8 + "px";
                         }
@@ -141,13 +142,13 @@ export function ImageFunctions(img: CustomImage) : void{
                     };
                 }
 
-                if((e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                if ((e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
 
                     window.onmousemove = function (e) {
                         posy2 = posy1 - e.clientY;
                         posy1 = e.clientY;
                         debugText('resize top');
-    
+
                         if ((img.getElement().height + posy2) * 0.6 / workspaceImage.height <= 0.02) {
                             img.getElement().style.height = `${0.02 * workspaceImage.height / 0.6}`;
                         }
@@ -165,7 +166,7 @@ export function ImageFunctions(img: CustomImage) : void{
                 }
 
                 //corner
-                if((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
 
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
@@ -173,7 +174,7 @@ export function ImageFunctions(img: CustomImage) : void{
                         posx1 = e.clientX;
                         posy1 = e.clientY;
                         debugText(img.getElement().style.height);
-    
+
                         if ((img.getElement().width + posx2) * 800 / workspaceImage.width <= 20) {
                             img.getElement().style.width = 20 * workspaceImage.width / 800 + "px";
                         }
@@ -199,7 +200,7 @@ export function ImageFunctions(img: CustomImage) : void{
                         inputElementsUpdate(img)
                     };
                 }
-                
+
             }
         }
 
@@ -211,14 +212,14 @@ export function ImageFunctions(img: CustomImage) : void{
 
 
     };
-} 
+}
 
 function inputElementsUpdate(img: CustomImage) {
-    inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2*horizontalMargin)));
+    inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2 * horizontalMargin)));
     img.setWidth(+inputElementWidth.value)
     inputElementHeight.value = InputEdit(img.getElement().height * 600 / workspaceImage.height);
     img.setHeight(+inputElementHeight.value)
-    inputElementCoordinateX.value = `${InputEdit((img.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
+    inputElementCoordinateX.value = `${InputEdit((img.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2 * horizontalMargin) * 800)}`;
     img.setLeftX(+inputElementCoordinateX.value)
     inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
     img.setBotY(+inputElementCoordinateY.value)

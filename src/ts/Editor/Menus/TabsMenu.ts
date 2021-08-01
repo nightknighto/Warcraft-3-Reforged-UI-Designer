@@ -9,17 +9,17 @@ export class TabsMenu {
         this.barTab = document.getElementById('barTab');
         this.tabs = [];
 
-        for (let i = this.barTab.children.length - 1; i >= 0; i--) 
+        for (let i = this.barTab.children.length - 1; i >= 0; i--)
             this.barTab.removeChild(this.barTab.children[i]);
 
     }
 
     private tabs: RibbonMenu[];
 
-    public AddTab(newTabMenu: RibbonMenu) : void{
+    public addTab(newTabMenu: RibbonMenu): void {
 
         this.tabs.push(newTabMenu);
-        this.barTab.append(newTabMenu.CreateHTMLElement());
+        this.barTab.append(newTabMenu.createHTMLElement());
 
     }
 

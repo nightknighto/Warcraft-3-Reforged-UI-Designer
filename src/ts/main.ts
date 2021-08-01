@@ -1,10 +1,10 @@
-import { app, BrowserWindow, ipcMain} from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './Editor/Menus/contextMenu';
 
-let mainWindow : BrowserWindow;
-let contextMenu : ContextMenu;
+let mainWindow: BrowserWindow;
+let contextMenu: ContextMenu;
 
 const minWindowWidth = 1024;
 const minWindowHeight = 640;
@@ -24,7 +24,7 @@ function initialize() {
   setupEvents(mainWindow);
 
 }
-function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindow{
+function createWindow(windowWidth: number, windowHeight: number): BrowserWindow {
   // Create the browser window.
 
   const browserWindow = new BrowserWindow({
@@ -41,11 +41,11 @@ function createWindow(windowWidth: number, windowHeight: number) :  BrowserWindo
     titleBarStyle: "hidden",
     frame: false,
   });
-  
+
   return browserWindow;
 }
 
-function setupEvents(mainWindow: BrowserWindow){
+function setupEvents(mainWindow: BrowserWindow) {
 
   ipcMain.on('show-context-menu', () => {
     contextMenu.showContextMenu();
@@ -54,7 +54,7 @@ function setupEvents(mainWindow: BrowserWindow){
   ipcMain.on('TableArraySubmit', (event, args) => {
     mainWindow.webContents.send('TableArraySubmit', args)
   })
-  
+
   ipcMain.on('CircularArraySubmit', (event, args) => {
     mainWindow.webContents.send('CircularArraySubmit', args)
   })

@@ -4,32 +4,35 @@ import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstanc
 import { Editor } from "../Editor/Editor";
 import SaveContainer from "./SaveContainer";
 
-export default class Load implements ICallableDivInstance{
+export default class Load implements ICallableDivInstance {
 
-    public load(filepath : string) : void{
+    public load(filepath: string): void {
 
-        readFile(filepath, (err, data)=>{try{
-            if(err != null){
-                console.error("Failed opening file: " + err.message);
-            }else if(data != null){
+        readFile(filepath, (err, data) => {
+            try {
+                if (err != null) {
+                    console.error("Failed opening file: " + err.message);
+                } else if (data != null) {
 
-                const loadData = new SaveContainer(data.toString());
-                Editor.GetDocumentEditor().projectTree.load(loadData);
+                    const loadData = new SaveContainer(data.toString());
+                    Editor.GetDocumentEditor().projectTree.load(loadData);
 
-            }
-        }catch(e){alert('Load: '+e)}});
-        
+                }
+            } catch (e) { alert('Load: ' + e) }
+        });
+
     }
-    
-    public Run() : void{
+
+    public run(): void {
 
         const openParams = remote.dialog.showOpenDialog({
-            filters: [ {name: 'JSON', extensions: ['json'] } ],
-            properties: [ 'openFile'] });    
+            filters: [{ name: 'JSON', extensions: ['json'] }],
+            properties: ['openFile']
+        });
 
-        openParams.then((openData : OpenDialogReturnValue) => {
+        openParams.then((openData: OpenDialogReturnValue) => {
 
-            if(openData.canceled) return;
+            if (openData.canceled) return;
             this.load(openData.filePaths[0])
 
         });

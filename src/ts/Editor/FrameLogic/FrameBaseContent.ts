@@ -122,7 +122,7 @@ export default abstract class FrameBaseContent implements Saveable {
         //step 1: event sent to main.ts to display the menu.
         this.element.oncontextmenu = (ev: Event) => {
 
-            Editor.GetDocumentEditor().projectTree.Select(ev.target as HTMLElement);
+            Editor.GetDocumentEditor().projectTree.select(ev.target as HTMLElement);
 
             ipcRenderer.send('show-context-menu')
         }
@@ -133,7 +133,7 @@ export default abstract class FrameBaseContent implements Saveable {
         return (htmlElement as any).frameBaseContent;
     }
 
-    save(container: SaveContainer): void {
+    public save(container: SaveContainer): void {
         container.save(FrameBaseContent.SAVE_KEY_HEIGHT, this.height);
         container.save(FrameBaseContent.SAVE_KEY_WIDTH, this.width);
         container.save(FrameBaseContent.SAVE_KEY_LEFTX, this.leftX);

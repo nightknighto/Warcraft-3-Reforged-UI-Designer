@@ -17,7 +17,7 @@ export default class SaveContainer {
             return array;
 
         }
-        
+
         else {
             for (const key in JSONObject) {
 
