@@ -103,13 +103,13 @@ export function JASSTemplateReplace(kind: number) : string {try{
             } else {
                 text = JASS.declares
             }
-            if(el.custom instanceof CustomImage && el.custom.TrigVar != "") text += JASS.declaresFUNCTIONALITY;
+            if(el.custom instanceof CustomImage && el.getTrigVar() != "") text += JASS.declaresFUNCTIONALITY;
         } else if(kind == 1) {
             if(el.custom instanceof CustomText) continue;
             if(el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON ) continue;
 
             text = JASS.TriggerButtonDisableStart
-            if(el.custom.TrigVar == "") {
+            if(el.getTrigVar() == "") {
                 text += JASS.TriggerButtonDisableEnd
             } else {
                 text += JASS.TriggerVariableInit
@@ -117,13 +117,13 @@ export function JASSTemplateReplace(kind: number) : string {try{
             }
         } else if(kind == 2) {
             let functionality = false
-            if (el.custom instanceof CustomImage && el.custom.TrigVar != "") functionality = true;
+            if (el.custom instanceof CustomImage && el.getTrigVar() != "") functionality = true;
             text = JassGetTypeText(el.type, functionality)
         }
 
         let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
         textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-        if(el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+        if(el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.getTrigVar())
         if(kind == 0) {
             sumText += textEdit;
             continue;
@@ -134,18 +134,23 @@ export function JASSTemplateReplace(kind: number) : string {try{
                 textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
             }
         }
-        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
-        if(el.custom instanceof CustomImage) {
-            textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
-            textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
-            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text.replace(/\n/gi, "\\n")+'"')
-        } else {
-            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text.replace(/\n/gi, "\\n")+'|r"')
-            textEdit = textEdit.replace("FRscale", `${(1/0.7*el.custom.scale - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale)
+        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY()+el.custom.getHeight()).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX()+el.custom.getWidth()).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
+
+        switch(el.custom.constructor){
+            case (CustomImage):
+                textEdit = textEdit.replace("PATHvar", '"'+(el.custom as CustomImage).getWc3Texture()+'"');
+                textEdit = textEdit.replace("TRIGvar", '"'+el.getTrigVar() +'"');
+                break;
+
+            case (CustomText):
+                textEdit = textEdit.replace("TEXTvar", '"|cff'+(el.custom as CustomText).getText().slice(1)+(el.custom as CustomText).getText().replace(/\n/gi, "\\n")+'|r"');
+            textEdit = textEdit.replace("FRscale", `${(1/0.7*(el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+            break;
         }
+
         sumText += textEdit;
     }
     return sumText;
@@ -167,13 +172,13 @@ export function LUATemplateReplace(kind: number) : string {try{
             } else {
                 text = LUA.declares
             }
-            if(el.custom instanceof CustomImage && el.custom.TrigVar != "") text += LUA.declaresFUNCTIONALITY;
+            if(el.custom instanceof CustomImage && el.getTrigVar() != "") text += LUA.declaresFUNCTIONALITY;
         } else if(kind == 1 && el.custom instanceof CustomImage) {
             if(el.custom instanceof CustomText) continue;
             if(el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON ) continue;
 
             text = LUA.TriggerButtonDisableStart
-            if(el.custom.TrigVar == "") {
+            if(el.getTrigVar() == "") {
                 text += LUA.TriggerButtonDisableEnd
             } else {
                 text += LUA.TriggerVariableInit
@@ -181,13 +186,13 @@ export function LUATemplateReplace(kind: number) : string {try{
             }
         } else if(kind == 2) {
             let functionality = false
-            if (el.custom instanceof CustomImage && el.custom.TrigVar != "") functionality = true;
+            if (el.custom instanceof CustomImage && el.getTrigVar() != "") functionality = true;
             text = LuaGetTypeText(el.type, functionality)
         }
 
         let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
         textEdit = textEdit.replace(/FRvar/gi, el.GetName())
-        if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.TrigVar)
+        if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.getTrigVar())
         if(kind == 0) {
             sumText += textEdit;
             continue;
@@ -198,19 +203,23 @@ export function LUATemplateReplace(kind: number) : string {try{
                 textEdit = textEdit.replace("OWNERvar", (el.GetParent().GetName() == 'Origin')?'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.GetParent().GetName() );
             }
         }
-        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.LeftX).toPrecision(6)}`)
-        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.BotY+el.custom.height).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.LeftX+el.custom.width).toPrecision(6)}`)
-        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.BotY).toPrecision(6)}`)
-        if(el.custom instanceof CustomImage) {
-            textEdit = textEdit.replace("PATHvar", '"'+el.custom.textureWC3Path+'"')
-            textEdit = textEdit.replace("TRIGvar", '"'+el.custom.TrigVar+'"')
-            textEdit = textEdit.replace("TEXTvar", '"'+el.custom.text.replace(/\n/gi, "\\n")+'"')
-        } else {
-            
-            textEdit = textEdit.replace("TEXTvar", '"|cff'+el.custom.color.slice(1)+el.custom.text.replace(/\n/gi, "\\n")+'|r"')
-            textEdit = textEdit.replace("FRscale", `${(1/0.7*el.custom.scale - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale)
+        textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
+        textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY()+el.custom.getHeight()).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX()+el.custom.getWidth()).toPrecision(6)}`)
+        textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
+
+        switch(el.custom.constructor){
+            case (CustomImage):
+                textEdit = textEdit.replace("PATHvar", '"'+(el.custom as CustomImage).getWc3Texture()+'"');
+                textEdit = textEdit.replace("TRIGvar", '"'+el.getTrigVar() +'"');
+                break;
+
+            case (CustomText):
+                textEdit = textEdit.replace("TEXTvar", '"|cff'+(el.custom as CustomText).getText().slice(1)+(el.custom as CustomText).getText().replace(/\n/gi, "\\n")+'|r"');
+            textEdit = textEdit.replace("FRscale", `${(1/0.7*(el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+            break;
         }
+        
         sumText += textEdit;
     }
     return sumText;

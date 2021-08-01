@@ -97,20 +97,20 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public Select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
 
         //should go to workspace class?
-        if (this.selectedFrame != null) this.selectedFrame.custom.element.style.outlineColor = "green"
+        if (this.selectedFrame != null) this.selectedFrame.custom.getElement().style.outlineColor = "green"
 
         if (frame instanceof FrameComponent) this.selectedFrame = frame;
-        else if (frame instanceof CustomImage) this.selectedFrame = frame.frameComponent
-        else if (frame instanceof CustomText) this.selectedFrame = frame.frameComponent
-        else if (frame instanceof HTMLImageElement) this.selectedFrame = CustomImage.GetCustomImageFromHTMLImageElement(frame).frameComponent;
-        else if (frame instanceof HTMLDivElement) this.selectedFrame = CustomText.GetCustomTextFromHTMLDivElement(frame).frameComponent;
+        else if (frame instanceof CustomImage) this.selectedFrame = frame.getFrameComponent()
+        else if (frame instanceof CustomText) this.selectedFrame = frame.getFrameComponent()
+        else if (frame instanceof HTMLImageElement) this.selectedFrame = CustomImage.GetCustomImageFromHTMLImageElement(frame).getFrameComponent();
+        else if (frame instanceof HTMLDivElement) this.selectedFrame = CustomText.GetCustomTextFromHTMLDivElement(frame).getFrameComponent();
         else if (frame instanceof HTMLElement) this.selectedFrame = FrameComponent.GetFrameComponent(frame);
         else {
             this.selectedFrame = null;
             return;
         }
 
-        this.selectedFrame.custom.element.style.outlineColor = 'red';
+        this.selectedFrame.custom.getElement().style.outlineColor = 'red';
 
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(this.selectedFrame);
 

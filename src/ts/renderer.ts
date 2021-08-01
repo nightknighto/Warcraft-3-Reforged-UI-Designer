@@ -64,12 +64,12 @@ ipcRenderer.on('CircularArray', () => {
 
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
   const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
-  GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
+  GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), args[0], args[1], args[2], args[3])
 }catch(e){alert(e)}})
 
 ipcRenderer.on('CircularArraySubmit', (event, args) => {
   const source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
-  GUIEvents.DuplicateArrayCircular(source.LeftX, source.BotY, args[0], args[1], args[2])
+  GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), args[0], args[1], args[2])
 })
 
 Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;

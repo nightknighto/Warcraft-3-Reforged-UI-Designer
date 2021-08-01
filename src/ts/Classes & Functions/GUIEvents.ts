@@ -45,8 +45,8 @@ export class GUIEvents {
             if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
         })
 
-        newFrame.custom.SetLeftXWithElement(selected.custom.LeftX+0.03)
-        newFrame.custom.SetBotY(selected.custom.BotY-0.03)
+        newFrame.custom.setLeftX(selected.custom.getLeftX()+0.03)
+        newFrame.custom.setBotY(selected.custom.getBotY()-0.03)
         
         projectTree.Select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
@@ -77,8 +77,8 @@ export class GUIEvents {
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
             const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
-            newFrame.custom.SetLeftXWithElement(newX) 
-            newFrame.custom.SetBotY(newY)
+            newFrame.custom.setLeftX(newX) 
+            newFrame.custom.setBotY(newY)
         }
         
         projectTree.Select(selected);
@@ -106,13 +106,13 @@ export class GUIEvents {
                     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
                 })
 
-                const width = newFrame.custom.width;
-                const height = newFrame.custom.height;
+                const width = newFrame.custom.getWidth();
+                const height = newFrame.custom.getHeight();
 
                 const newX = LeftX + (width + gapX)*j 
                 const newY = TopY + height - (height + gapY)*i
-                newFrame.custom.SetLeftXWithElement(newX) 
-                newFrame.custom.SetBotY(newY)
+                newFrame.custom.setLeftX(newX) 
+                newFrame.custom.setBotY(newY)
             }
         }
         
@@ -158,15 +158,15 @@ export class GUIEvents {
             continue;
           }
           
-          const image = el.custom.element
+          const image = el.custom.getElement()
           const rect = workspaceImage.getBoundingClientRect() 
           const workspace = Editor.GetDocumentEditor().workspaceImage
           const horizontalMargin = 240/1920*rect.width
       
-          const x = el.custom.LeftX
-          const y = el.custom.BotY
-          const w = el.custom.width
-          const h = el.custom.height
+          const x = el.custom.getLeftX();
+          const y = el.custom.getBotY();
+          const w = el.custom.getWidth();
+          const h = el.custom.getHeight();
       
           image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
           image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
@@ -175,7 +175,7 @@ export class GUIEvents {
           image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
 
           if(el.custom instanceof CustomText) {
-              image.style.fontSize = (el.custom.scale) * rect.width / 100 + "px"
+              image.style.fontSize = (el.custom.getScale()) * rect.width / 100 + "px"
           }
       
         }

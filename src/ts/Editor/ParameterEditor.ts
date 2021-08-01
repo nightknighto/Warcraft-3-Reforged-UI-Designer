@@ -133,15 +133,15 @@ export class ParameterEditor{
             return
         }
 
-        if(focusedCustom.element.getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width-2*horizontalMargin) > workspace.getBoundingClientRect().right-horizontalMargin) {
+        if(focusedCustom.getElement().getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width-2*horizontalMargin) > workspace.getBoundingClientRect().right-horizontalMargin) {
             debugText("Input refused. Image right edge will be out of screen.")
             return
         }
 
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            focusedCustom.SetWidth(0.02)
+            focusedCustom.setWidth(0.02)
         } else {
-            focusedCustom.SetWidth(+inputElement.value)
+            focusedCustom.setWidth(+inputElement.value)
         }
 
     }
@@ -157,15 +157,15 @@ export class ParameterEditor{
             return
         }
 
-        if(focusedCustom.element.getBoundingClientRect().bottom - +inputElement.value / 0.6 * workspace.height < workspace.getBoundingClientRect().top) {
+        if(focusedCustom.getElement().getBoundingClientRect().bottom - +inputElement.value / 0.6 * workspace.height < workspace.getBoundingClientRect().top) {
             debugText("Input refused. Image top edge will be out of screen.")
             return
         }
 
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            focusedCustom.SetHeight(0.02)
+            focusedCustom.setHeight(0.02)
         } else {
-            focusedCustom.SetHeight(+inputElement.value)
+            focusedCustom.setHeight(+inputElement.value)
         }
 
 
@@ -240,7 +240,7 @@ export class ParameterEditor{
         const loc = (ev.target as HTMLInputElement).value;
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
-        const image = editor.projectTree.GetSelectedFrame().custom.element
+        const image = editor.projectTree.GetSelectedFrame().custom.getElement()
         const horizontalMargin = 240/1920*rect.width
 
         if(+loc > 0.8 || +loc < 0) {
@@ -252,7 +252,7 @@ export class ParameterEditor{
             return
         }
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom.SetLeftXWithElement(+loc)
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom.setLeftX(+loc)
 
     }
 
@@ -261,7 +261,7 @@ export class ParameterEditor{
         const loc = (ev.target as HTMLInputElement).value;
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
-        const image = editor.projectTree.GetSelectedFrame().custom.element
+        const image = editor.projectTree.GetSelectedFrame().custom.getElement()
 
         if(+loc > 0.6 || +loc < 0) {
             debugText("Input refused. Y coordinate is limited to 0 and 0.6.")
@@ -272,7 +272,7 @@ export class ParameterEditor{
             return
         }
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom.SetBotYWithElement(+loc)
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom.setBotY(+loc)
 
     }catch(e){alert(e)}}
 
@@ -280,7 +280,7 @@ export class ParameterEditor{
 
         const inputElement = ev.target as HTMLInputElement;
 
-        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomImage).SetDiskTexture(inputElement.value);
+        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomImage).setDiskTexture(inputElement.value);
         debugText('Disk Texture changed.');
 
     }
@@ -290,7 +290,7 @@ export class ParameterEditor{
         const path = URL.createObjectURL(inputElement.files[0])
         
         const editor = Editor.GetDocumentEditor();
-        (editor.projectTree.GetSelectedFrame().custom as CustomImage).SetDiskTexture(path);
+        (editor.projectTree.GetSelectedFrame().custom as CustomImage).setDiskTexture(path);
 
         editor.parameterEditor.inputElementDiskTexture.value = path;
         debugText("Disk Texture changed. However, the app can't know the path of this texture.")
@@ -300,7 +300,7 @@ export class ParameterEditor{
 
         const inputElement = ev.target as HTMLInputElement;
 
-        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomImage).SetWC3Texture(inputElement.value);
+        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomImage).setWc3Texture(inputElement.value);
         debugText('WC3 Texture changed.');
 
     }
@@ -308,9 +308,13 @@ export class ParameterEditor{
     static InputText(ev: Event) : void{
 
         const inputElement = ev.target as HTMLInputElement;
+        const frameContent = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom;
 
-        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom.SetText(inputElement.value);
-        debugText("Text changed.");
+
+        if(frameContent instanceof CustomText){
+            frameContent.SetText(inputElement.value);
+            debugText("Text changed.");
+        }
 
     }
             
@@ -318,7 +322,7 @@ export class ParameterEditor{
 
         const inputElement = ev.target as HTMLInputElement;
 
-        (Editor.GetDocumentEditor().projectTree.GetSelectedFrame().custom as CustomImage).SetTrigVar(inputElement.value);
+        Editor.GetDocumentEditor().projectTree.GetSelectedFrame().setTrigVar(inputElement.value);
         debugText("Triggered Variable changed.");
 
     }
@@ -382,24 +386,25 @@ export class ParameterEditor{
             this.inputElementName.value = frame.GetName();
 
             if(frame.custom instanceof CustomImage) {
-                this.inputElementWidth.value = InputEdit(frame.custom.element.width * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
-                this.inputElementHeight.value = InputEdit(frame.custom.element.height * 600 / editor.workspaceImage.height)
+                this.inputElementWidth.value = InputEdit(frame.custom.getElement().width * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
+                this.inputElementHeight.value = InputEdit(frame.custom.getElement().height * 600 / editor.workspaceImage.height)
                 
-                this.inputElementDiskTexture.value = frame.custom.GetTexture()
-                this.inputElementWC3Texture.value = frame.custom.textureWC3Path
-                this.inputElementTrigVar.value = frame.custom.TrigVar
-            } else {
-                this.inputElementWidth.value = InputEdit(+frame.custom.element.offsetWidth * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
-                this.inputElementHeight.value = InputEdit(+frame.custom.element.offsetHeight * 600 / editor.workspaceImage.height)
+                this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
+                this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
+                this.inputElementTrigVar.value = frame.getTrigVar()
+            } else if(frame.custom instanceof CustomText) {
+                this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2*horizontalMargin))
+                this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
                 
-                this.inputElementTextScale.value = frame.custom.scale+""
-                this.inputElementTextColor.value = frame.custom.color
+                this.inputElementTextScale.value = frame.custom.getScale()+""
+                this.inputElementTextColor.value = frame.custom.getColor()
+                this.inputElementText.value = frame.custom.getText()
+                this.inputElementTextBig.value = frame.custom.getText()
             }
 
-            this.inputElementCoordinateX.value = `${InputEdit((frame.custom.element.offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(editor.workspaceImage.width - 2*horizontalMargin) * 800) }`;
-            this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.element.getBoundingClientRect().bottom)/editor.workspaceImage.height * 600)}`;
-            this.inputElementText.value = frame.custom.text
-            this.inputElementTextBig.value = frame.custom.text
+            this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin)/(editor.workspaceImage.width - 2*horizontalMargin) * 800) }`;
+            this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom)/editor.workspaceImage.height * 600)}`;
+
             
             this.fieldElement.style.display = "initial"
             this.fieldType.style.display = "initial"
