@@ -326,11 +326,9 @@ export class ParameterEditor {
         const inputElement = ev.target as HTMLInputElement;
         const frameContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
 
-
-        if (frameContent instanceof CustomText) {
             frameContent.SetText(inputElement.value);
             debugText("Text changed.");
-        }
+
 
     }
 

@@ -12,7 +12,6 @@ export class CustomText extends FrameBaseContent {
     public static readonly SAVE_KEY_SCALE = "scale";
     public static readonly SAVE_KEY_COLOR = "color";
 
-    private text: string;
     private scale: number;
     private color: string;
 

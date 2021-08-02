@@ -19,8 +19,11 @@ export default abstract class FrameBaseContent implements Saveable {
     protected botY: number;
     protected leftX: number;
     protected zIndex: number;
+    protected text: string;
 
     public abstract delete(): void;
+
+    public abstract SetText(text: string): void;
 
     public getElement(): HTMLElement {
         return this.element;

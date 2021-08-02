@@ -35,6 +35,10 @@ export class CustomImage extends FrameBaseContent {
         return this.textureWc3Path;
     }
 
+    public SetText(Text: string): void {
+        this.text = Text;
+    }
+
     public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string) {
         try {
 
