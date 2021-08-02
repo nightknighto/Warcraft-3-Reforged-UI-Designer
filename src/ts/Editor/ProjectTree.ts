@@ -16,6 +16,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static readonly SAVE_KEY_HIDE_GAMEUI = "GameUI";
     public static readonly SAVE_KEY_HIDE_HEROBAR = "HeroBar";
     public static readonly SAVE_KEY_HIDE_MINIMAP = "MiniMap";
+    public static readonly SAVE_KEY_HIDE_RESOURCES = "Resources";
+    public static readonly SAVE_KEY_HIDE_BUTTONBAR = "ButtonBar";
+    public static readonly SAVE_KEY_HIDE_PORTRAIT = "Portrait";
+    public static readonly SAVE_KEY_HIDE_CHAT = "Chat";
 
     public readonly rootFrame: FrameComponent;
     public readonly panelTree: HTMLElement;
@@ -25,6 +29,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideGameUI = false;
     public static HideHeroBar = false;
     public static HideMiniMap = false;
+    public static HideResources = false;
+    public static HideButtonBar = false;
+    public static HidePortrait = false;
+    public static HideChat = false;
 
     public static saveGeneralOptions(): void {
 
@@ -33,6 +41,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         ProjectTree.HideGameUI = par.checkboxGameUI.checked
         ProjectTree.HideHeroBar = par.checkboxHeroBar.checked
         ProjectTree.HideMiniMap = par.checkboxMiniMap.checked
+        ProjectTree.HideResources = par.checkboxResources.checked
+        ProjectTree.HideButtonBar = par.checkboxButtonBar.checked
+        ProjectTree.HidePortrait = par.checkboxPortrait.checked
+        ProjectTree.HideChat = par.checkboxChat.checked
     }
 
     public constructor() {
@@ -79,6 +91,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_HIDE_GAMEUI, ProjectTree.HideGameUI);
         container.save(ProjectTree.SAVE_KEY_HIDE_HEROBAR, ProjectTree.HideHeroBar);
         container.save(ProjectTree.SAVE_KEY_HIDE_MINIMAP, ProjectTree.HideMiniMap);
+        container.save(ProjectTree.SAVE_KEY_HIDE_RESOURCES, ProjectTree.HideResources);
+        container.save(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR, ProjectTree.HideButtonBar);
+        container.save(ProjectTree.SAVE_KEY_HIDE_PORTRAIT, ProjectTree.HidePortrait);
+        container.save(ProjectTree.SAVE_KEY_HIDE_CHAT, ProjectTree.HideChat);
 
     }
 
@@ -142,6 +158,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
             ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);
             ProjectTree.HideMiniMap = container.load(ProjectTree.SAVE_KEY_HIDE_MINIMAP);
+            ProjectTree.HideResources = container.load(ProjectTree.SAVE_KEY_HIDE_RESOURCES);
+            ProjectTree.HideButtonBar = container.load(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR);
+            ProjectTree.HidePortrait = container.load(ProjectTree.SAVE_KEY_HIDE_PORTRAIT);
+            ProjectTree.HideChat = container.load(ProjectTree.SAVE_KEY_HIDE_CHAT);
 
 
             //this should happen after those values are loaded
@@ -150,6 +170,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             par.checkboxGameUI.checked = ProjectTree.HideGameUI
             par.checkboxHeroBar.checked = ProjectTree.HideHeroBar
             par.checkboxMiniMap.checked = ProjectTree.HideMiniMap
+            par.checkboxResources.checked = ProjectTree.HideResources
+            par.checkboxButtonBar.checked = ProjectTree.HideButtonBar
+            par.checkboxPortrait.checked = ProjectTree.HidePortrait
+            par.checkboxChat.checked = ProjectTree.HideChat
         }
         else {
             console.error("Could not parse JSON");

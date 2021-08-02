@@ -240,10 +240,18 @@ function generalOptions(type: 'lua' | 'jass') {
         if (ProjectTree.HideGameUI) sumText += JASS.HideGameUI;
         if (ProjectTree.HideHeroBar) sumText += JASS.HideHeroBar;
         if (ProjectTree.HideMiniMap) sumText += JASS.HideMiniMap;
+        if (ProjectTree.HideResources) sumText += JASS.HideResources;
+        if (ProjectTree.HideButtonBar) sumText += JASS.HideButtonBar;
+        if (ProjectTree.HidePortrait) sumText += JASS.HidePortrait;
+        if (ProjectTree.HideChat) sumText += JASS.HideChat;
     } else if (type == 'lua') {
         if (ProjectTree.HideGameUI) sumText += LUA.HideGameUI;
         if (ProjectTree.HideHeroBar) sumText += LUA.HideHeroBar;
         if (ProjectTree.HideMiniMap) sumText += LUA.HideMiniMap;
+        if (ProjectTree.HideResources) sumText += LUA.HideResources;
+        if (ProjectTree.HideButtonBar) sumText += LUA.HideButtonBar;
+        if (ProjectTree.HidePortrait) sumText += LUA.HidePortrait;
+        if (ProjectTree.HideChat) sumText += LUA.HideChat;
     }
 
     return sumText + "\n";

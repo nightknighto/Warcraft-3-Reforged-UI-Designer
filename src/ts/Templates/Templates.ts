@@ -39,7 +39,14 @@ export namespace JASS {
     export const HideGameUI = 'call BlzHideOriginFrames(true) \ncall BlzFrameSetSize(BlzGetFrameByName("ConsoleUIBackdrop",0), 0, 0.0001)\n'
     export const HideHeroBar = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0), false)\n';
     export const HideMiniMap = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0), false)\n'
+    export const HideResources = 'call BlzFrameSetVisible(BlzGetFrameByName("ResourceBarFrame",0), false)\n'
+    export const HideButtonBar = 'call BlzFrameSetVisible(BlzGetFrameByName("UpperButtonBarFrame",0), false)\n'
+    export const HidePortrait = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_PORTRAIT, 0), false)\n'
+    export const HideChat = 'call BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG, 0), false)\n'
 }
+
+ 
+
 
 export namespace LUA {
     export const globals = ""
@@ -82,4 +89,9 @@ export namespace LUA {
     export const HideGameUI = 'BlzHideOriginFrames(true) \nBlzFrameSetSize(BlzGetFrameByName("ConsoleUIBackdrop",0), 0, 0.0001)\n'
     export const HideHeroBar = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_HERO_BAR,0), false)\n';
     export const HideMiniMap = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_MINIMAP,0), false)\n'
+    export const HideResources = 'BlzFrameSetVisible(BlzGetFrameByName("ResourceBarFrame",0), false)\n'
+    export const HideButtonBar = 'BlzFrameSetVisible(BlzGetFrameByName("UpperButtonBarFrame",0), false)\n'
+    export const HidePortrait = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_PORTRAIT, 0), false)\n'
+    export const HideChat = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG, 0), false)\n'
+
 }
