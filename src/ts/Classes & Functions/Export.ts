@@ -151,7 +151,7 @@ export function JASSTemplateReplace(kind: number): string {
                     break;
 
                 case (CustomText):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getText().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
+                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
                     textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
                     break;
             }
@@ -222,7 +222,7 @@ export function LUATemplateReplace(kind: number): string {
                     break;
 
                 case (CustomText):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getText().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
+                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
                     textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
                     break;
             }
