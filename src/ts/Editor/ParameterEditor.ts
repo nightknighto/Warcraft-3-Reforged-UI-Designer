@@ -30,6 +30,10 @@ export class ParameterEditor {
     public readonly checkboxGameUI: HTMLInputElement;
     public readonly checkboxHeroBar: HTMLInputElement;
     public readonly checkboxMiniMap: HTMLInputElement;
+    public readonly checkboxResources: HTMLInputElement;
+    public readonly checkboxButtonBar: HTMLInputElement;
+    public readonly checkboxPortrait: HTMLInputElement;
+    public readonly checkboxChat: HTMLInputElement;
 
     public readonly fieldTexture: HTMLDivElement;
     public readonly fieldType: HTMLDivElement;
@@ -63,6 +67,10 @@ export class ParameterEditor {
         this.checkboxGameUI = document.getElementById('generalGameUI') as HTMLInputElement;
         this.checkboxHeroBar = document.getElementById('generalHeroBar') as HTMLInputElement;
         this.checkboxMiniMap = document.getElementById('generalMiniMap') as HTMLInputElement;
+        this.checkboxResources = document.getElementById('generalResources') as HTMLInputElement;
+        this.checkboxButtonBar = document.getElementById('generalButtonBar') as HTMLInputElement;
+        this.checkboxPortrait = document.getElementById('generalPortrait') as HTMLInputElement;
+        this.checkboxChat = document.getElementById('generalChat') as HTMLInputElement;
 
         this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement;
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;

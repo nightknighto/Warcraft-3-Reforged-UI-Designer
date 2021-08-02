@@ -72,6 +72,7 @@ export class Editor {
 
         newFrameBuilder = new FrameBuilder();
         newFrameBuilder.type = FrameType.TEXT_FRAME;
+        newFrameBuilder.text = "Text Frame"
         insertMenu.addRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder();

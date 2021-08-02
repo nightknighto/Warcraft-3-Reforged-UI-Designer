@@ -21,7 +21,7 @@ export class FrameBuilder implements ICallableDivInstance {
     public texture = "";
     public wc3Texture = "";
     public trigVar = "";
-    public text = "";
+    public text = "Text";
     public scale = 1;
     public color = "#FFFFFF";
 
