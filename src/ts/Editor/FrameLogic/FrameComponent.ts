@@ -54,6 +54,7 @@ export class FrameComponent implements Saveable {
 
             this.type = frameBuildOptions.type;
             this.name = frameBuildOptions.name;
+            this.trigVar = frameBuildOptions.trigVar;
             this.treeElement = ul;
             this.children = [];
             if (this.type == FrameType.TEXT_FRAME)
