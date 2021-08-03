@@ -12,12 +12,10 @@ export class FrameComponent implements Saveable {
 
     public static readonly SAVE_KEY_NAME = "name";
     public static readonly SAVE_KEY_CHILDREN = "children";
-    public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
     public static readonly SAVE_KEY_TYPE = "type";
 
     private name: string;
     private children: FrameComponent[];
-    private trigVar: string;
     public type: FrameType;
     
     public readonly custom: FrameBaseContent;
@@ -35,14 +33,6 @@ export class FrameComponent implements Saveable {
         if (this.parentOption) this.parentOption.text = newName;
     }
 
-    public setTrigVar(VarName: string): void {
-        this.trigVar = VarName
-    }
-
-    public getTrigVar(): string {
-        return this.trigVar;
-    }
-
     public constructor(frameBuildOptions: FrameBuilder, zIndex : number) {
         try {
 
@@ -54,13 +44,12 @@ export class FrameComponent implements Saveable {
 
             this.type = frameBuildOptions.type;
             this.name = frameBuildOptions.name;
-            this.trigVar = frameBuildOptions.trigVar;
             this.treeElement = ul;
             this.children = [];
             if (this.type == FrameType.TEXT_FRAME)
                 this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
-                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.texture, frameBuildOptions.wc3Texture);
+                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
 
             this.parentOption = document.createElement('option');
             this.parentOption.text = this.name;
@@ -79,7 +68,6 @@ export class FrameComponent implements Saveable {
 
         container.save(FrameComponent.SAVE_KEY_NAME, this.name);
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
-        container.save(FrameComponent.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar);
         this.custom.save(container);
 
         const childrenSaveArray = [];

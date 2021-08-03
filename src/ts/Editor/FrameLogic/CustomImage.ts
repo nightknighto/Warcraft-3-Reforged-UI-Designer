@@ -10,9 +10,11 @@ export class CustomImage extends FrameBaseContent {
 
     public static readonly SAVE_KEY_TEXTURE_DISK_PATH = "textureDiskPath";
     public static readonly SAVE_KEY_TEXTURE_WC3_PATH = "textureWc3Path"
+    public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
 
     private textureDiskPath: string;
     private textureWc3Path: string;
+    private trigVar: string;
 
     public getElement(): HTMLImageElement {
         return this.element as HTMLImageElement;
@@ -38,15 +40,24 @@ export class CustomImage extends FrameBaseContent {
     public setText(Text: string): void {
         this.text = Text;
     }
+    
+    public setTrigVar(VarName: string): void {
+        this.trigVar = VarName
+    }
 
-    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string) {
+    public getTrigVar(): string {
+        return this.trigVar;
+    }
+
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, texturePath: string, wc3TexturePath: string, trigVar: string) {
         try {
 
             const element = document.createElement('img');
-            super(frameComponent, element, width, height, x, y, z);
+            super(frameComponent, element, text, width, height, x, y, z);
 
             this.setDiskTexture(texturePath);
             this.setWc3Texture(wc3TexturePath);
+            this.setTrigVar(trigVar);
 
             ImageFunctions(this);
 
@@ -60,6 +71,7 @@ export class CustomImage extends FrameBaseContent {
         super.save(container);
         container.save(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH, this.textureDiskPath);
         container.save(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH, this.textureWc3Path);
+        container.save(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar);
 
     }
 

@@ -108,13 +108,13 @@ export function JASSTemplateReplace(kind: number): string {
                 } else {
                     text = JASS.declares
                 }
-                if (el.custom instanceof CustomImage && el.getTrigVar() != "") text += JASS.declaresFUNCTIONALITY;
+                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += JASS.declaresFUNCTIONALITY;
             } else if (kind == 1) {
                 if (el.custom instanceof CustomText) continue;
                 if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
 
                 text = JASS.TriggerButtonDisableStart
-                if (el.getTrigVar() == "") {
+                if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
                     text += JASS.TriggerButtonDisableEnd
                 } else {
                     text += JASS.TriggerVariableInit
@@ -122,13 +122,13 @@ export function JASSTemplateReplace(kind: number): string {
                 }
             } else if (kind == 2) {
                 let functionality = false
-                if (el.custom instanceof CustomImage && el.getTrigVar() != "") functionality = true;
+                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
                 text = JassGetTypeText(el.type, functionality)
             }
 
             let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
             textEdit = textEdit.replace(/FRvar/gi, el.getName())
-            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.getTrigVar())
+            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
             if (kind == 0) {
                 sumText += textEdit;
                 continue;
@@ -147,7 +147,7 @@ export function JASSTemplateReplace(kind: number): string {
             switch (el.custom.constructor) {
                 case (CustomImage):
                     textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    textEdit = textEdit.replace("TRIGvar", '"' + el.getTrigVar() + '"');
+                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
                     break;
 
                 case (CustomText):
@@ -179,13 +179,13 @@ export function LUATemplateReplace(kind: number): string {
                 } else {
                     text = LUA.declares
                 }
-                if (el.custom instanceof CustomImage && el.getTrigVar() != "") text += LUA.declaresFUNCTIONALITY;
+                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += LUA.declaresFUNCTIONALITY;
             } else if (kind == 1 && el.custom instanceof CustomImage) {
                 if (el.custom instanceof CustomText) continue;
                 if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
 
                 text = LUA.TriggerButtonDisableStart
-                if (el.getTrigVar() == "") {
+                if (el.custom.getTrigVar() == "") {
                     text += LUA.TriggerButtonDisableEnd
                 } else {
                     text += LUA.TriggerVariableInit
@@ -193,13 +193,13 @@ export function LUATemplateReplace(kind: number): string {
                 }
             } else if (kind == 2) {
                 let functionality = false
-                if (el.custom instanceof CustomImage && el.getTrigVar() != "") functionality = true;
+                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
                 text = LuaGetTypeText(el.type, functionality)
             }
 
             let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
             textEdit = textEdit.replace(/FRvar/gi, el.getName())
-            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.getTrigVar())
+            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
             if (kind == 0) {
                 sumText += textEdit;
                 continue;
@@ -218,7 +218,7 @@ export function LUATemplateReplace(kind: number): string {
             switch (el.custom.constructor) {
                 case (CustomImage):
                     textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    textEdit = textEdit.replace("TRIGvar", '"' + el.getTrigVar() + '"');
+                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
                     break;
 
                 case (CustomText):

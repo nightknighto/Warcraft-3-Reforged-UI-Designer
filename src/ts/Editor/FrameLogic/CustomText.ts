@@ -8,7 +8,6 @@ import FrameBaseContent from "./FrameBaseContent";
 
 export class CustomText extends FrameBaseContent {
 
-    public static readonly SAVE_KEY_TEXT = "text";
     public static readonly SAVE_KEY_SCALE = "scale";
     public static readonly SAVE_KEY_COLOR = "color";
 
@@ -57,7 +56,7 @@ export class CustomText extends FrameBaseContent {
         try {
 
             const element = document.createElement('div');
-            super(frameComponent, element, width, height, x, y, z);
+            super(frameComponent, element, text, width, height, x, y, z);
 
             this.setText(text);
             this.setColor(color);
@@ -78,7 +77,6 @@ export class CustomText extends FrameBaseContent {
     public save(container: SaveContainer): void {
 
         super.save(container);
-        container.save(CustomText.SAVE_KEY_TEXT, this.text);
         container.save(CustomText.SAVE_KEY_SCALE, this.scale);
         container.save(CustomText.SAVE_KEY_COLOR, this.color);
 

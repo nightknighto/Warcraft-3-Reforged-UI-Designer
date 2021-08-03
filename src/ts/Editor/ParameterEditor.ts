@@ -336,8 +336,12 @@ export class ParameterEditor {
 
         const inputElement = ev.target as HTMLInputElement;
 
-        Editor.GetDocumentEditor().projectTree.getSelectedFrame().setTrigVar(inputElement.value);
-        debugText("Triggered Variable changed.");
+        const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+
+        if(frameBaseContent instanceof CustomImage){
+            frameBaseContent.setTrigVar(inputElement.value);
+            debugText("Triggered Variable changed.");
+        }
 
     }
 
@@ -406,7 +410,7 @@ export class ParameterEditor {
 
                     this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
                     this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
-                    this.inputElementTrigVar.value = frame.getTrigVar()
+                    this.inputElementTrigVar.value = frame.custom.getTrigVar()
                 } else if (frame.custom instanceof CustomText) {
                     this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
                     this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
