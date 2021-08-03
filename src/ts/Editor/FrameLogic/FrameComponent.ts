@@ -49,7 +49,7 @@ export class FrameComponent implements Saveable {
             if (this.type == FrameType.TEXT_FRAME)
                 this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
-                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
+                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
 
             this.parentOption = document.createElement('option');
             this.parentOption.text = this.name;

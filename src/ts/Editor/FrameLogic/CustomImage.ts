@@ -45,14 +45,15 @@ export class CustomImage extends FrameBaseContent {
         return this.trigVar;
     }
 
-    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, texturePath: string, wc3TexturePath: string, trigVar: string) {
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, texturePath: string, wc3TexturePath: string, trigVar: string) {
         try {
 
             const element = document.createElement('img');
-            super(frameComponent, element, width, height, x, y, z);
+            super(frameComponent, element, text, width, height, x, y, z);
 
             this.setDiskTexture(texturePath);
             this.setWc3Texture(wc3TexturePath);
+            this.setTrigVar(trigVar);
 
             ImageFunctions(this);
 

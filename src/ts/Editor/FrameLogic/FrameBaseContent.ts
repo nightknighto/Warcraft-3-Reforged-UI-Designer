@@ -10,6 +10,7 @@ export default abstract class FrameBaseContent implements Saveable {
     public static readonly SAVE_KEY_WIDTH = "width";
     public static readonly SAVE_KEY_LEFTX = "leftX";
     public static readonly SAVE_KEY_BOTY = "botY";
+    public static readonly SAVE_KEY_TEXT = "text";
 
     protected readonly frameComponent: FrameComponent;
     protected readonly element: HTMLElement;
@@ -106,7 +107,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
     }
 
-    protected constructor(frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number, z: number) {
+    protected constructor(frameComponent: FrameComponent, element: HTMLElement, text: string, width: number, height: number, x: number, y: number, z: number) {
 
         const workspace = Editor.GetDocumentEditor().workspace;
         this.frameComponent = frameComponent;
@@ -117,6 +118,7 @@ export default abstract class FrameBaseContent implements Saveable {
         this.setLeftX(x);
         this.setBotY(y);
         this.setZIndex(z);
+        this.setText(text);
 
         this.element.draggable = false;
         this.element.style.position = "absolute";
@@ -147,6 +149,7 @@ export default abstract class FrameBaseContent implements Saveable {
         container.save(FrameBaseContent.SAVE_KEY_WIDTH, this.width);
         container.save(FrameBaseContent.SAVE_KEY_LEFTX, this.leftX);
         container.save(FrameBaseContent.SAVE_KEY_BOTY, this.botY);
+        container.save(FrameBaseContent.SAVE_KEY_TEXT, this.text);
     }
 
 }

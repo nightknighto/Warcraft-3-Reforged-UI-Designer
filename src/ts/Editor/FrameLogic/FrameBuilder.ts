@@ -54,6 +54,7 @@ export class FrameBuilder implements ICallableDivInstance {
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_BOTY)) { console.error("Could not parse JSON."); return; }
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_HEIGHT)) { console.error("Could not parse JSON."); return; }
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_WIDTH)) { console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_TEXT)) { console.error("Could not parse JSON."); return; }
 
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
@@ -62,6 +63,7 @@ export class FrameBuilder implements ICallableDivInstance {
         this.y = container.load(FrameBaseContent.SAVE_KEY_BOTY);
         this.height = container.load(FrameBaseContent.SAVE_KEY_HEIGHT);
         this.width = container.load(FrameBaseContent.SAVE_KEY_WIDTH);
+        this.text = container.load(CustomText.SAVE_KEY_TEXT);
         
         if (this.type != FrameType.TEXT_FRAME) {
             if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH)) { console.error("Could not parse JSON."); return; }
@@ -70,11 +72,10 @@ export class FrameBuilder implements ICallableDivInstance {
             this.wc3Texture = container.load(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH);
         }
         else {
-            if (!container.hasKey(CustomText.SAVE_KEY_TEXT)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomText.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomText.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
-            this.text = container.load(CustomText.SAVE_KEY_TEXT);
+            
             this.scale = container.load(CustomText.SAVE_KEY_SCALE);
             this.color = container.load(CustomText.SAVE_KEY_COLOR);
             this.trigVar = container.load(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME);
