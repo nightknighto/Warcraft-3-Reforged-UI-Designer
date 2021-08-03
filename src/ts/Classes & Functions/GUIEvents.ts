@@ -2,6 +2,8 @@ import { Editor } from '../Editor/Editor';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
 import { debugText } from '../Classes & Functions/Mini-Functions';
 import { CustomText } from '../Editor/FrameLogic/CustomText';
+import { CustomImage } from '../Editor/FrameLogic/CustomImage';
+import { FrameComponent } from '../Editor/FrameLogic/FrameComponent';
 
 export class GUIEvents {
 
@@ -33,22 +35,54 @@ export class GUIEvents {
         projectTree.getSelectedFrame().destroy();
     }
 
+    static DuplicationAction(main: FrameComponent): FrameComponent{
+        const frameBuilder =  new FrameBuilder()
+        frameBuilder.type = main.type;
+        
+        const newFrame = main.getParent().createAsChild(frameBuilder,1);
+        Object.keys(newFrame.custom).forEach( prop => {
+            if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = main.custom[prop];
+        })
+
+        newFrame.custom.setText(main.custom.getText())
+        if(newFrame.custom instanceof CustomImage) {
+            newFrame.setTrigVar(main.getTrigVar())
+            newFrame.custom.setDiskTexture((main.custom as CustomImage).getDiskTexture())
+            newFrame.custom.setWc3Texture((main.custom as CustomImage).getWc3Texture())
+            
+        } else if(newFrame.custom instanceof CustomText) {
+            newFrame.custom.setColor((main.custom as CustomText).getColor())
+            newFrame.custom.setScale((main.custom as CustomText).getScale())
+        }
+
+        return newFrame
+    }
+
     static DuplicateSelectedImage() : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
 
-        const frameBuilder =  new FrameBuilder()
-        frameBuilder.type = selected.type;
-        //frameBuilder.texture = selected.custom.element.src
-        frameBuilder.name = selected.getName() + 'Copy';
+        // const frameBuilder =  new FrameBuilder()
+        // frameBuilder.type = selected.type;
+        // if(selected.custom instanceof CustomImage) {
+        //     frameBuilder.texture = selected.custom.getDiskTexture()
+        // }
+        
 
-        const newFrame = selected.getParent().createAsChild(frameBuilder,1);
-        Object.keys(newFrame.custom).forEach( prop => {
-            if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-        })
+        // const newFrame = selected.getParent().createAsChild(frameBuilder,1);
+        // Object.keys(newFrame.custom).forEach( prop => {
+        //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
+        // })
+
+        const newFrame = GUIEvents.DuplicationAction(selected)
+        newFrame.setName(selected.getName() + 'Copy');
 
         newFrame.custom.setLeftX(selected.custom.getLeftX()+0.03)
         newFrame.custom.setBotY(selected.custom.getBotY()-0.03)
+
+        // if(newFrame.custom instanceof CustomImage) {
+        //     newFrame.setTri((selected.custom as CustomImage).getDiskTexture())gVar
+        // }
         
         projectTree.select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.updateFields(newFrame);
@@ -64,18 +98,17 @@ export class GUIEvents {
         
         const angDisp = Math.PI * 2 / count;
         for(let i = 0; i < count; i++) {
-            const frameBuilder =  new FrameBuilder()
-            frameBuilder.type = selected.type;
-            //frameBuilder.texture = selected.custom.element.src
-            frameBuilder.name = selected.getName() + 'Circ'+i;
+            // const frameBuilder =  new FrameBuilder()
+            // frameBuilder.type = selected.type;
+            // //frameBuilder.texture = selected.custom.element.src
 
-            const newFrame = parent.createAsChild(frameBuilder,1);
-            Object.keys(newFrame.custom).forEach( prop => {
-                if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-            })
+            // const newFrame = parent.createAsChild(frameBuilder,1);
+            // Object.keys(newFrame.custom).forEach( prop => {
+            //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
+            // })
 
-            //const width = newFrame.image.width;
-            //const height = newFrame.image.height;
+            const newFrame = this.DuplicationAction(selected)
+            newFrame.setName(selected.getName() + 'Circ'+i);
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
             const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
@@ -98,15 +131,18 @@ export class GUIEvents {
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < columns; j++){
                 if(i == 0 && j == 0) continue;
-                const frameBuilder =  new FrameBuilder()
-                frameBuilder.type = selected.type;
-                //frameBuilder.texture = selected.custom.element.src
-                frameBuilder.name = selected.getName() + 'Table'+i+j;
+                // const frameBuilder =  new FrameBuilder()
+                // frameBuilder.type = selected.type;
+                // //frameBuilder.texture = selected.custom.element.src
 
-                const newFrame = parent.createAsChild(frameBuilder,1);
-                Object.keys(newFrame.custom).forEach( prop => {
-                    if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-                })
+                // const newFrame = parent.createAsChild(frameBuilder,1);
+                // Object.keys(newFrame.custom).forEach( prop => {
+                //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
+                // })
+
+                
+                const newFrame = this.DuplicationAction(selected)
+                newFrame.setName(selected.getName() + 'Table'+i+j);
 
                 const width = newFrame.custom.getWidth();
                 const height = newFrame.custom.getHeight();

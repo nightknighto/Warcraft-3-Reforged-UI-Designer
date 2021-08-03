@@ -35,7 +35,7 @@ export class CustomImage extends FrameBaseContent {
         return this.textureWc3Path;
     }
 
-    public SetText(Text: string): void {
+    public setText(Text: string): void {
         this.text = Text;
     }
 

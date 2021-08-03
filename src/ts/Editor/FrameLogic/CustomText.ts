@@ -47,7 +47,7 @@ export class CustomText extends FrameBaseContent {
         return this.text;
     }
 
-    public SetText(Text: string): void {
+    public setText(Text: string): void {
         this.text = Text;
         this.element.innerText = Text;
     }
@@ -59,7 +59,7 @@ export class CustomText extends FrameBaseContent {
             const element = document.createElement('div');
             super(frameComponent, element, width, height, x, y, z);
 
-            this.SetText(text);
+            this.setText(text);
             this.setColor(color);
             this.setScale(scale);
 

@@ -23,7 +23,11 @@ export default abstract class FrameBaseContent implements Saveable {
 
     public abstract delete(): void;
 
-    public abstract SetText(text: string): void;
+    public abstract setText(text: string): void;
+
+    public getText(): string{
+        return this.text;
+    }
 
     public getElement(): HTMLElement {
         return this.element;
@@ -39,7 +43,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
     public setZIndex(zIndex: number): void {
 
-        this.element.style.zIndex = `${zIndex}`;
+        //this.element.style.zIndex = `${zIndex}`;
         this.zIndex = zIndex;
     }
 
