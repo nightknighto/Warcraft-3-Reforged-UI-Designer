@@ -23,7 +23,13 @@ export default abstract class FrameBaseContent implements Saveable {
 
     public abstract delete(): void;
 
-    public abstract SetText(text: string): void;
+    public getText(): string{
+        return this.text;
+    }
+
+    public setText(text: string): void{
+        this.text = text;
+    }
 
     public getElement(): HTMLElement {
         return this.element;

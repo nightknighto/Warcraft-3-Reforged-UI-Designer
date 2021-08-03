@@ -43,13 +43,9 @@ export class CustomText extends FrameBaseContent {
         debugText("Color changed.")
     }
 
-    public getText(): string {
-        return this.text;
-    }
-
-    public SetText(Text: string): void {
-        this.text = Text;
-        this.element.innerText = Text;
+    public setText(text: string): void {
+        super.setText(text);
+        this.element.innerText = text;
     }
 
     public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, text: string, color: string, scale: number) {
@@ -59,7 +55,7 @@ export class CustomText extends FrameBaseContent {
             const element = document.createElement('div');
             super(frameComponent, element, width, height, x, y, z);
 
-            this.SetText(text);
+            this.setText(text);
             this.setColor(color);
             this.setScale(scale);
 

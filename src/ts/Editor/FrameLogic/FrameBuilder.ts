@@ -7,6 +7,7 @@ import { FrameComponent } from "./FrameComponent";
 import { CustomImage } from "./CustomImage";
 import { GUIEvents } from "../../Classes & Functions/GUIEvents";
 import { CustomText } from "./CustomText";
+import FrameBaseContent from "./FrameBaseContent";
 
 export class FrameBuilder implements ICallableDivInstance {
 
@@ -48,21 +49,20 @@ export class FrameBuilder implements ICallableDivInstance {
 
         if (!container.hasKey(FrameComponent.SAVE_KEY_NAME)) { console.error("Could not parse JSON."); return; }
         if (!container.hasKey(FrameComponent.SAVE_KEY_TYPE)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(FrameComponent.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
-
-        if (!container.hasKey(CustomImage.SAVE_KEY_LEFTX)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_BOTY)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_HEIGHT)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomImage.SAVE_KEY_WIDTH)) { console.error("Could not parse JSON."); return; }
+        
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_LEFTX)) { console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_BOTY)) { console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_HEIGHT)) { console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_WIDTH)) { console.error("Could not parse JSON."); return; }
 
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
-        this.trigVar = container.load(FrameComponent.SAVE_KEY_TRIGGER_VARIABLE_NAME);
 
-        this.x = container.load(CustomImage.SAVE_KEY_LEFTX);
-        this.y = container.load(CustomImage.SAVE_KEY_BOTY);
-        this.height = container.load(CustomImage.SAVE_KEY_HEIGHT);
-        this.width = container.load(CustomImage.SAVE_KEY_WIDTH);
+        this.x = container.load(FrameBaseContent.SAVE_KEY_LEFTX);
+        this.y = container.load(FrameBaseContent.SAVE_KEY_BOTY);
+        this.height = container.load(FrameBaseContent.SAVE_KEY_HEIGHT);
+        this.width = container.load(FrameBaseContent.SAVE_KEY_WIDTH);
+        
         if (this.type != FrameType.TEXT_FRAME) {
             if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH)) { console.error("Could not parse JSON."); return; }
@@ -73,9 +73,11 @@ export class FrameBuilder implements ICallableDivInstance {
             if (!container.hasKey(CustomText.SAVE_KEY_TEXT)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomText.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomText.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
             this.text = container.load(CustomText.SAVE_KEY_TEXT);
             this.scale = container.load(CustomText.SAVE_KEY_SCALE);
             this.color = container.load(CustomText.SAVE_KEY_COLOR);
+            this.trigVar = container.load(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME);
         }
 
         const frameComponent = projectTree.appendToSelected(this)
