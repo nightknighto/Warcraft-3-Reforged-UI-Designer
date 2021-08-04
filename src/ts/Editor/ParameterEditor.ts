@@ -411,13 +411,13 @@ export class ParameterEditor {
                     this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
                     this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
                     this.inputElementTrigVar.value = frame.custom.getTrigVar()
+                    this.inputElementText.value = frame.custom.getText()
                 } else if (frame.custom instanceof CustomText) {
                     this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
                     this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
 
                     this.inputElementTextScale.value = frame.custom.getScale() + ""
                     this.inputElementTextColor.value = frame.custom.getColor()
-                    this.inputElementText.value = frame.custom.getText()
                     this.inputElementTextBig.value = frame.custom.getText()
                 }
 

@@ -95,3 +95,40 @@ export namespace LUA {
     export const HideChat = 'BlzFrameSetVisible(BlzGetOriginFrame(ORIGIN_FRAME_CHAT_MSG, 0), false)\n'
 
 }
+
+ 
+
+
+export namespace Typescript {
+    export const classDeclare = "export class FRlib {\n"
+
+    export const globals = "\n"
+
+    export const declares = "   FRvar: Frame\n"
+    export const declaresBUTTON = " FRvar: Frame \n FRvarBackdrop: Frame \n"
+
+    export const endglobals = "\n"
+
+    export const constructorInit = "    constructor() {\n let t: Trigger;\n\n"
+
+    export const backdrop = 'this.FRvar = new Frame(" this.FRvar ", OWNERvar, 1, 1, "BACKDROP", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setTexture(PATHvar, 0, true) \n'
+
+    export const button = 'this.FRvar = new Frame("ScriptDialogButton", OWNERvar, 0, 0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvarBackdrop = new Frame(" this.FRvarBackdrop ", this.FRvar, 1, 1, "BACKDROP", "") \nthis.FRvarBackdrop.setAllPoints(this.FRvar) \nthis.FRvarBackdrop.setTexture(PATHvar, 0, true) \n'
+
+    export const ScriptDialogButton = 'this.FRvar = new Frame("ScriptDialogButton", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \n '
+    export const BrowserButton = 'this.FRvar = new Frame("ScriptDialogButton", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \n'
+    export const CheckListBox = 'this.FRvar = new Frame("CheckListBox", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const EscMenuBackdrop = 'this.FRvar = new Frame("EscMenuBackdrop", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const OptionsPopupMenuBackdropTemplate = 'this.FRvar = new Frame("OptionsPopupMenuBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonBaseTemplate = 'this.FRvar = new Frame("QuestButtonBaseTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonDisabledBackdropTemplate = 'this.FRvar = new Frame("QuestButtonDisabledBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestButtonPushedBackdropTemplate = 'this.FRvar = new Frame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const QuestCheckBox = 'this.FRvar = new Frame("QuestCheckBox", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const InvisButton = 'this.FRvar = new Frame("FRvar", OWNERvar, 0,0, "GLUEBUTTON", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    export const TextFrame = `this.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXT", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.enabled = false \nthis.FRvar.setScale(FRscale) \n`
+
+
+    export const ButtonTriggerSetup = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CONTROL_CLICK) \nt.addAction( () => {\nthis.FRvar.enabled = false \nthis.FRvar.enabled = true \n})\n'
+
+    export const endconstructor_library = "}\n\n}\n"
+}

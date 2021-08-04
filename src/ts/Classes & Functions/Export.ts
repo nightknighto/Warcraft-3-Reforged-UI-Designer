@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { JASS, LUA } from '../Templates/Templates'
+import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
 import { writeFile, appendFile } from 'fs';
 import { FrameType } from "../Editor/FrameLogic/FrameType"
@@ -62,6 +62,32 @@ export class Export implements ICallableDivInstance {
 
     }
 
+    public SaveTypescript(filepath: string): void {
+
+        writeFile(filepath, Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
+            appendFile(filepath, Typescript.globals, () => {
+                appendFile(filepath, TypescriptTemplateReplace(0), () => {
+                    appendFile(filepath, Typescript.endglobals, () => {
+                        appendFile(filepath, Typescript.constructorInit, () => {
+                            appendFile(filepath, generalOptions('typescript'), () => {
+                                appendFile(filepath, TypescriptTemplateReplace(2), () => {
+                                    appendFile(filepath, Typescript.endconstructor_library, () => {
+                                    //     appendFile(filepath, TypescriptTemplateReplace(2), () => {
+                                    //         appendFile(filepath, Typescript.endlibrary, () => {
+                                    //             alert(`File Created. Path: ${filepath}`);
+                                    //         })
+                                    //     })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
+
+    }
+
     public run(): void {
 
         ProjectTree.saveGeneralOptions();
@@ -84,6 +110,7 @@ export class Export implements ICallableDivInstance {
             switch (fileExtension) {
                 case 'j': this.SaveJASS(saveData.filePath); break;
                 case 'lua': this.SaveLUA(saveData.filePath); break;
+                case 'ts': this.SaveTypescript(saveData.filePath); break;
                 default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
             }
 
@@ -148,6 +175,7 @@ export function JASSTemplateReplace(kind: number): string {
                 case (CustomImage):
                     textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
                     textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
+                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
                     break;
 
                 case (CustomText):
@@ -219,6 +247,7 @@ export function LUATemplateReplace(kind: number): string {
                 case (CustomImage):
                     textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
                     textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
+                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
                     break;
 
                 case (CustomText):
@@ -234,7 +263,76 @@ export function LUATemplateReplace(kind: number): string {
 }
 
 
-function generalOptions(type: 'lua' | 'jass') {
+export function TypescriptTemplateReplace(kind: number): string {
+    try {
+        let text: string;
+        let sumText = ""
+        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+            if (el.type == 0) { //Origin
+                continue;
+            }
+
+            if (kind == 0) { //declare element
+                if (el.type == FrameType.BUTTON) {
+                    text = Typescript.declaresBUTTON
+                } else {
+                    text = Typescript.declares
+                }
+            } else if (kind == 1 && el.custom instanceof CustomImage) {
+                // if (el.custom instanceof CustomText) continue;
+                // if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
+
+                // text = LUA.TriggerButtonDisableStart
+                // if (el.custom.getTrigVar() == "") {
+                //     text += Typescript.TriggerButtonDisableEnd
+                // } else {
+                //     text += Typescript.TriggerVariableInit
+                //     text += Typescript.TriggerButtonDisableEnd
+                // }
+            } else if (kind == 2) {
+                const functionality = true
+                text = TypescriptGetTypeText(el.type, functionality)
+            }
+
+            let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
+            textEdit = textEdit.replace(/FRvar/gi, el.getName())
+            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
+            if (kind == 0) {
+                sumText += textEdit;
+                continue;
+            }
+
+            if (el) {
+                if (el.getParent()) {
+                    textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
+                }
+            }
+            textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
+            textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
+            textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
+            textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
+
+            switch (el.custom.constructor) {
+                case (CustomImage):
+                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
+                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
+                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
+                    break;
+
+                case (CustomText):
+                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
+                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+                    break;
+            }
+
+            sumText += textEdit;
+        }
+        return sumText;
+    } catch (e) { alert(e) }
+}
+
+
+function generalOptions(type: 'lua' | 'jass' | 'typescript') {
     let sumText = ""
     if (type == 'jass') {
         if (ProjectTree.HideGameUI) sumText += JASS.HideGameUI;
@@ -244,7 +342,7 @@ function generalOptions(type: 'lua' | 'jass') {
         if (ProjectTree.HideButtonBar) sumText += JASS.HideButtonBar;
         if (ProjectTree.HidePortrait) sumText += JASS.HidePortrait;
         if (ProjectTree.HideChat) sumText += JASS.HideChat;
-    } else if (type == 'lua') {
+    } else if (type == 'lua' || type == 'typescript') {
         if (ProjectTree.HideGameUI) sumText += LUA.HideGameUI;
         if (ProjectTree.HideHeroBar) sumText += LUA.HideHeroBar;
         if (ProjectTree.HideMiniMap) sumText += LUA.HideMiniMap;
@@ -352,6 +450,56 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
 
         case FrameType.TEXT_FRAME:
             return LUA.TextFrame
+
+    }
+    return ""
+}
+
+function TypescriptGetTypeText(type: FrameType, functionality: boolean): string {
+
+    switch (type) {
+        case FrameType.BACKDROP:
+            return Typescript.backdrop
+
+        case FrameType.BUTTON:
+            if (functionality) return Typescript.button + Typescript.ButtonTriggerSetup;
+            return Typescript.button
+
+        case FrameType.SCRIPT_DIALOG_BUTTON:
+            if (functionality) return Typescript.ScriptDialogButton + Typescript.ButtonTriggerSetup;
+            return Typescript.ScriptDialogButton
+
+        case FrameType.BROWSER_BUTTON:
+            if (functionality) return Typescript.BrowserButton + Typescript.ButtonTriggerSetup;
+            return Typescript.BrowserButton
+
+        case FrameType.CHECKLIST_BOX:
+            return Typescript.CheckListBox
+
+        case FrameType.ESC_MENU_BACKDROP:
+            return Typescript.EscMenuBackdrop
+
+        case FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE:
+            return Typescript.OptionsPopupMenuBackdropTemplate
+
+        case FrameType.QUEST_BUTTON_BASE_TEMPLATE:
+            return Typescript.QuestButtonBaseTemplate
+
+        case FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE:
+            return Typescript.QuestButtonDisabledBackdropTemplate
+
+        case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
+            return Typescript.QuestButtonPushedBackdropTemplate
+
+        case FrameType.QUEST_CHECKBOX:
+            return Typescript.QuestCheckBox
+
+        case FrameType.INVIS_BUTTON:
+            if (functionality) return Typescript.InvisButton + Typescript.ButtonTriggerSetup;
+            return Typescript.InvisButton
+
+        case FrameType.TEXT_FRAME:
+            return Typescript.TextFrame
 
     }
     return ""
