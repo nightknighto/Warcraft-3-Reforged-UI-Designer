@@ -46,7 +46,7 @@ export class GUIEvents {
 
         newFrame.custom.setText(main.custom.getText())
         if(newFrame.custom instanceof CustomImage) {
-            newFrame.setTrigVar(main.getTrigVar())
+            newFrame.custom.setTrigVar((main.custom as CustomImage).getTrigVar())
             newFrame.custom.setDiskTexture((main.custom as CustomImage).getDiskTexture())
             newFrame.custom.setWc3Texture((main.custom as CustomImage).getWc3Texture())
             
