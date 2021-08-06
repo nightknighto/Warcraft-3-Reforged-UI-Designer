@@ -23,6 +23,15 @@ submit.onclick = () => {
             return;
         }
 
+        
+        if (+rows.value > 10 || +columns.value > 10) {
+
+            if (+rows.value > 10) { rows.value = "" }
+            if (+columns.value > 10) { columns.value = '' }
+            alert("Max Limit: 10 rows/columns")
+            return;
+        }
+
         ipcRenderer.send('TableArraySubmit', [rows.valueAsNumber, columns.valueAsNumber, gapX.valueAsNumber, gapY.valueAsNumber])
         window.close()
     } catch (e) { alert(e) }
