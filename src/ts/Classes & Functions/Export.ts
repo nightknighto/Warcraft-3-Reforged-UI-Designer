@@ -16,13 +16,13 @@ export class Export implements ICallableDivInstance {
         try {
 
             writeFile(filepath, JASS.globals, () => {
-                appendFile(filepath, JASSTemplateReplace(0), () => {
+                appendFile(filepath, TemplateReplace('jass',0), () => {
                     appendFile(filepath, JASS.endglobals, () => {
                         appendFile(filepath, JASS.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-                            appendFile(filepath, JASSTemplateReplace(1), () => {
+                            appendFile(filepath, TemplateReplace('jass',1), () => {
                                 appendFile(filepath, JASS.libraryInit, () => {
                                     appendFile(filepath, generalOptions('jass'), () => {
-                                        appendFile(filepath, JASSTemplateReplace(2), () => {
+                                        appendFile(filepath, TemplateReplace('jass',2), () => {
                                             appendFile(filepath, JASS.endlibrary, () => {
                                                 alert(`File Created. Path: ${filepath}`);
                                             })
@@ -41,13 +41,13 @@ export class Export implements ICallableDivInstance {
     public SaveLUA(filepath: string): void {
 
         writeFile(filepath, LUA.globals, () => {
-            appendFile(filepath, LUATemplateReplace(0), () => {
+            appendFile(filepath, TemplateReplace('lua',0), () => {
                 appendFile(filepath, LUA.endglobals, () => {
                     appendFile(filepath, LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-                        appendFile(filepath, LUATemplateReplace(1), () => {
+                        appendFile(filepath, TemplateReplace('lua',1), () => {
                             appendFile(filepath, LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
                                 appendFile(filepath, generalOptions('lua'), () => {
-                                    appendFile(filepath, LUATemplateReplace(2), () => {
+                                    appendFile(filepath, TemplateReplace('lua',2), () => {
                                         appendFile(filepath, LUA.endlibrary, () => {
                                             alert(`File Created. Path: ${filepath}`);
                                         })
@@ -66,17 +66,13 @@ export class Export implements ICallableDivInstance {
 
         writeFile(filepath, Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
             appendFile(filepath, Typescript.globals, () => {
-                appendFile(filepath, TypescriptTemplateReplace(0), () => {
+                appendFile(filepath, TemplateReplace('ts',0), () => {
                     appendFile(filepath, Typescript.endglobals, () => {
                         appendFile(filepath, Typescript.constructorInit, () => {
                             appendFile(filepath, generalOptions('typescript'), () => {
-                                appendFile(filepath, TypescriptTemplateReplace(2), () => {
+                                appendFile(filepath, TemplateReplace('ts',2), () => {
                                     appendFile(filepath, Typescript.endconstructor_library, () => {
-                                    //     appendFile(filepath, TypescriptTemplateReplace(2), () => {
-                                    //         appendFile(filepath, Typescript.endlibrary, () => {
-                                    //             alert(`File Created. Path: ${filepath}`);
-                                    //         })
-                                    //     })
+                                        alert(`File Created. Path: ${filepath}`);
                                     })
                                 })
                             })
@@ -120,8 +116,15 @@ export class Export implements ICallableDivInstance {
 }
 
 /** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
-export function JASSTemplateReplace(kind: number): string {
+export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
     try {
+        let temp;
+        switch(lang) {
+            case ('jass'): temp = JASS; break;
+            case ('lua'): temp = LUA; break;
+            case ('ts'): temp = Typescript; break;
+        }
+
         let text: string;
         let sumText = ""
         for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
@@ -131,26 +134,33 @@ export function JASSTemplateReplace(kind: number): string {
 
             if (kind == 0) {
                 if (el.type == FrameType.BUTTON) {
-                    text = JASS.declaresBUTTON
+                    text = temp.declaresBUTTON
                 } else {
-                    text = JASS.declares
+                    text = temp.declares
                 }
-                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += JASS.declaresFUNCTIONALITY;
-            } else if (kind == 1) {
+                if (lang == 'jass' || lang == 'lua' ) {
+                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITY;
+                }
+            } else if (kind == 1 && lang != 'ts') {
                 if (el.custom instanceof CustomText) continue;
                 if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
 
-                text = JASS.TriggerButtonDisableStart
+                text = temp.TriggerButtonDisableStart
                 if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
-                    text += JASS.TriggerButtonDisableEnd
+                    text += temp.TriggerButtonDisableEnd
                 } else {
-                    text += JASS.TriggerVariableInit
-                    text += JASS.TriggerButtonDisableEnd
+                    text += temp.TriggerVariableInit
+                    text += temp.TriggerButtonDisableEnd
                 }
             } else if (kind == 2) {
                 let functionality = false
                 if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
-                text = JassGetTypeText(el.type, functionality)
+                switch(lang) {
+                    case ('jass'): text = JassGetTypeText(el.type, functionality); break;
+                    case ('lua'): text = LuaGetTypeText(el.type, functionality); break;
+                    case ('ts'): text = TypescriptGetTypeText(el.type, true); break; //always true. maybe give option for users to make it false
+                }
+                
             }
 
             let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
@@ -163,7 +173,8 @@ export function JASSTemplateReplace(kind: number): string {
 
             if (el) {
                 if (el.getParent()) {
-                    textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
+                    if(lang == 'jass' || lang == 'lua') textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
+                    else if(lang == 'ts') textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
                 }
             }
             textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
@@ -180,147 +191,6 @@ export function JASSTemplateReplace(kind: number): string {
 
                 case (CustomText):
                     textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
-                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
-                    break;
-            }
-
-            sumText += textEdit;
-        }
-        return sumText;
-    } catch (e) { alert(e) }
-}
-
-
-/** 0 for globals, 1 for Function Creation*/
-export function LUATemplateReplace(kind: number): string {
-    try {
-        let text: string;
-        let sumText = ""
-        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-            if (el.type == 0) { //Origin
-                continue;
-            }
-
-            if (kind == 0) { //declare element
-                if (el.type == FrameType.BUTTON) {
-                    text = LUA.declaresBUTTON
-                } else {
-                    text = LUA.declares
-                }
-                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += LUA.declaresFUNCTIONALITY;
-            } else if (kind == 1 && el.custom instanceof CustomImage) {
-                if (el.custom instanceof CustomText) continue;
-                if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
-
-                text = LUA.TriggerButtonDisableStart
-                if (el.custom.getTrigVar() == "") {
-                    text += LUA.TriggerButtonDisableEnd
-                } else {
-                    text += LUA.TriggerVariableInit
-                    text += LUA.TriggerButtonDisableEnd
-                }
-            } else if (kind == 2) {
-                let functionality = false
-                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
-                text = LuaGetTypeText(el.type, functionality)
-            }
-
-            let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-            textEdit = textEdit.replace(/FRvar/gi, el.getName())
-            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
-            if (kind == 0) {
-                sumText += textEdit;
-                continue;
-            }
-
-            if (el) {
-                if (el.getParent()) {
-                    textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
-                }
-            }
-            textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
-            textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
-
-            switch (el.custom.constructor) {
-                case (CustomImage):
-                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
-                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
-                    break;
-
-                case (CustomText):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
-                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
-                    break;
-            }
-
-            sumText += textEdit;
-        }
-        return sumText;
-    } catch (e) { alert(e) }
-}
-
-
-export function TypescriptTemplateReplace(kind: number): string {
-    try {
-        let text: string;
-        let sumText = ""
-        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-            if (el.type == 0) { //Origin
-                continue;
-            }
-
-            if (kind == 0) { //declare element
-                if (el.type == FrameType.BUTTON) {
-                    text = Typescript.declaresBUTTON
-                } else {
-                    text = Typescript.declares
-                }
-            } else if (kind == 1 && el.custom instanceof CustomImage) {
-                // if (el.custom instanceof CustomText) continue;
-                // if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
-
-                // text = LUA.TriggerButtonDisableStart
-                // if (el.custom.getTrigVar() == "") {
-                //     text += Typescript.TriggerButtonDisableEnd
-                // } else {
-                //     text += Typescript.TriggerVariableInit
-                //     text += Typescript.TriggerButtonDisableEnd
-                // }
-            } else if (kind == 2) {
-                const functionality = true
-                text = TypescriptGetTypeText(el.type, functionality)
-            }
-
-            let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-            textEdit = textEdit.replace(/FRvar/gi, el.getName())
-            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
-            if (kind == 0) {
-                sumText += textEdit;
-                continue;
-            }
-
-            if (el) {
-                if (el.getParent()) {
-                    textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
-                }
-            }
-            textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
-            textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
-
-            switch (el.custom.constructor) {
-                case (CustomImage):
-                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
-                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
-                    break;
-
-                case (CustomText):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
                     textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
                     break;
             }

@@ -105,11 +105,11 @@ export namespace Typescript {
     export const globals = "\n"
 
     export const declares = "   FRvar: Frame\n"
-    export const declaresBUTTON = " FRvar: Frame \n FRvarBackdrop: Frame \n"
+    export const declaresBUTTON = "   FRvar: Frame\n   FRvarBackdrop: Frame \n"
 
     export const endglobals = "\n"
 
-    export const constructorInit = "    constructor() {\n let t: Trigger;\n\n"
+    export const constructorInit = "   constructor() {\n      let t: Trigger;\n\n"
 
     export const backdrop = 'this.FRvar = new Frame(" this.FRvar ", OWNERvar, 1, 1, "BACKDROP", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setTexture(PATHvar, 0, true) \n'
 
