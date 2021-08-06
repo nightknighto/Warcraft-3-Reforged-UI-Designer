@@ -142,7 +142,7 @@ export class GUIEvents {
 
                 
                 const newFrame = this.DuplicationAction(selected)
-                newFrame.setName(selected.getName() + 'Table'+i+j);
+                newFrame.setName(selected.getName() + 'T['+i+j+']');
 
                 const width = newFrame.custom.getWidth();
                 const height = newFrame.custom.getHeight();
@@ -154,6 +154,7 @@ export class GUIEvents {
             }
         }
         
+        selected.setName(selected.getName()+"T[00]")
         projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
