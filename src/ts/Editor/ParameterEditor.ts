@@ -205,30 +205,69 @@ export class ParameterEditor {
             const inputElement = ev.target as HTMLInputElement;
             let text = inputElement.value;
             const projectTree = Editor.GetDocumentEditor().projectTree;
+            let nulIndexFound = false;
 
-            if (/.*\[[0-9]\]/.test(text)){
+            if (/.*\[[0-9]\]/.test(text)) {
 
-                inputElement.value = text.slice(0, text.length-2) + "0" + text.slice(text.length - 2);
+                inputElement.value = text.slice(0, text.length - 2) + "0" + text.slice(text.length - 2);
                 text = inputElement.value;
                 debugText("Modified index.")
-    
+
             }
 
-            if(!/^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])+\[[0-9][0-9]+\]$|^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])*$/.test(text)){
+            const isArray = /^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])*\[[0-9][0-9]+\]$/.test(text);
+            if (!(isArray || /^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])*$/.test(text))) {
                 debugText("Invalid name");
                 return;
             }
 
-            for(const frame of projectTree.getIterator()){
-    
-                if(frame == projectTree.getSelectedFrame()){
+            if (isArray) {
+                const index = text.search(/\d+/)
+                const index2 = text.search("]");
+
+                if (index >= 0) {
+
+                    if (Number.parseInt(text.slice(index, index2)) == 0)
+                        nulIndexFound = true;
+
+                }
+            }
+
+            const endingIndex = text.search(/\[/);
+
+            for (const frame of projectTree.getIterator()) {
+
+                if (frame == projectTree.getSelectedFrame()) {
                     continue;
-                }   
-    
-                if(frame.getName().localeCompare(text) == 0){
+                }
+
+                if (frame.getName().localeCompare(text) == 0) {
                     debugText("Name already taken.")
                     return;
                 }
+
+
+                if (isArray && !nulIndexFound) {
+                    const endingIndex2 = frame.getName().search(/\[/)
+
+                    if (text.slice(0, endingIndex - 1).localeCompare(frame.getName().slice(0, endingIndex2 - 1)) == 0) {
+
+                        const index = frame.getName().search(/\d+/)
+                        const index2 = frame.getName().search("]");
+
+                        if (index >= 0) {
+
+                            if (Number.parseInt(frame.getName().slice(index, index2)) == 0)
+                                nulIndexFound = true;
+                        }
+                    }
+
+                }
+            }
+
+            if (isArray && !nulIndexFound) {
+                debugText("Cannot have a frame array without a 0 indexed frame");
+                return;
             }
 
             Editor.GetDocumentEditor().projectTree.getSelectedFrame().setName(text);
@@ -351,8 +390,8 @@ export class ParameterEditor {
         const inputElement = ev.target as HTMLInputElement;
         const frameContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
 
-            frameContent.setText(inputElement.value);
-            debugText("Text changed.");
+        frameContent.setText(inputElement.value);
+        debugText("Text changed.");
 
 
     }
@@ -363,7 +402,7 @@ export class ParameterEditor {
 
         const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
 
-        if(frameBaseContent instanceof CustomImage){
+        if (frameBaseContent instanceof CustomImage) {
             frameBaseContent.setTrigVar(inputElement.value);
             debugText("Triggered Variable changed.");
         }
