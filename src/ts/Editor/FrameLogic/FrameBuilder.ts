@@ -25,15 +25,26 @@ export class FrameBuilder implements ICallableDivInstance {
     public text = "Text";
     public scale = 1;
     public color = "#FFFFFF";
+    public autoId = false;
 
-    public constructor() { return this; }
+    public constructor(autoassignId : boolean) { 
+        this.autoId = autoassignId;
+    }
 
     //Used for ICallableDivInstance, aka Insert Menu
     public run(): void {
 
         const name = this.name;
 
-        this.name += `${FrameBuilder.frameNumber++}`;
+        if(this.autoId){
+            if(FrameBuilder.frameNumber / 10 < 10){
+                this.name += "0" + `${FrameBuilder.frameNumber++}`;
+            }
+            else{
+                this.name += `${FrameBuilder.frameNumber++}`;
+            }
+        }
+        
         Editor.GetDocumentEditor().projectTree.appendToSelected(this);
 
         this.name = name;
@@ -89,7 +100,7 @@ export class FrameBuilder implements ICallableDivInstance {
 
         if (container.hasKey(FrameComponent.SAVE_KEY_CHILDREN))
             for (const frameData of container.load(FrameComponent.SAVE_KEY_CHILDREN))
-                new FrameBuilder().load(frameData);
+                new FrameBuilder(false).load(frameData);
 
 
         projectTree.select(originallySelectedFrame);

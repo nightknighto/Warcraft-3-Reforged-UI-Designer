@@ -36,7 +36,7 @@ export class GUIEvents {
     }
 
     static DuplicationAction(main: FrameComponent): FrameComponent{
-        const frameBuilder =  new FrameBuilder()
+        const frameBuilder =  new FrameBuilder(true)
         frameBuilder.type = main.type;
         
         const newFrame = main.getParent().createAsChild(frameBuilder,1);

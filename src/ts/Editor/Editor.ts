@@ -65,68 +65,67 @@ export class Editor {
 
         windowMenu.addRibbonOption(new RibbonOption('About(Not made)', null));
 
-        let newFrameBuilder = new FrameBuilder();
+        let newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CustomFrame.png';
         newFrameBuilder.type = FrameType.BACKDROP;
         insertMenu.addRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.type = FrameType.TEXT_FRAME;
         newFrameBuilder.text = "Text Frame"
         insertMenu.addRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
         insertMenu.addRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
         insertMenu.addRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
 
         // here mr insanity:
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/InvisButton.png';
         newFrameBuilder.type = FrameType.INVIS_BUTTON;
         insertMenu.addRibbonOption(new RibbonOption('Invis Button', newFrameBuilder));
         //end of mr insanity.
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
         insertMenu.addRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
         insertMenu.addRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
         insertMenu.addRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
         insertMenu.addRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
         insertMenu.addRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
         insertMenu.addRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
 
-        newFrameBuilder = new FrameBuilder();
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
         insertMenu.addRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
-
 
         fileMenu.run();
         return tabsMenu;

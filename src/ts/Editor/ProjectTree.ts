@@ -49,7 +49,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     public constructor() {
 
-        const originBuilder: FrameBuilder = new FrameBuilder();
+        const originBuilder: FrameBuilder = new FrameBuilder(false);
 
         originBuilder.name = 'Origin';
         originBuilder.type = FrameType.ORIGIN;
@@ -148,7 +148,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
             for (const frameData of frames) {
 
-                const frameBuilder = new FrameBuilder();
+                const frameBuilder = new FrameBuilder(true);
                 frameBuilder.load(frameData as SaveContainer);
 
             }

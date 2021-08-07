@@ -28,6 +28,21 @@ export class FrameComponent implements Saveable {
     }
 
     public setName(newName: string): void {
+
+        if(!/.*[0-9][0-9]+/.test(newName)){
+            const index = newName.search(/[0-9]+/);
+            const name1 = newName.slice(0, index);
+            let name2 = newName.slice(index);
+
+            if(Number.parseInt(name2)/10 < 10){
+                name2 = "0" + name2;
+            }
+
+            newName = name1 + name2;
+
+            console.log(newName);
+        }
+
         this.name = newName;
         (this.treeElement.firstChild as HTMLElement).innerText = newName;
         if (this.parentOption) this.parentOption.text = newName;
@@ -39,22 +54,19 @@ export class FrameComponent implements Saveable {
             const ul: HTMLElement = document.createElement('ul');
             const li: HTMLElement = document.createElement('li');
 
-            li.innerText = frameBuildOptions.name;
             ul.append(li);
 
-            this.type = frameBuildOptions.type;
-            this.name = frameBuildOptions.name;
             this.treeElement = ul;
             this.children = [];
+            this.parentOption = document.createElement('option');
             if (this.type == FrameType.TEXT_FRAME)
                 this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
                 this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
 
-            this.parentOption = document.createElement('option');
-            this.parentOption.text = this.name;
+            this.setName(frameBuildOptions.name);
+            this.type = frameBuildOptions.type;
 
-            console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
             (ul as any).frameComponent = this;
 
             li.onclick = () => {
@@ -159,7 +171,6 @@ export class FrameComponent implements Saveable {
 
     public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
 
-        console.log("'As any' fetching of frameComponents from HTMLElements");
         return (ProjectTreeElement as any).frameComponent;
 
     }
