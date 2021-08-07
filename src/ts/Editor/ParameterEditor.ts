@@ -95,7 +95,6 @@ export class ParameterEditor {
         this.inputElementText.disabled = true
         this.inputElementTrigVar.disabled = true
 
-
         this.inputElementWidth.onchange = ParameterEditor.InputWidth;
         this.inputElementHeight.onchange = ParameterEditor.InputHeight;
         this.inputElementName.oninput = ParameterEditor.InputName;
@@ -181,7 +180,6 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
-    private static format = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
     static InputName(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
@@ -194,7 +192,7 @@ export class ParameterEditor {
         }
 
         //checks if the text contains special chars or not, if yes, deletes the last character (which will be the special char)
-        if (ParameterEditor.format.test(text)) {
+        if (/[`!@#$%^&*()_+\-={};':"\\|,.<>/?~]/.test(text)) {
             inputElement.value = text.slice(0, text.length - 1)
             debugText("Special Characters refused")
         }
@@ -205,8 +203,20 @@ export class ParameterEditor {
         try {
 
             const inputElement = ev.target as HTMLInputElement;
-
+            const text = inputElement.value;
             const projectTree = Editor.GetDocumentEditor().projectTree;
+
+            if (/.*\[[0-9]\]/.test(text)){
+
+                inputElement.value = text.slice(0, text.length-2) + "0" + text.slice(text.length - 2);
+                debugText("Modified index.")
+    
+            }
+
+            if(!/^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])+\[[0-9][0-9]+\]$|^([a-z]|[A-Z])+([a-z]|[A-Z]|[0-9])*$/.test(text)){
+                debugText("Invalid name");
+                return;
+            }
 
             for(const frame of projectTree.getIterator()){
     
@@ -214,14 +224,14 @@ export class ParameterEditor {
                     continue;
                 }   
     
-                if(frame.getName().localeCompare(inputElement.value) == 0){
+                if(frame.getName().localeCompare(text) == 0){
                     debugText("Name already taken.")
                     return;
                 }
             }
 
-            Editor.GetDocumentEditor().projectTree.getSelectedFrame().setName(inputElement.value);
-            debugText('Name changed to "' + inputElement.value + '"');
+            Editor.GetDocumentEditor().projectTree.getSelectedFrame().setName(text);
+            debugText('Name changed to "' + text + '"');
 
         } catch (e) { alert(e) }
     }

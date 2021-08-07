@@ -17,11 +17,11 @@ export class FrameComponent implements Saveable {
     private name: string;
     private children: FrameComponent[];
     public type: FrameType;
-    
+
     public readonly custom: FrameBaseContent;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
-    
+
 
     public getName(): string {
         return this.name;
@@ -29,15 +29,10 @@ export class FrameComponent implements Saveable {
 
     public setName(newName: string): void {
 
-        if(!/.*[0-9][0-9]+/.test(newName)){
-            const index = newName.search(/[0-9]+/);
-            const name1 = newName.slice(0, index);
-            let name2 = newName.slice(index);
-
-            if(Number.parseInt(name2)/10 < 10){
-                name2 = "0" + name2;
-            }
-
+        if (/.*\[[0-9]\]/.test(newName)) {
+            const name1 = newName.slice(0, newName.length - 2);
+            let name2 = newName.slice(newName.length - 2);
+            name2 = "0" + name2;
             newName = name1 + name2;
         }
 
@@ -46,7 +41,7 @@ export class FrameComponent implements Saveable {
         if (this.parentOption) this.parentOption.text = newName;
     }
 
-    public constructor(frameBuildOptions: FrameBuilder, zIndex : number) {
+    public constructor(frameBuildOptions: FrameBuilder, zIndex: number) {
         try {
 
             const ul: HTMLElement = document.createElement('ul');
@@ -114,7 +109,7 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public createAsChild(newFrame: FrameBuilder, zIndex : number): FrameComponent {
+    public createAsChild(newFrame: FrameBuilder, zIndex: number): FrameComponent {
         const newChild = new FrameComponent(newFrame, zIndex);
 
         this.appendFrame(newChild);
