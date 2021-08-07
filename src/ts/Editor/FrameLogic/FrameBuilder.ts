@@ -70,9 +70,11 @@ export class FrameBuilder implements ICallableDivInstance {
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
 
-        if(!/.*[0-9]+/.test(this.name)){
+        if(/.*[0-9]+/.test(this.name)){
             const index = this.name.search(/[0-9]+/);
             const frameNumber = Number.parseInt(this.name.slice(index));
+
+            console.log(frameNumber);
 
             FrameBuilder.frameNumber = Math.max(FrameBuilder.frameNumber, frameNumber+1);
         }
