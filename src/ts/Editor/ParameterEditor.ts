@@ -180,10 +180,6 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
-<<<<<<< HEAD
-=======
-    private static format = /[ `!@#$%^&*()_+\-={};':"\\|,.<>/?~]/;
->>>>>>> 104c9ea5afdde84278e12d4f2f49f50599029823
     static InputName(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
