@@ -39,8 +39,6 @@ export class FrameComponent implements Saveable {
             }
 
             newName = name1 + name2;
-
-            console.log(newName);
         }
 
         this.name = newName;

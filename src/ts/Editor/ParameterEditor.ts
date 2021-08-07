@@ -194,7 +194,7 @@ export class ParameterEditor {
         }
 
         //checks if the text contains special chars or not, if yes, deletes the last character (which will be the special char)
-        if (this.format.test(text)) {
+        if (ParameterEditor.format.test(text)) {
             inputElement.value = text.slice(0, text.length - 1)
             debugText("Special Characters refused")
         }
@@ -205,6 +205,20 @@ export class ParameterEditor {
         try {
 
             const inputElement = ev.target as HTMLInputElement;
+
+            const projectTree = Editor.GetDocumentEditor().projectTree;
+
+            for(const frame of projectTree.getIterator()){
+    
+                if(frame == projectTree.getSelectedFrame()){
+                    continue;
+                }   
+    
+                if(frame.getName().localeCompare(inputElement.value) == 0){
+                    debugText("Name already taken.")
+                    return;
+                }
+            }
 
             Editor.GetDocumentEditor().projectTree.getSelectedFrame().setName(inputElement.value);
             debugText('Name changed to "' + inputElement.value + '"');
