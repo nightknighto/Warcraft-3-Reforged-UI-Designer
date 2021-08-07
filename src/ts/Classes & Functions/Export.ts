@@ -131,16 +131,46 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             if (el.type == 0) { //Origin
                 continue;
             }
+            let isArray = false;
+            let isArrayMain = false;
+            
+            if(el.getName().indexOf('[') >= 0) {
+                isArray = true;
+                if(el.getName().indexOf('[00') >= 0) isArrayMain = true;
+            }
 
+
+            //globals or initial declaration
             if (kind == 0) {
-                if (el.type == FrameType.BUTTON) {
-                    text = temp.declaresBUTTON
+
+                //array
+                if(isArray) {
+                    
+                    if(isArrayMain) { //main instance
+                        if (el.type == FrameType.BUTTON) {
+                            text = temp.declaresBUTTONArray
+                        } else {
+                            text = temp.declaresArray
+                        }
+                        if (lang == 'jass' || lang == 'lua' ) {
+                            if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITYArray;
+                        }
+                    } else { //secondary instance
+                        continue;
+                    }
+
+                //single instance; not array
                 } else {
-                    text = temp.declares
+                    if (el.type == FrameType.BUTTON) {
+                        text = temp.declaresBUTTON
+                    } else {
+                        text = temp.declares
+                    }
+                    if (lang == 'jass' || lang == 'lua' ) {
+                        if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITY;
+                    }
                 }
-                if (lang == 'jass' || lang == 'lua' ) {
-                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITY;
-                }
+
             } else if (kind == 1 && lang != 'ts') {
                 if (el.custom instanceof CustomText) continue;
                 if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
@@ -156,15 +186,30 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 let functionality = false
                 if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
                 switch(lang) {
-                    case ('jass'): text = JassGetTypeText(el.type, functionality); break;
-                    case ('lua'): text = LuaGetTypeText(el.type, functionality); break;
+                    case ('jass'): text = JassGetTypeText(el.type, true); break;
+                    case ('lua'): text = LuaGetTypeText(el.type, true); break;
                     case ('ts'): text = TypescriptGetTypeText(el.type, true); break; //always true. maybe give option for users to make it false
                 }
                 
             }
 
             let textEdit = text.replace(/FRlib/gi, ProjectTree.LibraryName)
-            textEdit = textEdit.replace(/FRvar/gi, el.getName())
+            
+
+            if(isArray) {
+                if(kind == 0) { //if declaring, delete index
+                    textEdit = textEdit.replace(/FRvar/gi, el.getName().replace('[00]', '')) //FRvar to skip array renaming
+                } else {
+                    if(lang == 'ts' && el.getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/FRvar/gi, el.getName().replace('[0','[')); //solution to Octal literals
+                    else textEdit = textEdit.replace(/FRvar/gi, el.getName());
+
+                }
+                textEdit = textEdit.replace(/FRvrr/gi, el.getName().replace('[', '').replace(']', '')) //mainly for FRvrrFunc (suffix present)
+            } else {
+                textEdit = textEdit.replace(/FRvar/gi, el.getName()) //FRvar to skip array renaming
+                textEdit = textEdit.replace(/FRvrr/gi, el.getName())
+            }
+
             if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
             if (kind == 0) {
                 sumText += textEdit;
@@ -174,7 +219,11 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             if (el) {
                 if (el.getParent()) {
                     if(lang == 'jass' || lang == 'lua') textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
-                    else if(lang == 'ts') textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
+                    else if(lang == 'ts') {
+                        if(el.getParent().getName().indexOf('[0') >= 0) textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName().replace('[0','['));
+                        else textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
+
+                    }
                 }
             }
             textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
