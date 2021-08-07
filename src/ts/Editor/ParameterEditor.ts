@@ -181,7 +181,7 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
-    private static format = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+    private static format = /[ `!@#$%^&*()_+\-={};':"\\|,.<>/?~]/;
     static InputName(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
