@@ -203,12 +203,13 @@ export class ParameterEditor {
         try {
 
             const inputElement = ev.target as HTMLInputElement;
-            const text = inputElement.value;
+            let text = inputElement.value;
             const projectTree = Editor.GetDocumentEditor().projectTree;
 
             if (/.*\[[0-9]\]/.test(text)){
 
                 inputElement.value = text.slice(0, text.length-2) + "0" + text.slice(text.length - 2);
+                text = inputElement.value;
                 debugText("Modified index.")
     
             }
