@@ -70,6 +70,13 @@ export class FrameBuilder implements ICallableDivInstance {
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);
 
+        if(!/.*[0-9][0-9]+/.test(this.name)){
+            const index = this.name.search(/[0-9]+/);
+            const frameNumber = Number.parseInt(this.name.slice(index));
+
+            FrameBuilder.frameNumber = Math.max(FrameBuilder.frameNumber, frameNumber+1);
+        }
+
         this.x = container.load(FrameBaseContent.SAVE_KEY_LEFTX);
         this.y = container.load(FrameBaseContent.SAVE_KEY_BOTY);
         this.height = container.load(FrameBaseContent.SAVE_KEY_HEIGHT);
