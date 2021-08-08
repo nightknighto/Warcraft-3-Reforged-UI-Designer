@@ -121,7 +121,7 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.draggable = false;
         this.element.style.position = "absolute";
         this.element.style.outlineStyle = "dashed";
-        this.element.style.outlineColor = "green";
+        this.element.style.outlineColor = "rgba(0, 230, 64, 0.4)"; //green
         this.element.style.outlineOffset = "-3px";
 
         (element as any).frameBaseContent = this;

@@ -114,7 +114,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
 
         //should go to workspace class?
-        if (this.selectedFrame != null) this.selectedFrame.custom.getElement().style.outlineColor = "green"
+        if (this.selectedFrame != null) this.selectedFrame.custom.getElement().style.outlineColor = "rgba(0, 230, 64, 0.4)" //green
 
         if (frame instanceof FrameComponent) this.selectedFrame = frame;
         else if (frame instanceof CustomImage) this.selectedFrame = frame.getFrameComponent()
@@ -127,7 +127,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             return;
         }
 
-        this.selectedFrame.custom.getElement().style.outlineColor = 'red';
+        this.selectedFrame.custom.getElement().style.outlineColor = 'rgba(242, 38, 19, 0.4)'; //red
 
         Editor.GetDocumentEditor().parameterEditor.updateFields(this.selectedFrame);
 
