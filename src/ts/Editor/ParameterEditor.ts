@@ -117,10 +117,10 @@ export class ParameterEditor {
     /** checks whether value is smaller than 0.2. True if smaller. */
     private static CheckInputValue(value: number): boolean {
 
-        const result = value < 0.02;
+        const result = value < 0.01;
         if (result) {
 
-            debugText("Minimum Value is 0.02.");
+            debugText("Minimum Value is 0.01.");
         }
 
         return result;
@@ -146,7 +146,7 @@ export class ParameterEditor {
         }
 
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            focusedCustom.setWidth(0.02)
+            focusedCustom.setWidth(0.01)
         } else {
             focusedCustom.setWidth(+inputElement.value)
         }
@@ -171,7 +171,7 @@ export class ParameterEditor {
             }
 
             if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-                focusedCustom.setHeight(0.02)
+                focusedCustom.setHeight(0.01)
             } else {
                 focusedCustom.setHeight(+inputElement.value)
             }
