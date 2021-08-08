@@ -101,7 +101,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
         this.botY = newY;
         //@ts-ignore: Element will have height;
-        this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.height - 120}px`
+        this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
 
     }
 
