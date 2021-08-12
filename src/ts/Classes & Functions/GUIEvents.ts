@@ -97,7 +97,8 @@ export class GUIEvents {
         const parent = selected.getParent()
         
         const angDisp = Math.PI * 2 / count;
-        for(let i = 0; i < count; i++) {
+        let i;
+        for(i = 0; i < count; i++) {
             // const frameBuilder =  new FrameBuilder()
             // frameBuilder.type = selected.type;
             // //frameBuilder.texture = selected.custom.element.src
@@ -108,7 +109,7 @@ export class GUIEvents {
             // })
 
             const newFrame = this.DuplicationAction(selected)
-            newFrame.setName(selected.getName() + 'Circ'+i);
+            newFrame.setName(selected.getName() + 'C['+i+']');
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
             const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
@@ -116,6 +117,7 @@ export class GUIEvents {
             newFrame.custom.setBotY(newY)
         }
         
+        selected.setName(selected.getName()+"C["+(i+1)+"]")
         projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
         GUIEvents.RefreshElements()
