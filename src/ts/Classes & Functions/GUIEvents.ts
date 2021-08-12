@@ -128,6 +128,7 @@ export class GUIEvents {
         const selected = projectTree.getSelectedFrame();
         const parent = selected.getParent()
         
+        let ind = 0;
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < columns; j++){
                 if(i == 0 && j == 0) continue;
@@ -140,9 +141,9 @@ export class GUIEvents {
                 //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
                 // })
 
-                
+                ind++;
                 const newFrame = this.DuplicationAction(selected)
-                newFrame.setName(selected.getName() + 'T['+i+j+']');
+                newFrame.setName(selected.getName() + 'T['+ind+']');
 
                 const width = newFrame.custom.getWidth();
                 const height = newFrame.custom.getHeight();
