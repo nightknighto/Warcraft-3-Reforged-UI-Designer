@@ -41,7 +41,7 @@ export class RibbonMenu implements ICallableDivInstance {
 
         const menu = document.createElement('div');
 
-        menu.setAttribute('class', 'tab');
+        menu.setAttribute('class', 'tab btn');
         menu.innerText = this.tabName;
 
         ICallableDivInstance.setup(menu, this);

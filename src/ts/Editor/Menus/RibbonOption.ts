@@ -16,7 +16,7 @@ export class RibbonOption {
 
         const div = document.createElement('div');
 
-        div.setAttribute('class', 'ribbonOption');
+        div.setAttribute('class', 'ribbonOption btn pt-2');
         div.innerText = this.name;
 
         ICallableDivInstance.setup(div, this.callbackObject);
