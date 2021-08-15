@@ -4,6 +4,7 @@ import { debugText } from '../Classes & Functions/Mini-Functions';
 import CreateFrame from '../Commands/Implementation/CreateFrame';
 import RemoveFrame from '../Commands/Implementation/RemoveFrame';
 import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular';
+import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable';
 
 export class GUIEvents {
 
@@ -62,42 +63,12 @@ export class GUIEvents {
         debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
 
-    static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
+    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
-        const parent = selected.getParent()
         
-        let ind = 0;
-        for(let i = 0; i < rows; i++) {
-            for(let j = 0; j < columns; j++){
-                if(i == 0 && j == 0) continue;
-                // const frameBuilder =  new FrameBuilder()
-                // frameBuilder.type = selected.type;
-                // //frameBuilder.texture = selected.custom.element.src
-
-                // const newFrame = parent.createAsChild(frameBuilder,1);
-                // Object.keys(newFrame.custom).forEach( prop => {
-                //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-                // })
-
-                ind++;
-                const builder = FrameBuilder.copy(selected)
-                const newFrame = parent.createAsChild(builder);
-                newFrame.setName(selected.getName() + 'T['+ind+']');
-
-                const width = newFrame.custom.getWidth();
-                const height = newFrame.custom.getHeight();
-
-                const newX = LeftX + (width + gapX)*j 
-                const newY = TopY + height - (height + gapY)*i
-                newFrame.custom.setLeftX(newX) 
-                newFrame.custom.setBotY(newY)
-            }
-        }
-        
-        selected.setName(selected.getName()+"T[00]")
-        projectTree.select(selected);
-        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
+        const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY);
+        command.action();
         
         debugText('Duplicated Table form.')
     }catch(e){alert(e)}}

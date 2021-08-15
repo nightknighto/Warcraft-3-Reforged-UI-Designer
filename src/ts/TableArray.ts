@@ -1,6 +1,4 @@
 import { ipcRenderer } from "electron"
-import { ProjectTree } from "./Editor/ProjectTree"
-import { Editor } from "./Editor/Editor"
 
 const submit = document.getElementById('submit') as HTMLInputElement
 const rows = document.getElementById('rows') as HTMLInputElement
@@ -15,7 +13,7 @@ columns.value = '2'
 gapX.value = '0.05'
 gapY.value = '0.05'
 
-chPar.onchange = ( (e) => {
+chPar.onchange = ( () => {
     if(chPar.checked) {
         rows.value = ''
         columns.value = ''
@@ -69,25 +67,3 @@ submit.onclick = () => {
         window.close()
     } catch (e) { alert(e) }
 }
-
-
-UpdateSelec();
-
-function UpdateSelec() {try{
-    const options = chSel.options
-
-    while (options.length > 0) {
-        options.remove(0);
-    }
-
-    const frame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
-    let selected: HTMLOptionElement;
-    for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-
-        if (el == frame) continue;
-        options.add(el.parentOption)
-        el.parentOption.selected = false;
-        if (frame.getParent() == el) selected = el.parentOption;
-    }
-    selected.selected = true;
-}catch(e){alert('TblArr UpdSlc: '+e)}}
