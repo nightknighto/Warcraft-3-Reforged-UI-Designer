@@ -57,7 +57,7 @@ body{
     margin-right: 10px;
     height: 90%;
     align-self: center;
-    min-width: fit-content;
+    min-width: 100px;
 }
 
 .ribbonOption.dropdown-toggle-split{
@@ -66,11 +66,11 @@ body{
     margin-right: 10%;
     align-self: center;
     height: 90%;
+    min-width: fit-content;
 }
 
 .ribbonOption.insert{
     width: 7%;
-    min-width: 100px;
 }
 
 #panelParameters{

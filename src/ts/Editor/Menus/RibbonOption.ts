@@ -36,7 +36,7 @@ export class RibbonOption {
 
             case "Texts": {
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-danger pt-2 insert');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2 insert');
                 break;
             }
 
@@ -52,7 +52,7 @@ export class RibbonOption {
 
             default: {
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn pt-2');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
             }
         }
 
@@ -71,17 +71,17 @@ export class RibbonOption {
 
         let dropBtn: HTMLButtonElement; //the button to have dropdown menu
         if(withCaret) {
-            btn.setAttribute('class', 'ribbonOption btn btn-danger pt-2 insert');
+            btn.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2 insert');
 
             const caret = div.appendChild(document.createElement('button'))           
-            caret.setAttribute('class', 'ribbonOption btn btn-danger dropdown-toggle dropdown-toggle-split pt-3')
+            caret.setAttribute('class', 'ribbonOption btn btn-outline-danger dropdown-toggle dropdown-toggle-split pt-3')
 
             const sp = caret.appendChild(document.createElement("span"))
             sp.setAttribute('class', 'caret')
 
             dropBtn = caret;
         } else {
-            btn.setAttribute('class', 'ribbonOption btn btn-danger dropdown-toggle insert pt-2');
+            btn.setAttribute('class', 'ribbonOption btn btn-outline-danger dropdown-toggle insert pt-2');
             
             dropBtn = btn
         }
