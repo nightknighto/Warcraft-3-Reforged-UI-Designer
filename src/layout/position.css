@@ -45,17 +45,32 @@ body{
     width: 100vw;
 
     display: flex;
-    overflow-x: auto;
+    overflow-x: inherit;
+    z-index: 1;
 }
 
-#barRibbon .ribbonOption{
+.ribbonOption{
 
     white-space: nowrap;
     width: auto;
-    height: 100%;
     margin-left: 10px;
     margin-right: 10px;
+    height: 90%;
+    align-self: center;
+    min-width: fit-content;
+}
 
+.ribbonOption.dropdown-toggle-split{
+    margin-left: -14px !important;
+    padding-top: 10px !important;
+    margin-right: 10%;
+    align-self: center;
+    height: 90%;
+}
+
+.ribbonOption.insert{
+    width: 7%;
+    min-width: 100px;
 }
 
 #panelParameters{

@@ -31,7 +31,6 @@ export class RibbonMenu implements ICallableDivInstance {
 
         //Fill it back up
         for (const option of this.ribbonOptions) {
-
             this.ribbonBar.append(option.createHTMLElement());
 
         }
