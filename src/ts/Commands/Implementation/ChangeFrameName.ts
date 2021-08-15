@@ -2,8 +2,9 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import Actionable from "../Actionable";
+import Redoable from "../Redoable";
 
-export default class ChangeFrameName implements Actionable{
+export default class ChangeFrameName implements Redoable, Actionable{
 
     private oldName: string;
     private newName: string;
@@ -17,6 +18,17 @@ export default class ChangeFrameName implements Actionable{
             this.oldName = frame.getName();
         }
         this.newName = newName;
+
+    }
+    redo(): void {
+        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
+        this.pureAction();
+    }
+    undo(): void {
+        
+        const undoCommand = new ChangeFrameName(this.newName, this.oldName);
+        undoCommand.pureAction();
+        Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
 
     }
 
@@ -34,6 +46,7 @@ export default class ChangeFrameName implements Actionable{
     }
 
     action(): void {
+        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
         this.pureAction();
     }
 

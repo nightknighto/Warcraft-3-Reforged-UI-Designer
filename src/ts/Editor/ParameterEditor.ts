@@ -5,6 +5,7 @@ import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
 import { CustomImage } from './FrameLogic/CustomImage';
 import { CustomText } from './FrameLogic/CustomText';
+import ChangeFrameName from '../Commands/Implementation/ChangeFrameName';
 
 export class ParameterEditor {
 
@@ -270,7 +271,9 @@ export class ParameterEditor {
                 return;
             }
 
-            Editor.GetDocumentEditor().projectTree.getSelectedFrame().setName(text);
+            const command = new ChangeFrameName(projectTree.getSelectedFrame(), text);
+            command.action();
+
             debugText('Name changed to "' + text + '"');
 
         } catch (e) { alert(e) }
