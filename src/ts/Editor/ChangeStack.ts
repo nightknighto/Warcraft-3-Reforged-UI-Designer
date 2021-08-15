@@ -52,4 +52,9 @@ export default class ChangeStack {
         this.redoStack.push(command);
     }
 
+    public clear(): void{
+        this.undoStack = new Stack();
+        this.redoStack = new Stack();
+    }
+
 }

@@ -6,7 +6,7 @@ import Actionable from "../Actionable";
 import Redoable from "../Redoable";
 import RemoveFrame from "./RemoveFrame";
 
-export default class CreateFrame implements Redoable, Actionable {
+export default class CreateFrame implements Redoable, Actionable{
     private frameBuilder: FrameBuilder;
     private parent: string;
     private resultingFrame: FrameComponent;

@@ -14,6 +14,7 @@ import Load from "../Persistence/Load";
 import ChangeStack from "./ChangeStack";
 import Undo from "../Commands/Undo";
 import Redo from "../Commands/Redo";
+import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
 
 export class Editor {
 
@@ -72,64 +73,64 @@ export class Editor {
         let newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CustomFrame.png';
         newFrameBuilder.type = FrameType.BACKDROP;
-        insertMenu.addRibbonOption(new RibbonOption('Custom Frame', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Custom Frame', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.type = FrameType.TEXT_FRAME;
         newFrameBuilder.text = "Text Frame"
-        insertMenu.addRibbonOption(new RibbonOption('Custom Text', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Custom Text', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
-        insertMenu.addRibbonOption(new RibbonOption('Script Dialog Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Script Dialog Button', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
-        insertMenu.addRibbonOption(new RibbonOption('Browser Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Browser Button', new CreateFrameAtSelected(newFrameBuilder)));
 
         // here mr insanity:
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/InvisButton.png';
         newFrameBuilder.type = FrameType.INVIS_BUTTON;
-        insertMenu.addRibbonOption(new RibbonOption('Invis Button', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Invis Button', new CreateFrameAtSelected(newFrameBuilder)));
         //end of mr insanity.
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
-        insertMenu.addRibbonOption(new RibbonOption('Quest Check Box', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Check Box', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
-        insertMenu.addRibbonOption(new RibbonOption('Checklist Box', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Checklist Box', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
-        insertMenu.addRibbonOption(new RibbonOption('Options Popup Menu Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Options Popup Menu Backdrop', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
-        insertMenu.addRibbonOption(new RibbonOption('Quest Button Base', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Base', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
-        insertMenu.addRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Pushed Backdrop', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
-        insertMenu.addRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Quest Button Disabled Backdrop', new CreateFrameAtSelected(newFrameBuilder)));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/EscMenuBackdrop.png';
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
-        insertMenu.addRibbonOption(new RibbonOption('Esc Menu Backdrop', newFrameBuilder));
+        insertMenu.addRibbonOption(new RibbonOption('Esc Menu Backdrop', new CreateFrameAtSelected(newFrameBuilder)));
 
         fileMenu.run();
         return tabsMenu;
@@ -175,5 +176,7 @@ class RibbonOptionsNew implements ICallableDivInstance {
             el.destroy()
             debugText('New page.')
         }
+
+        Editor.GetDocumentEditor().changeStack.clear();
     }
 }

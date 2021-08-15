@@ -1,14 +1,12 @@
 import { FrameType } from "./FrameType";
-import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 import { Editor } from "../Editor";
-import { debugText } from "../../Classes & Functions/Mini-Functions";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";
 import { CustomImage } from "./CustomImage";
 import { CustomText } from "./CustomText";
 import FrameBaseContent from "./FrameBaseContent";
 
-export class FrameBuilder implements ICallableDivInstance {
+export class FrameBuilder{
 
     public static frameNumber = 1;
 
@@ -29,26 +27,6 @@ export class FrameBuilder implements ICallableDivInstance {
 
     public constructor(autoassignId : boolean) { 
         this.autoId = autoassignId;
-    }
-
-    //Used for ICallableDivInstance, aka Insert Menu
-    public run(): void {
-
-        const name = this.name;
-
-        if(this.autoId){
-            if(FrameBuilder.frameNumber / 10 < 10){
-                this.name += "0" + `${FrameBuilder.frameNumber++}`;
-            }
-            else{
-                this.name += `${FrameBuilder.frameNumber++}`;
-            }
-        }
-        
-        Editor.GetDocumentEditor().projectTree.appendToSelected(this);
-
-        this.name = name;
-        debugText('Element Created')
     }
 
     public load(container: SaveContainer): void {
@@ -114,8 +92,20 @@ export class FrameBuilder implements ICallableDivInstance {
 
     }
 
-    public static copy(frame : FrameComponent) : FrameBuilder{
+    private static copyBuilder(frame : FrameBuilder) : FrameBuilder{
+
+        const frameBuilder =  new FrameBuilder(false)
+
+        for(const key in frameBuilder){
+            frameBuilder[key] = frame[key];
+        }
         
+        return frameBuilder;
+
+    }
+
+    private static copyFrame(frame: FrameComponent): FrameBuilder{
+
         const frameBuilder =  new FrameBuilder(false)
 
         frameBuilder.name = frame.getName() + " Copy";
@@ -138,6 +128,13 @@ export class FrameBuilder implements ICallableDivInstance {
         }
 
         return frameBuilder;
+
+    }
+
+    public static copy(frame : FrameComponent | FrameBuilder) : FrameBuilder{
+        
+        if(frame instanceof FrameComponent) return FrameBuilder.copyFrame(frame);
+        else return FrameBuilder.copyBuilder(frame);
 
     }
 

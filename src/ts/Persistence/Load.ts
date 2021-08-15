@@ -33,7 +33,8 @@ export default class Load implements ICallableDivInstance {
         openParams.then((openData: OpenDialogReturnValue) => {
 
             if (openData.canceled) return;
-            this.load(openData.filePaths[0])
+            this.load(openData.filePaths[0]);
+            Editor.GetDocumentEditor().changeStack.clear();
 
         });
 
