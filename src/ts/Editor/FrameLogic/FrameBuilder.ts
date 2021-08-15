@@ -5,7 +5,6 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";
 import { CustomImage } from "./CustomImage";
-import { GUIEvents } from "../../Classes & Functions/GUIEvents";
 import { CustomText } from "./CustomText";
 import FrameBaseContent from "./FrameBaseContent";
 

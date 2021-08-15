@@ -6,7 +6,6 @@ import { FrameType } from './FrameLogic/FrameType';
 import { Editor } from './Editor';
 import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
-import { GUIEvents } from '../Classes & Functions/GUIEvents';
 import { CustomText } from './FrameLogic/CustomText';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
@@ -155,7 +154,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 frameBuilder.load(frameData as SaveContainer);
 
             }
-            
+
             ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
             ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
             ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);

@@ -77,7 +77,6 @@ export class GUIEvents {
 
         projectTree.select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.updateFields(newFrame);
-        //GUIEvents.RefreshElements()
         
         debugText('Duplicated.')
 

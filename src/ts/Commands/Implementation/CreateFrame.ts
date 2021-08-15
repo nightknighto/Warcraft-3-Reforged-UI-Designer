@@ -25,7 +25,7 @@ export default class CreateFrame implements Redoable {
 
     }
 
-    private _action(): FrameComponent{
+    public pureAction(): FrameComponent{
         const iterator = Editor.GetDocumentEditor().projectTree.getIterator();
         let parent : FrameComponent = null;
         for(const frame of iterator){
@@ -48,12 +48,12 @@ export default class CreateFrame implements Redoable {
 
     public action(): FrameComponent {
         Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
-        return this._action();
+        return this.pureAction();
     }
 
     redo(): void {
         Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this._action();
+        this.pureAction();
     }
 
     undo(): void {
@@ -64,7 +64,7 @@ export default class CreateFrame implements Redoable {
         }
 
         const undoCommand = new RemoveFrame(this.resultingFrame);
-        undoCommand.action();
+        undoCommand.pureAction();
         Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
 
     }
