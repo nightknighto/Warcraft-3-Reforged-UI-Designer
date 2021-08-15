@@ -25,11 +25,6 @@ export default class ChangeStack {
         }
 
         const undoCommand = this.undoStack.pop();
-
-        // if((undoCommand[0] as Redoable).redo != undefined){
-        //     this.redoStack.push((undoCommand[0] as Redoable).getChangeForRedo());
-        // }
-
         undoCommand.undo();
 
     }
@@ -42,8 +37,6 @@ export default class ChangeStack {
         }
 
         const redoCommand = this.redoStack.pop();
-        
-        // this.undoStack.push(redoCommand[0].getChangeForUndo());
         redoCommand.redo();
         
     }

@@ -1,11 +1,9 @@
 import { Editor } from '../Editor/Editor';
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
 import { debugText } from '../Classes & Functions/Mini-Functions';
-import { CustomText } from '../Editor/FrameLogic/CustomText';
-import { CustomImage } from '../Editor/FrameLogic/CustomImage';
-import { FrameComponent } from '../Editor/FrameLogic/FrameComponent';
 import CreateFrame from '../Commands/Implementation/CreateFrame';
 import RemoveFrame from '../Commands/Implementation/RemoveFrame';
+import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular';
 
 export class GUIEvents {
 
@@ -38,36 +36,10 @@ export class GUIEvents {
 
     }
 
-    private static duplicationPreparation(main: FrameComponent): FrameBuilder{
-
-        const frameBuilder =  new FrameBuilder(false)
-
-        frameBuilder.name = main.getName() + " Copy";
-        frameBuilder.type = main.type;
-        frameBuilder.text = main.custom.getText();
-        frameBuilder.width = main.custom.getWidth();
-        frameBuilder.height = main.custom.getHeight();
-        frameBuilder.y = main.custom.getBotY();
-        frameBuilder.x = main.custom.getLeftX();
-        frameBuilder.z = main.custom.getZIndex();
-
-        if(main.custom instanceof CustomImage){
-            frameBuilder.trigVar = main.custom.getTrigVar();
-            frameBuilder.texture = main.custom.getDiskTexture();
-            frameBuilder.wc3Texture = main.custom.getWc3Texture();
-        }
-        else if(main.custom instanceof CustomText){
-            frameBuilder.color = main.custom.getColor();
-            frameBuilder.scale = main.custom.getScale();
-        }
-
-        return frameBuilder;
-    }
-
     static DuplicateSelectedImage() : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
-        const builder = GUIEvents.duplicationPreparation(selected)
+        const builder = FrameBuilder.copy(selected);
 
         builder.x = builder.x + 0.03;
         builder.y = builder.y - 0.03;
@@ -76,42 +48,16 @@ export class GUIEvents {
         const newFrame = command.action();
 
         projectTree.select(newFrame);
-        Editor.GetDocumentEditor().parameterEditor.updateFields(newFrame);
-        
         debugText('Duplicated.')
 
     }catch(e){alert(e)}}
     
-    static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
+    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
-        const parent = selected.getParent()
         
-        const angDisp = Math.PI * 2 / count;
-        let i;
-        for(i = 0; i < count; i++) {
-            // const frameBuilder =  new FrameBuilder()
-            // frameBuilder.type = selected.type;
-            // //frameBuilder.texture = selected.custom.element.src
-
-            // const newFrame = parent.createAsChild(frameBuilder,1);
-            // Object.keys(newFrame.custom).forEach( prop => {
-            //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-            // })
-
-            const builder = this.duplicationPreparation(selected)
-            const newFrame = parent.createAsChild(builder);
-            newFrame.setName(selected.getName() + 'C['+i+']');
-
-            const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
-            const newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
-            newFrame.custom.setLeftX(newX) 
-            newFrame.custom.setBotY(newY)
-        }
-        
-        selected.setName(selected.getName()+"C["+(i+1)+"]")
-        projectTree.select(selected);
-        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
+        const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng);
+        command.action();
         
         debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
@@ -135,7 +81,7 @@ export class GUIEvents {
                 // })
 
                 ind++;
-                const builder = this.duplicationPreparation(selected)
+                const builder = FrameBuilder.copy(selected)
                 const newFrame = parent.createAsChild(builder);
                 newFrame.setName(selected.getName() + 'T['+ind+']');
 

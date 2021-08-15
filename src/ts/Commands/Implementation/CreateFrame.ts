@@ -2,10 +2,11 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
+import Actionable from "../Actionable";
 import Redoable from "../Redoable";
 import RemoveFrame from "./RemoveFrame";
 
-export default class CreateFrame implements Redoable {
+export default class CreateFrame implements Redoable, Actionable {
     private frameBuilder: FrameBuilder;
     private parent: string;
     private resultingFrame: FrameComponent;
@@ -26,22 +27,15 @@ export default class CreateFrame implements Redoable {
     }
 
     public pureAction(): FrameComponent{
-        const iterator = Editor.GetDocumentEditor().projectTree.getIterator();
-        let parent : FrameComponent = null;
-        for(const frame of iterator){
-            if(frame.getName() === this.parent){
-                parent = frame;
-                break;
-            }
-        }
 
-        if(parent == null){
+        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.parent);
+
+        if(typeof(frame) === "undefined"){
             debugText("Could not find parent, abort.");
             return;
         }
 
-        this.resultingFrame = parent.createAsChild(this.frameBuilder)
-        
+        this.resultingFrame = frame.createAsChild(this.frameBuilder)
 
         return this.resultingFrame;
     }

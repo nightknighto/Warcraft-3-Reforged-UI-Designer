@@ -221,4 +221,14 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         };
 
     }
+
+    public findByName(name : string) : FrameComponent | void{
+
+        const iterator = Editor.GetDocumentEditor().projectTree.getIterator();
+        for(const currentFrame of iterator){
+            if(currentFrame.getName() === name){
+                return currentFrame;
+            }
+        }
+    }
 }

@@ -114,4 +114,31 @@ export class FrameBuilder implements ICallableDivInstance {
 
     }
 
+    public static copy(frame : FrameComponent) : FrameBuilder{
+        
+        const frameBuilder =  new FrameBuilder(false)
+
+        frameBuilder.name = frame.getName() + " Copy";
+        frameBuilder.type = frame.type;
+        frameBuilder.text = frame.custom.getText();
+        frameBuilder.width = frame.custom.getWidth();
+        frameBuilder.height = frame.custom.getHeight();
+        frameBuilder.y = frame.custom.getBotY();
+        frameBuilder.x = frame.custom.getLeftX();
+        frameBuilder.z = frame.custom.getZIndex();
+
+        if(frame.custom instanceof CustomImage){
+            frameBuilder.trigVar = frame.custom.getTrigVar();
+            frameBuilder.texture = frame.custom.getDiskTexture();
+            frameBuilder.wc3Texture = frame.custom.getWc3Texture();
+        }
+        else if(frame.custom instanceof CustomText){
+            frameBuilder.color = frame.custom.getColor();
+            frameBuilder.scale = frame.custom.getScale();
+        }
+
+        return frameBuilder;
+
+    }
+
 }
