@@ -155,8 +155,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 frameBuilder.load(frameData as SaveContainer);
 
             }
-            GUIEvents.RefreshElements()
-
+            
             ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
             ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
             ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);

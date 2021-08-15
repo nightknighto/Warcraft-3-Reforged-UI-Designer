@@ -50,8 +50,6 @@ export class FrameBuilder implements ICallableDivInstance {
 
         this.name = name;
         debugText('Element Created')
-
-        GUIEvents.RefreshElements()
     }
 
     public load(container: SaveContainer): void {

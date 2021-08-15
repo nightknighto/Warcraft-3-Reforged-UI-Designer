@@ -13,6 +13,7 @@ import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import * as path from "path";
+import { CustomText } from "./Editor/FrameLogic/CustomText";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -81,7 +82,37 @@ Element.formIMG.addEventListener("submit", e => {
 })
 */
 try{
-window.onresize = GUIEvents.RefreshElements;
+
+  window.onresize = () =>{
+    const editor = Editor.GetDocumentEditor();
+
+        for(const el of editor.projectTree.getIterator()) {
+          if(el.type == 0) { //base
+            continue;
+          }
+          
+          const image = el.custom.getElement()
+          const rect = editor.workspaceImage.getBoundingClientRect() 
+          const workspace = Editor.GetDocumentEditor().workspaceImage
+          const horizontalMargin = 240/1920*rect.width
+      
+          const x = el.custom.getLeftX();
+          const y = el.custom.getBotY();
+          const w = el.custom.getWidth();
+          const h = el.custom.getHeight();
+      
+          image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
+          image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
+
+          image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
+
+          if(el.custom instanceof CustomText) {
+              image.style.fontSize = (el.custom.getScale()) * rect.width / 100 + "px"
+          }
+      
+        }
+  }
 
 new Titlebar({
   backgroundColor: new Color( new RGBA(69,49,26,255)),

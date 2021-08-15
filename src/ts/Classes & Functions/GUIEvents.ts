@@ -113,7 +113,6 @@ export class GUIEvents {
         selected.setName(selected.getName()+"C["+(i+1)+"]")
         projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
-        GUIEvents.RefreshElements()
         
         debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
@@ -154,7 +153,6 @@ export class GUIEvents {
         selected.setName(selected.getName()+"T[00]")
         projectTree.select(selected);
         //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
-        GUIEvents.RefreshElements()
         
         debugText('Duplicated Table form.')
     }catch(e){alert(e)}}
@@ -191,37 +189,5 @@ export class GUIEvents {
             panel.style.visibility = "visible"
         }
     }
-
-    static RefreshElements() : void {
-
-        const editor = Editor.GetDocumentEditor();
-
-        for(const el of editor.projectTree.getIterator()) {
-          if(el.type == 0) { //base
-            continue;
-          }
-          
-          const image = el.custom.getElement()
-          const rect = editor.workspaceImage.getBoundingClientRect() 
-          const workspace = Editor.GetDocumentEditor().workspaceImage
-          const horizontalMargin = 240/1920*rect.width
-      
-          const x = el.custom.getLeftX();
-          const y = el.custom.getBotY();
-          const w = el.custom.getWidth();
-          const h = el.custom.getHeight();
-      
-          image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
-          image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
-
-          image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
-
-          if(el.custom instanceof CustomText) {
-              image.style.fontSize = (el.custom.getScale()) * rect.width / 100 + "px"
-          }
-      
-        }
-      }
 
 }
