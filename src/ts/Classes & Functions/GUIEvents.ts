@@ -4,6 +4,8 @@ import { debugText } from '../Classes & Functions/Mini-Functions';
 import { CustomText } from '../Editor/FrameLogic/CustomText';
 import { CustomImage } from '../Editor/FrameLogic/CustomImage';
 import { FrameComponent } from '../Editor/FrameLogic/FrameComponent';
+import CreateFrame from '../Commands/Implementation/CreateFrame';
+import RemoveFrame from '../Commands/Implementation/RemoveFrame';
 
 export class GUIEvents {
 
@@ -30,65 +32,55 @@ export class GUIEvents {
     }
 
     static DeleteSelectedImage() : void{
-        const projectTree = Editor.GetDocumentEditor().projectTree;
+        
+        const command = new RemoveFrame(Editor.GetDocumentEditor().projectTree.getSelectedFrame());
+        command.action();
 
-        projectTree.getSelectedFrame().destroy();
     }
 
-    static DuplicationAction(main: FrameComponent): FrameComponent{
-        const frameBuilder =  new FrameBuilder(true)
-        frameBuilder.type = main.type;
-        
-        const newFrame = main.getParent().createAsChild(frameBuilder,1);
-        Object.keys(newFrame.custom).forEach( prop => {
-            if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = main.custom[prop];
-        })
+    private static duplicationPreparation(main: FrameComponent): FrameBuilder{
 
-        newFrame.custom.setText(main.custom.getText())
-        if(newFrame.custom instanceof CustomImage) {
-            newFrame.custom.setTrigVar((main.custom as CustomImage).getTrigVar())
-            newFrame.custom.setDiskTexture((main.custom as CustomImage).getDiskTexture())
-            newFrame.custom.setWc3Texture((main.custom as CustomImage).getWc3Texture())
-            
-        } else if(newFrame.custom instanceof CustomText) {
-            newFrame.custom.setColor((main.custom as CustomText).getColor())
-            newFrame.custom.setScale((main.custom as CustomText).getScale())
+        const frameBuilder =  new FrameBuilder(false)
+
+        frameBuilder.name = main.getName() + " Copy";
+        frameBuilder.type = main.type;
+        frameBuilder.text = main.custom.getText();
+        frameBuilder.width = main.custom.getWidth();
+        frameBuilder.height = main.custom.getHeight();
+        frameBuilder.y = main.custom.getBotY();
+        frameBuilder.x = main.custom.getLeftX();
+        frameBuilder.z = main.custom.getZIndex();
+
+        if(main.custom instanceof CustomImage){
+            frameBuilder.trigVar = main.custom.getTrigVar();
+            frameBuilder.texture = main.custom.getDiskTexture();
+            frameBuilder.wc3Texture = main.custom.getWc3Texture();
+        }
+        else if(main.custom instanceof CustomText){
+            frameBuilder.color = main.custom.getColor();
+            frameBuilder.scale = main.custom.getScale();
         }
 
-        return newFrame
+        return frameBuilder;
     }
 
     static DuplicateSelectedImage() : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
+        const builder = GUIEvents.duplicationPreparation(selected)
 
-        // const frameBuilder =  new FrameBuilder()
-        // frameBuilder.type = selected.type;
-        // if(selected.custom instanceof CustomImage) {
-        //     frameBuilder.texture = selected.custom.getDiskTexture()
-        // }
+        builder.x = builder.x + 0.03;
+        builder.y = builder.y - 0.03;
         
+        const command = new CreateFrame(selected.getParent(), builder);
+        const newFrame = command.action();
 
-        // const newFrame = selected.getParent().createAsChild(frameBuilder,1);
-        // Object.keys(newFrame.custom).forEach( prop => {
-        //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
-        // })
-
-        const newFrame = GUIEvents.DuplicationAction(selected)
-        newFrame.setName(selected.getName() + 'Copy');
-
-        newFrame.custom.setLeftX(selected.custom.getLeftX()+0.03)
-        newFrame.custom.setBotY(selected.custom.getBotY()-0.03)
-
-        // if(newFrame.custom instanceof CustomImage) {
-        //     newFrame.setTri((selected.custom as CustomImage).getDiskTexture())gVar
-        // }
-        
         projectTree.select(newFrame);
         Editor.GetDocumentEditor().parameterEditor.updateFields(newFrame);
-        GUIEvents.RefreshElements()
+        //GUIEvents.RefreshElements()
         
         debugText('Duplicated.')
+
     }catch(e){alert(e)}}
     
     static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
@@ -108,7 +100,8 @@ export class GUIEvents {
             //     if(prop != 'frameComponent' && prop != 'element') newFrame.custom[prop] = selected.custom[prop];
             // })
 
-            const newFrame = this.DuplicationAction(selected)
+            const builder = this.duplicationPreparation(selected)
+            const newFrame = parent.createAsChild(builder);
             newFrame.setName(selected.getName() + 'C['+i+']');
 
             const newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
@@ -144,7 +137,8 @@ export class GUIEvents {
                 // })
 
                 ind++;
-                const newFrame = this.DuplicationAction(selected)
+                const builder = this.duplicationPreparation(selected)
+                const newFrame = parent.createAsChild(builder);
                 newFrame.setName(selected.getName() + 'T['+ind+']');
 
                 const width = newFrame.custom.getWidth();

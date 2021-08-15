@@ -41,7 +41,7 @@ export class FrameComponent implements Saveable {
         if (this.parentOption) this.parentOption.text = newName;
     }
 
-    public constructor(frameBuildOptions: FrameBuilder, zIndex: number) {
+    public constructor(frameBuildOptions: FrameBuilder) {
         try {
 
             const ul: HTMLElement = document.createElement('ul');
@@ -53,9 +53,9 @@ export class FrameComponent implements Saveable {
             this.children = [];
             this.parentOption = document.createElement('option');
             if (frameBuildOptions.type == FrameType.TEXT_FRAME)
-                this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
+                this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
-                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, zIndex, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
+                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
 
             this.setName(frameBuildOptions.name);
             this.type = frameBuildOptions.type;
@@ -109,8 +109,8 @@ export class FrameComponent implements Saveable {
 
     }
 
-    public createAsChild(newFrame: FrameBuilder, zIndex: number): FrameComponent {
-        const newChild = new FrameComponent(newFrame, zIndex);
+    public createAsChild(newFrame: FrameBuilder): FrameComponent {
+        const newChild = new FrameComponent(newFrame);
 
         this.appendFrame(newChild);
 

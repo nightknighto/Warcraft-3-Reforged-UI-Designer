@@ -57,8 +57,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         originBuilder.height = 0;
         originBuilder.x = 0;
         originBuilder.y = 0;
+        originBuilder.z = 30;
 
-        this.rootFrame = new FrameComponent(originBuilder, 30);
+        this.rootFrame = new FrameComponent(originBuilder);
         this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame;
 
@@ -100,10 +101,12 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     public appendToSelected(newFrame: FrameBuilder): FrameComponent {
         if (this.selectedFrame == null) {
-            return this.rootFrame.createAsChild(newFrame, this.rootFrame.custom.getZIndex() + this.rootFrame.getChildren().length + 1);
+            newFrame.z = this.rootFrame.custom.getZIndex() + this.rootFrame.getChildren().length + 1;
+            return this.rootFrame.createAsChild(newFrame);
         }
         else {
-            return this.selectedFrame.createAsChild(newFrame, this.selectedFrame.custom.getZIndex() + this.selectedFrame.getChildren().length + 1);
+            newFrame.z = this.selectedFrame.custom.getZIndex() + this.selectedFrame.getChildren().length + 1;
+            return this.selectedFrame.createAsChild(newFrame);
         }
     }
 

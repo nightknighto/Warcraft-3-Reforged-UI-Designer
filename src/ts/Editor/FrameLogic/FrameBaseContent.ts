@@ -107,9 +107,9 @@ export default abstract class FrameBaseContent implements Saveable {
 
     protected constructor(frameComponent: FrameComponent, element: HTMLElement, text: string, width: number, height: number, x: number, y: number, z: number) {
 
-        const workspace = Editor.GetDocumentEditor().workspace;
         this.frameComponent = frameComponent;
         this.element = element;
+        Editor.GetDocumentEditor().workspace.appendChild(this.element);
 
         this.setWidth(width);
         this.setHeight(height);
@@ -125,9 +125,7 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.style.outlineOffset = "-3px";
 
         (element as any).frameBaseContent = this;
-
-        workspace.appendChild(this.element);
-
+        
         //step 1: event sent to main.ts to display the menu.
         this.element.oncontextmenu = (ev: Event) => {
 

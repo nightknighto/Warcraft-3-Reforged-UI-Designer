@@ -11,6 +11,9 @@ import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstanc
 import { debugText } from '../Classes & Functions/Mini-Functions'
 import Save from "../Persistence/Save";
 import Load from "../Persistence/Load";
+import ChangeStack from "./ChangeStack";
+import Undo from "../Commands/Undo";
+import Redo from "../Commands/Redo";
 
 export class Editor {
 
@@ -29,9 +32,10 @@ export class Editor {
     public readonly debugGameCoordinates: HTMLElement;
 
     //functional units
-    public readonly tabsMenu: TabsMenu;
     public readonly projectTree: ProjectTree;
+    public readonly changeStack : ChangeStack;
     public readonly parameterEditor: ParameterEditor;
+    public readonly tabsMenu: TabsMenu;    
 
     //UI
     public readonly treeButton: HTMLButtonElement;
@@ -58,8 +62,8 @@ export class Editor {
         fileMenu.addRibbonOption(new RibbonOption('Save', new Save()));
         fileMenu.addRibbonOption(new RibbonOption('Export', new Export()));
 
-        editMenu.addRibbonOption(new RibbonOption('Undo(Not made)', null));
-        editMenu.addRibbonOption(new RibbonOption('Redo(Not made)', null));
+        editMenu.addRibbonOption(new RibbonOption('Undo', new Undo()));
+        editMenu.addRibbonOption(new RibbonOption('Redo', new Redo()));
 
         viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
 
@@ -148,6 +152,7 @@ export class Editor {
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates');
 
         this.projectTree = new ProjectTree();
+        this.changeStack = new ChangeStack();
         this.parameterEditor = new ParameterEditor();
         this.tabsMenu = this.initializeMenus();
 
