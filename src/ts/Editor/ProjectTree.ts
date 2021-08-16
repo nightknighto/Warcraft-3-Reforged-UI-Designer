@@ -34,6 +34,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HidePortrait = false;
     public static HideChat = false;
 
+    public static getSelected() : FrameComponent {
+        return Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+    }
+
     public static saveGeneralOptions(): void {
 
         const par = Editor.GetDocumentEditor().parameterEditor
