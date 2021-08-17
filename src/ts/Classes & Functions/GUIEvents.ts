@@ -4,6 +4,7 @@ import { debugText } from '../Classes & Functions/Mini-Functions';
 import { CustomText } from '../Editor/FrameLogic/CustomText';
 import { CustomImage } from '../Editor/FrameLogic/CustomImage';
 import { FrameComponent } from '../Editor/FrameLogic/FrameComponent';
+import { ProjectTree } from '../Editor/ProjectTree';
 
 export class GUIEvents {
 
@@ -125,7 +126,7 @@ export class GUIEvents {
         debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
 
-    static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
+    static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
         const parent = selected.getParent()
@@ -154,6 +155,18 @@ export class GUIEvents {
                 const newY = TopY + height - (height + gapY)*i
                 newFrame.custom.setLeftX(newX) 
                 newFrame.custom.setBotY(newY)
+
+                if(ownerArray) { //find if parent array has the same index. If yes, change parent
+                    for(let el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                        const checkingName = parent.getName().slice(0,parent.getName().length-4)
+                        // alert('checkingName: '+checkingName)
+                        // alert('prod: '+checkingName+"["+ind+"]")
+                        if(el.getName() == checkingName+"["+ind+"]" || el.getName() == checkingName+"["+"0"+ind+"]") {
+                            el.makeParentTo(newFrame)
+                            break;
+                        }
+                    } 
+                }
             }
         }
         

@@ -7,12 +7,13 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { ipcRenderer, remote } from "electron";
+import { ipcMain, ipcRenderer, remote } from "electron";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import * as path from "path";
+import { ProjectTree } from "./Editor/ProjectTree";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -34,7 +35,12 @@ ipcRenderer.on('TableArray', () => {try{
   })
   win.show()
   win.focus()
-  win.loadFile(path.join(__dirname, "./TableArray.html"));
+  if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
+    win.loadFile(path.join(__dirname, "./TableArrayArrayOn.html"));
+  } else {
+    win.loadFile(path.join(__dirname, "./TableArrayArrayOff.html"));
+  }
+
 
 }catch(e){alert(e)}});
 
@@ -59,7 +65,7 @@ ipcRenderer.on('CircularArray', () => {
 
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
   const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
-  GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), args[0], args[1], args[2], args[3])
+  GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), args[0], args[1], args[2], args[3], args[4])
 }catch(e){alert(e)}})
 
 ipcRenderer.on('CircularArraySubmit', (event, args) => {
