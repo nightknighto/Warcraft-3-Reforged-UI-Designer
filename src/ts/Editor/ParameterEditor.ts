@@ -5,6 +5,7 @@ import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
 import { CustomImage } from './FrameLogic/CustomImage';
 import { CustomText } from './FrameLogic/CustomText';
+import { ProjectTree } from './ProjectTree';
 
 export class ParameterEditor {
 
@@ -13,6 +14,7 @@ export class ParameterEditor {
     public readonly inputElementName: HTMLInputElement
     public readonly selectElementType: HTMLSelectElement;
     public readonly selectElementParent: HTMLSelectElement;
+    public readonly checkboxElementTooltip: HTMLInputElement;
     public readonly inputElementWidth: HTMLInputElement;
     public readonly inputElementHeight: HTMLInputElement;
     public readonly inputElementCoordinateX: HTMLInputElement;
@@ -43,6 +45,8 @@ export class ParameterEditor {
     public readonly fieldGeneral: HTMLDivElement;
     public readonly fieldElement: HTMLDivElement;
     public readonly fieldTextFrame: HTMLDivElement;
+    public readonly fieldTooltip: HTMLDivElement;
+
 
     public constructor() {
 
@@ -50,6 +54,7 @@ export class ParameterEditor {
         this.inputElementName = document.getElementById('elementName') as HTMLInputElement;
         this.selectElementType = document.getElementById('elementType') as HTMLSelectElement;
         this.selectElementParent = document.getElementById('elementParent') as HTMLSelectElement;
+        this.checkboxElementTooltip = document.getElementById('elementTooltip') as HTMLInputElement;
         this.inputElementWidth = document.getElementById('elementWidth') as HTMLInputElement;
         this.inputElementHeight = document.getElementById('elementHeight') as HTMLInputElement;
         this.inputElementCoordinateX = document.getElementById('elementCoordinateX') as HTMLInputElement;
@@ -74,6 +79,7 @@ export class ParameterEditor {
 
         this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement;
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;
+        this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement;
         this.fieldFunctionalityFull = document.getElementById('FieldFunctionalityFull') as HTMLDivElement;
         this.fieldFunctionalityText = document.getElementById('FieldFunctionalityText') as HTMLDivElement;
         this.fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
@@ -101,6 +107,7 @@ export class ParameterEditor {
         this.inputElementName.onchange = ParameterEditor.ChangeName;
         this.selectElementType.onchange = ParameterEditor.ChangeType;
         this.selectElementParent.onchange = ParameterEditor.ChangeParent;
+        this.checkboxElementTooltip.onchange = ParameterEditor.ChangeTooltip;
         this.inputElementCoordinateX.onchange = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange = ParameterEditor.InputCoordinateY;
         this.inputElementDiskTexture.onchange = ParameterEditor.TextInputDiskTexture;
@@ -114,7 +121,7 @@ export class ParameterEditor {
 
     }
 
-    /** checks whether value is smaller than 0.2. True if smaller. */
+    /** checks whether value is smaller than 0.1. True if smaller. */
     private static CheckInputValue(value: number): boolean {
 
         const result = value < 0.01;
@@ -314,6 +321,17 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
+    static ChangeTooltip(ev: Event): void {
+        const val = (ev.target as HTMLInputElement).checked;
+        const selectedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+        selectedFrame.tooltip = val
+
+        for(const el of selectedFrame.getChildren()) el.tooltip = false;
+    
+        if(val) debugText("Is now a Tooltip")
+        else debugText("No longer a Tooltip")
+    }
+
     static InputCoordinateX(ev: Event): void {
         const loc = (ev.target as HTMLInputElement).value;
         const editor = Editor.GetDocumentEditor();
@@ -429,6 +447,7 @@ export class ParameterEditor {
         this.inputElementName.value = ""
         this.selectElementType.value = ""
         this.selectElementParent.value = ""
+        this.checkboxElementTooltip.checked = false
         this.inputElementCoordinateX.value = ""
         this.inputElementCoordinateY.value = ""
         this.inputElementDiskTexture.value = ""
@@ -447,6 +466,7 @@ export class ParameterEditor {
         this.inputElementName.disabled = disable
         this.selectElementType.disabled = disable
         this.selectElementParent.disabled = disable
+        this.checkboxElementTooltip.disabled = disable
         this.inputElementCoordinateX.disabled = disable
         this.inputElementCoordinateY.disabled = disable
         this.inputElementDiskTexture.disabled = disable
@@ -487,10 +507,11 @@ export class ParameterEditor {
 
                 this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) / (editor.workspaceImage.width - 2 * horizontalMargin) * 800)}`;
                 this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom) / editor.workspaceImage.height * 600)}`;
-
+                this.checkboxElementTooltip.checked = frame.tooltip
 
                 this.fieldElement.style.display = "initial"
                 this.fieldType.style.display = "initial"
+                this.fieldTooltip.style.display = "none"
                 this.fieldTexture.style.display = "initial"
                 this.fieldFunctionalityFull.style.display = "initial"
                 this.fieldFunctionalityText.style.display = "initial"
@@ -503,7 +524,10 @@ export class ParameterEditor {
                     this.selectElementType.selectedIndex = frame.type - 1
                     this.fieldFunctionalityText.style.display = "none"
 
-                    if (frame.type == FrameType.BACKDROP) this.fieldFunctionalityFull.style.display = "none";
+                    if (frame.type == FrameType.BACKDROP) {
+                        this.fieldFunctionalityFull.style.display = "none";
+                        this.fieldTooltip.style.display = "initial"
+                    }
 
                 } else {
                     this.fieldType.style.display = "none"
@@ -511,7 +535,10 @@ export class ParameterEditor {
 
                     if (frame.type != FrameType.BROWSER_BUTTON && frame.type != FrameType.SCRIPT_DIALOG_BUTTON && frame.type != FrameType.TEXT_FRAME) {
                         if (frame.type == FrameType.INVIS_BUTTON) this.fieldFunctionalityText.style.display = "none";
-                        else this.fieldFunctionalityFull.style.display = "none";
+                        else {
+                            this.fieldFunctionalityFull.style.display = "none";
+                            this.fieldTooltip.style.display = "initial";
+                        }
                     }
 
 
@@ -519,7 +546,23 @@ export class ParameterEditor {
                         this.fieldTextFrame.style.display = "initial";
                         this.fieldFunctionalityText.style.display = "none";
                         this.fieldFunctionalityVar.style.display = "none";
+                        this.fieldTooltip.style.display = "initial";
                     }
+                }
+
+                if(frame.getParent() == Editor.GetDocumentEditor().projectTree.rootFrame) {
+                    this.fieldTooltip.style.display = "none";
+                }
+                
+                let parentHasTooltip = false;
+                for(let el of frame.getParent().getChildren()) {
+                    if(el != frame && el.tooltip) {
+                        parentHasTooltip = true;
+                        break;
+                    }
+                }
+                if(frame.getParent().tooltip || parentHasTooltip) {
+                    this.checkboxElementTooltip.disabled = true
                 }
 
                 const n = frame.type;

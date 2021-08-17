@@ -98,12 +98,19 @@ export class FrameBuilder implements ICallableDivInstance {
             if (!container.hasKey(CustomText.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
             if (!container.hasKey(CustomText.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
-            this.scale = container.load(CustomText.SAVE_KEY_SCALE);
-            this.color = container.load(CustomText.SAVE_KEY_COLOR);
+            try{
+                this.scale = container.load(CustomText.SAVE_KEY_SCALE);
+                this.color = container.load(CustomText.SAVE_KEY_COLOR);
+            }catch(e) {alert("Loading Error: Text Frame Options Missing.");}
 
         }
 
         const frameComponent = projectTree.appendToSelected(this)
+        
+        try{
+            frameComponent.tooltip = container.load(FrameComponent.SAVE_KEY_TOOLTIP);
+            frameComponent.custom.getElement().style.outlineColor = "rgba(220, 242, 19, 0.5)" //yellow
+        }catch(e) {alert("Loading Error: Tooltip Info")}
 
         projectTree.select(frameComponent);
 

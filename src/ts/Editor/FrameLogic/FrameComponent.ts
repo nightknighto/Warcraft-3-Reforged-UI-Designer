@@ -13,10 +13,12 @@ export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_NAME = "name";
     public static readonly SAVE_KEY_CHILDREN = "children";
     public static readonly SAVE_KEY_TYPE = "type";
+    public static readonly SAVE_KEY_TOOLTIP = "tooltip";
 
     private name: string;
     private children: FrameComponent[];
     public type: FrameType;
+    public tooltip = false;
 
     public readonly custom: FrameBaseContent;
     public readonly treeElement: HTMLElement;
@@ -73,6 +75,7 @@ export class FrameComponent implements Saveable {
 
         container.save(FrameComponent.SAVE_KEY_NAME, this.name);
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
+        container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip);
         this.custom.save(container);
 
         const childrenSaveArray = [];

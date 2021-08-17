@@ -163,6 +163,8 @@ export class GUIEvents {
                         // alert('prod: '+checkingName+"["+ind+"]")
                         if(el.getName() == checkingName+"["+ind+"]" || el.getName() == checkingName+"["+"0"+ind+"]") {
                             el.makeParentTo(newFrame)
+                            if(selected.tooltip) newFrame.tooltip = true;
+                            
                             break;
                         }
                     } 

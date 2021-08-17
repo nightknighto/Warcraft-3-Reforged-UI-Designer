@@ -150,7 +150,12 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         if (el.type == FrameType.BUTTON) {
                             text = temp.declaresBUTTONArray
                         } else {
-                            text = temp.declaresArray
+                            if(temp == JASS) {
+                                if(el.tooltip) {text = JASS.declaresArrayWiTooltip}
+                                else {text = JASS.declaresArray};
+                            } else {
+                                text = temp.declaresArray
+                            }
                         }
                         if (lang == 'jass' || lang == 'lua' ) {
                             if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITYArray;
@@ -164,7 +169,12 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     if (el.type == FrameType.BUTTON) {
                         text = temp.declaresBUTTON
                     } else {
-                        text = temp.declares
+                        if(temp == JASS) {
+                            if(el.tooltip) {text = JASS.declaresWiTooltip}
+                            else {text = JASS.declares};
+                        } else {
+                            text = temp.declares
+                        }
                     }
                     if (lang == 'jass' || lang == 'lua' ) {
                         if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITY;
@@ -189,6 +199,20 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     case ('jass'): text = JassGetTypeText(el.type, true); break;
                     case ('lua'): text = LuaGetTypeText(el.type, true); break;
                     case ('ts'): text = TypescriptGetTypeText(el.type, true); break; //always true. maybe give option for users to make it false
+                }
+
+                if(el.tooltip) {
+                    const t = el.getParent().type
+                    if(t == FrameType.BUTTON || t == FrameType.INVIS_BUTTON || t == FrameType.BROWSER_BUTTON || t == FrameType.SCRIPT_DIALOG_BUTTON) {
+                        text += temp.TooltipOwnerButton
+                    } else {
+                        //for LUA, TS: add local variables
+                        if(isArray && isArrayMain) {
+                            if(temp == LUA) text += "Tooltip"+el.getName().replace('[00]', '') + " = {} \n"
+                            if(temp == Typescript) text += "let Tooltip"+el.getName().replace('[00]', '') + " = [] \n"
+                        }
+                        text += temp.TooltipOwnerOther
+                    }
                 }
                 
             }
@@ -218,10 +242,10 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
 
             if (el) {
                 if (el.getParent()) {
-                    if(lang == 'jass' || lang == 'lua') textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
+                    if(lang == 'jass' || lang == 'lua') textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
                     else if(lang == 'ts') {
-                        if(el.getParent().getName().indexOf('[0') >= 0) textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName().replace('[0','['));
-                        else textEdit = textEdit.replace("OWNERvar", (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
+                        if(el.getParent().getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName().replace('[0','['));
+                        else textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
 
                     }
                 }

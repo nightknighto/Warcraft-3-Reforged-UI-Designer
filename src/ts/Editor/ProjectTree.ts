@@ -118,7 +118,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
 
         //should go to workspace class?
-        if (this.selectedFrame != null) this.selectedFrame.custom.getElement().style.outlineColor = "rgba(0, 230, 64, 0.4)" //green
+        if (this.selectedFrame != null) {
+            let color = "rgba(0, 230, 64, 0.4)" //green
+            if(this.selectedFrame.tooltip) color = "rgba(220, 242, 19, 0.5)"; //yellow
+            this.selectedFrame.custom.getElement().style.outlineColor = color
+        }
 
         if (frame instanceof FrameComponent) this.selectedFrame = frame;
         else if (frame instanceof CustomImage) this.selectedFrame = frame.getFrameComponent()
@@ -158,14 +162,16 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             }
             GUIEvents.RefreshElements()
 
-            ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
-            ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
-            ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);
-            ProjectTree.HideMiniMap = container.load(ProjectTree.SAVE_KEY_HIDE_MINIMAP);
-            ProjectTree.HideResources = container.load(ProjectTree.SAVE_KEY_HIDE_RESOURCES);
-            ProjectTree.HideButtonBar = container.load(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR);
-            ProjectTree.HidePortrait = container.load(ProjectTree.SAVE_KEY_HIDE_PORTRAIT);
-            ProjectTree.HideChat = container.load(ProjectTree.SAVE_KEY_HIDE_CHAT);
+            try{
+                ProjectTree.LibraryName = container.load(ProjectTree.SAVE_KEY_LIBRARY_NAME);
+                ProjectTree.HideGameUI = container.load(ProjectTree.SAVE_KEY_HIDE_GAMEUI);
+                ProjectTree.HideHeroBar = container.load(ProjectTree.SAVE_KEY_HIDE_HEROBAR);
+                ProjectTree.HideMiniMap = container.load(ProjectTree.SAVE_KEY_HIDE_MINIMAP);
+                ProjectTree.HideResources = container.load(ProjectTree.SAVE_KEY_HIDE_RESOURCES);
+                ProjectTree.HideButtonBar = container.load(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR);
+                ProjectTree.HidePortrait = container.load(ProjectTree.SAVE_KEY_HIDE_PORTRAIT);
+                ProjectTree.HideChat = container.load(ProjectTree.SAVE_KEY_HIDE_CHAT);
+            } catch(e) {alert("Loading Error: General Options Missing.");}
 
 
             //this should happen after those values are loaded
