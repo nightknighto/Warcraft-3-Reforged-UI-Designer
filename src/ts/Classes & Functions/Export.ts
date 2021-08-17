@@ -153,7 +153,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                             text = temp.declaresArray
                         }
                         if (lang == 'jass' || lang == 'lua' ) {
-                            if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITYArray;
+                            if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITYArray;
                         }
                     } else { //secondary instance
                         continue;
@@ -167,7 +167,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         text = temp.declares
                     }
                     if (lang == 'jass' || lang == 'lua' ) {
-                        if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") text += temp.declaresFUNCTIONALITY;
+                        if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITY;
                     }
                 }
 
