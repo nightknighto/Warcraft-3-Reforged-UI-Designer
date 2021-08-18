@@ -2,16 +2,17 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
-import Actionable from "../Actionable";
-import Redoable from "../Redoable";
+import SimpleCommand from "../SimpleCommand";
 import CreateFrame from "./CreateFrame";
 
-export default class RemoveFrame implements Redoable, Actionable{
+export default class RemoveFrame extends SimpleCommand{
 
     private frame: string;
     private undoCommand: CreateFrame;
 
     public constructor(frame: FrameComponent | string){
+
+        super();
 
         if(typeof(frame) === "string"){
             this.frame = frame;
@@ -36,18 +37,6 @@ export default class RemoveFrame implements Redoable, Actionable{
 
     }
 
-    public action(): void{
-
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true)
-        this.pureAction();
-
-    }
-
-    redo(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this.pureAction();
-    }
-
     undo(): void {
 
         if (this.undoCommand == undefined) {
@@ -56,7 +45,7 @@ export default class RemoveFrame implements Redoable, Actionable{
         }
 
         this.undoCommand.pureAction();
-            Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
+        super.undo();
     }
 
 }

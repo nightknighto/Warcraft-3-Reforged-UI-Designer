@@ -1,15 +1,15 @@
 import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
-import Actionable from "../Actionable";
-import Redoable from "../Redoable";
+import SimpleCommand from "../SimpleCommand";
 
-export default class ChangeFrameName implements Redoable, Actionable{
+export default class ChangeFrameName extends SimpleCommand{
 
     private oldName: string;
     private newName: string;
 
     public constructor(frame: FrameComponent | string, newName: string){
+        super();
 
         if(typeof(frame) === "string"){
             this.oldName = frame;
@@ -20,16 +20,12 @@ export default class ChangeFrameName implements Redoable, Actionable{
         this.newName = newName;
 
     }
-    redo(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this.pureAction();
-    }
+
     undo(): void {
-        
+        super.undo();
+
         const undoCommand = new ChangeFrameName(this.newName, this.oldName);
         undoCommand.pureAction();
-        Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
-
     }
 
     pureAction(): void {
@@ -43,11 +39,6 @@ export default class ChangeFrameName implements Redoable, Actionable{
 
         frame.setName(this.newName);
 
-    }
-
-    action(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
-        this.pureAction();
     }
 
 }

@@ -2,16 +2,17 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
-import Actionable from "../Actionable";
-import Redoable from "../Redoable";
+import SimpleCommand from "../SimpleCommand";
 import RemoveFrame from "./RemoveFrame";
 
-export default class CreateFrame implements Redoable, Actionable{
+export default class CreateFrame extends SimpleCommand{
     private frameBuilder: FrameBuilder;
     private parent: string;
     private resultingFrame: FrameComponent;
 
     public constructor(parent: FrameComponent | string, frameBuilder: FrameBuilder) {
+
+        super();
 
         if(typeof(parent) === "string"){
             this.parent = parent;
@@ -26,9 +27,10 @@ export default class CreateFrame implements Redoable, Actionable{
 
     }
 
-    public pureAction(): FrameComponent{
+    public pureAction(): void{
 
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.parent);
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const frame = projectTree.findByName(this.parent);
 
         if(typeof(frame) === "undefined"){
             debugText("Could not find parent, abort.");
@@ -36,18 +38,8 @@ export default class CreateFrame implements Redoable, Actionable{
         }
 
         this.resultingFrame = frame.createAsChild(this.frameBuilder)
+        projectTree.select(this.resultingFrame);
 
-        return this.resultingFrame;
-    }
-
-    public action(): FrameComponent {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
-        return this.pureAction();
-    }
-
-    redo(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this.pureAction();
     }
 
     undo(): void {
@@ -57,10 +49,10 @@ export default class CreateFrame implements Redoable, Actionable{
             return;
         }
 
+        super.undo();
+
         const undoCommand = new RemoveFrame(this.resultingFrame);
         undoCommand.pureAction();
-        Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
-
     }
 
 }

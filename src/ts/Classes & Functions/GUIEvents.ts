@@ -44,11 +44,11 @@ export class GUIEvents {
 
         builder.x = builder.x + 0.03;
         builder.y = builder.y - 0.03;
+        builder.name += " Copy";
         
         const command = new CreateFrame(selected.getParent(), builder);
-        const newFrame = command.action();
+        command.action();
 
-        projectTree.select(newFrame);
         debugText('Duplicated.')
 
     }catch(e){alert(e)}}

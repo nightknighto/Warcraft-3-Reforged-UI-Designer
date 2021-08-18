@@ -3,11 +3,11 @@ import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import Actionable from "../Actionable";
-import Redoable from "../Redoable";
+import SimpleCommand from "../SimpleCommand";
 import ChangeFrameName from "./ChangeFrameName";
 import RemoveFrame from "./RemoveFrame";
 
-export default class DuplicateArrayCircular implements Redoable, Actionable {
+export default class DuplicateArrayCircular extends SimpleCommand{
 
     private centerX: number;
     private centerY: number;
@@ -19,6 +19,8 @@ export default class DuplicateArrayCircular implements Redoable, Actionable {
     private undoCommands: Actionable[] = [];
 
     public constructor(target: FrameComponent | string, centerX: number, centerY: number, radius: number, count: number, initialAngle: number) {
+
+        super();
 
         if (typeof (target) === "string") {
             this.target = target;
@@ -65,16 +67,6 @@ export default class DuplicateArrayCircular implements Redoable, Actionable {
 
     }
 
-    public action(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
-        this.pureAction();
-    }
-
-    redo(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this.pureAction();
-    }
-
     undo(): void {
 
         if (this.undoCommands.length == 0) {
@@ -87,7 +79,7 @@ export default class DuplicateArrayCircular implements Redoable, Actionable {
         }
         this.undoCommands = [];
 
-        Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
+        super.undo();
     }
 
 }

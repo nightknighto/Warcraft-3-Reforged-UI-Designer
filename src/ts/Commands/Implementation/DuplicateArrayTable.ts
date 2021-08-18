@@ -3,11 +3,11 @@ import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import Actionable from "../Actionable";
-import Redoable from "../Redoable";
+import SimpleCommand from "../SimpleCommand";
 import ChangeFrameName from "./ChangeFrameName";
 import RemoveFrame from "./RemoveFrame";
 
-export default class DuplicateArrayTable implements Redoable, Actionable {
+export default class DuplicateArrayTable extends SimpleCommand {
 
     private rows: number;
     private columns: number;
@@ -20,6 +20,8 @@ export default class DuplicateArrayTable implements Redoable, Actionable {
     private undoCommands: Actionable[] = [];
 
     public constructor(target: FrameComponent | string, rows: number, columns: number, leftX: number, topY: number, gapX: number, gapY: number) {
+
+        super();
 
         if (typeof (target) === "string") {
             this.target = target;
@@ -38,11 +40,6 @@ export default class DuplicateArrayTable implements Redoable, Actionable {
         return this;
     }
 
-
-    redo(): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, false);
-        this.pureAction();
-    }
     undo(): void {
         if (this.undoCommands.length == 0) {
             debugText("No applicable undo actions.");
@@ -54,13 +51,9 @@ export default class DuplicateArrayTable implements Redoable, Actionable {
         }
         this.undoCommands = [];
 
-        Editor.GetDocumentEditor().changeStack.pushRedoChange(this);
+        super.undo();
     }
-    action(): void {
 
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
-        this.pureAction();
-    }
     pureAction(): void {
 
         const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target);

@@ -108,7 +108,7 @@ export class FrameBuilder{
 
         const frameBuilder =  new FrameBuilder(false)
 
-        frameBuilder.name = frame.getName() + " Copy";
+        frameBuilder.name = frame.getName();
         frameBuilder.type = frame.type;
         frameBuilder.text = frame.custom.getText();
         frameBuilder.width = frame.custom.getWidth();
