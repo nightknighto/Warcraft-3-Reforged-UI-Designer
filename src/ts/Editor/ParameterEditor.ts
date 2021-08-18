@@ -6,6 +6,11 @@ import { FrameType } from './FrameLogic/FrameType';
 import { CustomImage } from './FrameLogic/CustomImage';
 import { CustomText } from './FrameLogic/CustomText';
 import ChangeFrameName from '../Commands/Implementation/ChangeFrameName';
+import ChangeFrameWidth from '../Commands/Implementation/ChangeFrameWidth';
+import Actionable from '../Commands/Actionable';
+import ChangeFrameHeight from '../Commands/Implementation/ChangeFrameHeight';
+import ChangeFrameType from '../Commands/Implementation/ChangeFrameType';
+import ChangeFrameParent from '../Commands/Implementation/ChangeFrameParent';
 
 export class ParameterEditor {
 
@@ -131,7 +136,8 @@ export class ParameterEditor {
     static InputWidth(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
-        const focusedCustom = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+        const focusedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame();
+        const focusedCustom = focusedFrame.custom;
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         const horizontalMargin = 240 / 1920 * rect.width
@@ -146,11 +152,14 @@ export class ParameterEditor {
             return
         }
 
+        let command : Actionable;
+
         if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            focusedCustom.setWidth(0.01)
+            command = new ChangeFrameWidth(focusedFrame, 0.01);
         } else {
-            focusedCustom.setWidth(+inputElement.value)
+            command = new ChangeFrameWidth(focusedFrame, +inputElement.value);
         }
+        command.action();
 
     }
 
@@ -158,7 +167,8 @@ export class ParameterEditor {
         try {
 
             const inputElement = ev.target as HTMLInputElement;
-            const focusedCustom = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+            const focusedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame();
+            const focusedCustom = focusedFrame.custom;
             const workspace = Editor.GetDocumentEditor().workspaceImage
 
             if (+inputElement.value > 0.6 || +inputElement.value < 0) {
@@ -171,12 +181,13 @@ export class ParameterEditor {
                 return
             }
 
+            let command: Actionable;
             if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-                focusedCustom.setHeight(0.01)
+                command = new ChangeFrameHeight(focusedFrame, 0.01);
             } else {
-                focusedCustom.setHeight(+inputElement.value)
+                command = new ChangeFrameHeight(focusedFrame, +inputElement.value);
             }
-
+            command.action();
 
         } catch (e) { alert(e) }
     }
@@ -285,7 +296,8 @@ export class ParameterEditor {
 
         const selected = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
 
-        selected.type = +selectElement.selectedOptions[0].value;
+        const command = new ChangeFrameType(selected, +selectElement.selectedOptions[0].value)
+        command.action();
 
         let typeText = ""
         if (selected.type == 1) typeText = "Backdrop";
@@ -307,7 +319,8 @@ export class ParameterEditor {
 
                 if (el.parentOption == selectElement.selectedOptions[0]) {
 
-                    el.makeParentTo(selectedFrame);
+                    const command = new ChangeFrameParent(selectedFrame, el);
+                    command.action();
                     break;
 
                 }
