@@ -56,8 +56,8 @@ export function TextFunctions(div: CustomText) : void{
                         posx1 = e.clientX;
                         debugText(`(${div.getElement().offsetWidth}, ${div.getElement().offsetHeight})`);
                         debugText('resize right')
-                        if ((div.getElement().offsetWidth - posx2) * 0.8 / workspaceImage.width <= .02) {
-                            div.getElement().style.width = 0.02 * workspaceImage.width / 0.8 +'px';
+                        if ((div.getElement().offsetWidth - posx2) * 0.8 / workspaceImage.width <= .01) {
+                            div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
                         else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
                             null;
@@ -77,8 +77,8 @@ export function TextFunctions(div: CustomText) : void{
                         debugText(`(${div.getElement().offsetWidth}, ${div.getElement().offsetHeight})`);
                         debugText('resize bot')
     
-                        if ((div.getElement().offsetHeight - posy2) * 600 / workspaceImage.height <= 20) {
-                            div.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
+                        if ((div.getElement().offsetHeight - posy2) * 600 / workspaceImage.height <= 10) {
+                            div.getElement().style.height = `${10 * workspaceImage.height / 600}px`;
                         }
                         else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posy2)) {
                             null;
@@ -98,8 +98,8 @@ export function TextFunctions(div: CustomText) : void{
                     posx1 = e.clientX;
                     posy1 = e.clientY;
                     debugText(`(${div.getElement().offsetWidth}, ${div.getElement().offsetHeight})`);
-                    if ((div.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 20) {
-                        div.getElement().style.width = 20 * workspaceImage.width / 800 +'px';
+                    if ((div.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 10) {
+                        div.getElement().style.width = 10 * workspaceImage.width / 800 +'px';
                     }
                     else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
                         null;
@@ -108,8 +108,8 @@ export function TextFunctions(div: CustomText) : void{
                         div.getElement().style.width = div.getElement().offsetWidth - posx2 +'px';
                     }
 
-                    if ((div.getElement().offsetHeight - posy2) * 600 / workspaceImage.height <= 20) {
-                        div.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
+                    if ((div.getElement().offsetHeight - posy2) * 600 / workspaceImage.height <= 10) {
+                        div.getElement().style.height = `${10 * workspaceImage.height / 600}px`;
                     }
                     else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posy2)) {
                         null;
@@ -131,8 +131,8 @@ export function TextFunctions(div: CustomText) : void{
                         posx1 = e.clientX;
                         debugText('resize left')
     
-                        if ((div.getElement().offsetWidth + posx2) * 0.8 / workspaceImage.width <= 0.02) {
-                            div.getElement().style.width = 0.02 * workspaceImage.width / 0.8 +'px';
+                        if ((div.getElement().offsetWidth + posx2) * 0.8 / workspaceImage.width <= 0.01) {
+                            div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > div.getElement().offsetLeft - posx2) {
                             null;
@@ -155,8 +155,8 @@ export function TextFunctions(div: CustomText) : void{
                         posy1 = e.clientY;
                         debugText('resize top');
     
-                        if ((div.getElement().offsetHeight + posy2) * 0.6 / workspaceImage.height <= 0.02) {
-                            div.getElement().style.height = `${0.02 * workspaceImage.height / 0.6}`;
+                        if ((div.getElement().offsetHeight + posy2) * 0.6 / workspaceImage.height <= 0.01) {
+                            div.getElement().style.height = `${0.01 * workspaceImage.height / 0.6}`;
                         }
                         else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2) > 0) {
                             null;
@@ -182,8 +182,8 @@ export function TextFunctions(div: CustomText) : void{
                         posy1 = e.clientY;
                         debugText(div.getElement().style.height);
     
-                        if ((div.getElement().offsetWidth + posx2) * 800 / workspaceImage.width <= 20) {
-                            div.getElement().style.width = 20 * workspaceImage.width / 800 +'px';
+                        if ((div.getElement().offsetWidth + posx2) * 800 / workspaceImage.width <= 10) {
+                            div.getElement().style.width = 10 * workspaceImage.width / 800 +'px';
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > div.getElement().offsetLeft - posx2) {
                             null;
@@ -193,8 +193,8 @@ export function TextFunctions(div: CustomText) : void{
                             div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`;
                         }
 
-                        if ((div.getElement().offsetHeight + posy2) * 600 / workspaceImage.height <= 20) {
-                            div.getElement().style.height = `${20 * workspaceImage.height / 600}px`
+                        if ((div.getElement().offsetHeight + posy2) * 600 / workspaceImage.height <= 10) {
+                            div.getElement().style.height = `${10 * workspaceImage.height / 600}px`
                         }
                         else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2)) {
                             null;

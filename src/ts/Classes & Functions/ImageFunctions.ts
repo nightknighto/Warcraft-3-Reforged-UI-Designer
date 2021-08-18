@@ -57,8 +57,8 @@ export function ImageFunctions(img: CustomImage): void {
                         posx1 = e.clientX;
                         debugText(`(${img.getElement().width}, ${img.getElement().height})`);
                         debugText('resize right')
-                        if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .02) {
-                            img.getElement().style.width = 0.02 * workspaceImage.width / 0.8 + "px";
+                        if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .01) {
+                            img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
                         else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
                             null;
@@ -78,8 +78,8 @@ export function ImageFunctions(img: CustomImage): void {
                         debugText(`(${img.getElement().width}, ${img.getElement().height})`);
                         debugText('resize bot')
 
-                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 20) {
-                            img.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
+                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 10) {
+                            img.getElement().style.height = `${10 * workspaceImage.height / 600}px`;
                         }
                         else if (workspaceImage.getBoundingClientRect().bottom < img.getElement().y + (img.getElement().height - posy2)) {
                             null;
@@ -99,8 +99,8 @@ export function ImageFunctions(img: CustomImage): void {
                         posx1 = e.clientX;
                         posy1 = e.clientY;
                         debugText(`(${img.getElement().width}, ${img.getElement().height})`);
-                        if ((img.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 20) {
-                            img.getElement().style.width = 20 * workspaceImage.width / 800 + "px";
+                        if ((img.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 10) {
+                            img.getElement().style.width = 10 * workspaceImage.width / 800 + "px";
                         }
                         else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
                             null;
@@ -109,8 +109,8 @@ export function ImageFunctions(img: CustomImage): void {
                             img.getElement().style.width = img.getElement().width - posx2 + "px";
                         }
 
-                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 20) {
-                            img.getElement().style.height = `${20 * workspaceImage.height / 600}px`;
+                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 10) {
+                            img.getElement().style.height = `${10 * workspaceImage.height / 600}px`;
                         }
                         else if (workspaceImage.getBoundingClientRect().bottom < img.getElement().y + (img.getElement().height - posy2)) {
                             null;
@@ -133,8 +133,8 @@ export function ImageFunctions(img: CustomImage): void {
                         posx1 = e.clientX;
                         debugText('resize left')
 
-                        if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.02) {
-                            img.getElement().style.width = 0.02 * workspaceImage.width / 0.8 + "px";
+                        if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.01) {
+                            img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
                             null;
@@ -157,8 +157,8 @@ export function ImageFunctions(img: CustomImage): void {
                         posy1 = e.clientY;
                         debugText('resize top');
 
-                        if ((img.getElement().height + posy2) * 0.6 / workspaceImage.height <= 0.02) {
-                            img.getElement().style.height = `${0.02 * workspaceImage.height / 0.6}`;
+                        if ((img.getElement().height + posy2) * 0.6 / workspaceImage.height <= 0.01) {
+                            img.getElement().style.height = `${0.01 * workspaceImage.height / 0.6}`;
                         }
                         else if (workspaceImage.getBoundingClientRect().y > img.getElement().y - posy2) {
                             null;
@@ -183,8 +183,8 @@ export function ImageFunctions(img: CustomImage): void {
                         posy1 = e.clientY;
                         debugText(img.getElement().style.height);
 
-                        if ((img.getElement().width + posx2) * 800 / workspaceImage.width <= 20) {
-                            img.getElement().style.width = 20 * workspaceImage.width / 800 + "px";
+                        if ((img.getElement().width + posx2) * 800 / workspaceImage.width <= 10) {
+                            img.getElement().style.width = 10 * workspaceImage.width / 800 + "px";
                         }
                         else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
                             null;
@@ -193,8 +193,8 @@ export function ImageFunctions(img: CustomImage): void {
                             img.getElement().style.width = `${img.getElement().offsetWidth + posx2}px`
                             img.getElement().style.left = `${img.getElement().offsetLeft - posx2}px`;
                         }
-                        if ((img.getElement().height + posy2) * 600 / workspaceImage.height <= 20) {
-                            img.getElement().style.height = `${20 * workspaceImage.height / 600}px`
+                        if ((img.getElement().height + posy2) * 600 / workspaceImage.height <= 10) {
+                            img.getElement().style.height = `${10 * workspaceImage.height / 600}px`
                         }
                         else if (workspaceImage.getBoundingClientRect().y > img.getElement().y - posy2) {
                             null;

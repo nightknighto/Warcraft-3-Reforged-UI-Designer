@@ -31,7 +31,6 @@ export class RibbonMenu implements ICallableDivInstance {
 
         //Fill it back up
         for (const option of this.ribbonOptions) {
-
             this.ribbonBar.append(option.createHTMLElement());
 
         }
@@ -41,7 +40,7 @@ export class RibbonMenu implements ICallableDivInstance {
 
         const menu = document.createElement('div');
 
-        menu.setAttribute('class', 'tab');
+        menu.setAttribute('class', 'tab btn');
         menu.innerText = this.tabName;
 
         ICallableDivInstance.setup(menu, this);

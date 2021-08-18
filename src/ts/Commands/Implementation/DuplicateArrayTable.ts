@@ -16,10 +16,11 @@ export default class DuplicateArrayTable extends SimpleCommand {
     private gapX: number;
     private gapY: number;
     private target: string;
+    private ownerArray: boolean;
 
     private undoCommands: Actionable[] = [];
 
-    public constructor(target: FrameComponent | string, rows: number, columns: number, leftX: number, topY: number, gapX: number, gapY: number) {
+    public constructor(target: FrameComponent | string, rows: number, columns: number, leftX: number, topY: number, gapX: number, gapY: number, ownerArray: boolean) {
 
         super();
 
@@ -36,6 +37,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
         this.leftX = leftX;
         this.gapX = gapX;
         this.gapY = gapY;
+        this.ownerArray = ownerArray;
 
         return this;
     }
@@ -76,8 +78,23 @@ export default class DuplicateArrayTable extends SimpleCommand {
                 builder.name = frame.getName() + 'T[' + index + ']';
                 builder.x = this.leftX + (builder.width + this.gapX) * j;
                 builder.y = this.topY + builder.height - (builder.height + this.gapY) * i;
+                const newFrame = parent.createAsChild(builder)
 
-                this.undoCommands.push(new RemoveFrame(parent.createAsChild(builder)));
+                if(this.ownerArray) { //find if parent array has the same index. If yes, change parent
+                    for(const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                        const checkingName = parent.getName().slice(0,parent.getName().length-4)
+                        // alert('checkingName: '+checkingName)
+                        // alert('prod: '+checkingName+"["+ind+"]")
+                        if(el.getName() == checkingName+"["+index+"]" || el.getName() == checkingName+"["+"0"+index+"]") {
+                            el.makeParentTo(newFrame)
+                            if(frame.tooltip) newFrame.tooltip = true;
+                            
+                            break;
+                        }
+                    } 
+                }
+
+                this.undoCommands.push(new RemoveFrame(newFrame));
             }
         }
 

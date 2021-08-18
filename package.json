@@ -1,6 +1,6 @@
 {
   "name": "wc3-ui-maker",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
   "main": "./app/main.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "icon": "files/icon.png",
     "appId": "org.Deadreyo.W3RUID",
     "productName": "Reforged UI Designer",
-    "buildVersion": "1.1.0"
+    "buildVersion": "2.0.0"
   },
   "devDependencies": {
     "@interactjs/types": "^1.8.3",
@@ -37,9 +37,11 @@
   },
   "dependencies": {
     "@material/textfield": "^10.0.0",
+    "bootstrap": "^5.1.0",
     "custom-electron-titlebar": "^3.2.6",
     "del": "^6.0.0",
     "interactjs": "^1.10.1",
+    "popper.js": "^1.16.1",
     "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",
     "ts-data.stack": "^1.0.6",

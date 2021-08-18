@@ -63,11 +63,11 @@ export class GUIEvents {
         debugText('Duplicated Circular.')
     }catch(e){alert(e)}}
 
-    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
+    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
         
-        const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY);
+        const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray);
         command.action();
         
         debugText('Duplicated Table form.')

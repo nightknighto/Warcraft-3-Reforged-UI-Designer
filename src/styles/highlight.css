@@ -29,3 +29,12 @@
 #workspaceContainer{
     background-color: black;    
 }
+
+.ribbonOption{
+    color: rgb(248,224,197);
+}
+
+.tab{
+    color: rgb(248,224,197);
+    font-weight: 600;
+}
