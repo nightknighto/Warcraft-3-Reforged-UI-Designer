@@ -1,6 +1,7 @@
 import { debugText, InputEdit } from "./Mini-Functions"
 import { Editor } from "../Editor/Editor";
 import { CustomText } from "../Editor/FrameLogic/CustomText";
+import MoveFrame from "../Commands/Implementation/MoveFrame";
 
 export function TextFunctions(div: CustomText) : void{
 
@@ -8,8 +9,15 @@ export function TextFunctions(div: CustomText) : void{
 
     div.getElement().onmousedown = function (e) {
         const horizontalMargin = 240/1920*workspaceImage.width;
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const frame = div.getFrameComponent();
 
-        Editor.GetDocumentEditor().projectTree.select(div);
+        const startingX = div.getLeftX();
+        const startingY = div.getBotY();
+        const startingWidth = div.getWidth();
+        const startingHeight = div.getHeight();
+
+        projectTree.select(div);
         
         let posx1 = e.clientX;
         let posy1 = e.clientY;
@@ -206,6 +214,10 @@ export function TextFunctions(div: CustomText) : void{
 
 
         window.onmouseup = function () {
+
+            const command = new MoveFrame(frame, div.getLeftX(), div.getBotY(), div.getWidth(), div.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
+            command.action();
+
             window.onmousemove = null;
             window.onmouseup = null;
         };

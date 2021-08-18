@@ -1,6 +1,7 @@
 import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debugText, InputEdit } from "./Mini-Functions"
 import { Editor } from "../Editor/Editor";
+import MoveFrame from "../Commands/Implementation/MoveFrame";
 
 export function ImageFunctions(img: CustomImage): void {
 
@@ -8,8 +9,15 @@ export function ImageFunctions(img: CustomImage): void {
 
     img.getElement().onmousedown = function (e) {
         const horizontalMargin = 240 / 1920 * workspaceImage.width //refresh the value
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const frame = img.getFrameComponent();
 
-        Editor.GetDocumentEditor().projectTree.select(img);
+        const startingX = img.getLeftX();
+        const startingY = img.getBotY();
+        const startingWidth = img.getWidth();
+        const startingHeight = img.getHeight();
+
+        projectTree.select(img);
 
         let posx1 = e.clientX;
         let posy1 = e.clientY;
@@ -206,6 +214,10 @@ export function ImageFunctions(img: CustomImage): void {
 
 
         window.onmouseup = function () {
+
+            const command = new MoveFrame(frame, img.getLeftX(), img.getBotY(), img.getWidth(), img.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
+            command.action();
+
             window.onmousemove = null;
             window.onmouseup = null;
         };
