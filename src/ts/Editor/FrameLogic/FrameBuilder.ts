@@ -10,8 +10,8 @@ export class FrameBuilder{
 
     public static frameNumber = 1;
 
-    public width = 0.20;
-    public height = 0.20;
+    public width = 0.10;
+    public height = 0.10;
     public x = 0.250;
     public y = 0.250;
     public z = 1;
