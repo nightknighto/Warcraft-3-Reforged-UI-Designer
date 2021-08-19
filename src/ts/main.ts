@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, ipcRenderer } from "electron";
+import { app, BrowserWindow, ipcMain, ipcRenderer, shell } from "electron";
 import * as path from "path";
 
 import { ContextMenu } from './Editor/Menus/contextMenu';
@@ -58,6 +58,12 @@ function setupEvents(mainWindow: BrowserWindow) {
   ipcMain.on('CircularArraySubmit', (event, args) => {
     mainWindow.webContents.send('CircularArraySubmit', args)
   })
+  
+  //following code makes links open in external browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    shell.openExternal(url);
+  });
 
 }
 
