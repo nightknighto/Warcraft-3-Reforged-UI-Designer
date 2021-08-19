@@ -55,6 +55,12 @@ export default class ChangeFrameParent extends SimpleCommand{
         command.pureAction();
 
         super.undo();
+        debugText("Undid frame change parent.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame change height.");
     }
 
 }

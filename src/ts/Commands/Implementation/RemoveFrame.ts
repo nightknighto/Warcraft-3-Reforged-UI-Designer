@@ -37,7 +37,7 @@ export default class RemoveFrame extends SimpleCommand{
 
     }
 
-    undo(): void {
+    public undo(): void {
 
         if (this.undoCommand == undefined) {
             debugText("Could not undo, missing builder.");
@@ -46,6 +46,12 @@ export default class RemoveFrame extends SimpleCommand{
 
         this.undoCommand.pureAction();
         super.undo();
+        debugText("Undid frame remove.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame remove.");
     }
 
 }

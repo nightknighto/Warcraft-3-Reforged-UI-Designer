@@ -41,6 +41,12 @@ export default class MoveFrame extends SimpleCommand {
         command.pureAction();
 
         super.undo();
+        debugText("Undid frame mouse manipulation.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame mouse manipulation.");
     }
     
     public pureAction(): void {

@@ -29,6 +29,12 @@ export default class ChangeFrameWidth extends SimpleCommand{
         command.pureAction();
 
         super.undo();
+        debugText("Undid frame change width.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame change width.");
     }
 
     public pureAction(): void {

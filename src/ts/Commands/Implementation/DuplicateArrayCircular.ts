@@ -67,7 +67,7 @@ export default class DuplicateArrayCircular extends SimpleCommand{
 
     }
 
-    undo(): void {
+    public undo(): void {
 
         if (this.undoCommands.length == 0) {
             debugText("No applicable undo actions.");
@@ -80,6 +80,12 @@ export default class DuplicateArrayCircular extends SimpleCommand{
         this.undoCommands = [];
 
         super.undo();
+        debugText("Undid duplicate array (circular).");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid duplicate array (circular).");
     }
 
 }

@@ -42,7 +42,7 @@ export default class CreateFrame extends SimpleCommand{
 
     }
 
-    undo(): void {
+    public undo(): void {
 
         if (this.resultingFrame == undefined) {
             debugText("Could not undo, missing object.");
@@ -53,6 +53,12 @@ export default class CreateFrame extends SimpleCommand{
 
         const undoCommand = new RemoveFrame(this.resultingFrame);
         undoCommand.pureAction();
+        debugText("Undid create frame.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid create frame.");
     }
 
 }
