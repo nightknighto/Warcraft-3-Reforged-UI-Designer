@@ -141,4 +141,6 @@ editor.panelButton.onclick                 = GUIEvents.PanelOpenClose;
 editor.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 }catch(e){alert("renderer"+e)}
+
+
 //# sourceMappingURL=renderer.js.map
