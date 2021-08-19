@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Export } from "../Classes & Functions/Export";
 import { FrameBuilder } from "./FrameLogic/FrameBuilder";
 import { FrameType } from "./FrameLogic/FrameType";
 import { RibbonMenu } from "./Menus/RibbonMenu";
@@ -15,6 +14,7 @@ import ChangeStack from "./ChangeStack";
 import Undo from "../Commands/Undo";
 import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
+import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 
 export class Editor {
 
@@ -61,7 +61,13 @@ export class Editor {
         fileMenu.addRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
         fileMenu.addRibbonOption(new RibbonOption('Open', new Load()));
         fileMenu.addRibbonOption(new RibbonOption('Save', new Save()));
-        fileMenu.addRibbonOption(new RibbonOption('Export', new Export()));
+
+        const expRib = new RibbonOption('Export', null)
+        fileMenu.addRibbonOption(expRib);
+        expRib.addMenuOption('JASS', new ExportJass)
+        expRib.addMenuOption('LUA', new ExportLua)
+        expRib.addMenuOption('TYPESCRIPT', new ExportTS)
+
 
         editMenu.addRibbonOption(new RibbonOption('Undo', new Undo()));
         editMenu.addRibbonOption(new RibbonOption('Redo', new Redo()));

@@ -10,7 +10,8 @@ import { CustomImage } from '../Editor/FrameLogic/CustomImage';
 import { CustomText } from '../Editor/FrameLogic/CustomText';
 
 /**0 for globals, 1 the body */
-export class Export implements ICallableDivInstance {
+
+export class ExportJass implements ICallableDivInstance { 
 
     public SaveJASS(filepath: string): void {
         try {
@@ -38,6 +39,35 @@ export class Export implements ICallableDivInstance {
         } catch (e) { alert("SaveJASS: " + e) }
     }
 
+    public run(): void {
+
+        ProjectTree.saveGeneralOptions();
+
+        const saveParams = remote.dialog.showSaveDialog({
+            filters: [
+                { name: 'JASS file', extensions: ['j'] },
+            ], properties: ['createDirectory']
+        });
+
+        saveParams.then((saveData: SaveDialogReturnValue) => {
+
+            const filepathsections = saveData.filePath.split('.');
+            const fileExtension = filepathsections[filepathsections.length - 1];
+
+            if (saveData.canceled) return;
+
+            switch (fileExtension) {
+                case 'j': this.SaveJASS(saveData.filePath); break;
+                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+            }
+
+        });
+
+    }
+
+}
+export class ExportLua implements ICallableDivInstance { 
+
     public SaveLUA(filepath: string): void {
 
         writeFile(filepath, LUA.globals, () => {
@@ -61,6 +91,35 @@ export class Export implements ICallableDivInstance {
         })
 
     }
+
+    public run(): void {
+
+        ProjectTree.saveGeneralOptions();
+
+        const saveParams = remote.dialog.showSaveDialog({
+            filters: [
+                { name: 'LUA file', extensions: ['lua'] },
+            ], properties: ['createDirectory']
+        });
+
+        saveParams.then((saveData: SaveDialogReturnValue) => {
+
+            const filepathsections = saveData.filePath.split('.');
+            const fileExtension = filepathsections[filepathsections.length - 1];
+
+            if (saveData.canceled) return;
+
+            switch (fileExtension) {
+                case 'lua': this.SaveLUA(saveData.filePath); break;
+                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+            }
+
+        });
+
+    }
+
+}
+export class ExportTS implements ICallableDivInstance { 
 
     public SaveTypescript(filepath: string): void {
 
@@ -90,8 +149,6 @@ export class Export implements ICallableDivInstance {
 
         const saveParams = remote.dialog.showSaveDialog({
             filters: [
-                { name: 'JASS file', extensions: ['j'] },
-                { name: 'LUA file', extensions: ['lua'] },
                 { name: 'Typescript file', extensions: ['ts'] }
             ], properties: ['createDirectory']
         });
@@ -104,8 +161,6 @@ export class Export implements ICallableDivInstance {
             if (saveData.canceled) return;
 
             switch (fileExtension) {
-                case 'j': this.SaveJASS(saveData.filePath); break;
-                case 'lua': this.SaveLUA(saveData.filePath); break;
                 case 'ts': this.SaveTypescript(saveData.filePath); break;
                 default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
             }
@@ -113,6 +168,7 @@ export class Export implements ICallableDivInstance {
         });
 
     }
+
 }
 
 /** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
@@ -152,7 +208,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         } else {
                             if(temp == JASS) {
                                 if(el.tooltip) {text = JASS.declaresArrayWiTooltip}
-                                else {text = JASS.declaresArray};
+                                else {text = JASS.declaresArray}
                             } else {
                                 text = temp.declaresArray
                             }
@@ -171,7 +227,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     } else {
                         if(temp == JASS) {
                             if(el.tooltip) {text = JASS.declaresWiTooltip}
-                            else {text = JASS.declares};
+                            else {text = JASS.declares}
                         } else {
                             text = temp.declares
                         }

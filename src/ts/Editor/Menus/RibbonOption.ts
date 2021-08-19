@@ -50,6 +50,16 @@ export class RibbonOption {
                 break;
             }
 
+            case "Export": {
+                // div.innerText = this.name+" "
+                // div.setAttribute('class', 'ribbonOption btn btn-danger dropdown-toggle insert pt-2');
+                callBtn = this.dropdownMenu(div, this.name, false)
+                // callBtn.style.marginLeft = "1"
+                // callBtn.style.minWidth = "100px"
+                // div.style.width = "7%"
+                break;
+            }
+
             default: {
                 div.innerText = this.name
                 div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
