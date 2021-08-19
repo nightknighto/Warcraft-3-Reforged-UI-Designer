@@ -215,11 +215,16 @@ export function TextFunctions(div: CustomText) : void{
 
         window.onmouseup = function () {
 
-            const command = new MoveFrame(frame, div.getLeftX(), div.getBotY(), div.getWidth(), div.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
-            command.action();
-
             window.onmousemove = null;
             window.onmouseup = null;
+
+            if(startingX == div.getLeftX() && startingY == div.getBotY() && startingHeight == div.getHeight() && startingWidth == div.getWidth()){
+                return;
+                //Aka nothing has happened, user just did a selection, not undoing that shit, bye bye.
+            }
+
+            const command = new MoveFrame(frame, div.getLeftX(), div.getBotY(), div.getWidth(), div.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
+            command.action();
         };
 
 

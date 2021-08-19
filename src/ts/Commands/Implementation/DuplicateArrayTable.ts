@@ -42,7 +42,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
         return this;
     }
 
-    undo(): void {
+    public undo(): void {
         if (this.undoCommands.length == 0) {
             debugText("No applicable undo actions.");
             return;
@@ -54,9 +54,15 @@ export default class DuplicateArrayTable extends SimpleCommand {
         this.undoCommands = [];
 
         super.undo();
+        debugText("Undid frame duplication (table).");
     }
 
-    pureAction(): void {
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame duplication (table).");
+    }
+
+    public pureAction(): void {
 
         const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target);
 

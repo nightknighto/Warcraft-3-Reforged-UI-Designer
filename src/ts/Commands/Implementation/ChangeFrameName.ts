@@ -21,14 +21,20 @@ export default class ChangeFrameName extends SimpleCommand{
 
     }
 
-    undo(): void {
+    public undo(): void {
         super.undo();
 
         const undoCommand = new ChangeFrameName(this.newName, this.oldName);
         undoCommand.pureAction();
+        debugText("Undid frame change name.");
     }
 
-    pureAction(): void {
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame change name.");
+    }
+
+    public pureAction(): void {
         
         const frame = Editor.GetDocumentEditor().projectTree.findByName(this.oldName);
 

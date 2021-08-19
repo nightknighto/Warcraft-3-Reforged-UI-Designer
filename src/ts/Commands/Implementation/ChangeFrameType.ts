@@ -44,6 +44,12 @@ export default class ChangeFrameType extends SimpleCommand{
         command.pureAction();
 
         super.undo();
+        debugText("Undid frame change type.");
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame change type.");
     }
 
 }

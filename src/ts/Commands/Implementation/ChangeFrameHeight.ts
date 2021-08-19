@@ -30,7 +30,13 @@ export default class ChangeFrameHeight extends SimpleCommand{
         command.pureAction();
 
         super.undo();
+        debugText("Undid frame change height.");
 
+    }
+
+    public redo(): void{
+        super.redo();
+        debugText("Redid frame change height.");
     }
 
     public pureAction(): void {
