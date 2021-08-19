@@ -214,12 +214,16 @@ export function ImageFunctions(img: CustomImage): void {
 
 
         window.onmouseup = function () {
+            window.onmousemove = null;
+            window.onmouseup = null;
+
+            if(startingX == img.getLeftX() && startingY == img.getBotY() && startingHeight == img.getHeight() && startingWidth == img.getWidth()){
+                return;
+                //Aka nothing has happened, user just did a selection, not undoing that shit, bye bye.
+            }
 
             const command = new MoveFrame(frame, img.getLeftX(), img.getBotY(), img.getWidth(), img.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
             command.action();
-
-            window.onmousemove = null;
-            window.onmouseup = null;
         };
 
 
