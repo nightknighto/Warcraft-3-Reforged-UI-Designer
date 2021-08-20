@@ -11,6 +11,7 @@ import Actionable from '../Commands/Actionable';
 import ChangeFrameHeight from '../Commands/Implementation/ChangeFrameHeight';
 import ChangeFrameType from '../Commands/Implementation/ChangeFrameType';
 import ChangeFrameParent from '../Commands/Implementation/ChangeFrameParent';
+import ChangeFrameTooltip from '../Commands/Implementation/ChangeFrameTooltip';
 
 export class ParameterEditor {
 
@@ -339,10 +340,10 @@ export class ParameterEditor {
     static ChangeTooltip(ev: Event): void {
         const val = (ev.target as HTMLInputElement).checked;
         const selectedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
-        selectedFrame.tooltip = val
+        
+        const command = new ChangeFrameTooltip(selectedFrame, val);
+        command.action();
 
-        for(const el of selectedFrame.getChildren()) el.tooltip = false;
-    
         if(val) debugText("Is now a Tooltip")
         else debugText("No longer a Tooltip")
     }
