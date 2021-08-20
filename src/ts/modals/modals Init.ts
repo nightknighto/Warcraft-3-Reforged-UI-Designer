@@ -55,6 +55,20 @@ export class Modals {
                                     </div>
                                 </div>
                                 <div class="col-12 mt-3">
+                                    <div class="card bg-warning text-black">
+                                        <div class="card-header">
+                                            <h2 class="card-title">Support Us <span class="fa fa-heart text-danger"></span></h2>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>The development of this application consumes a great deal of our energy and time. If you like it, please consider supporting us!</p>
+                                            <a class="btn btn-primary" target="_blank" href="https://www.patreon.com/WC3UIDesigner">Patreon</a>
+                                            <p class="mt-2">You also support us by sharing this application with others
+                                                and by giving us credits in your project!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-3">
                                     <div class="card bg-secondary">
                                         <div class="card-header">
                                             <h2 class="card-title">Overview</h2>
@@ -74,20 +88,6 @@ export class Modals {
                                         </div>
                                         <div class="card-footer text-white-50">
                                             <p>This is a Web-UI application. It was designed using Electron and coded with HTML/CSS/Typescript. Some elements of the interface were made using Bootstrap. The application's icon was made by <strong>Wselfwulf</strong>.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <div class="card bg-warning text-black">
-                                        <div class="card-header">
-                                            <h2 class="card-title">Support Us <span class="fa fa-heart text-danger"></span></h2>
-                                        </div>
-                                        <div class="card-body">
-                                            <p>The development of this application consumes a great deal of our energy and time. If you like it, please consider supporting us!</p>
-                                            <a class="btn btn-primary" target="_blank" href="https://www.patreon.com/WC3UIDesigner">Patreon</a>
-                                            <p class="mt-2">You also support us by sharing this application with others
-                                                and by giving us credits in your project!
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
