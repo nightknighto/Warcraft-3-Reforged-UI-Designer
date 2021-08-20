@@ -1,10 +1,11 @@
 import { OpenDialogReturnValue, remote } from "electron";
 import { readFile } from "original-fs";
 import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
+import Load from "../Commands/Implementation/Load";
 import { Editor } from "../Editor/Editor";
 import SaveContainer from "./SaveContainer";
 
-export default class Load implements ICallableDivInstance {
+export default class LoadDocument implements ICallableDivInstance {
 
     public load(filepath: string): void {
 
@@ -15,7 +16,8 @@ export default class Load implements ICallableDivInstance {
                 } else if (data != null) {
 
                     const loadData = new SaveContainer(data.toString());
-                    Editor.GetDocumentEditor().projectTree.load(loadData);
+                    const command = new Load(loadData);
+                    command.action();
 
                 }
             } catch (e) { alert('Load: ' + e) }

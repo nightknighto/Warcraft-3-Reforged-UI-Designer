@@ -5,7 +5,7 @@ import { Editor } from "../Editor/Editor";
 import SaveContainer from "./SaveContainer";
 import { ProjectTree } from "../Editor/ProjectTree";
 
-export default class Save implements ICallableDivInstance {
+export default class SaveDocument implements ICallableDivInstance {
 
     public save(filepath: string): void {
         try {

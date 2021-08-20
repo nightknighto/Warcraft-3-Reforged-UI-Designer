@@ -6,15 +6,14 @@ import { RibbonOption } from "./Menus/RibbonOption";
 import { TabsMenu } from "./Menus/TabsMenu";
 import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
-import { ICallableDivInstance } from "../Classes & Functions/ICallableDivInstance";
-import { debugText } from '../Classes & Functions/Mini-Functions'
-import Save from "../Persistence/Save";
-import Load from "../Persistence/Load";
+import SaveDocument from "../Persistence/SaveDocument";
+import LoadDocument from "../Persistence/LoadDocument";
 import ChangeStack from "./ChangeStack";
 import Undo from "../Commands/Undo";
 import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
+import NewDocument from "../Persistence/NewDocument";
 
 export class Editor {
 
@@ -58,9 +57,9 @@ export class Editor {
         tabsMenu.addTab(insertMenu);
         tabsMenu.addTab(infoMenu);
 
-        fileMenu.addRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
-        fileMenu.addRibbonOption(new RibbonOption('Open', new Load()));
-        fileMenu.addRibbonOption(new RibbonOption('Save', new Save()));
+        fileMenu.addRibbonOption(new RibbonOption('New', new NewDocument()));
+        fileMenu.addRibbonOption(new RibbonOption('Open', new LoadDocument()));
+        fileMenu.addRibbonOption(new RibbonOption('Save', new SaveDocument()));
 
         const expRib = new RibbonOption('Export', null)
         fileMenu.addRibbonOption(expRib);
@@ -189,19 +188,5 @@ export class Editor {
 
     public static GetDocumentEditor(): Editor {
         return (document as any).editor;
-    }
-}
-
-class RibbonOptionsNew implements ICallableDivInstance {
-    public run() {
-        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-            if (el.type == FrameType.ORIGIN) {
-                continue;
-            }
-            el.destroy()
-            debugText('New page.')
-        }
-
-        Editor.GetDocumentEditor().changeStack.clear();
     }
 }
