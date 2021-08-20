@@ -3,7 +3,7 @@ const modal_container = document.getElementById('modal-container')
 export class Modals {
 
     constructor() {
-        // this.AboutUs();
+        this.AboutUs();
         // this.Hall_of_Fame();
         this.Hall_of_Fame2();
         this.Changelog();
