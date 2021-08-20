@@ -38,3 +38,7 @@
     color: rgb(248,224,197);
     font-weight: 600;
 }
+
+.card-text {
+    font-weight: 400;
+}

@@ -50,13 +50,13 @@ export class Editor {
         const editMenu = new RibbonMenu('Edit');
         const viewMenu = new RibbonMenu('View');
         const insertMenu = new RibbonMenu('Insert')
-        const windowMenu = new RibbonMenu('Window');
+        const infoMenu = new RibbonMenu('Info');
 
         tabsMenu.addTab(fileMenu);
         tabsMenu.addTab(editMenu);
         tabsMenu.addTab(viewMenu);
         tabsMenu.addTab(insertMenu);
-        tabsMenu.addTab(windowMenu);
+        tabsMenu.addTab(infoMenu);
 
         fileMenu.addRibbonOption(new RibbonOption('New', new RibbonOptionsNew()));
         fileMenu.addRibbonOption(new RibbonOption('Open', new Load()));
@@ -74,7 +74,8 @@ export class Editor {
 
         viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
 
-        windowMenu.addRibbonOption(new RibbonOption('About(Not made)', null));
+        infoMenu.addRibbonOption(new RibbonOption('About Us', null));
+        infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null));
 
         // insertMenu.addRibbonOption(new RibbonOption('Buttons', null))
         // insertMenu.addRibbonOption(new RibbonOption('Backdrops', null))
