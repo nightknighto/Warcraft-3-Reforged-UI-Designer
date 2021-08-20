@@ -11,6 +11,9 @@ import Actionable from '../Commands/Actionable';
 import ChangeFrameHeight from '../Commands/Implementation/ChangeFrameHeight';
 import ChangeFrameType from '../Commands/Implementation/ChangeFrameType';
 import ChangeFrameParent from '../Commands/Implementation/ChangeFrameParent';
+import ChangeFrameTooltip from '../Commands/Implementation/ChangeFrameTooltip';
+import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
+import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
 
 export class ParameterEditor {
 
@@ -339,10 +342,10 @@ export class ParameterEditor {
     static ChangeTooltip(ev: Event): void {
         const val = (ev.target as HTMLInputElement).checked;
         const selectedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
-        selectedFrame.tooltip = val
 
-        for(const el of selectedFrame.getChildren()) el.tooltip = false;
-    
+        const command = new ChangeFrameTooltip(selectedFrame, val);
+        command.action();
+
         if(val) debugText("Is now a Tooltip")
         else debugText("No longer a Tooltip")
     }
@@ -363,7 +366,8 @@ export class ParameterEditor {
             return
         }
 
-        Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setLeftX(+loc)
+        const command = new ChangeFrameX(Editor.GetDocumentEditor().projectTree.getSelectedFrame(), +loc);
+        command.action();
 
     }
 
@@ -384,7 +388,8 @@ export class ParameterEditor {
                 return
             }
 
-            Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setBotY(+loc)
+            const command = new ChangeFrameY(Editor.GetDocumentEditor().projectTree.getSelectedFrame(), +loc);
+        command.action();
 
         } catch (e) { alert(e) }
     }

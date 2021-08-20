@@ -8,6 +8,7 @@ export default class ChangeFrameParent extends SimpleCommand{
     private frame: string;
     private newParent: string;
     private oldParent: string;
+    private frameChildren: string[];
 
     public constructor(frame : FrameComponent|string, newParent: FrameComponent|string){
         super();
@@ -45,6 +46,7 @@ export default class ChangeFrameParent extends SimpleCommand{
         }
 
         this.oldParent = frame.getParent().getName();
+        this.frameChildren = frame.getChildren().map((it : FrameComponent) => it.getName());
         parent.makeParentTo(frame);
 
     }
@@ -53,6 +55,21 @@ export default class ChangeFrameParent extends SimpleCommand{
 
         const command = new ChangeFrameParent(this.frame, this.oldParent);
         command.pureAction();
+
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const parent = projectTree.findByName(this.frame);
+        if(typeof(parent) === "undefined"){
+            debugText("Could not find newly regenerated frame.");
+            return;
+        }
+
+        for(const frameName of this.frameChildren){
+
+            const frame = projectTree.findByName(frameName);
+            if(typeof(frame) === "undefined") continue;
+            parent.makeParentTo(frame);
+
+        }
 
         super.undo();
         debugText("Undid frame change parent.");

@@ -9,6 +9,7 @@ export default class RemoveFrame extends SimpleCommand{
 
     private frame: string;
     private undoCommand: CreateFrame;
+    private frameChildren: string[];
 
     public constructor(frame: FrameComponent | string){
 
@@ -33,6 +34,7 @@ export default class RemoveFrame extends SimpleCommand{
         }
 
         this.undoCommand = new CreateFrame(frame.getParent(), FrameBuilder.copy(frame));
+        this.frameChildren = frame.getChildren().map((it : FrameComponent) => it.getName());
         frame.destroy();
 
     }
@@ -45,6 +47,22 @@ export default class RemoveFrame extends SimpleCommand{
         }
 
         this.undoCommand.pureAction();
+
+        const projectTree = Editor.GetDocumentEditor().projectTree;
+        const parent = projectTree.findByName(this.frame);
+        if(typeof(parent) === "undefined"){
+            debugText("Could not find newly regenerated frame.");
+            return;
+        }
+
+        for(const frameName of this.frameChildren){
+
+            const frame = projectTree.findByName(frameName);
+            if(typeof(frame) === "undefined") continue;
+            parent.makeParentTo(frame);
+
+        }
+
         super.undo();
         debugText("Undid frame remove.");
     }
