@@ -37,13 +37,14 @@ function createWindow(windowWidth: number, windowHeight: number): BrowserWindow 
       nodeIntegration: true,
       nodeIntegrationInSubFrames: true,
       webviewTag: true,
-      
+      webSecurity: false,
+      allowRunningInsecureContent: true,
     },
     resizable: true,
     movable: true,
     titleBarStyle: "hidden",
     frame: false,
-
+    
   });
 
   return browserWindow;
