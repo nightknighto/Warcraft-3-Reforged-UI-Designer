@@ -35,11 +35,15 @@ function createWindow(windowWidth: number, windowHeight: number): BrowserWindow 
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
+      nodeIntegrationInSubFrames: true,
+      webviewTag: true,
+      
     },
     resizable: true,
     movable: true,
     titleBarStyle: "hidden",
     frame: false,
+
   });
 
   return browserWindow;
@@ -64,6 +68,20 @@ function setupEvents(mainWindow: BrowserWindow) {
     e.preventDefault();
     shell.openExternal(url);
   });
+
+  //following code allows external URLs to be played in iframes
+  mainWindow.webContents.session.webRequest.onHeadersReceived(
+    {urls: ['*://*/*']},
+    (details, callback) => {
+      Object.keys(details.responseHeaders).filter(x => x.toLowerCase() === 'x-frame-options')
+            .map(x => delete details.responseHeaders[x])
+  
+      callback({
+        cancel: false,
+        responseHeaders: details.responseHeaders,
+      })
+    },
+  )
 
 }
 

@@ -15,6 +15,7 @@ import { Editor } from "./Editor/Editor";
 import * as path from "path";
 import { CustomText } from "./Editor/FrameLogic/CustomText";
 import { ProjectTree } from "./Editor/ProjectTree";
+import { Modals } from "./modals/modals Init";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -142,5 +143,5 @@ editor.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 
 }catch(e){alert("renderer"+e)}
 
-
+new Modals();
 //# sourceMappingURL=renderer.js.map
