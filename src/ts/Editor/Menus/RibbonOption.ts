@@ -1,3 +1,4 @@
+import { node } from "webpack";
 import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance";
 
 export class RibbonOption {
@@ -58,9 +59,18 @@ export class RibbonOption {
                 break;
             }
 
-            case "Hall of Fame": {
+            case "Hall of Fame": {try{
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#HallOfFame')
+                div.innerText = this.name
+                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+            }catch(e){alert("error: "+e)}
+                break;
+            }
+
+            case "Change Log": {
+                div.setAttribute('data-bs-toggle','modal')
+                div.setAttribute('data-bs-target','#ChangeLog')
                 div.innerText = this.name
                 div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
                 break;

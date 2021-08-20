@@ -76,6 +76,7 @@ export class Editor {
 
         infoMenu.addRibbonOption(new RibbonOption('About Us', null));
         infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null));
+        infoMenu.addRibbonOption(new RibbonOption('Change Log', null));
 
         // insertMenu.addRibbonOption(new RibbonOption('Buttons', null))
         // insertMenu.addRibbonOption(new RibbonOption('Backdrops', null))
