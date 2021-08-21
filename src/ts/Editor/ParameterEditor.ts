@@ -572,6 +572,7 @@ export class ParameterEditor {
 
                 if(frame.getParent() == Editor.GetDocumentEditor().projectTree.rootFrame) {
                     this.fieldTooltip.style.display = "none";
+                    frame.tooltip = false;
                 }
                 
                 let parentHasTooltip = false;
@@ -583,6 +584,7 @@ export class ParameterEditor {
                 }
                 if(frame.getParent().tooltip || parentHasTooltip) {
                     this.checkboxElementTooltip.disabled = true
+                    frame.tooltip = false;
                 }
 
                 const n = frame.type;
