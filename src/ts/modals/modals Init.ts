@@ -32,7 +32,7 @@ export class Modals {
                                                 <div class="flex-grow-1 ms-3">
                                                     <h3 class="card-title">NightKnight</h3>
                                                     <h4 class="card-subtitle text-white-50">Founder of the WC3 UI Designers Inc. & CEO of the Knights League</h4>
-                                                    <p class="card-text mt-2">A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.</p>
+                                                    <p class="card-text mt-2">I guess I technically am a Web Developer now. Not as boring as I always imagined I guess. (Atwa)</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@ export class Modals {
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-grow-1 ms-3">
                                                     <h3 class="card-title">Insanity_AI</h3>
-                                                    <h4 class="card-subtitle text-white-50">No Idea whoever this dude is</h4>
+                                                    <h4 class="card-subtitle text-white-50">Some dude who happens to be a Co-developer</h4>
                                                     <p class="card-text mt-2">Doesn't like when people don't use object oriented design patterns when writing editors.</p>
                                                 </div>
                                                 <div class="flex-shrink-0">
