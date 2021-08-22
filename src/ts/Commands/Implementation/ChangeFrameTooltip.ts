@@ -37,7 +37,7 @@ export default class ChangeFrameTooltip extends SimpleCommand{
         this.childrenTooltipPair = [];
         frame.getChildren().forEach((child: FrameComponent) => {
             this.childrenTooltipPair.push([child.getName(), child.tooltip]);
-            child.tooltip = this.tooltip;
+            child.tooltip = false;
         });
 
         frame.tooltip = this.tooltip;
