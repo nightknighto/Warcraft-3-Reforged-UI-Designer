@@ -44,7 +44,7 @@ export class GUIEvents {
 
         builder.x = builder.x + 0.03;
         builder.y = builder.y - 0.03;
-        builder.name += " Copy";
+        builder.name += "Copy";
         
         const command = new CreateFrame(selected.getParent(), builder);
         command.action();
