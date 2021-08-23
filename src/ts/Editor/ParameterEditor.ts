@@ -256,17 +256,31 @@ export class ParameterEditor {
 
             const endingIndex = text.search(/\[/);
 
+            let isThis0Index = false
             for (const frame of projectTree.getIterator()) {
 
                 if (frame == projectTree.getSelectedFrame()) {
+                    const endingIndex2 = frame.getName().search(/\[/)
+
+                    if (text.slice(0, endingIndex - 1).localeCompare(frame.getName().slice(0, endingIndex2 - 1)) == 0) {
+
+                        const index = frame.getName().search(/\d+/)
+                        const index2 = frame.getName().search("]");
+
+                        if (index >= 0) {
+
+                            if (Number.parseInt(frame.getName().slice(index, index2)) == 0)
+                                isThis0Index = true;
+                        }
+                    }
                     continue;
                 }
+
 
                 if (frame.getName().localeCompare(text) == 0) {
                     debugText("Name already taken.")
                     return;
                 }
-
 
                 if (isArray && !nulIndexFound) {
                     const endingIndex2 = frame.getName().search(/\[/)
@@ -286,7 +300,7 @@ export class ParameterEditor {
                 }
             }
 
-            if (isArray && !nulIndexFound) {
+            if (isArray && !isThis0Index && !nulIndexFound) {
                 debugText("Cannot have a frame array without a 0 indexed frame");
                 return;
             }
