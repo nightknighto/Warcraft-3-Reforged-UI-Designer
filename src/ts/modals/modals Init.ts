@@ -404,6 +404,19 @@ export class Modals {
                                                                 <li><strong>Texture Path WE (the second field):</strong> This is responsible for the appearance of the element INGAME. You put the path of the texture you want in this field. You get the path from the Import Editor just like how you choose path for icons and stuff. Note: If the path contains single slashes "/" it will not work. You need to replace it with double slashes "//". Example: If the path is "images/icon.blp" then in the field it should be put as "images//icon.blp"</li>
                                                                 </ol>
                                                             </li>
+
+                                                            <li><h5>Context Menu (Right-Click Menu):</h5>
+                                                                <ol>
+                                                                <li><strong>Delete:</strong> Deletes the selected element.</li>
+                                                                <li><strong>Duplicate:</strong> Makes a copy of the selected element with the same data and properties.</li>
+                                                                <li><strong>CircularArray:</strong> Makes multiple copies of the selected element in a circular path around the selected element. It can also create elements in the same position by having Radius equal to zero. Helpful for making inventory tooltips.</li>
+                                                                <li><strong>TableArray:</strong> Makes multiple copies of the selected element in a table shape. X-Gap and Y-Gap are the lengths of the distances between the elements.
+                                                                    <ul><li>For both Array options, the elements are created as an array (notice their names). If the selected element to be Array-Duplicated has an array Parent, the option Array Parent will be unlocked. This option automatically assigns each element of the created array to the element of the parent array with the same index.</li></ul>
+                                                                </li>
+                                                                    
+                                                                </ol>
+                                                            </li>
+
                                                         </ul>
 
                                                         <p class="fw-bold">Note: Sometimes fields may not be automatically refreshed when doing certain actions. Clicking on the frame will refresh it and it's fields.</p>
