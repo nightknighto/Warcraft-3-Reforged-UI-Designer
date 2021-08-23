@@ -62,6 +62,7 @@ const CircParent = document.getElementById('CircCheckParent') as HTMLInputElemen
 ipcRenderer.on('CircularArray', () => {
   if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
       CircParent.disabled = false
+      CircParent.checked = false
   } else {
     CircParent.disabled = true
   }

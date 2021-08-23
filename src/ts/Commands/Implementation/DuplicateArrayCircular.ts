@@ -62,19 +62,22 @@ export default class DuplicateArrayCircular extends SimpleCommand{
             builder.y = this.centerY + this.radius * Math.sin(this.initialAngle + angDisp * i);
             const newFrame = parent.createAsChild(builder)
 
-            if(this.ownerArray) { //find if parent array has the same index. If yes, change parent
+            if(this.ownerArray) {try{ //find if parent array has the same index. If yes, change parent
                 for(const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
                     const checkingName = parent.getName().slice(0,parent.getName().length-4)
                     // alert('checkingName: '+checkingName)
                     // alert('prod: '+checkingName+"["+ind+"]")
                     if(el.getName() == checkingName+"["+i+"]" || el.getName() == checkingName+"["+"0"+i+"]") {
                         el.makeParentTo(newFrame)
-                        if(frame.getTooltip()) newFrame.setTooltip(true);
+                        if(frame.getTooltip()) {
+                            newFrame.setTooltip(true);
+                            console.log(newFrame.getTooltip())
+                        }
                         
                         break;
                     }
                 } 
-            }
+            }catch(e){console.log('CIRC_ARRAY: '+e)}}
 
             this.undoCommands.push(new RemoveFrame(newFrame));
         }
