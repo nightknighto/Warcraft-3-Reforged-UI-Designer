@@ -53,11 +53,11 @@ export class GUIEvents {
 
     }catch(e){alert(e)}}
     
-    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number) : void{try{
+    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number, ownerArray: boolean) : void{try{
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const selected = projectTree.getSelectedFrame();
         
-        const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng);
+        const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng, ownerArray);
         command.action();
         
         debugText('Duplicated Circular.')

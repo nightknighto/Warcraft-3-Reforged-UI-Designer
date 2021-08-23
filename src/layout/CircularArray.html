@@ -1,6 +1,6 @@
 <script>var exports = {};</script>
 <style>
-body {
+.CircArrayBody {
     padding: 10px;
     font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
     color: #fff;
@@ -25,7 +25,7 @@ body {
     <title>Circular Array</title>
     <link rel="stylesheet" href="bootstrap.min.css">
   </head>
-
+  <div id="CircArrayBody">
     <div class="form-floating mb-3">
         <input type="number" min="0" max="0.4" step="0.01" name="radius" id="radius" class="form-control" placeholder="name">
         <label for="radius">Radius: </label>
@@ -47,6 +47,7 @@ body {
       <div class='row justify-content-center'>
         <button class='col-3 btn btn-danger' onclick="window.close()">Close</button>
       </div>
+    </div>
 
       <script src="bootstrap.bundle.js"></script>
       <script type="module" src="CircularArray.js"></script>

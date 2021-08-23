@@ -16,6 +16,8 @@ import * as path from "path";
 import { CustomText } from "./Editor/FrameLogic/CustomText";
 import { ProjectTree } from "./Editor/ProjectTree";
 import { Modals } from "./modals/modals Init";
+import bootstrap = require("bootstrap");
+import { electron } from "webpack";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -46,34 +48,49 @@ ipcRenderer.on('TableArray', () => {try{
 
 }catch(e){alert(e)}});
 
-ipcRenderer.on('CircularArray', () => {
-  const win = new remote.BrowserWindow( {
-    height: 400,
-    width: 300,
-    resizable: false,
-    movable: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-    },
-  
-  })
-  win.show()
-  win.focus()
-  win.loadFile(path.join(__dirname, "./CircularArray.html"));
-});
-
 ipcRenderer.on('TableArraySubmit', (event, args) => {try{
   const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
   GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), args[0], args[1], args[2], args[3], args[4])
 }catch(e){alert(e)}})
 
-ipcRenderer.on('CircularArraySubmit', (event, args) => {
-  const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
-  GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), args[0], args[1], args[2])
-})
+// ipcRenderer.on('CircularArraySubmit', (event, args) => {
+//   const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+//   GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), args[0], args[1], args[2])
+// })
+const mod = new bootstrap.Modal(document.getElementById('CircArray'))
+const CircParent = document.getElementById('CircCheckParent') as HTMLInputElement 
+ipcRenderer.on('CircularArray', () => {
+  if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
+      CircParent.disabled = false
+  } else {
+    CircParent.disabled = true
+  }
+  mod.show();
+});
+
+const CircArraySubmit = document.getElementById('CircArraySubmit')
+const radius = document.getElementById('radius') as HTMLInputElement
+const count = document.getElementById('count') as HTMLInputElement
+const initAng = document.getElementById('initAng') as HTMLInputElement
+
+CircArraySubmit.onclick = (e) => {
+  try {
+      //conditions plz
+      e.preventDefault();
+      if (+radius.value < 0 || +radius.value > .4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
+
+          if (+radius.value < 0 || +radius.value > .4) { radius.value = "" }
+          if (+count.value <= 0) { count.value = '' }
+          if (+initAng.value < 0 || +initAng.value > 360) { initAng.value = '' }
+          return;
+      }
+
+      const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+      GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), radius.valueAsNumber, count.valueAsNumber, initAng.valueAsNumber, CircParent.checked)
+      mod.hide();
+      
+  } catch (e) { alert(e) }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 /*const input = document.getElementById('imgFile') as HTMLInputElement

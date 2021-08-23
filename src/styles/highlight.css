@@ -50,3 +50,11 @@
 .accordion-body strong {
     color: chartreuse;
 }
+
+.CircArrayBody {
+    padding: 10px;
+    font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+    color: #fff;
+    background-color: #8aba87 !important;
+    text-align: center;
+  }

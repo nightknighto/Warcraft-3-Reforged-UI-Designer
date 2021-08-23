@@ -6,6 +6,7 @@ import Actionable from "../Actionable";
 import SimpleCommand from "../SimpleCommand";
 import ChangeFrameName from "./ChangeFrameName";
 import RemoveFrame from "./RemoveFrame";
+import CreateFrame from "./CreateFrame";
 
 export default class DuplicateArrayCircular extends SimpleCommand{
 
@@ -15,10 +16,11 @@ export default class DuplicateArrayCircular extends SimpleCommand{
     private count: number;
     private initialAngle: number;
     private target: string;
+    private ownerArray: boolean;
 
     private undoCommands: Actionable[] = [];
 
-    public constructor(target: FrameComponent | string, centerX: number, centerY: number, radius: number, count: number, initialAngle: number) {
+    public constructor(target: FrameComponent | string, centerX: number, centerY: number, radius: number, count: number, initialAngle: number, ownerArray: boolean) {
 
         super();
 
@@ -34,6 +36,7 @@ export default class DuplicateArrayCircular extends SimpleCommand{
         this.radius = radius;
         this.count = count;
         this.initialAngle = initialAngle;
+        this.ownerArray = ownerArray;
 
         return this;
 
@@ -41,29 +44,43 @@ export default class DuplicateArrayCircular extends SimpleCommand{
 
     public pureAction(): void {
 
-        const target = Editor.GetDocumentEditor().projectTree.findByName(this.target);
+        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target);
 
-        if (typeof (target) === "undefined") {
+        if (typeof (frame) === "undefined") {
             debugText("Could not find frame.");
             return;
         }
 
         const angDisp = Math.PI * 2 / this.count;
-        const parent = target.getParent();
+        const parent = frame.getParent();
 
-        for (let i = 1; i <= this.count; i++) {
+        for (let i = 0; i < this.count; i++) {
 
-            const builder = FrameBuilder.copy(target);
-            builder.name = target.getName() + 'C[' + i + ']';
+            const builder = FrameBuilder.copy(frame);
+            builder.name = frame.getName() + 'C[' + i + ']';
             builder.x = this.centerX + this.radius * Math.cos(this.initialAngle + angDisp * i);
             builder.y = this.centerY + this.radius * Math.sin(this.initialAngle + angDisp * i);
+            const newFrame = parent.createAsChild(builder)
 
-            this.undoCommands.push(new RemoveFrame(parent.createAsChild(builder)));
+            if(this.ownerArray) { //find if parent array has the same index. If yes, change parent
+                for(const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                    const checkingName = parent.getName().slice(0,parent.getName().length-4)
+                    // alert('checkingName: '+checkingName)
+                    // alert('prod: '+checkingName+"["+ind+"]")
+                    if(el.getName() == checkingName+"["+i+"]" || el.getName() == checkingName+"["+"0"+i+"]") {
+                        el.makeParentTo(newFrame)
+                        if(frame.tooltip) newFrame.tooltip = true;
+                        
+                        break;
+                    }
+                } 
+            }
+
+            this.undoCommands.push(new RemoveFrame(newFrame));
         }
 
-        const oldName = target.getName();
-        target.setName(oldName + 'C[0]');
-        this.undoCommands.push(new ChangeFrameName(target, oldName));
+        this.undoCommands.push(new CreateFrame(frame.getParent(), FrameBuilder.copy(frame)));
+        new RemoveFrame(frame).pureAction()
 
     }
 

@@ -19,7 +19,53 @@
 
     </div>
 
-    
+
+    <!-- CircArray -->
+    <div class="modal fade" id="CircArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content CircArrayBody">
+                <div class="modal-header">
+                    <h5>Circular Array</h5>
+                </div>
+                <div class="modal-body text-black">
+                    <div class="container-fluid">
+                        <div>
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="0.4" step="0.01" value="0.1" name="radius" id="radius" class="form-control" placeholder="name">
+                                <label for="radius">Radius: </label>
+                            </div>
+                        
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="10" step="1" value="6" name="count" id="count" class="form-control" placeholder="name">
+                                <label for="count">Count: </label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="360" step="1" value="0" name="initAng" id="initAng" class="form-control" placeholder="name">
+                                <label for="initAng">Initial Angle (degrees): </label>
+                            </div>
+                        
+
+                            <hr class="m-0; mt-1">
+
+                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px">
+                                <input type="checkbox" disabled name="checkParent" id="CircCheckParent" class="col-2 order-1" style="min-height: 80px;">
+                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="checkParent">Array Parent</label>    
+                            </div>
+                            <div class="w-100" style="margin-top: -15px">
+                              <hr class="m-0; mt-1">
+                            </div>
+                        
+                            <div class='row justify-content-center btn-group'>
+                                <button class='col-3 btn btn-success' id='CircArraySubmit'>Submit</button>
+                                <button class='col-3 btn btn-danger' data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
 
 
     <div id="containerUI">
