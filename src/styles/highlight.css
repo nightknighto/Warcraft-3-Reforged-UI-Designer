@@ -42,3 +42,11 @@
 .card-text {
     font-weight: 400;
 }
+
+.accordion h5 {
+    color: aqua;
+}
+
+.accordion-body strong {
+    color: chartreuse;
+}

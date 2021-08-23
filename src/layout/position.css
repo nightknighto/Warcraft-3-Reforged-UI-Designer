@@ -173,3 +173,15 @@ body{
 
     padding: 5px;
 }
+
+.accordion-body li {
+    padding: 10px;
+}
+
+.accordion-body ol {
+    padding: 10px;
+}
+
+.accordion-body ul {
+    padding: 10px;
+}

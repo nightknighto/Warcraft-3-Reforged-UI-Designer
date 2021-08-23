@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@material/textfield": "^10.0.0",
+    "@types/bootstrap": "^5.1.2",
     "bootstrap": "^5.1.0",
     "bootstrap-social": "^5.1.1",
     "custom-electron-titlebar": "^3.2.6",

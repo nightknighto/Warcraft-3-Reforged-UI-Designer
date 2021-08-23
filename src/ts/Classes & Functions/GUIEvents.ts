@@ -23,7 +23,7 @@ export class GUIEvents {
 
             const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
             const gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
-            gameCoordsString = `Game X/Y: (${gameX} , ${gameY}). Client X/Y: (${ev.clientX}, ${ev.clientY})`;
+            gameCoordsString = `Game X/Y: (${gameX} , ${gameY})`;
             editor.debugGameCoordinates.innerText = gameCoordsString;
 
         }

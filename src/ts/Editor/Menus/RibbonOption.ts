@@ -59,12 +59,19 @@ export class RibbonOption {
                 break;
             }
 
-            case "Hall of Fame": {try{
+            case "Hall of Fame": {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#HallOfFame')
                 div.innerText = this.name
                 div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
-            }catch(e){alert("error: "+e)}
+                break;
+            }
+
+            case "Tutorials": {
+                div.setAttribute('data-bs-toggle','modal')
+                div.setAttribute('data-bs-target','#Tutorial')
+                div.innerText = this.name
+                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
                 break;
             }
 

@@ -1,12 +1,14 @@
-const modal_container = document.getElementById('modal-container')
+import bootstrap = require("bootstrap");
 
+const modal_container = document.getElementById('modal-container')
 export class Modals {
 
     constructor() {
         this.AboutUs();
-        // this.Hall_of_Fame();
-        this.Hall_of_Fame2();
+        this.Hall_of_Fame();
         this.Changelog();
+        this.Documentation();
+        this.Documentation_online();
     }
 
     AboutUs() {
@@ -127,107 +129,6 @@ export class Modals {
                     </div>
                 </div>
             </div>`
-
-    }
-
-    Hall_of_Fame() {
-        modal_container.innerHTML += `
-        <div class="modal fade" id="HallOfFame" tabindex="-1" aria-labelledby="HallOfFame" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h4 class="modal-title">Hall of Fame</h4>
-                        <a class="btn btn-danger" style="margin-left: 2%;" target="_blank">SUBMISSIONS</a>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-4 d-flex">
-                                    <div class="card bg-danger">
-                                        <div class="ratio ratio-1x1">
-                                            <iframe src="https://www.youtube.com/embed/McoJY_Z882A" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">Code lock UI</h4>
-                                            <h5 class="card-subtitle mb-2 text-white">
-                                                Made by FeelsGoodMan
-                                            </h5>
-                                            <p class="card-text">(GUI) System that enables the user to open locks using numbers.</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <p class="text-black-50">Project: <a target="_blank" href="https://www.hiveworkshop.com/threads/acolyte-of-life.330425/">
-                                                Acolyte of Life</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4 d-flex">
-                                    <div class="card bg-warning">
-                                        <div class="ratio ratio-1x1">
-                                            <iframe src="https://www.youtube.com/embed/Ov8FzFXnjAY" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">Trade System</h4>
-                                            <h5 class="card-subtitle mb-2 text-white">
-                                                Made by NightKnight
-                                            </h5>
-                                            <p class="card-text">(Typescript) A fully-functional system that enables the user to buy, sell or exchange items.</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <p class="text-black-50">Project: <a target="_blank" href="https://www.hiveworkshop.com/threads/acolyte-of-life.330425/">
-                                                Acolyte of Life</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4 d-flex">
-                                    <div class="card bg-success">
-                                        <div class="ratio ratio-1x1">
-                                            <iframe src="https://www.youtube.com/embed/zaIxuHGEtHc" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">Quest Log</h4>
-                                            <h5 class="card-subtitle mb-2 text-white">
-                                                Made by FeelsGoodMan
-                                            </h5>
-                                            <p class="card-text">(GUI) An interface that displays quests, along with their descriptions.</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <p class="text-black-50">Project: <a target="_blank" href="https://www.hiveworkshop.com/threads/acolyte-of-life.330425/">
-                                                Acolyte of Life</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-4">
-                                <div class="col-4 d-flex">
-                                    <div class="card bg-info">
-                                        <div class="ratio ratio-1x1">
-                                            <iframe src="https://www.youtube.com/embed/lN9fAUHVFaI" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">Combat Formation</h4>
-                                            <h5 class="card-subtitle mb-2 text-white">
-                                                Made by FeelsGoodMan
-                                            </h5>
-                                            <p class="card-text">(GUI) Interface designed to edit the formattion of the </p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <p class="text-black-50">Project: <a target="_blank" href="https://www.hiveworkshop.com/threads/acolyte-of-life.330425/">
-                                                Acolyte of Life</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-            </div>
-        </div>`
-
     }
 
     Changelog() {
@@ -287,13 +188,294 @@ export class Modals {
         </div>`
     }
 
-    Hall_of_Fame2() {
+    Hall_of_Fame() {
         console.log('began')
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
         .then(res => res.text())
         .then(body => {
             modal_container.innerHTML += body
             console.log(body)
+        })
+    }
+
+    Documentation() {
+        const data = `<div class="modal fade" id="Tutorial" tabindex="-1" aria-labelledby="Tutorial" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white">Tutorials & Documentation</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card bg-secondary">
+                                    <h2 class="card-header text-white">Tutorials</h2>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="card bg-info border border-danger border-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div style="width: 100%;">
+                                                            <div class="ratio ratio-4x3">
+                                                                <iframe src="https://www.youtube.com/embed/Ov8FzFXnjAY" allowfullscreen></iframe>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h3 class="card-title">Element Creation, Editing & Insert Menu</h4>
+                                                            <p class="card-text">Explaining Insert Menu options, buttons, backdrops, texts, how to add, modify or delete them, and most features.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-4 justify-content-center">
+                                            <div class="col-4 d-flex">
+                                                <div class="card bg-info border border-danger border-3">
+                                                    <div class="ratio ratio-1x1">
+                                                        <iframe src="https://www.youtube.com/embed/McoJY_Z882A" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h3 class="card-title">Introduction & Menu Options</h4>
+                                                        <p class="card-text">Explaining application's interface, then menus and their options.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 d-flex">
+                                                <div class="card bg-info border border-danger border-3">
+                                                    <div class="ratio ratio-1x1">
+                                                        <iframe src="https://www.youtube.com/embed/zaIxuHGEtHc" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h3 class="card-title">Creating a Shop UI</h4>
+                                                        <p class="card-text">An example on how to create a shop UI.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 d-flex">
+                                                <div class="card bg-info border border-danger border-3">
+                                                    <div class="ratio ratio-1x1">
+                                                        <iframe src="https://www.youtube.com/embed/lN9fAUHVFaI" allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h3 class="card-title">Combat Formation</h4>
+                                                        <h5 class="card-subtitle mb-2 text-white">
+                                                            Made by FeelsGoodMan
+                                                        </h5>
+                                                        <p class="card-text">(GUI) Interface designed to edit the formattion of the </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <div class="card bg-secondary">
+                                    <h2 class="card-header text-white">Documentation</h2>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="accordion">
+                                                <div class="accordion-item">
+                                                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                    <button class="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target="#accordionAppMenu" aria-expanded="true" aria-controls="accordionAppMenu">
+                                                      Application's Menus & General Functionalities
+                                                    </button>
+                                                  </h2>
+                                                  <div id="accordionAppMenu" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                                    <div class="accordion-body bg-dark text-white">
+                                                        <h5>File menu</h5>
+                                                            <ol>
+                                                                <li><strong>New</strong>: deletes everything inside the application.</li>
+                                                                <li><strong>Open</strong>: loads a saved file.</li>
+                                                                <li><strong>Save</strong>: saves the current project into a file.</li>
+                                                                <li><strong>Export</strong>: creates a file and produces the code in the chosen language. This file can be opened with any text editor like Notepad. All you have to do is copy all and paste into an empty Custom Script.</li>
+                                                            </ol>
+                                                            Note: In case of LUA, you will need a custom script in a trigger that runs on Map Initialization.
+                                                            <em>Custom Script: LibraryName.Initialize()</em>
+                                                        
+                                                        <hr>
+                                                        <h5>Edit menu</h5>
+                                                            <ol>
+                                                                <li><strong>Undo</strong>: undo the last action you did. It does NOT undo edits to text fields (like text, trig_var, textures) except Name.</li>
+                                                                <li><strong>Redo</strong>: redo the action that was undo-ed.</li>
+                                                            </ol>
+                                                            Note: Undo-ing then making a new change will delete the Redo log.
+                                                        
+                                                        <hr>
+                                                        <h5>View menu</h5>
+                                                        
+                                                            Nothing yet.
+                                                        
+                                                        <hr>
+                                                        <h5>Insert menu</h5>
+                                                            <ol>
+                                                                <li><strong>Button</strong>: clicking on it creates a Custom Button. Clicking on the dropdown thing will open the dropdown menu.
+                                                                    <ul>    
+                                                                        <li>Custom Button: This button can have custom texture.</li>
+                                                                        <li>Script Dialog Button and Browser Button: premade ready-to-use button templates that can have a custom text inside.</li>
+                                                                        <li>Invis Button: An invisible button that can be clicked. This has a lot of interesting applications, such as putting an Invis button over a backdrop.</li>
+                                                                    </ul>
+                                                                </li>
+                                                        
+                                                                <li><strong>Backdrop</strong>: (What is a Backdrop? A backdrop is basically an image that can't be interacted with) clicking on it creates a Custom Backdrop. Clicking on the dropdown thing will open the dropdown menu.
+                                                                    <ul>
+                                                                        <li>Custom Button: This backdrop can have custom texture.</li>
+                                                                        <li>All others: premade ready-to-use backdrop templates.</li>
+                                                                    </ul>
+                                                                </li>
+
+                                                                <li><strong>Text</strong>: clicking on it creates a Text Frame. Text Frames are basically just texts, that can be put above anything or anywhere.</li>
+                                                        
+                                                        
+                                                                <li><strong>Others</strong>: Includes special types of frames. This will contain more things later on.</li>
+                                                            </ol>
+                                                        
+                                                        <hr>
+                                                        <h5>Info menu</h5>
+                                                            <ol> 
+                                                                <li><strong>About Us</strong>: Brief description of who we are, how to support us, overview of the application and history.</li>
+                                                                <li><strong>Hall of Fame</strong>: explained <a target="_blank" href="https://www.hiveworkshop.com/threads/warcraft-3-reforged-ui-designer-ruid.334868/">here</a>.</li>
+                                                                <li><strong>Change Log</strong>: Any changes will be put here.</li>
+                                                            </ol>
+                                                
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                                    <button class="accordion-button bg-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionElement" aria-expanded="false" aria-controls="accordionElement">
+                                                      Element Panel & Modifying an Element
+                                                    </button>
+                                                  </h2>
+                                                  <div id="accordionElement" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                                    <div class="accordion-body bg-dark text-white">
+   
+
+                                                        The panel on the left is called Element Panel. It contains all the features to modify and edit the elements.
+                                                        <ul>
+                                                            <li><h5>General Options:</h5> <em>If nothing is selected (or Origin is selected), these options will be available.</em>
+                                                                <ol>
+                                                                <li><strong>Library Name:</strong> This allows you to set the name of the project. If more than 1 project is used in the same map, they must have different Library Names.</li>
+                                                                <li><strong>Hide Full Game UI:</strong> This hides all the default game UI.</li>
+                                                                <li><strong>Hide Chat:</strong> This will make players' messages not visible. Basically no one will be able to see other players' messages.</li>
+                                                                </ol>
+                                                            </li>
+
+                                                            <li><h5>Universal Fields: These fields are available in most frames.</h5>
+                                                                <ol>
+                                                                <li><strong>Name:</strong> Specifies the name of this frame. This name can be used to get that frame when coding. Special characters and spaces are NOT allowed. Array naming however is allowed. You can turn the frame into an array by giving it an index. This is only useful for manual coding. Example: Frame[00]. Index 00 must exist in order to write other indices.</li>
+                                                                <li><strong>Parent:</strong> The element will be a "child" to the selected element. PARENT-CHILD Relation: The concept is like putting an image inside another. The child will always be above the parent (although this behavior is not made inside the app. You may need to save and re-open the file for the correct order to be displayed), and if the parent is hidden (by manual code or through Tooltip), 
+                                                                    all its children are hidden with it. Basically if you have a background and want a button and text inside it, then the button and text both should be children to the background. Another note: When creating elements, they are made as children to the currently selected element.</li>
+                                                                <li><strong>Tooltip:</strong> This functionality makes the element as a tooltip to the PARENT. Basically, the element will be default hidden ingame, and will only appear when the user's mouse hover over the Parent frame. Buttons can NOT be tooltips. Elements with Origin as Parent can not also be tooltips. A Parent can have only ONE tooltip. A tooltip can NOT itself have a tooltip.</li>
+                                                                <li><strong>X/Y:</strong> specifies the location of the element.</li>
+                                                                <li><strong>Width/Height:</strong> specifies the dimensions of the element. Minimum is 0.01, although buttons' may not be compatible with extremely small sizes (they will look wierd).</li>
+                                                                </ol>
+                                                            </li>
+
+                                                            <li><h5>Buttons Fields:</h5>
+                                                                <ol>
+                                                                <li><strong>Text:</strong> For some buttons, this field is available. This will change the text displayed inside the button.</li>
+                                                                <li><strong>Triggered Variable:</strong><ul>
+                                                                    <li>This functionality allowes for GUI-triggers to be attached to buttons and run on button clicks. It uses a (type: real) variable that can be detected by th event ("Game - Value of Real Variable") in order to run the GUI trigger.</li>
+                                                                    <li>First step is, make a GUI variable of type Real inside world editor, then put the it's name inside the field with the prefix "udg_". For example, a variable with name "testVar" should be put inside the field as "udg_testVar".</li>
+                                                                    <li>Second step is, make a GUI trigger with the event ("Game - Value of Real Variable") and put in the variable.</li>
+                                                                    <li>Third step is, put the actions you want. Note: when the trigger runs, this variable will hold the NUMBER of the clicking player. Basically, if blue clicked the button, the variable's value will be 2 (his number). If red clicks the button, it will be 1 (his number). You can detect the clicking player with this.</li>
+                                                                    <li>Fourth step, after putting in your actions, make a line that SETS the value of the variable to 0, so that it can detect the next click.</li>
+                                                                    <li>P.S.: You can leave this field empty if you dont want the functionality.</li></ul>
+                                                                </li>
+                                                                </ol>
+                                                            </li>
+
+                                                            <li><h5>Text Fields:</h5>
+                                                                <ol>
+                                                                <li><strong>Text:</strong> Allows for much more text as well as multi-line texts. The behavior of this functionality is very close to the ingame behavior, including the line breaks and overflows.</li>
+                                                                <li><strong>Scale:</strong> Controls the scale of the text. Note: the scale of the text is close but NOT identical to the text insice WC3. It will be a little different. In WC3, changing the scale also affects the position of the frame, so you may need to test and adjust scale and position for best results.</li>
+                                                                <li><strong>Text Color:</strong> Changes the color of the text.</li>
+                                                                </ol>
+                                                            </li>
+
+                                                            <li><h5>Buttons/Custom Backdrops fields:</h5>
+                                                                <ol>
+                                                                <li><strong>Texture Path (the first field):</strong> This is responsible for the appearance of the element INSIDE the application. It does NOT accept BLP files. This is fully for you to see what you're doing.</li>
+                                                                <li><strong>Texture Path WE (the second field):</strong> This is responsible for the appearance of the element INGAME. You put the path of the texture you want in this field. You get the path from the Import Editor just like how you choose path for icons and stuff. Note: If the path contains single slashes "/" it will not work. You need to replace it with double slashes "//". Example: If the path is "images/icon.blp" then in the field it should be put as "images//icon.blp"</li>
+                                                                </ol>
+                                                            </li>
+                                                        </ul>
+
+                                                        <p class="fw-bold">Note: Sometimes fields may not be automatically refreshed when doing certain actions. Clicking on the frame will refresh it and it's fields.</p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                                    <button class="accordion-button bg-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionTree" aria-expanded="false" aria-controls="accordionTree">
+                                                      Tree Panel
+                                                    </button>
+                                                  </h2>
+                                                  <div id="accordionTree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                                    <div class="accordion-body bg-dark text-white">
+                                                        <p>The panel on the right is the Tree Panel. It shows the hierarchy of your project and the relations between frames.
+                                                            <br>Tip: Clicking on a name will select that frame. </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                                      <button class="accordion-button bg-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionFeedback" aria-expanded="false" aria-controls="accordionFeedback">
+                                                        Feedback Panel
+                                                      </button>
+                                                    </h2>
+                                                    <div id="accordionFeedback" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                                        <div class="accordion-body bg-dark text-white">
+                                                            This bar gives you alot of feedback while you're working.
+                                                            <ol>
+                                                                <li><strong>The White Text part:</strong> Most actions will give you a feedback or errors here. You can also know what was done through it.</li>
+                                                                <li><strong>Game X/Y:</strong> This displays the WC3 coordinates of your mouse cursor. You can use this to measure distances between points or determine a certain location. Point (0,0) lies bottom left, while point (0.8,0.6) is on top right. Width of the creation area is 0.8, and the height is 0.6</li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>`
+
+        modal_container.innerHTML += data;
+
+    }
+
+    Documentation_online() {
+        console.log('began')
+        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
+        .then(res => res.text())
+        .then(body => {
+            modal_container.innerHTML = ""
+            this.AboutUs();
+            this.Changelog();
+            this.Hall_of_Fame();
+            modal_container.innerHTML += body
+            this.WelcomePage();
+        })
+    }
+
+    WelcomePage() {
+        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
+        .then(res => res.text())
+        .then(body => {
+            modal_container.innerHTML += body
+            const modal = new bootstrap.Modal(document.getElementById('Welcome'))
+            modal.show();
         })
     }
 }
