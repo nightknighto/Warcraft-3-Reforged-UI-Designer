@@ -69,7 +69,7 @@ export default class DuplicateArrayCircular extends SimpleCommand{
                     // alert('prod: '+checkingName+"["+ind+"]")
                     if(el.getName() == checkingName+"["+i+"]" || el.getName() == checkingName+"["+"0"+i+"]") {
                         el.makeParentTo(newFrame)
-                        if(frame.tooltip) newFrame.tooltip = true;
+                        if(frame.getTooltip()) newFrame.setTooltip(true);
                         
                         break;
                     }

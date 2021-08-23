@@ -3,6 +3,7 @@ import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { Editor } from "../Editor";
 import { FrameComponent } from "./FrameComponent";
+import { ProjectTree } from "../ProjectTree";
 
 export default abstract class FrameBaseContent implements Saveable {
 
@@ -121,7 +122,7 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.draggable = false;
         this.element.style.position = "absolute";
         this.element.style.outlineStyle = "dashed";
-        this.element.style.outlineColor = "rgba(0, 230, 64, 0.4)" //green
+        this.element.style.outlineColor = ProjectTree.outlineUnSelected
         this.element.style.outlineOffset = "-3px";
 
         (element as any).frameBaseContent = this;

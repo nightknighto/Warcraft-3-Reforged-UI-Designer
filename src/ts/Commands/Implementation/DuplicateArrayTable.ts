@@ -93,7 +93,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
                         // alert('prod: '+checkingName+"["+ind+"]")
                         if(el.getName() == checkingName+"["+index+"]" || el.getName() == checkingName+"["+"0"+index+"]") {
                             el.makeParentTo(newFrame)
-                            if(frame.tooltip) newFrame.tooltip = true;
+                            if(frame.getTooltip()) newFrame.setTooltip(true);
                             
                             break;
                         }

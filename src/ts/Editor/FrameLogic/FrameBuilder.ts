@@ -5,6 +5,7 @@ import { FrameComponent } from "./FrameComponent";
 import { CustomImage } from "./CustomImage";
 import { CustomText } from "./CustomText";
 import FrameBaseContent from "./FrameBaseContent";
+import { ProjectTree } from "../ProjectTree";
 
 export class FrameBuilder{
 
@@ -84,8 +85,8 @@ export class FrameBuilder{
         const frameComponent = projectTree.appendToSelected(this)
         
         try{
-            frameComponent.tooltip = container.load(FrameComponent.SAVE_KEY_TOOLTIP);
-            frameComponent.custom.getElement().style.outlineColor = "rgba(220, 242, 19, 0.5)" //yellow
+            frameComponent.setTooltip(container.load(FrameComponent.SAVE_KEY_TOOLTIP));
+            frameComponent.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected_Tooltip
         }catch(e) {alert("Loading Error: Tooltip Info")}
 
         projectTree.select(frameComponent);

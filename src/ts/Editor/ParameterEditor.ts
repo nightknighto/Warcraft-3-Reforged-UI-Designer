@@ -546,7 +546,7 @@ export class ParameterEditor {
 
                 this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) / (editor.workspaceImage.width - 2 * horizontalMargin) * 800)}`;
                 this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom) / editor.workspaceImage.height * 600)}`;
-                this.checkboxElementTooltip.checked = frame.tooltip
+                this.checkboxElementTooltip.checked = frame.getTooltip()
 
                 this.fieldElement.style.display = "initial"
                 this.fieldType.style.display = "initial"
@@ -591,19 +591,19 @@ export class ParameterEditor {
 
                 if(frame.getParent() == Editor.GetDocumentEditor().projectTree.rootFrame) {
                     this.fieldTooltip.style.display = "none";
-                    frame.tooltip = false;
+                    frame.setTooltip(false);
                 }
                 
                 let parentHasTooltip = false;
                 for(const el of frame.getParent().getChildren()) {
-                    if(el != frame && el.tooltip) {
+                    if(el != frame && el.getTooltip()) {
                         parentHasTooltip = true;
                         break;
                     }
                 }
-                if(frame.getParent().tooltip || parentHasTooltip) {
+                if(frame.getParent().getTooltip() || parentHasTooltip) {
                     this.checkboxElementTooltip.disabled = true
-                    frame.tooltip = false;
+                    frame.setTooltip(false);
                 }
 
                 const n = frame.type;

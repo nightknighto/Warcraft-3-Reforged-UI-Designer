@@ -7,6 +7,7 @@ import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { CustomText } from "./CustomText";
 import FrameBaseContent from "./FrameBaseContent";
+import { ProjectTree } from "../ProjectTree";
 
 export class FrameComponent implements Saveable {
 
@@ -18,12 +19,27 @@ export class FrameComponent implements Saveable {
     private name: string;
     private children: FrameComponent[];
     public type: FrameType;
-    public tooltip = false;
+    private tooltip = false;
 
     public readonly custom: FrameBaseContent;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
 
+    public setTooltip(on: boolean): FrameComponent {
+        this.tooltip = on
+        let color = ProjectTree.outlineUnSelected
+        if(on) color = ProjectTree.outlineUnSelected_Tooltip
+
+        if(ProjectTree.getSelected() != this) {
+            this.custom.getElement().style.outlineColor = color
+        }
+        
+        return this
+    }
+
+    public getTooltip(): boolean{
+        return this.tooltip;
+    }
 
     public getName(): string {
         return this.name;

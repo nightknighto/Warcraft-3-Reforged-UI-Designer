@@ -207,7 +207,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                             text = temp.declaresBUTTONArray
                         } else {
                             if(temp == JASS) {
-                                if(el.tooltip) {text = JASS.declaresArrayWiTooltip}
+                                if(el.getTooltip()) {text = JASS.declaresArrayWiTooltip}
                                 else {text = JASS.declaresArray}
                             } else {
                                 text = temp.declaresArray
@@ -226,7 +226,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         text = temp.declaresBUTTON
                     } else {
                         if(temp == JASS) {
-                            if(el.tooltip) {text = JASS.declaresWiTooltip}
+                            if(el.getTooltip()) {text = JASS.declaresWiTooltip}
                             else {text = JASS.declares}
                         } else {
                             text = temp.declares
@@ -257,7 +257,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     case ('ts'): text = TypescriptGetTypeText(el.type, true); break; //always true. maybe give option for users to make it false
                 }
 
-                if(el.tooltip) {
+                if(el.getTooltip()) {
                     const t = el.getParent().type
                     if(t == FrameType.BUTTON || t == FrameType.INVIS_BUTTON || t == FrameType.BROWSER_BUTTON || t == FrameType.SCRIPT_DIALOG_BUTTON) {
                         text += temp.TooltipOwnerButton

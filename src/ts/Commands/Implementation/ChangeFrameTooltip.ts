@@ -2,6 +2,8 @@ import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
+import { ParameterEditor } from "../../Editor/ParameterEditor";
+import { ProjectTree } from "../../Editor/ProjectTree";
 
 export default class ChangeFrameTooltip extends SimpleCommand{
 
@@ -32,15 +34,16 @@ export default class ChangeFrameTooltip extends SimpleCommand{
             return;
         }
 
-        this.oldTooltip = frame.tooltip;
+        this.oldTooltip = frame.getTooltip();
 
         this.childrenTooltipPair = [];
         frame.getChildren().forEach((child: FrameComponent) => {
-            this.childrenTooltipPair.push([child.getName(), child.tooltip]);
-            child.tooltip = false;
-        });
+            this.childrenTooltipPair.push([child.getName(), child.getTooltip()]);
+            child.setTooltip(false);
+            if(ProjectTree.getSelected() != child) child.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected
+        })
 
-        frame.tooltip = this.tooltip;
+        frame.setTooltip(this.tooltip);
     }
 
     public undo(): void{
@@ -56,9 +59,13 @@ export default class ChangeFrameTooltip extends SimpleCommand{
             const child = projectTree.findByName(childTooltipPair[0]);
             if(typeof(child) === "undefined") return;
 
-            child.tooltip = childTooltipPair[1];
+            child.setTooltip(childTooltipPair[1]);
+            if(ProjectTree.getSelected() != child) {
+                if(childTooltipPair[1]) child.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected_Tooltip
+                else child.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected
+            } 
         })
-        frame.tooltip = this.oldTooltip;
+        frame.setTooltip(this.oldTooltip);
         
         super.undo();
         debugText("Undid frame change tooltip.");
@@ -67,7 +74,6 @@ export default class ChangeFrameTooltip extends SimpleCommand{
     public redo(): void{
         super.redo();
         debugText("Redid frame change tooltip.");
-
     }
 
 }

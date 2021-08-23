@@ -20,6 +20,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static readonly SAVE_KEY_HIDE_PORTRAIT = "Portrait";
     public static readonly SAVE_KEY_HIDE_CHAT = "Chat";
 
+    public static readonly outlineUnSelected_Tooltip = "rgba(220, 242, 19, 0.5)" //yellow
+    public static readonly outlineUnSelected = "rgba(0, 230, 64, 0.4)" //green
+    public static readonly outlineSelected = "rgba(242, 38, 19, 0.4)" //red
+
     public readonly rootFrame: FrameComponent;
     public readonly panelTree: HTMLElement;
     private selectedFrame: FrameComponent;
@@ -121,8 +125,8 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         //should go to workspace class?
         if (this.selectedFrame != null) {
-            let color = "rgba(0, 230, 64, 0.4)" //green
-            if(this.selectedFrame.tooltip) color = "rgba(220, 242, 19, 0.5)"; //yellow
+            let color = ProjectTree.outlineUnSelected
+            if(this.selectedFrame.getTooltip()) color = ProjectTree.outlineUnSelected_Tooltip
             this.selectedFrame.custom.getElement().style.outlineColor = color
         }
 
@@ -137,7 +141,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             return;
         }
 
-        this.selectedFrame.custom.getElement().style.outlineColor = 'rgba(242, 38, 19, 0.4)'; //red
+        this.selectedFrame.custom.getElement().style.outlineColor = ProjectTree.outlineSelected;
 
         Editor.GetDocumentEditor().parameterEditor.updateFields(this.selectedFrame);
 
