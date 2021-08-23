@@ -18,6 +18,9 @@ import { ProjectTree } from "./Editor/ProjectTree";
 import { Modals } from "./modals/modals Init";
 import bootstrap = require("bootstrap");
 import { electron } from "webpack";
+import Undo from "./Commands/Undo";
+import Redo from "./Commands/Redo";
+import RemoveFrame from "./Commands/Implementation/RemoveFrame";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -145,6 +148,23 @@ new Titlebar({
   menu: null,
 
 })
+
+//keyboard shortcuts
+window.addEventListener('keydown', function (event) {
+  if (event.ctrlKey && event.code === 'KeyZ') {
+      new Undo().run()
+  }
+  if (event.ctrlKey && event.code === 'KeyY') {
+      new Redo().run()
+  }
+  if (event.which === 46) {
+      if(ProjectTree.getSelected()) {
+        const command = new RemoveFrame(ProjectTree.getSelected());
+        command.action();
+      }
+  }
+});
+
 //general Initializations
 const editor = new Editor(document)
 editor.parameterEditor.fieldElement.style.display = "none"

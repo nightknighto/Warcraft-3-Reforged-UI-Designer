@@ -68,8 +68,8 @@ export class Editor {
         expRib.addMenuOption('TYPESCRIPT', new ExportTS)
 
 
-        editMenu.addRibbonOption(new RibbonOption('Undo', new Undo()));
-        editMenu.addRibbonOption(new RibbonOption('Redo', new Redo()));
+        editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()));
+        editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()));
 
         viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
 
