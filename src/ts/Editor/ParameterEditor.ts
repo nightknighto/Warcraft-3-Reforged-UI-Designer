@@ -475,6 +475,11 @@ export class ParameterEditor {
 
     }
 
+    /**gives the instance */
+    static inst(): ParameterEditor {
+        return Editor.GetDocumentEditor().parameterEditor
+    }
+
     public emptyFields(): void {
         this.inputElementWidth.value = ""
         this.inputElementHeight.value = ""
