@@ -243,12 +243,12 @@ export class ParameterEditor {
             }
 
             if (isArray) {
-                const index = text.search(/\d+/)
+                const index = text.search(/\[/)
                 const index2 = text.search("]");
 
                 if (index >= 0) {
 
-                    if (Number.parseInt(text.slice(index, index2)) == 0)
+                    if (Number.parseInt(text.slice(index+1, index2)) == 0)
                         nulIndexFound = true;
 
                 }
@@ -271,14 +271,14 @@ export class ParameterEditor {
                 if (isArray && !nulIndexFound) {
                     const endingIndex2 = frame.getName().search(/\[/)
 
-                    if (text.slice(0, endingIndex - 1).localeCompare(frame.getName().slice(0, endingIndex2 - 1)) == 0) {
+                    if (text.slice(0, endingIndex).localeCompare(frame.getName().slice(0, endingIndex2)) == 0) {
 
-                        const index = frame.getName().search(/\d+/)
+                        const index = frame.getName().search(/\[/)
                         const index2 = frame.getName().search("]");
 
                         if (index >= 0) {
 
-                            if (Number.parseInt(frame.getName().slice(index, index2)) == 0)
+                            if (Number.parseInt(frame.getName().slice(index+1, index2)) == 0)
                                 nulIndexFound = true;
                         }
                     }
