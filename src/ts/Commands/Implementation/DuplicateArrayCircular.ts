@@ -51,6 +51,10 @@ export default class DuplicateArrayCircular extends SimpleCommand{
             return;
         }
 
+        console.log("name: "+frame.getName())
+        console.log("tooltip: "+frame.getTooltip())
+        const tooltip = frame.getTooltip()
+
         const angDisp = Math.PI * 2 / this.count;
         const parent = frame.getParent();
 
@@ -69,9 +73,11 @@ export default class DuplicateArrayCircular extends SimpleCommand{
                     // alert('prod: '+checkingName+"["+ind+"]")
                     if(el.getName() == checkingName+"["+i+"]" || el.getName() == checkingName+"["+"0"+i+"]") {
                         el.makeParentTo(newFrame)
-                        if(frame.getTooltip()) {
+                        console.log("step1")
+                        console.log("check1: "+tooltip)
+                        if(tooltip) {
                             newFrame.setTooltip(true);
-                            console.log(newFrame.getTooltip())
+                            console.log("check2: "+newFrame.getTooltip())
                         }
                         
                         break;
