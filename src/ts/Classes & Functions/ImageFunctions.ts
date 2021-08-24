@@ -65,7 +65,6 @@ export function ImageFunctions(img: CustomImage): void {
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
                         posx1 = e.clientX;
-                        debugText(`(${img.getElement().width}, ${img.getElement().height})`);
                         debugText('resize right')
                         if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .01) {
                             img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
@@ -103,7 +102,7 @@ export function ImageFunctions(img: CustomImage): void {
                     };
                 }
 
-                //corner
+                //corner bottom-right
                 if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
                     window.onmousemove = function (e) {
                         posx2 = posx1 - e.clientX;
@@ -132,6 +131,76 @@ export function ImageFunctions(img: CustomImage): void {
                         }
                         inputElementsUpdate(img)
                         document.body.style.cursor = "nw-resize"
+                    };
+                }
+
+                //corner top-right NEW
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+
+                    window.onmousemove = function (e) {
+                        posx2 = posx1 - e.clientX;
+                        posy2 = posy1 - e.clientY;
+                        posx1 = e.clientX;
+                        posy1 = e.clientY;
+                        debugText(img.getElement().style.height);
+
+                        if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .01) {
+                            img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
+                        }
+                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.width = img.getElement().width - posx2 + "px";
+                        }
+
+                        if ((img.getElement().height + posy2) * 600 / workspaceImage.height <= 10) {
+                            img.getElement().style.height = `${10 * workspaceImage.height / 600}px`
+                        }
+                        else if (workspaceImage.getBoundingClientRect().y > img.getElement().y - posy2) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.height = `${img.getElement().height + posy2}px`;
+                            img.getElement().style.top = `${img.getElement().offsetTop - posy2}px`;
+                        }
+                        // img.getElement().style.height = img.getElement().height + posy2
+                        // img.getElement().width = img.getElement().width + posx2
+                        inputElementsUpdate(img)
+                        document.body.style.cursor = "ne-resize"
+                    };
+                }
+
+                //corner bottom-left NEW
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                    window.onmousemove = function (e) {
+                        posx2 = posx1 - e.clientX;
+                        posy2 = posy1 - e.clientY;
+                        posx1 = e.clientX;
+                        posy1 = e.clientY;
+                        debugText(`(${img.getElement().width}, ${img.getElement().height})`);
+                        if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.01) {
+                            img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
+                        }
+                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.width = `${img.getElement().offsetWidth + posx2}px`
+                            img.getElement().style.left = `${img.getElement().offsetLeft - posx2}px`;
+                        }
+
+                        if ((img.getElement().height - posy2) * 600 / workspaceImage.height <= 10) {
+                            img.getElement().style.height = `${10 * workspaceImage.height / 600}px`;
+                        }
+                        else if (workspaceImage.getBoundingClientRect().bottom < img.getElement().y + (img.getElement().height - posy2)) {
+                            null;
+                        }
+                        else {
+                            img.getElement().style.height = `${img.getElement().height - posy2}px`;
+                        }
+                        inputElementsUpdate(img)
+                        document.body.style.cursor = "ne-resize"
                     };
                 }
 
@@ -188,7 +257,7 @@ export function ImageFunctions(img: CustomImage): void {
                     };
                 }
 
-                //corner
+                //corner top-left
                 if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
 
                     window.onmousemove = function (e) {
@@ -224,6 +293,7 @@ export function ImageFunctions(img: CustomImage): void {
                         document.body.style.cursor = "nw-resize"
                     };
                 }
+
 
             }
         }
@@ -277,6 +347,16 @@ export function ImageFunctions(img: CustomImage): void {
                     //corner
                     if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
                         document.body.style.cursor = "nw-resize"
+                    }
+
+                    //corner top-right NEW
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                        document.body.style.cursor = "ne-resize"
+                    }
+
+                    //corner bottom-left NEW
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                        document.body.style.cursor = "ne-resize"
                     }
     
     
