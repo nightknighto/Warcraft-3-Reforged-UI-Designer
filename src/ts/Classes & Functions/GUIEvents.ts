@@ -7,6 +7,7 @@ import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCir
 import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable';
 
 export class GUIEvents {
+    static isInteracting = false
 
     static DisplayGameCoords(ev: MouseEvent) : void {
 

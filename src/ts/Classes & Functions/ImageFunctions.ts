@@ -2,6 +2,8 @@ import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debugText, InputEdit } from "./Mini-Functions"
 import { Editor } from "../Editor/Editor";
 import MoveFrame from "../Commands/Implementation/MoveFrame";
+import { ProjectTree } from "../Editor/ProjectTree";
+import { GUIEvents } from "./GUIEvents";
 
 export function ImageFunctions(img: CustomImage): void {
 
@@ -24,6 +26,13 @@ export function ImageFunctions(img: CustomImage): void {
         let posx2 = 0;
         let posy2 = 0;
 
+        GUIEvents.isInteracting = true;          
+
+        if ((e.clientX - img.getElement().getBoundingClientRect().x) > 5 && (e.clientX - img.getElement().getBoundingClientRect().x) < img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < img.getElement().height - 5) {
+            //not at edge, so drag
+            document.body.style.cursor = "grabbing"
+        }
+
         //debug((e.clientY - img.getElement().getBoundingClientRect().y))
         //check whether it is drag or resize
         if ((e.clientX - img.getElement().getBoundingClientRect().x) > 5 && (e.clientX - img.getElement().getBoundingClientRect().x) < img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < img.getElement().height - 5) {
@@ -44,6 +53,7 @@ export function ImageFunctions(img: CustomImage): void {
                     img.getElement().style.top = `${img.getElement().offsetTop - posy2}px`;
                 }
                 inputElementsUpdate(img)
+                document.body.style.cursor = "grabbing"
             }
         }
         else {
@@ -68,6 +78,7 @@ export function ImageFunctions(img: CustomImage): void {
                         }
 
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "e-resize"
                     };
                 }
 
@@ -88,6 +99,7 @@ export function ImageFunctions(img: CustomImage): void {
                             img.getElement().style.height = `${img.getElement().height - posy2}px`;
                         }
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "n-resize"
                     };
                 }
 
@@ -119,6 +131,7 @@ export function ImageFunctions(img: CustomImage): void {
                             img.getElement().style.height = `${img.getElement().height - posy2}px`;
                         }
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "nw-resize"
                     };
                 }
 
@@ -147,6 +160,7 @@ export function ImageFunctions(img: CustomImage): void {
                         // img.getElement().height = img.getElement().height + posy2
                         // img.getElement().width = img.getElement().width + posx2
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "e-resize"
                     };
                 }
 
@@ -170,6 +184,7 @@ export function ImageFunctions(img: CustomImage): void {
                         // img.getElement().style.height = img.getElement().height + posy2
                         // img.getElement().width = img.getElement().width + posx2
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "n-resize"
                     };
                 }
 
@@ -206,6 +221,7 @@ export function ImageFunctions(img: CustomImage): void {
                         // img.getElement().style.height = img.getElement().height + posy2
                         // img.getElement().width = img.getElement().width + posx2
                         inputElementsUpdate(img)
+                        document.body.style.cursor = "nw-resize"
                     };
                 }
 
@@ -216,6 +232,8 @@ export function ImageFunctions(img: CustomImage): void {
         window.onmouseup = function () {
             window.onmousemove = null;
             window.onmouseup = null;
+            GUIEvents.isInteracting = false;
+            document.body.style.cursor = "default"
 
             if(startingX == img.getLeftX() && startingY == img.getBotY() && startingHeight == img.getHeight() && startingWidth == img.getWidth()){
                 return;
@@ -228,6 +246,71 @@ export function ImageFunctions(img: CustomImage): void {
 
 
     };
+
+
+    img.getElement().onmouseenter = function (e) {
+
+        img.getElement().onmousemove = function (e) {
+            if(GUIEvents.isInteracting) return;
+            // if(ProjectTree.getSelected() != img.getFrameComponent()) return
+            
+            if ((e.clientX - img.getElement().getBoundingClientRect().x) > 5 && (e.clientX - img.getElement().getBoundingClientRect().x) < img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < img.getElement().height - 5) {
+                //not at edge, so drag
+                document.body.style.cursor = "grab"
+
+            }
+            else {
+                //at edge, so resize
+                //now determine which edges
+                if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 || (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                    //right and bottom edge: just resize
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5) {
+                        //right
+                        document.body.style.cursor = "e-resize"
+                    }
+    
+                    if ((e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                        //bottom
+                        document.body.style.cursor = "n-resize"
+                    }
+    
+                    //corner
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) > img.getElement().width - 5 && (e.clientY - img.getElement().getBoundingClientRect().y) > img.getElement().height - 5) {
+                        document.body.style.cursor = "nw-resize"
+                    }
+    
+    
+                } else if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 || (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                    //top and left edge: resize and drag
+    
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5) {
+                        document.body.style.cursor = "e-resize"
+                    }
+    
+                    if ((e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                        document.body.style.cursor = "n-resize"
+                    }
+    
+                    //corner
+                    if ((e.clientX - img.getElement().getBoundingClientRect().x) < 5 && (e.clientY - img.getElement().getBoundingClientRect().y) < 5) {
+                        document.body.style.cursor = "nw-resize"
+                    }
+    
+                }
+            }
+        }
+
+        img.getElement().onmouseleave = () => {
+            img.getElement().onmousemove = null;
+            img.getElement().onmouseleave = null;
+            document.body.style.cursor = "default"
+            
+        }
+        
+
+
+    }
+
 }
 
 function inputElementsUpdate(img: CustomImage) {

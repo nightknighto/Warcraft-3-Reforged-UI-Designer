@@ -27,7 +27,6 @@
     "buildVersion": "2.0.0"
   },
   "devDependencies": {
-    "@interactjs/types": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
     "electron": "^9.4.3",
@@ -43,7 +42,6 @@
     "custom-electron-titlebar": "^3.2.6",
     "del": "^6.0.0",
     "electron-fetch": "^1.7.3",
-    "interactjs": "^1.10.1",
     "popper.js": "^1.16.1",
     "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",
