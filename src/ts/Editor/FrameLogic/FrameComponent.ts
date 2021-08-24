@@ -68,6 +68,7 @@ export class FrameComponent implements Saveable {
             ul.append(li);
 
             this.treeElement = ul;
+            this.treeElement.setAttribute('style', 'cursor: pointer;')
             this.children = [];
             this.parentOption = document.createElement('option');
             if (frameBuildOptions.type == FrameType.TEXT_FRAME)
