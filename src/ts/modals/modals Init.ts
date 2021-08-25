@@ -144,6 +144,39 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.1.0</h2>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: a surprise!</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Mouse Cursor changes on dragging</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Tutorial Tab</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Keyboard Shortcuts</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Array Parent on Circular Array</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Better Mouse feedback on elements in Tree Panel</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">Fixed Duplicate naming</li>
+                                                        <li class="list-group-item list-group-item-primary">Alot of fixes related to Tooltip</li>
+                                                        <li class="list-group-item list-group-item-primary">Editor automatically refreshes Element Panel</li>
+                                                        <li class="list-group-item list-group-item-primary">Fixed Jass Export</li>
+                                                        <li class="list-group-item list-group-item-primary">Alot of other fixes and experience improvements</li>
+                                                    </ul>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.0.0</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
@@ -181,6 +214,8 @@ export class Modals {
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div> 
                 </div>
@@ -219,12 +254,12 @@ export class Modals {
                                                     <div class="d-flex align-items-center">
                                                         <div style="width: 100%;">
                                                             <div class="ratio ratio-4x3">
-                                                                <iframe src="https://www.youtube.com/embed/Ov8FzFXnjAY" allowfullscreen></iframe>
+                                                                <iframe src="https://www.youtube.com/embed/7noxYF4OTZE" allowfullscreen></iframe>
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
-                                                            <h3 class="card-title">Element Creation, Editing & Insert Menu</h4>
-                                                            <p class="card-text">Explaining Insert Menu options, buttons, backdrops, texts, how to add, modify or delete them, and most features.</p>
+                                                            <h3 class="card-title">Example: Quest Log with GUI</h4>
+                                                            <p class="card-text">A quest log with the functionality made in GUI. </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -234,7 +269,7 @@ export class Modals {
                                             <div class="col-4 d-flex">
                                                 <div class="card bg-info border border-danger border-3">
                                                     <div class="ratio ratio-1x1">
-                                                        <iframe src="https://www.youtube.com/embed/McoJY_Z882A" allowfullscreen></iframe>
+                                                        <iframe src="https://www.youtube.com/embed/-htumlD-e6I" allowfullscreen></iframe>
                                                     </div>
                                                     <div class="card-body">
                                                         <h3 class="card-title">Introduction & Menu Options</h4>
@@ -245,25 +280,23 @@ export class Modals {
                                             <div class="col-4 d-flex">
                                                 <div class="card bg-info border border-danger border-3">
                                                     <div class="ratio ratio-1x1">
-                                                        <iframe src="https://www.youtube.com/embed/zaIxuHGEtHc" allowfullscreen></iframe>
+                                                        <iframe src="https://www.youtube.com/embed/4-bNWuseTo0" allowfullscreen></iframe>
                                                     </div>
                                                     <div class="card-body">
-                                                        <h3 class="card-title">Creating a Shop UI</h4>
-                                                        <p class="card-text">An example on how to create a shop UI.</p>
+                                                        <h3 class="card-title">Element Creation, Editing & Insert Menu</h4>
+                                                        <p class="card-text">Explaining Insert Menu options, buttons, backdrops, texts, how to add, modify or delete them, and most features.</p>
+
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-4 d-flex">
                                                 <div class="card bg-info border border-danger border-3">
                                                     <div class="ratio ratio-1x1">
-                                                        <iframe src="https://www.youtube.com/embed/lN9fAUHVFaI" allowfullscreen></iframe>
+                                                        <iframe src="https://www.youtube.com/embed/31NljRdxUts" allowfullscreen></iframe>
                                                     </div>
                                                     <div class="card-body">
-                                                        <h3 class="card-title">Combat Formation</h4>
-                                                        <h5 class="card-subtitle mb-2 text-white">
-                                                            Made by FeelsGoodMan
-                                                        </h5>
-                                                        <p class="card-text">(GUI) Interface designed to edit the formattion of the </p>
+                                                        <h3 class="card-title">Creating a Shop UI</h4>
+                                                        <p class="card-text">An example on how to create a shop UI.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -451,8 +484,24 @@ export class Modals {
                                                             </ol>
                                                         </div>
                                                     </div>
-                                                  </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                                    <button class="accordion-button bg-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordionOther" aria-expanded="false" aria-controls="accordionOther">
+                                                        Other
+                                                    </button>
+                                                    </h2>
+                                                    <div id="accordionOther" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                                        <div class="accordion-body bg-dark text-white">
+                                                            <ol>
+                                                                <li><strong>Shortcuts:</strong> Ctrl+Z: undo. Ctrl+Y: redo. (Delete) button: deletes selected element.</li>
+                                                                <li>Unselected frames have green borders. Selected frames have red borders. Unselected Tooltip frames have yellow borders.</li>
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                               </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

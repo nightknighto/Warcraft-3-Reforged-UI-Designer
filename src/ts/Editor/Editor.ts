@@ -125,7 +125,7 @@ export class Editor {
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/QuestCheckBox.png';
         newFrameBuilder.type = FrameType.QUEST_CHECKBOX;
-        ribOthers.addMenuOption('Quest Check Box', new CreateFrameAtSelected(newFrameBuilder));
+        ribOthers.addMenuOption('Check Box', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CheckListBox.png';
