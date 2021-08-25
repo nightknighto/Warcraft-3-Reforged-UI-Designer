@@ -63,9 +63,9 @@ ipcRenderer.on('TableArraySubmit', (event, args) => {try{
 const mod = new bootstrap.Modal(document.getElementById('CircArray'))
 const CircParent = document.getElementById('CircCheckParent') as HTMLInputElement 
 ipcRenderer.on('CircularArray', () => {
+  CircParent.checked = false
   if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
       CircParent.disabled = false
-      CircParent.checked = false
   } else {
     CircParent.disabled = true
   }
