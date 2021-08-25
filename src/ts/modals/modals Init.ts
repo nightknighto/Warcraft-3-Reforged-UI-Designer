@@ -1,4 +1,4 @@
-import bootstrap = require("bootstrap");
+import * as bootstrap from "bootstrap";
 
 const modal_container = document.getElementById('modal-container')
 export class Modals {

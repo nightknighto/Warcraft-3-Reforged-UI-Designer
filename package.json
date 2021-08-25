@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@material/textfield": "^10.0.0",
+    "@popperjs/core": "^2.9.3",
     "@types/bootstrap": "^5.1.2",
     "bootstrap": "^5.1.0",
     "bootstrap-social": "^5.1.1",
