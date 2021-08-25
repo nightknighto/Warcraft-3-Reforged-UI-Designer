@@ -280,9 +280,8 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 if(kind == 0) { //if declaring, delete index
                     textEdit = textEdit.replace(/FRvar/gi, el.getName().replace('[00]', '')) //FRvar to skip array renaming
                 } else {
-                    if(lang == 'ts' && el.getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/FRvar/gi, el.getName().replace('[0','[')); //solution to Octal literals
-                    else textEdit = textEdit.replace(/FRvar/gi, el.getName());
-
+                    if(el.getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/FRvar/gi, el.getName().replace('[0','[')); //solution to Octal literals
+                    else textEdit = textEdit.replace(/FRvar/gi, el.getName())
                 }
                 textEdit = textEdit.replace(/FRvrr/gi, el.getName().replace('[', '').replace(']', '')) //mainly for FRvrrFunc (suffix present)
             } else {
@@ -298,7 +297,11 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
 
             if (el) {
                 if (el.getParent()) {
-                    if(lang == 'jass' || lang == 'lua') textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName());
+                    if(lang == 'jass' || lang == 'lua')  if(el.getParent().getName().indexOf('[0') >= 0) {
+                        textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName().replace('[0','['));
+                        } else {
+                            textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName())
+                        }
                     else if(lang == 'ts') {
                         if(el.getParent().getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName().replace('[0','['));
                         else textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
