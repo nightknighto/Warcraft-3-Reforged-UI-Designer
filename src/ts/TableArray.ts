@@ -19,8 +19,8 @@ submit.onclick = () => {
 
             if (+rows.value <= 0) { rows.value = "" }
             if (+columns.value <= 0) { columns.value = '' }
-            if (+gapX.value <= 0) { gapX.value = '' }
-            if (+gapY.value <= 0) { gapY.value = '' }
+            if (+gapX.value < 0) { gapX.value = '' }
+            if (+gapY.value < 0) { gapY.value = '' }
             return;
         }
 
