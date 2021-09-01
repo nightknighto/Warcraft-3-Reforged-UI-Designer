@@ -12,7 +12,7 @@ export class Modals {
     }
 
     AboutUs() {
-        modal_container.innerHTML = `
+        modal_container.innerHTML += `
             <div class="modal fade" id="AboutUs" tabindex="-1" aria-labelledby="AboutUs" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -523,11 +523,11 @@ export class Modals {
         .then(res => res.text())
         .then(body => {
             modal_container.innerHTML = ""
+            this.WelcomePage();
             this.AboutUs();
             this.Changelog();
             this.Hall_of_Fame();
             modal_container.innerHTML += body
-            this.WelcomePage();
         })
     }
 
