@@ -21,6 +21,7 @@ import { electron } from "webpack";
 import Undo from "./Commands/Undo";
 import Redo from "./Commands/Redo";
 import RemoveFrame from "./Commands/Implementation/RemoveFrame";
+import { ParameterEditor } from "./Editor/ParameterEditor";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -162,6 +163,39 @@ window.addEventListener('keydown', function (event) {
         const command = new RemoveFrame(ProjectTree.getSelected());
         command.action();
       }
+  }
+
+  const par = ParameterEditor.inst()
+  if (event.which === 37) { //left
+    if(ProjectTree.getSelected()) {
+      par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.001 + ""
+      if(!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.009 + ""
+      par.inputElementCoordinateX.dispatchEvent(new Event('change'));
+    }
+  } 
+
+  if (event.which === 38) { //up
+    if(ProjectTree.getSelected()) {
+      par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.001 + ""
+      if(!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.009 + ""
+      par.inputElementCoordinateY.dispatchEvent(new Event('change'));
+    }
+  }
+
+  if (event.which === 39) { //right
+    if(ProjectTree.getSelected()) {
+      par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.001 + ""
+      if(!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.009 + ""
+      par.inputElementCoordinateX.dispatchEvent(new Event('change'));
+    }
+  }
+
+  if (event.which === 40) { //down
+    if(ProjectTree.getSelected()) {
+      par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.001 + ""
+      if(!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.009 + ""
+      par.inputElementCoordinateY.dispatchEvent(new Event('change'));
+    }
   }
 });
 
