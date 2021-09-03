@@ -15,7 +15,7 @@ gapY.value = '0.05'
 submit.onclick = () => {
     try {
         //conditions plz
-        if (+rows.value <= 0 || +columns.value <= 0 || +gapX.value <= 0 || +gapY.value <= 0) {
+        if (+rows.value <= 0 || +columns.value <= 0 || +gapX.value < 0 || +gapY.value < 0) {
 
             if (+rows.value <= 0) { rows.value = "" }
             if (+columns.value <= 0) { columns.value = '' }
@@ -25,13 +25,13 @@ submit.onclick = () => {
         }
 
         
-        if (+rows.value > 10 || +columns.value > 10) {
+        // if (+rows.value > 10 || +columns.value > 10) {
 
-            if (+rows.value > 10) { rows.value = "" }
-            if (+columns.value > 10) { columns.value = '' }
-            alert("Max Limit: 10 rows/columns")
-            return;
-        }
+        //     if (+rows.value > 10) { rows.value = "" }
+        //     if (+columns.value > 10) { columns.value = '' }
+        //     alert("Max Limit: 10 rows/columns")
+        //     return;
+        // }
 
         ipcRenderer.send('TableArraySubmit', [rows.valueAsNumber, columns.valueAsNumber, gapX.valueAsNumber, gapY.valueAsNumber, chPar.checked])
         window.close()
