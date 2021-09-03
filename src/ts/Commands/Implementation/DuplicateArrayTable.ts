@@ -73,6 +73,9 @@ export default class DuplicateArrayTable extends SimpleCommand {
 
         const parent = frame.getParent();
 
+        const oldName = frame.getName();
+        frame.setName(frame.getName().replace('[','').replace(']',''));
+
         let index = 0;
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.columns; j++) {
@@ -104,8 +107,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
             }
         }
 
-        const oldName = frame.getName();
-        frame.setName(oldName + "T[00]")
+        frame.setName(frame.getName() + "T[00]")
         this.undoCommands.push(new ChangeFrameName(frame, oldName));
 
     }

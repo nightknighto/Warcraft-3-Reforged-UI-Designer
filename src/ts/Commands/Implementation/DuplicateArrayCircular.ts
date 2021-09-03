@@ -58,6 +58,9 @@ export default class DuplicateArrayCircular extends SimpleCommand{
         const angDisp = Math.PI * 2 / this.count;
         const parent = frame.getParent();
 
+        const oldName = frame.getName();
+        frame.setName(frame.getName().replace('[','').replace(']',''));
+
         for (let i = 0; i < this.count; i++) {
 
             const builder = FrameBuilder.copy(frame);
@@ -90,6 +93,9 @@ export default class DuplicateArrayCircular extends SimpleCommand{
 
         this.undoCommands.push(new CreateFrame(frame.getParent(), FrameBuilder.copy(frame)));
         new RemoveFrame(frame).pureAction()
+        
+        this.undoCommands.push(new ChangeFrameName(frame, oldName));
+
 
     }
 
