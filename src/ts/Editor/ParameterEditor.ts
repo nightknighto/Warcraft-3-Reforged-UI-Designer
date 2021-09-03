@@ -375,7 +375,7 @@ export class ParameterEditor {
         try {
 
             const loc = (ev.target as HTMLInputElement).value;
-            const editor = Editor.GetDocumentEditor();
+            const editor = Editor.GetDocumentEditor()
             const rect = editor.workspaceImage.getBoundingClientRect()
             const image = editor.projectTree.getSelectedFrame().custom.getElement()
 
@@ -417,8 +417,11 @@ export class ParameterEditor {
     static InputWC3Texture(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
+        let text = inputElement.value;
+        text = text.replace(/(?<!\\)\\(?!\\)/g, "\\\\");
+        inputElement.value = text
 
-        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomImage).setWc3Texture(inputElement.value);
+        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomImage).setWc3Texture(text);
         debugText('WC3 Texture changed.');
 
     }
@@ -439,6 +442,12 @@ export class ParameterEditor {
         const inputElement = ev.target as HTMLInputElement;
 
         const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+
+        let text = inputElement.value
+        if(text.indexOf("udg_") != 0) {
+            text = "udg_"+text
+            console.log(text)
+        }
 
         if (frameBaseContent instanceof CustomImage) {
             frameBaseContent.setTrigVar(inputElement.value);
