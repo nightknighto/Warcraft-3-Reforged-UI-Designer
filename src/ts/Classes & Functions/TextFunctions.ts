@@ -397,12 +397,12 @@ function inputElementsUpdate(div: CustomText) {
         const horizontalMargin = 240/1920*workspaceImage.width
 
         parameterEditor.inputElementWidth.value = InputEdit((div.getElement().offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
-        div.setWidth(+parameterEditor.inputElementWidth.value)
+        div.setWidth(+parameterEditor.inputElementWidth.value, true)
         parameterEditor.inputElementHeight.value = InputEdit(div.getElement().offsetHeight * 600 / workspaceImage.height);
-        div.setHeight(+parameterEditor.inputElementHeight.value)
+        div.setHeight(+parameterEditor.inputElementHeight.value, true)
         parameterEditor.inputElementCoordinateX.value = `${InputEdit((div.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2*horizontalMargin) * 800)}`;
-        div.setLeftX(+parameterEditor.inputElementCoordinateX.value)
+        div.setLeftX(+parameterEditor.inputElementCoordinateX.value, true)
         parameterEditor.inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - div.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-        div.setBotY(+parameterEditor.inputElementCoordinateY.value)
+        div.setBotY(+parameterEditor.inputElementCoordinateY.value, true)
 
 }

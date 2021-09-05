@@ -4,6 +4,7 @@ import SaveContainer from "../../Persistence/SaveContainer";
 import { Editor } from "../Editor";
 import { FrameComponent } from "./FrameComponent";
 import { ProjectTree } from "../ProjectTree";
+import { FrameType } from "./FrameType";
 
 export default abstract class FrameBaseContent implements Saveable {
 
@@ -53,12 +54,12 @@ export default abstract class FrameBaseContent implements Saveable {
         return this.width;
     }
 
-    public setWidth(newWidth: number): void {
+    public setWidth(newWidth: number, noChange?: boolean): void {
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         const horizontalMargin = 240 / 1920 * rect.width
 
-        this.element.style.width = newWidth / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + "px";
+        if(!noChange) this.element.style.width = newWidth / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + "px";
         this.width = newWidth;
 
     }
@@ -67,14 +68,15 @@ export default abstract class FrameBaseContent implements Saveable {
         return this.height;
     }
 
-    public setHeight(newHeight: number): void {
+    public setHeight(newHeight: number, noChange?: boolean): void {
 
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
-        //@ts-ignore: element will have height.
-        this.element.style.top = `${this.element.offsetTop + this.element.height - newHeight * rect.height / 0.6}px`
-        this.element.style.height = `${newHeight / 0.6 * workspace.getBoundingClientRect().height}px`;
-
+        if(!noChange) {
+            //@ts-ignore: element will have height.
+            this.element.style.top = `${this.element.offsetTop + this.element.height - newHeight * rect.height / 0.6}px`
+            this.element.style.height = `${newHeight / 0.6 * workspace.getBoundingClientRect().height}px`;
+        }
         this.height = newHeight
     }
 
@@ -82,13 +84,13 @@ export default abstract class FrameBaseContent implements Saveable {
         return this.leftX;
     }
 
-    public setLeftX(newX: number): void {
+    public setLeftX(newX: number, noChange?: boolean): void {
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
         const horizontalMargin = 240 / 1920 * rect.width
 
         this.leftX = newX;
-        this.element.style.left = `${+newX * (rect.width - 2 * horizontalMargin) / 0.8 + rect.left + horizontalMargin}px`
+        if(!noChange) this.element.style.left = `${+newX * (rect.width - 2 * horizontalMargin) / 0.8 + rect.left + horizontalMargin}px`
 
     }
 
@@ -96,13 +98,13 @@ export default abstract class FrameBaseContent implements Saveable {
         return this.botY;
     }
 
-    public setBotY(newY: number): void {
+    public setBotY(newY: number, noChange?: boolean): void {
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
 
         this.botY = newY;
         //@ts-ignore: Element will have height;
-        this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
+        if(!noChange) this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
 
     }
 

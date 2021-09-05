@@ -10,7 +10,7 @@ export function ImageFunctions(img: CustomImage): void {
     const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
 
     img.getElement().onmousedown = function (e) {
-        const horizontalMargin = 240 / 1920 * workspaceImage.width //refresh the value
+        const horizontalMargin = 240 / 1920 * workspaceImage.getBoundingClientRect().width //refresh the value
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const frame = img.getFrameComponent();
 
@@ -401,11 +401,11 @@ function inputElementsUpdate(img: CustomImage) {
     const horizontalMargin = 240/1920*workspaceImage.width
 
     parameterEditor.inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2 * horizontalMargin)));
-    img.setWidth(+parameterEditor.inputElementWidth.value)
+    img.setWidth(+parameterEditor.inputElementWidth.value, true)
     parameterEditor.inputElementHeight.value = InputEdit(img.getElement().height * 600 / workspaceImage.height);
-    img.setHeight(+parameterEditor.inputElementHeight.value)
+    img.setHeight(+parameterEditor.inputElementHeight.value, true)
     parameterEditor.inputElementCoordinateX.value = `${InputEdit((img.getElement().offsetLeft - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / (workspaceImage.width - 2 * horizontalMargin) * 800)}`;
-    img.setLeftX(+parameterEditor.inputElementCoordinateX.value)
+    img.setLeftX(+parameterEditor.inputElementCoordinateX.value, true)
     parameterEditor.inputElementCoordinateY.value = `${InputEdit((workspaceImage.getBoundingClientRect().bottom - img.getElement().getBoundingClientRect().bottom) / workspaceImage.height * 600)}`;
-    img.setBotY(+parameterEditor.inputElementCoordinateY.value)
+    img.setBotY(+parameterEditor.inputElementCoordinateY.value, true)
 }
