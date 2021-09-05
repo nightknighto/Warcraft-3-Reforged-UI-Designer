@@ -444,7 +444,7 @@ export class ParameterEditor {
         const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
 
         let text = inputElement.value
-        if(text.indexOf("udg_") != 0) {
+        if(text.indexOf("udg_") != 0 && text.length > 0) {
             text = "udg_"+text
             console.log(text)
         }
@@ -593,6 +593,12 @@ export class ParameterEditor {
                     this.fieldTooltip.style.display = "none";
                     this.fieldTexture.style.display = "initial";
                 }
+                
+                if(frame.type == FrameType.CHECKBOX) {
+                    this.fieldFunctionalityFull.style.display = "initial";
+                    this.fieldFunctionalityText.style.display = "none";
+                    this.fieldFunctionalityVar.style.display = "initial";
+                }
 
                 let parentHasTooltip = false;
                 for(const el of frame.getParent().getChildren()) {
@@ -608,7 +614,7 @@ export class ParameterEditor {
 
                 const n = frame.type;
                 if (n != FrameType.BUTTON && n != FrameType.SCRIPT_DIALOG_BUTTON
-                    && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON) {
+                    && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON && n != FrameType.CHECKBOX) {
                     this.inputElementTrigVar.disabled = true
                     this.inputElementTrigVar.value = ""
                 }
