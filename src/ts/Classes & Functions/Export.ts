@@ -309,6 +309,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     }
                 }
             }
+            if(el.world_frame) textEdit = textEdit.replace("ORIGIN_FRAME_GAME_UI", "ORIGIN_FRAME_WORLD_FRAME")
             textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
             textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
             textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
@@ -403,6 +404,9 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
 
         case FrameType.TEXT_FRAME:
             return JASS.TextFrame
+            
+        case FrameType.HORIZONTAL_BAR:
+            return JASS.HorizontalBar
     }
     return ""
 }
@@ -453,6 +457,8 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
         case FrameType.TEXT_FRAME:
             return LUA.TextFrame
 
+        case FrameType.HORIZONTAL_BAR:
+            return LUA.HorizontalBar
     }
     return ""
 }
@@ -502,6 +508,9 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
 
         case FrameType.TEXT_FRAME:
             return Typescript.TextFrame
+
+        case FrameType.HORIZONTAL_BAR:
+            return Typescript.HorizontalBar
 
     }
     return ""

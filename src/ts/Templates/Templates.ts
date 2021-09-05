@@ -23,7 +23,7 @@ export namespace JASS {
     export const TriggerVariableInit = 'set TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n'
     export const TriggerButtonDisableEnd = 'endfunction \n \n'
 
-    export const backdrop = '\nset FRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
+    export const backdrop = '\nset FRvar = BlzCreateFrameByType("BACKDROP", "FRvar", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
 
     export const button = '\nset FRvar = BlzCreateFrame("ScriptDialogButton", OWNERvar, 0, 0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n set BackdropFRvar = BlzCreateFrameByType("BACKDROP", "BackdropFRvar", FRvar, "", 1) \n call BlzFrameSetAllPoints(BackdropFRvar, FRvar) \n call BlzFrameSetTexture(BackdropFRvar, PATHvar, 0, true) \n'
 
@@ -38,6 +38,8 @@ export namespace JASS {
     export const QuestCheckBox = '\nset FRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const InvisButton = '\nset FRvar = BlzCreateFrameByType("GLUEBUTTON", "name", OWNERvar, "",0) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const TextFrame = `\nset FRvar = BlzCreateFrameByType("TEXT", "name", OWNERvar, "", 0) \ncall BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \ncall BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \ncall BlzFrameSetText(FRvar, TEXTvar) \ncall BlzFrameSetEnable(FRvar, false) \ncall BlzFrameSetScale(FRvar, FRscale) \n`
+    export const HorizontalBar = '\nset FRvar = BlzCreateFrameByType("SIMPLESTATUSBAR", "", OWNERvar, "", 0) \ncall BlzFrameSetTexture(FRvar, PATHvar, 0, true) \ncall BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \ncall BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \ncall BlzFrameSetValue(FRvar, 100) \n'
+
 
     export const TooltipOwnerButton = `call BlzFrameSetTooltip(OWNERvar, FRvar) \n`
     export const TooltipOwnerOther = `set TooltipFRvar = BlzCreateFrameByType("FRAME", "", OWNERvar,"", 0) \ncall BlzFrameSetAllPoints(TooltipFRvar, OWNERvar) \ncall BlzFrameSetTooltip(TooltipFRvar, FRvar) \n`
@@ -80,7 +82,7 @@ export namespace LUA {
     export const TriggerVariableInit = "globals.TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n"
     export const TriggerButtonDisableEnd = 'end \n \n'
 
-    export const backdrop = '\nFRvar = BlzCreateFrameByType("BACKDROP", " FRvar ", OWNERvar, "", 1) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
+    export const backdrop = '\nFRvar = BlzCreateFrameByType("BACKDROP", "FRvar", OWNERvar, "", 1) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
 
     export const button = '\nFRvar = BlzCreateFrame("ScriptDialogButton", OWNERvar, 0, 0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBackdropFRvar = BlzCreateFrameByType("BACKDROP", "BackdropFRvar", FRvar, "", 1) \nBlzFrameSetAllPoints(BackdropFRvar, FRvar) \nBlzFrameSetTexture(BackdropFRvar, PATHvar, 0, true) \n'
 
@@ -95,6 +97,7 @@ export namespace LUA {
     export const QuestCheckBox = '\nFRvar = BlzCreateFrame("QuestCheckBox", OWNERvar,0,0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const InvisButton = '\nFRvar = BlzCreateFrameByType("GLUEBUTTON", "name", OWNERvar, "",0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const TextFrame = `\nFRvar = BlzCreateFrameByType("TEXT", "name", OWNERvar, "", 0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetText(FRvar, TEXTvar) \nBlzFrameSetEnable(FRvar, false) \nBlzFrameSetScale(FRvar, FRscale) \n`
+    export const HorizontalBar = '\nFRvar = BlzCreateFrameByType("SIMPLESTATUSBAR", "", OWNERvar, "", 0) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetValue(FRvar, 100) \n'
 
     export const TooltipOwnerButton = `BlzFrameSetTooltip(OWNERvar, FRvar) \n`
     export const TooltipOwnerOther = `TooltipFRvar = BlzCreateFrameByType("FRAME", "", OWNERvar,"", 0) \nBlzFrameSetAllPoints(TooltipFRvar, OWNERvar) \nBlzFrameSetTooltip(TooltipFRvar, FRvar) \n`
@@ -131,7 +134,7 @@ export namespace Typescript {
 
     export const constructorInit = "   constructor() {\n      let t: Trigger;\n\n"
 
-    export const backdrop = '\nthis.FRvar = new Frame(" this.FRvar ", OWNERvar, 1, 1, "BACKDROP", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setTexture(PATHvar, 0, true) \n'
+    export const backdrop = '\nthis.FRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "BACKDROP", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setTexture(PATHvar, 0, true) \n'
 
     export const button = '\nthis.FRvar = new Frame("ScriptDialogButton", OWNERvar, 0, 0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.BackdropFRvar = new Frame(" this.BackdropFRvar ", this.FRvar, 1, 1, "BACKDROP", "") \nthis.BackdropFRvar.setAllPoints(this.FRvar) \nthis.BackdropFRvar.setTexture(PATHvar, 0, true) \n'
 
@@ -145,10 +148,11 @@ export namespace Typescript {
     export const QuestButtonPushedBackdropTemplate = '\nthis.FRvar = new Frame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const QuestCheckBox = '\nthis.FRvar = new Frame("QuestCheckBox", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
     export const InvisButton = '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "GLUEBUTTON", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    export const TextFrame = `this.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXT", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.enabled = false \nthis.FRvar.setScale(FRscale) \n`
+    export const TextFrame = `\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXT", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.enabled = false \nthis.FRvar.setScale(FRscale) \n`
+    export const HorizontalBar = '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "SIMPLESTATUSBAR", "") \nthis.FRvar.setTexture(PATHvar, 0, true) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.value = 100 \n'
 
     export const TooltipOwnerButton = `OWNERvar.setTooltip(this.FRvar) \n`
-    export const TooltipOwnerOther = `TooltipFRvar = new Frame(" this.FRvar ", OWNERvar, 1, 1, "FRAME", "") \nTooltipFRvar.setAllPoints(OWNERvar) \nTooltipFRvar.setTooltip(this.FRvar) \n`
+    export const TooltipOwnerOther = `const TooltipFRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "FRAME", "") \nTooltipFRvar.setAllPoints(OWNERvar) \nTooltipFRvar.setTooltip(this.FRvar) \n`
 
     export const ButtonTriggerSetup = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CONTROL_CLICK) \nt.addAction( () => {\nthis.FRvar.enabled = false \nthis.FRvar.enabled = true \n})\n'
 

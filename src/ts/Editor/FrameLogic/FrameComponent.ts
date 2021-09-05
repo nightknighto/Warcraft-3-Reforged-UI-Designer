@@ -15,11 +15,15 @@ export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_CHILDREN = "children";
     public static readonly SAVE_KEY_TYPE = "type";
     public static readonly SAVE_KEY_TOOLTIP = "tooltip";
+    public static readonly SAVE_KEY_WORLDFRAME = "world_frame";
+
 
     private name: string;
     private children: FrameComponent[];
     public type: FrameType;
     private tooltip = false;
+
+    public world_frame = false;
 
     public readonly custom: FrameBaseContent;
     public readonly treeElement: HTMLElement;
@@ -93,6 +97,7 @@ export class FrameComponent implements Saveable {
         container.save(FrameComponent.SAVE_KEY_NAME, this.name);
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
         container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip);
+        container.save(FrameComponent.SAVE_KEY_WORLDFRAME, this.world_frame);
         this.custom.save(container);
 
         const childrenSaveArray = [];
@@ -194,5 +199,21 @@ export class FrameComponent implements Saveable {
 
     public getParent(): FrameComponent {
         return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
+    }
+
+    public changeOrigin(world_frame: boolean): FrameComponent {
+        let parent: FrameComponent = this
+        while(1) {
+            
+            if(parent.getParent().type == FrameType.ORIGIN) {
+                if(world_frame) parent.world_frame = true;
+                else parent.world_frame = false;
+                console.log('world_frame: '+parent.world_frame)
+                break;
+            }
+            parent = parent.getParent()
+        }
+
+        return this
     }
 }

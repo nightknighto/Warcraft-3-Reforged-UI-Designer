@@ -13,4 +13,5 @@ export enum FrameType {
     QUEST_CHECKBOX = 11,
     INVIS_BUTTON = 12,
     TEXT_FRAME = 13,
+    HORIZONTAL_BAR = 14,
 }

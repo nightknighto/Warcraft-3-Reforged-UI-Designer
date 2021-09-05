@@ -589,6 +589,10 @@ export class ParameterEditor {
                     frame.setTooltip(false);
                 }
                 
+                if(frame.type == FrameType.HORIZONTAL_BAR) {
+                    this.fieldTooltip.style.display = "none";
+                }
+
                 let parentHasTooltip = false;
                 for(const el of frame.getParent().getChildren()) {
                     if(el != frame && el.getTooltip()) {

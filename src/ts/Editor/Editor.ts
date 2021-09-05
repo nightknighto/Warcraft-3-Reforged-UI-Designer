@@ -128,6 +128,11 @@ export class Editor {
         ribOthers.addMenuOption('Check Box', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.texture = './files/images/HorizontalBar.png';
+        newFrameBuilder.type = FrameType.HORIZONTAL_BAR;
+        ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
         ribBackdrop.addMenuOption('Checklist Box', new CreateFrameAtSelected(newFrameBuilder));

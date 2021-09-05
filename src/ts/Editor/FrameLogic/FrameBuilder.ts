@@ -89,6 +89,10 @@ export class FrameBuilder{
             frameComponent.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected_Tooltip
         }catch(e) {alert("Loading Error: Tooltip Info")}
 
+        try{
+            frameComponent.world_frame = container.load(FrameComponent.SAVE_KEY_WORLDFRAME);
+        }catch(e) {console.log("Loading Error: world frame missing")}
+
         projectTree.select(frameComponent);
 
         if (container.hasKey(FrameComponent.SAVE_KEY_CHILDREN))

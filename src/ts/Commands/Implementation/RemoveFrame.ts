@@ -4,6 +4,7 @@ import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
 import CreateFrame from "./CreateFrame";
+import { FrameType } from "../../Editor/FrameLogic/FrameType";
 
 export default class RemoveFrame extends SimpleCommand{
 
@@ -33,6 +34,10 @@ export default class RemoveFrame extends SimpleCommand{
             return;
         }
 
+        if(frame.type == FrameType.HORIZONTAL_BAR) {
+            frame.changeOrigin(false)
+        }
+        
         this.undoCommand = new CreateFrame(frame.getParent(), FrameBuilder.copy(frame));
         this.frameChildren = frame.getChildren().map((it : FrameComponent) => it.getName());
         frame.destroy();
@@ -64,6 +69,11 @@ export default class RemoveFrame extends SimpleCommand{
         }
 
         super.undo();
+
+        if(parent.type == FrameType.HORIZONTAL_BAR) {
+            parent.changeOrigin(true)
+        }
+
         debugText("Undid frame remove.");
     }
 

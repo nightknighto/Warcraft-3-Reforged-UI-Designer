@@ -4,6 +4,7 @@ import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
 import RemoveFrame from "./RemoveFrame";
+import { FrameType } from "../../Editor/FrameLogic/FrameType";
 
 export default class CreateFrame extends SimpleCommand{
     private frameBuilder: FrameBuilder;
@@ -40,6 +41,10 @@ export default class CreateFrame extends SimpleCommand{
         this.resultingFrame = frame.createAsChild(this.frameBuilder)
         projectTree.select(this.resultingFrame);
 
+        if(this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
+            this.resultingFrame.changeOrigin(true)
+        }
+
     }
 
     public undo(): void {
@@ -47,6 +52,10 @@ export default class CreateFrame extends SimpleCommand{
         if (this.resultingFrame == undefined) {
             debugText("Could not undo, missing object.");
             return;
+        }
+
+        if(this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
+            this.resultingFrame.changeOrigin(false)
         }
 
         super.undo();
