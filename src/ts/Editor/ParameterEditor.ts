@@ -591,6 +591,7 @@ export class ParameterEditor {
                 
                 if(frame.type == FrameType.HORIZONTAL_BAR) {
                     this.fieldTooltip.style.display = "none";
+                    this.fieldTexture.style.display = "initial";
                 }
 
                 let parentHasTooltip = false;

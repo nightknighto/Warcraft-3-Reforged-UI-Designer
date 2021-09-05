@@ -75,13 +75,13 @@ export class FrameComponent implements Saveable {
             this.treeElement.setAttribute('style', 'cursor: pointer;')
             this.children = [];
             this.parentOption = document.createElement('option');
+            this.type = frameBuildOptions.type;
             if (frameBuildOptions.type == FrameType.TEXT_FRAME)
                 this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
             else
                 this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
 
             this.setName(frameBuildOptions.name);
-            this.type = frameBuildOptions.type;
 
             (ul as any).frameComponent = this;
 

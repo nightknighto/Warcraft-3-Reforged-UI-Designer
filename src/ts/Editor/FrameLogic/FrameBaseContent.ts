@@ -127,6 +127,9 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.style.outlineColor = ProjectTree.outlineUnSelected
         this.element.style.outlineOffset = "-3px";
 
+        if(this.frameComponent.type == FrameType.HORIZONTAL_BAR) {
+            this.element.style.filter = "brightness(0.6) saturate(0.5)"
+        }
         (element as any).frameBaseContent = this;
         
         //step 1: event sent to main.ts to display the menu.
