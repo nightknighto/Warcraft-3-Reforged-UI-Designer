@@ -450,7 +450,7 @@ export class ParameterEditor {
         }
 
         if (frameBaseContent instanceof CustomImage) {
-            frameBaseContent.setTrigVar(inputElement.value);
+            frameBaseContent.setTrigVar(text);
             debugText("Triggered Variable changed.");
         }
 
