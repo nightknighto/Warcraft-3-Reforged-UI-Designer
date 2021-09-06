@@ -519,7 +519,7 @@ export class ParameterEditor {
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 this.disableFields(false)
-
+                this.setupLists(frame)
                 this.inputElementName.value = frame.getName();
 
                 if (frame.custom instanceof CustomImage) {
@@ -651,5 +651,23 @@ export class ParameterEditor {
             }
 
         } catch (e) { alert(e) }
+    }
+
+    private readonly list = ['Red','Blue','Teal','Purple','Yellow','Orange','Green', 'Pink', 'Gray',
+        'LightBlue','DArkGreen','Brown']
+
+    setupLists(frame: FrameComponent) {
+        const listEl = document.getElementById('WC3TextureList')
+        listEl.innerHTML = ""
+
+        if(frame.type == FrameType.HORIZONTAL_BAR) {
+            for(let i = 0; i < this.list.length; i++) {
+                const op = document.createElement('option')
+                op.value = 'Replaceabletextures\\Teamcolor\\Teamcolor'+(i < 10? '0'+i:i)+'.blp'
+                op.innerText = this.list[i]
+                listEl.append(op)
+            }
+        }
+
     }
 }
