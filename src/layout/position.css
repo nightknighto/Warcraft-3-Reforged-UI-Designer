@@ -195,3 +195,10 @@ body{
 .accordion-body ul {
     padding: 10px;
 }
+
+.panels {
+    background-image: url('./files/WoodenPanels.png');
+    background-repeat: round;
+    background-size: auto 100%;
+    color: white;
+}
