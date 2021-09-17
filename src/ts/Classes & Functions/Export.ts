@@ -214,7 +214,11 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                             }
                         }
                         if (lang == 'jass' || lang == 'lua' ) {
-                            if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITYArray;
+                            if (el.custom instanceof CustomImage) {
+                                if(el.type == FrameType.CHECKBOX) {
+                                    if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
+                                } else text += temp.declaresFUNCTIONALITYArray;
+                            }
                         }
                     } else { //secondary instance
                         continue;
@@ -233,20 +237,36 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         }
                     }
                     if (lang == 'jass' || lang == 'lua' ) {
-                        if (el.custom instanceof CustomImage) text += temp.declaresFUNCTIONALITY;
+                        if (el.custom instanceof CustomImage) {
+                            if(el.type == FrameType.CHECKBOX) {
+                                if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
+                            } else text += temp.declaresFUNCTIONALITY;
+                        }
                     }
                 }
 
             } else if (kind == 1 && lang != 'ts') {
+                text = ""
                 if (el.custom instanceof CustomText) continue;
-                if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON) continue;
+                if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON
+                    && el.type != FrameType.CHECKBOX) continue;
 
-                text = temp.TriggerButtonDisableStart
-                if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
-                    text += temp.TriggerButtonDisableEnd
-                } else {
-                    text += temp.TriggerVariableInit
-                    text += temp.TriggerButtonDisableEnd
+                if(el.type != FrameType.CHECKBOX) {
+                    text = temp.TriggerButtonDisableStart
+                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
+                        text += temp.TriggerButtonDisableEnd
+                    } else {
+                        text += temp.TriggerVariableInit
+                        text += temp.TriggerButtonDisableEnd
+                    }
+                } else if(temp == JASS) {
+                    text = JASS.TriggerCheckboxStart
+                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
+                        text += JASS.TriggerCheckboxEnd
+                    } else {
+                        text += JASS.TriggerCheckboxTrig
+                        text += JASS.TriggerCheckboxEnd
+                    }
                 }
             } else if (kind == 2) {
                 let functionality = false
@@ -289,7 +309,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 textEdit = textEdit.replace(/FRvrr/gi, el.getName())
             }
 
-            if (el.custom instanceof CustomImage) textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
+            if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
             if (kind == 0) {
                 sumText += textEdit;
                 continue;
@@ -318,7 +338,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             switch (el.custom.constructor) {
                 case (CustomImage):
                     textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
+                    if((el.custom as CustomImage).getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
                     textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
                     break;
 
@@ -366,15 +386,15 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
             return JASS.backdrop
 
         case FrameType.BUTTON:
-            if (functionality) return JASS.button + JASS.TriggerVariableFinal;
+            if (functionality) return JASS.button + JASS.TriggerVariableFinalButton;
             return JASS.button
 
         case FrameType.SCRIPT_DIALOG_BUTTON:
-            if (functionality) return JASS.ScriptDialogButton + JASS.TriggerVariableFinal;
+            if (functionality) return JASS.ScriptDialogButton + JASS.TriggerVariableFinalButton;
             return JASS.ScriptDialogButton
 
         case FrameType.BROWSER_BUTTON:
-            if (functionality) return JASS.BrowserButton + JASS.TriggerVariableFinal;
+            if (functionality) return JASS.BrowserButton + JASS.TriggerVariableFinalButton;
             return JASS.BrowserButton
 
         case FrameType.CHECKLIST_BOX:
@@ -395,11 +415,12 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
         case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
             return JASS.QuestButtonPushedBackdropTemplate
 
-        case FrameType.QUEST_CHECKBOX:
+        case FrameType.CHECKBOX:
+            if(functionality) return JASS.QuestCheckBox + JASS.TriggerVariableCheckbox
             return JASS.QuestCheckBox
 
         case FrameType.INVIS_BUTTON:
-            if (functionality) return JASS.InvisButton + JASS.TriggerVariableFinal;
+            if (functionality) return JASS.InvisButton + JASS.TriggerVariableFinalButton;
             return JASS.InvisButton
 
         case FrameType.TEXT_FRAME:
@@ -418,15 +439,15 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
             return LUA.backdrop
 
         case FrameType.BUTTON:
-            if (functionality) return LUA.button + LUA.TriggerVariableFinal;
+            if (functionality) return LUA.button + LUA.TriggerVariableButton;
             return LUA.button
 
         case FrameType.SCRIPT_DIALOG_BUTTON:
-            if (functionality) return LUA.ScriptDialogButton + LUA.TriggerVariableFinal;
+            if (functionality) return LUA.ScriptDialogButton + LUA.TriggerVariableButton;
             return LUA.ScriptDialogButton
 
         case FrameType.BROWSER_BUTTON:
-            if (functionality) return LUA.BrowserButton + LUA.TriggerVariableFinal;
+            if (functionality) return LUA.BrowserButton + LUA.TriggerVariableButton;
             return LUA.BrowserButton
 
         case FrameType.CHECKLIST_BOX:
@@ -447,11 +468,12 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
         case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
             return LUA.QuestButtonPushedBackdropTemplate
 
-        case FrameType.QUEST_CHECKBOX:
+        case FrameType.CHECKBOX:
+            if(functionality) return LUA.QuestCheckBox + LUA.TriggerVariableCheckbox
             return LUA.QuestCheckBox
 
         case FrameType.INVIS_BUTTON:
-            if (functionality) return LUA.InvisButton + LUA.TriggerVariableFinal;
+            if (functionality) return LUA.InvisButton + LUA.TriggerVariableButton;
             return LUA.InvisButton
 
         case FrameType.TEXT_FRAME:
@@ -499,7 +521,8 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
         case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
             return Typescript.QuestButtonPushedBackdropTemplate
 
-        case FrameType.QUEST_CHECKBOX:
+        case FrameType.CHECKBOX:
+            if(functionality) return Typescript.QuestCheckBox + Typescript.TriggerVariableCheckbox
             return Typescript.QuestCheckBox
 
         case FrameType.INVIS_BUTTON:

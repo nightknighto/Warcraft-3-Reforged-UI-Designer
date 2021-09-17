@@ -15,13 +15,21 @@ export namespace JASS {
     export const declaresFUNCTIONALITY = "trigger TriggerFRvar = null \n"
     export const declaresFUNCTIONALITYArray = "trigger array TriggerFRvar \n"
 
+    export const declaresFUNCTIONALITYcheckbox = "trigger TriggerChFRvar = null \n"
+    export const declaresFUNCTIONALITYArraycheckbox = "trigger array TriggerChFRvar \n"
+
     export const endglobals = "endglobals \n \n"
 
     export const library = "library FRlib initializer init \n"
     export const libraryInit = "private function init takes nothing returns nothing \n"
+
     export const TriggerButtonDisableStart = 'function FRvrrFunc takes nothing returns nothing \ncall BlzFrameSetEnable(FRvar, false) \ncall BlzFrameSetEnable(FRvar, true) \n'
     export const TriggerVariableInit = 'set TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n'
     export const TriggerButtonDisableEnd = 'endfunction \n \n'
+
+    export const TriggerCheckboxStart = 'function FRvrrChFunc takes nothing returns nothing \n'
+    export const TriggerCheckboxTrig = 'if BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED then\nset TRIGvar = 2\nelse \nset TRIGvar = 1\nendif\n'
+    export const TriggerCheckboxEnd = 'endfunction \n \n'
 
     export const backdrop = '\nset FRvar = BlzCreateFrameByType("BACKDROP", "FRvar", OWNERvar, "", 1) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n call BlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n call BlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
 
@@ -44,7 +52,8 @@ export namespace JASS {
     export const TooltipOwnerButton = `call BlzFrameSetTooltip(OWNERvar, FRvar) \n`
     export const TooltipOwnerOther = `set TooltipFRvar = BlzCreateFrameByType("FRAME", "", OWNERvar,"", 0) \ncall BlzFrameSetAllPoints(TooltipFRvar, OWNERvar) \ncall BlzFrameSetTooltip(TooltipFRvar, FRvar) \n`
 
-    export const TriggerVariableFinal = 'set TriggerFRvar = CreateTrigger() \n call BlzTriggerRegisterFrameEvent(TriggerFRvar, FRvar, FRAMEEVENT_CONTROL_CLICK) \n call TriggerAddAction(TriggerFRvar, function FRvrrFunc) \n'
+    export const TriggerVariableFinalButton = 'set TriggerFRvar = CreateTrigger() \n call BlzTriggerRegisterFrameEvent(TriggerFRvar, FRvar, FRAMEEVENT_CONTROL_CLICK) \n call TriggerAddAction(TriggerFRvar, function FRvrrFunc) \n'
+    export const TriggerVariableCheckbox = 'set TriggerChFRvar = CreateTrigger() \n call BlzTriggerRegisterFrameEvent(TriggerChFRvar, FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \ncall BlzTriggerRegisterFrameEvent(TriggerChFRvar, FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \n call TriggerAddAction(TriggerChFRvar, function FRvrrChFunc) \n'
 
     export const endlibrary = "endfunction \nendlibrary\n"
 
@@ -73,7 +82,7 @@ export namespace LUA {
 
     export const declaresFUNCTIONALITY = "TriggerFRvar = nil \n"
     export const declaresFUNCTIONALITYArray = "TriggerFRvar = {} \n"
-
+    
     export const endglobals = ""
 
     export const library = "FRlib = {}\n"
@@ -81,7 +90,7 @@ export namespace LUA {
     export const TriggerButtonDisableStart = 'FRlib.FRvrrFunc = function() \nBlzFrameSetEnable(FRvar, false) \nBlzFrameSetEnable(FRvar, true) \n'
     export const TriggerVariableInit = "globals.TRIGvar = GetConvertedPlayerId(GetTriggerPlayer()) \n"
     export const TriggerButtonDisableEnd = 'end \n \n'
-
+    
     export const backdrop = '\nFRvar = BlzCreateFrameByType("BACKDROP", "FRvar", OWNERvar, "", 1) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBlzFrameSetTexture(FRvar, PATHvar, 0, true) \n'
 
     export const button = '\nFRvar = BlzCreateFrame("ScriptDialogButton", OWNERvar, 0, 0) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nBlzFrameSetAbsPoint(FRvar, FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nBackdropFRvar = BlzCreateFrameByType("BACKDROP", "BackdropFRvar", FRvar, "", 1) \nBlzFrameSetAllPoints(BackdropFRvar, FRvar) \nBlzFrameSetTexture(BackdropFRvar, PATHvar, 0, true) \n'
@@ -102,7 +111,8 @@ export namespace LUA {
     export const TooltipOwnerButton = `BlzFrameSetTooltip(OWNERvar, FRvar) \n`
     export const TooltipOwnerOther = `TooltipFRvar = BlzCreateFrameByType("FRAME", "", OWNERvar,"", 0) \nBlzFrameSetAllPoints(TooltipFRvar, OWNERvar) \nBlzFrameSetTooltip(TooltipFRvar, FRvar) \n`
 
-    export const TriggerVariableFinal = 'TriggerFRvar = CreateTrigger() \nBlzTriggerRegisterFrameEvent(TriggerFRvar, FRvar, FRAMEEVENT_CONTROL_CLICK) \nTriggerAddAction(TriggerFRvar, FRlib.FRvrrFunc) \n'
+    export const TriggerVariableButton = 'TriggerFRvar = CreateTrigger() \nBlzTriggerRegisterFrameEvent(TriggerFRvar, FRvar, FRAMEEVENT_CONTROL_CLICK) \nTriggerAddAction(TriggerFRvar, FRlib.FRvrrFunc) \n'
+    export const TriggerVariableCheckbox = 'TriggerChFRvar = CreateTrigger() \nBlzTriggerRegisterFrameEvent(TriggerChFRvar, FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \nBlzTriggerRegisterFrameEvent(TriggerChFRvar, FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \nTriggerAddAction(TriggerChFRvar, function() \nif BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED then\nTRIGvar = 2\nelse \nTRIGvar = 1\nend\nend) \n \n'
 
     export const endlibrary = "end\n"
 
@@ -155,6 +165,7 @@ export namespace Typescript {
     export const TooltipOwnerOther = `const TooltipFRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "FRAME", "") \nTooltipFRvar.setAllPoints(OWNERvar) \nTooltipFRvar.setTooltip(this.FRvar) \n`
 
     export const ButtonTriggerSetup = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CONTROL_CLICK) \nt.addAction( () => {\nthis.FRvar.enabled = false \nthis.FRvar.enabled = true \n})\n'
-
+    export const TriggerVariableCheckbox = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \nt.addAction( () => {\nif(BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED) {\n//actions\n} else {\n//actions\n}\n})\n'
+    
     export const endconstructor_library = "}\n\n}\n"
 }

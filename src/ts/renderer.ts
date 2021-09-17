@@ -216,4 +216,9 @@ editor.treeButton.onclick                 = GUIEvents.TreeOpenClose;
 }catch(e){alert("renderer"+e)}
 
 new Modals();
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 //# sourceMappingURL=renderer.js.map

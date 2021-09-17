@@ -47,7 +47,8 @@
 
                             <hr class="m-0; mt-1">
 
-                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px">
+                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px" 
+                            data-bs-toggle="tooltip" title="Automatically assign each child created to the parent of the corresponding index">
                                 <input type="checkbox" disabled name="checkParent" id="CircCheckParent" class="col-2 order-1" style="min-height: 80px;">
                                 <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="checkParent">Array Parent</label>    
                             </div>
@@ -101,7 +102,7 @@
 
             <div id='FieldElement'>
             <label><b>Details</b></label>
-            <div class="form-floating mb-1">
+            <div class="form-floating mb-1" data-bs-toggle="tooltip" title="Name of the element. Can be an array syntax, but must start with index 0">
                 <input type="text" class="form-control" id="elementName" placeholder="name">
                 <label for="elementName">Name</label> 
             </div>
@@ -114,14 +115,17 @@
             </select>
             </div>
 
-            <label for="elementParent" class="col-4">Parent: </label>
-            <select name="elementParent" id="elementParent" class="parameter">
-                <option value="parentTest1">Parent1</option>
-                <option value="parentTest1">Parent2</option>
-                <option value="parentTest1">Parent3</option>
-            </select>
+
+            <div data-bs-toggle="tooltip" title="Select the parent. Children are displayed over parents ingame">
+                <label for="elementParent" class="col-4">Parent: </label>
+                <select name="elementParent" id="elementParent" class="parameter">
+                    <option value="parentTest1">Parent1</option>
+                    <option value="parentTest1">Parent2</option>
+                    <option value="parentTest1">Parent3</option>
+                </select>
+            </div>
             
-            <div class="form-check" id='FieldTooltip'>
+            <div class="form-check" id='FieldTooltip' data-bs-toggle="tooltip" data-bs-html="true" title="Tooltips appear when hovering over their parents<hr>Disabled if the parent has another tooltip, parent is a tooltip or element is child of Origin">
               <label class="form-check-label">
                 Tooltip for Parent
                 <input type="checkbox" class="form-check-input" name="elementTooltip" id="elementTooltip">
@@ -133,11 +137,11 @@
             <label><b>Coordinates (bottom left)</b></label>
 
             <div class='row gx-1 justify-content-evenly'>
-                <div class="col-6 form-floating mb-1 ">
+                <div class="col-6 form-floating mb-1" id="tooltipX" data-bs-toggle="tooltip" title="arrow keys move elements. Hold shift for smaller movement">
                     <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateX" id="elementCoordinateX" class="form-control" placeholder="name">
                     <label for="elementCoordinateX">X</label>
                 </div>
-                <div class="col form-floating mb-2">
+                <div class="col form-floating mb-2" id="tooltipY" data-bs-toggle="tooltip" title="arrow keys move elements. Hold shift for smaller movement">
                     <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateY" id="elementCoordinateY" class="form-control" placeholder="name">
                     <label for="elementCoordinateY">Y</label>
                 </div>
@@ -161,38 +165,38 @@
             <hr>
                 
             <div id='FieldTexture'>
-            <label for=""><b>Texture Paths</b></label>
-            <div class='row gx-1'>
-                <div class="col-9 form-floating mb-1">
-                    <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
-                    <label for="elementDiskTexture">Texture Path</label>
+                <label for=""><b>Texture Paths</b></label>
+                <div class='row gx-1'>
+                    <div class="col-9 form-floating mb-1" id="tooltipTextureApp" data-bs-toggle="tooltip" title="The appearance inside the app. Not related to the game">
+                        <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
+                        <label for="elementDiskTexture">Texture Path</label>
+                    </div>
+
+                    <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
+                    <input type="file" accept="image/*" style="display:none" id="buttonBrowseTexture">
+                </div>
+                        
+
+                <div class="form-floating mb-3" id="tooltipTextureWC3" data-bs-toggle="tooltip" title="The appearance ingame. Put the path of the blp file in Asset Manager here">
+                    <input type="text" list="WC3TextureList" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
+                    <label for="elementWC3Texture">Texture Path (WE)</label>
+                    <datalist id="WC3TextureList">
+                        <option value="Black">
+                        <option value="Red">
+                        <option value="Green">
+                        <option value="Blue">
+                        <option value="White">
+                    </datalist>
                 </div>
 
-                <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
-                <input type="file" style="display:none" id="buttonBrowseTexture">
-            </div>
-                    
-
-            <div class="form-floating mb-3">
-                <input type="text" list="testlist" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
-                <label for="elementWC3Texture">Texture Path (WE)</label>
-                <!-- <datalist id="testlist">
-                    <option value="Black">
-                    <option value="Red">
-                    <option value="Green">
-                    <option value="Blue">
-                    <option value="White">
-                </datalist> -->
-            </div>
-
-            <hr>
+                <hr>
             </div>
 
             <div id='FieldFunctionalityFull'>
                 <label for=""><b>Functionality</b></label>
 
                 
-                <div id='FieldFunctionalityText'>
+                <div id='FieldFunctionalityText' data-bs-toggle="tooltip" title="This text will be written inside the element">
                     <div class="form-floating mb-1">
                         <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
                         <label for="elementText">Text</label>
@@ -201,7 +205,7 @@
                 
                 
                 <div id='FieldFunctionalityTextFrame'>
-                    <div class="form-floating mb-1">
+                    <div class="form-floating mb-1" data-bs-toggle="tooltip" title="Supports multi-line. Can also use color strings for colored parts of the text">
                         <textarea class="form-control" name="elementTextBig" id="elementTextBig" cols="22" rows="10" style="height: 100px;"></textarea>
                         <!-- <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name"> -->
                         <label for="elementTextBig">Text</label>
@@ -217,7 +221,7 @@
                 </div>
 
                
-                <div id='FieldFunctionalityVar'>
+                <div id='FieldFunctionalityVar' data-bs-toggle="tooltip" data-bs-html="true" title="Requires a variable of type 'real'. Variable name is always preceded by 'udg_'.<hr>For buttons, the variable will have the <b>number of the pressing player.</b><hr>For checkbox, value = 1 if it was unchecked, value = 2 if it was checked">
                     <div class="form-floating mb-3">
                         <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
                         <label for="elementTrigVar">Triggered Variable</label>
@@ -229,30 +233,37 @@
             
             <div id='FieldGeneral'>
                 <label for=""><b>General Options</b></label>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-3" id="tooltipLibName" data-bs-toggle="tooltip" title="Must be unique to be able to have more than 1 project in a map">
                     <input type="text" name="generalLibName" id="generalLibName" class="form-control" placeholder="name" value="REFORGEDUIMAKER">
                     <label for="generalLibName">Library Name</label>
                 </div>
                     
-                <label for="generalGameUI" class="col-10">Hide Full Game UI: </label>
+                <label for="generalGameUI" class="col-10" data-bs-toggle="tooltip" 
+                    title="Hides all the default UI like resource bar and unit data UI">Hide Full Game UI: </label>
                 <input type="checkbox" name="generalGameUI" id="generalGameUI">
                     
-                <label for="generalHeroBar" class="col-10">Hide Hero Bar: </label>
+                <label for="generalHeroBar" class="col-10" data-bs-toggle="tooltip" 
+                title="Hides hero health and mana bars from the left side">Hide Hero Bar: </label>
                 <input type="checkbox" name="generalHeroBar" id="generalHeroBar">
                     
-                <label for="generalMiniMap" class="col-10">Hide Minimap: </label>
+                <label for="generalMiniMap" class="col-10" data-bs-toggle="tooltip" 
+                title="Hides the minimap">Hide Minimap: </label>
                 <input type="checkbox" name="generalMiniMap" id="generalMiniMap">
                     
-                <label for="generalResources" class="col-10">Hide Resources Bar: </label>
+                <label for="generalResources" class="col-10" data-bs-toggle="tooltip" 
+                title="Hides the resource bar (gold, lumber)">Hide Resources Bar: </label>
                 <input type="checkbox" name="generalResources" id="generalResources">
                     
-                <label for="generalButtonBar" class="col-10">Hide Button Bar: </label>
+                <label for="generalButtonBar" class="col-10" data-bs-toggle="tooltip" 
+                title="Hide the button bar (menu, log)">Hide Button Bar: </label>
                 <input type="checkbox" name="generalButtonBar" id="generalButtonBar">
                     
-                <label for="generalPortrait" class="col-10">Hide Portrait: </label>
+                <label for="generalPortrait" class="col-10" data-bs-toggle="tooltip" 
+                title="Hides the units' portraits">Hide Portrait: </label>
                 <input type="checkbox" name="generalPortrait" id="generalPortrait">
                     
-                <label for="generalChat" class="col-10">Hide Chat (Chat won't be visible): </label>
+                <label for="generalChat" class="col-10" data-bs-toggle="tooltip" 
+                title="Chat messages sent by players' won't be visible">Hide Chat: </label>
                 <input type="checkbox" name="generalChat" id="generalChat">
 
 

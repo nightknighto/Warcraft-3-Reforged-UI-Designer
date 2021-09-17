@@ -144,6 +144,34 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.2.0</h2>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: Tooltips for fields!</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Horizontal Bar</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Checkbox functionality made</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Movement of element with arrow keys</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">Improved app's layout</li>
+                                                        <li class="list-group-item list-group-item-primary">TableArray: can make unlimited frames</li>
+                                                        <li class="list-group-item list-group-item-primary">Improved input in Texture, TrigVar fields</li>
+                                                    </ul>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.1.0</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
@@ -362,9 +390,13 @@ export class Modals {
                                                                 </li>
 
                                                                 <li><strong>Text</strong>: clicking on it creates a Text Frame. Text Frames are basically just texts, that can be put above anything or anywhere.</li>
-                                                        
-                                                        
-                                                                <li><strong>Others</strong>: Includes special types of frames. This will contain more things later on.</li>
+
+                                                                <li><strong>Others</strong>: Includes special types of frames.
+                                                                    <ul>
+                                                                        <li>Checkbox: This frame is clickable. Upon clicking, if there was a Triggered Variable, it will have the value of 1 if the element is checked after the click, or 2 if it is unchecked after the click.</li>
+                                                                        <li>Horizontal Bar: Creates a Bar that has a custom texture. It can be edited through changing the value of the frame with BlzFrameSetValue(frame_name, number_from_0_to_100)</li>
+                                                                    </ul>
+                                                                </li>
                                                             </ol>
                                                         
                                                         <hr>

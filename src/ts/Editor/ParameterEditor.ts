@@ -444,13 +444,13 @@ export class ParameterEditor {
         const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
 
         let text = inputElement.value
-        if(text.indexOf("udg_") != 0) {
+        if(text.indexOf("udg_") != 0 && text.length > 0) {
             text = "udg_"+text
             console.log(text)
         }
 
         if (frameBaseContent instanceof CustomImage) {
-            frameBaseContent.setTrigVar(inputElement.value);
+            frameBaseContent.setTrigVar(text);
             debugText("Triggered Variable changed.");
         }
 
@@ -519,7 +519,7 @@ export class ParameterEditor {
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 this.disableFields(false)
-
+                this.setupLists(frame)
                 this.inputElementName.value = frame.getName();
 
                 if (frame.custom instanceof CustomImage) {
@@ -593,6 +593,12 @@ export class ParameterEditor {
                     this.fieldTooltip.style.display = "none";
                     this.fieldTexture.style.display = "initial";
                 }
+                
+                if(frame.type == FrameType.CHECKBOX) {
+                    this.fieldFunctionalityFull.style.display = "initial";
+                    this.fieldFunctionalityText.style.display = "none";
+                    this.fieldFunctionalityVar.style.display = "initial";
+                }
 
                 let parentHasTooltip = false;
                 for(const el of frame.getParent().getChildren()) {
@@ -608,7 +614,7 @@ export class ParameterEditor {
 
                 const n = frame.type;
                 if (n != FrameType.BUTTON && n != FrameType.SCRIPT_DIALOG_BUTTON
-                    && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON) {
+                    && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON && n != FrameType.CHECKBOX) {
                     this.inputElementTrigVar.disabled = true
                     this.inputElementTrigVar.value = ""
                 }
@@ -645,5 +651,23 @@ export class ParameterEditor {
             }
 
         } catch (e) { alert(e) }
+    }
+
+    private readonly list = ['Red','Blue','Teal','Purple','Yellow','Orange','Green', 'Pink', 'Gray',
+        'LightBlue','DArkGreen','Brown']
+
+    setupLists(frame: FrameComponent) {
+        const listEl = document.getElementById('WC3TextureList')
+        listEl.innerHTML = ""
+
+        if(frame.type == FrameType.HORIZONTAL_BAR) {
+            for(let i = 0; i < this.list.length; i++) {
+                const op = document.createElement('option')
+                op.value = 'Replaceabletextures\\Teamcolor\\Teamcolor'+(i < 10? '0'+i:i)+'.blp'
+                op.innerText = this.list[i]
+                listEl.append(op)
+            }
+        }
+
     }
 }
