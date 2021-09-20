@@ -8,6 +8,7 @@ export class TabsMenu {
 
         this.barTab = document.getElementById('barTab');
         this.tabs = [];
+        this.barTab.style.backgroundImage = "url(./files/woodenplankHorBig.png)"
 
         for (let i = this.barTab.children.length - 1; i >= 0; i--)
             this.barTab.removeChild(this.barTab.children[i]);

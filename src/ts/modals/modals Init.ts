@@ -50,7 +50,7 @@ export class Modals {
                                                     <p class="card-text mt-2">Doesn't like when people don't use object oriented design patterns when writing editors.</p>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <img style="width: 200px;" src="./files/AboutUs/insanity.png" alt="icon" class="align-self-center d-flex ml-3 img-thumbnail">
+                                                    <img style="width: 200px;" src="./files/AboutUs/nsanity.png" alt="icon" class="align-self-center d-flex ml-3 img-thumbnail">
                                                 </div>
                                             </div>
                                         </div>

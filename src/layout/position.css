@@ -71,6 +71,7 @@ body{
 
 .ribbonOption.insert{
     width: 7%;
+    min-width: fit-content;
 }
 
 #panelParameters{
@@ -134,7 +135,7 @@ body{
 
 #workspaceContainer #workspace{
     position: relative;
-    height: 90%;
+    height: 89%;
     width:auto;
     margin: auto;
     margin-top: 3px;
@@ -163,6 +164,7 @@ body{
 }
 
 #panelDebug{
+    background-image: url('./files/woodenplankHorBig.png');
     height:8%;
     width:40vw;
 

@@ -51,6 +51,16 @@ export class RibbonOption {
                 break;
             }
 
+            case "Templates": {
+                // div.innerText = this.name+" "
+                // div.setAttribute('class', 'ribbonOption btn btn-danger dropdown-toggle insert pt-2');
+                callBtn = this.dropdownMenu(div, this.name, false)
+                callBtn.style.marginLeft = "1"
+                callBtn.style.minWidth = "100px"
+                div.style.width = "7%"
+                break;
+            }
+
             case "About Us": {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#AboutUs')
@@ -108,6 +118,8 @@ export class RibbonOption {
 
     dropdownMenu(div: HTMLElement, name: string, withCaret: boolean): HTMLElement {
         div.setAttribute('class', 'btn-group')
+        div.style.minWidth = "fit-content"
+        div.style.width = "7%"
 
         const btn = div.appendChild(document.createElement('button'))
         btn.innerText = name

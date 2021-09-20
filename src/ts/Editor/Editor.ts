@@ -106,6 +106,9 @@ export class Editor {
         
         const ribOthers = new RibbonOption('Others', null)
         insertMenu.addRibbonOption(ribOthers)
+        
+        const ribTemplates = new RibbonOption('Templates', null)
+        insertMenu.addRibbonOption(ribTemplates)
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/ScriptDialogButton.png';
@@ -131,6 +134,23 @@ export class Editor {
         newFrameBuilder.texture = './files/images/HorizontalBar.png';
         newFrameBuilder.type = FrameType.HORIZONTAL_BAR;
         ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(newFrameBuilder));
+
+
+        newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.texture = './files/images/CustomFrame.png';
+        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND;
+        ribTemplates.addMenuOption('Horiz. Bar + Background', new CreateFrameAtSelected(newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.texture = './files/images/CustomFrame.png';
+        newFrameBuilder.type = FrameType.HOR_BAR_TEXT;
+        ribTemplates.addMenuOption('Horiz. Bar + Text', new CreateFrameAtSelected(newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.texture = './files/images/CustomFrame.png';
+        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND_TEXT;
+        ribTemplates.addMenuOption('Horiz. Bar + Background-Text', new CreateFrameAtSelected(newFrameBuilder));
+
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.texture = './files/images/CheckListBox.png';

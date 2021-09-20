@@ -11,6 +11,9 @@ export class RibbonMenu implements ICallableDivInstance {
 
         this.tabName = name;
         this.ribbonBar = document.getElementById('barRibbon');
+        
+        this.ribbonBar.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
+        this.ribbonBar.style.backgroundAttachment = "fixed"
 
     }
 

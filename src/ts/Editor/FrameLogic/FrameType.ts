@@ -14,4 +14,7 @@ export enum FrameType {
     INVIS_BUTTON = 12,
     TEXT_FRAME = 13,
     HORIZONTAL_BAR = 14,
+    HOR_BAR_BACKGROUND = 15,
+    HOR_BAR_TEXT = 16,
+    HOR_BAR_BACKGROUND_TEXT = 17,
 }
