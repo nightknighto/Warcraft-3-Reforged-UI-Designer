@@ -15,6 +15,7 @@ import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelec
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
 import { BackgroundTexture } from "./Menus/Backgrounds";
+import { AppInterfaceWoodenTexture, AppInterfaceBrownColors } from "./Menus/App Interface";
 
 export class Editor {
 
@@ -72,7 +73,10 @@ export class Editor {
         editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()));
         editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()));
 
-        viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
+        const ribAppInterface = new RibbonOption('App Interface', null)
+        viewMenu.addRibbonOption(ribAppInterface);
+        ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture)
+        ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors)
 
         const ribBackground = new RibbonOption('Background', null)
         viewMenu.addRibbonOption(ribBackground);
