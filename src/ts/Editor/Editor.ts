@@ -14,7 +14,7 @@ import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
-import { InputEdit } from "../Classes & Functions/Mini-Functions";
+import { BackgroundTexture } from "./Menus/Backgrounds";
 
 export class Editor {
 
@@ -73,6 +73,11 @@ export class Editor {
         editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()));
 
         viewMenu.addRibbonOption(new RibbonOption('Color Theme(Not made)', null));
+
+        const ribBackground = new RibbonOption('Background', null)
+        viewMenu.addRibbonOption(ribBackground);
+        ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture("./files/images/backgroundWorkspace.png"))
+        ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture("./files/images/backgroundWorkspace2.png"))
 
         infoMenu.addRibbonOption(new RibbonOption('About Us', null));
         infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null));

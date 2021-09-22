@@ -21,6 +21,14 @@ export class RibbonOption {
 
         //div.innerText = this.name;
         switch(this.name) {
+            case "Background": {
+                callBtn = this.dropdownMenu(div, this.name, false)
+                callBtn.style.marginLeft = "1"
+                callBtn.style.minWidth = "100px"
+                div.style.width = "7%"
+                break;
+            }
+
             case "Buttons": {
                 // div.innerText = this.name
                 // div.setAttribute('class', 'ribbonOption btn btn-danger pt-2 insert');

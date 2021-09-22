@@ -151,7 +151,6 @@ export class ParameterEditor {
         const rect = workspace.getBoundingClientRect()
         const horizontalMargin = Editor.getInnerMargin()
         const actualMargin = Editor.getActualMargin()
-        alert(Editor.getActualMarginLimits().min+", "+Editor.getActualMarginLimits().max)
 
         if (+inputElement.value > Editor.getActualMarginLimits().max || +inputElement.value < Editor.getActualMarginLimits().min) {
             debugText(`Input refused. Width is limited to ${Editor.getActualMarginLimits().min} and ${Editor.getActualMarginLimits().max}.`)
