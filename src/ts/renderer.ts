@@ -123,7 +123,7 @@ try{
           const image = el.custom.getElement()
           const rect = editor.workspaceImage.getBoundingClientRect() 
           const workspace = Editor.GetDocumentEditor().workspaceImage
-          const horizontalMargin = 240/1920*rect.width
+          const horizontalMargin = Editor.getInnerMargin()
       
           const x = el.custom.getLeftX();
           const y = el.custom.getBotY();

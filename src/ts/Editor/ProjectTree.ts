@@ -19,6 +19,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static readonly SAVE_KEY_HIDE_BUTTONBAR = "ButtonBar";
     public static readonly SAVE_KEY_HIDE_PORTRAIT = "Portrait";
     public static readonly SAVE_KEY_HIDE_CHAT = "Chat";
+    public static readonly SAVE_KEY_ORIGIN_MODE = "OriginMode";
 
     public static readonly outlineUnSelected_Tooltip = "rgba(220, 242, 19, 0.5)" //yellow
     public static readonly outlineUnSelected = "rgba(0, 230, 64, 0.4)" //green
@@ -36,6 +37,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideButtonBar = false;
     public static HidePortrait = false;
     public static HideChat = false;
+    public static OriginMode: 'gameui' | 'worldframe' | 'consoleui' = 'gameui';
 
     public static getSelected() : FrameComponent {
         return Editor.GetDocumentEditor().projectTree.getSelectedFrame()
@@ -103,6 +105,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR, ProjectTree.HideButtonBar);
         container.save(ProjectTree.SAVE_KEY_HIDE_PORTRAIT, ProjectTree.HidePortrait);
         container.save(ProjectTree.SAVE_KEY_HIDE_CHAT, ProjectTree.HideChat);
+        container.save(ProjectTree.SAVE_KEY_ORIGIN_MODE, ProjectTree.OriginMode);
 
     }
 
@@ -176,6 +179,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 ProjectTree.HideButtonBar = container.load(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR);
                 ProjectTree.HidePortrait = container.load(ProjectTree.SAVE_KEY_HIDE_PORTRAIT);
                 ProjectTree.HideChat = container.load(ProjectTree.SAVE_KEY_HIDE_CHAT);
+                ProjectTree.OriginMode = container.load(ProjectTree.SAVE_KEY_ORIGIN_MODE);
             } catch(e) {alert("Loading Error: General Options Missing.");}
 
 

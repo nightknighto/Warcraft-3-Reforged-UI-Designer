@@ -57,7 +57,7 @@ export default abstract class FrameBaseContent implements Saveable {
     public setWidth(newWidth: number, noChange?: boolean): void {
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
-        const horizontalMargin = 240 / 1920 * rect.width
+        const horizontalMargin = Editor.getInnerMargin()
 
         if(!noChange) this.element.style.width = newWidth / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + "px";
         this.width = newWidth;
@@ -87,7 +87,7 @@ export default abstract class FrameBaseContent implements Saveable {
     public setLeftX(newX: number, noChange?: boolean): void {
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
-        const horizontalMargin = 240 / 1920 * rect.width
+        const horizontalMargin = Editor.getInnerMargin()
 
         this.leftX = newX;
         if(!noChange) this.element.style.left = `${+newX * (rect.width - 2 * horizontalMargin) / 0.8 + rect.left + horizontalMargin}px`

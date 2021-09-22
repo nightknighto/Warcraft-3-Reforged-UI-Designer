@@ -14,6 +14,7 @@ import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
+import { InputEdit } from "../Classes & Functions/Mini-Functions";
 
 export class Editor {
 
@@ -214,5 +215,27 @@ export class Editor {
 
     public static GetDocumentEditor(): Editor {
         return (document as any).editor;
+    }
+
+    /**returns the margin of the 4:3 area. */
+    public static getInnerMargin(): number {
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const rect = workspace.getBoundingClientRect()
+        return 240 / 1920 * rect.width
+    }
+
+    public static getActualMargin(): number {
+        // if(ProjectTree.OriginMode === 'consoleui') {
+            return 0;
+        // } else {
+            // return this.getInnerMargin();
+        // }
+    }
+
+    //gives the max and min numbers for the x-position (edges of the frame-movable area)
+    public static getActualMarginLimits(): {min: number, max: number} {
+        const workspaceImage = Editor.GetDocumentEditor().workspaceImage
+        return {min: Math.floor((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2*this.getInnerMargin()) * 800)/1000
+            , max: Math.floor((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2*this.getInnerMargin()) * 800)/1000}
     }
 }

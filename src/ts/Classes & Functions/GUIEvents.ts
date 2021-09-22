@@ -14,15 +14,16 @@ export class GUIEvents {
         const editor = Editor.GetDocumentEditor();
         const workspaceImage = editor.workspaceImage;
 
-        const horizontalMargin = 240/1920*workspaceImage.width
+        const horizontalMargin = Editor.getInnerMargin()
+        const actualMargin = Editor.getActualMargin()
 
         let gameCoordsString: string;
         const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect();
 
-        if (ev.x >= workspaceRect.left + horizontalMargin && ev.x <= workspaceRect.right - horizontalMargin
+        if (ev.x >= workspaceRect.left + actualMargin && ev.x <= workspaceRect.right - actualMargin
             && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {
 
-            const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
+            const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*horizontalMargin) * 800)/1000;
             const gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
             gameCoordsString = `Game X/Y: (${gameX} , ${gameY})`;
             editor.debugGameCoordinates.innerText = gameCoordsString;

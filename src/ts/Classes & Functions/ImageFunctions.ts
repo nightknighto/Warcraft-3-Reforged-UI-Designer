@@ -2,7 +2,6 @@ import { CustomImage } from "../Editor/FrameLogic/CustomImage";
 import { debugText, InputEdit } from "./Mini-Functions"
 import { Editor } from "../Editor/Editor";
 import MoveFrame from "../Commands/Implementation/MoveFrame";
-import { ProjectTree } from "../Editor/ProjectTree";
 import { GUIEvents } from "./GUIEvents";
 
 export function ImageFunctions(img: CustomImage): void {
@@ -10,7 +9,7 @@ export function ImageFunctions(img: CustomImage): void {
     const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
 
     img.getElement().onmousedown = function (e) {
-        const horizontalMargin = 240 / 1920 * workspaceImage.getBoundingClientRect().width //refresh the value
+        const actualMargin = Editor.getActualMargin()
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const frame = img.getFrameComponent();
 
@@ -45,7 +44,7 @@ export function ImageFunctions(img: CustomImage): void {
 
                 debugText(`(${img.getElement().offsetLeft},${img.getElement().offsetTop})`);
                 debugText('drag')
-                if (((img.getElement().offsetLeft - posx2) - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / workspaceImage.offsetWidth * 800 >= 0 && ((img.getElement().offsetLeft - posx2 + img.getElement().width) - (workspaceImage.getBoundingClientRect().x - horizontalMargin)) / workspaceImage.offsetWidth * 800 <= 800) {
+                if (((img.getElement().offsetLeft - posx2) - (workspaceImage.getBoundingClientRect().x + actualMargin)) / workspaceImage.offsetWidth * 800 >= 0 && ((img.getElement().offsetLeft - posx2 + img.getElement().width) - (workspaceImage.getBoundingClientRect().x - actualMargin)) / workspaceImage.offsetWidth * 800 <= 800) {
                     img.getElement().style.left = `${img.getElement().offsetLeft - posx2}px`;
                 }
 
@@ -69,7 +68,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .01) {
                             img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < img.getElement().x + (img.getElement().width - posx2)) {
                             null;
                         }
                         else {
@@ -113,7 +112,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 10) {
                             img.getElement().style.width = 10 * workspaceImage.width / 800 + "px";
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < img.getElement().x + (img.getElement().width - posx2)) {
                             null;
                         }
                         else {
@@ -147,7 +146,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().width - posx2) * 0.8 / workspaceImage.width <= .01) {
                             img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < img.getElement().x + (img.getElement().width - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < img.getElement().x + (img.getElement().width - posx2)) {
                             null;
                         }
                         else {
@@ -182,7 +181,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.01) {
                             img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > img.getElement().x - posx2) {
                             null;
                         }
                         else {
@@ -218,7 +217,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().width + posx2) * 0.8 / workspaceImage.width <= 0.01) {
                             img.getElement().style.width = 0.01 * workspaceImage.width / 0.8 + "px";
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > img.getElement().x - posx2) {
                             null;
                         }
                         else {
@@ -270,7 +269,7 @@ export function ImageFunctions(img: CustomImage): void {
                         if ((img.getElement().width + posx2) * 800 / workspaceImage.width <= 10) {
                             img.getElement().style.width = 10 * workspaceImage.width / 800 + "px";
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > img.getElement().x - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > img.getElement().x - posx2) {
                             null;
                         }
                         else {
@@ -318,7 +317,7 @@ export function ImageFunctions(img: CustomImage): void {
     };
 
 
-    img.getElement().onmouseenter = function (e) {
+    img.getElement().onmouseenter = function () {
 
         img.getElement().onmousemove = function (e) {
             if(GUIEvents.isInteracting) return;
@@ -398,7 +397,7 @@ function inputElementsUpdate(img: CustomImage) {
     const editor = Editor.GetDocumentEditor();
     const workspaceImage = editor.workspaceImage;
     const parameterEditor = editor.parameterEditor;
-    const horizontalMargin = 240/1920*workspaceImage.width
+    const horizontalMargin = Editor.getInnerMargin()
 
     parameterEditor.inputElementWidth.value = InputEdit((img.getElement().width * 800 / (workspaceImage.width - 2 * horizontalMargin)));
     img.setWidth(+parameterEditor.inputElementWidth.value, true)

@@ -9,7 +9,8 @@ export function TextFunctions(div: CustomText) : void{
     const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
 
     div.getElement().onmousedown = function (e) {
-        const horizontalMargin = 240/1920*workspaceImage.width;
+        const horizontalMargin = Editor.getInnerMargin();
+        const actualMargin = Editor.getActualMargin();
         const projectTree = Editor.GetDocumentEditor().projectTree;
         const frame = div.getFrameComponent();
 
@@ -43,7 +44,7 @@ export function TextFunctions(div: CustomText) : void{
                 posy1 = e.clientY;
 
                 debugText('drag')
-                if (((div.getElement().offsetLeft - posx2) - (workspaceImage.getBoundingClientRect().x + horizontalMargin)) / workspaceImage.offsetWidth * 800 >= 0 && ((div.getElement().offsetLeft - posx2 + div.getElement().offsetWidth) - (workspaceImage.getBoundingClientRect().x - horizontalMargin)) / workspaceImage.offsetWidth * 800 <= 800) {
+                if (((div.getElement().offsetLeft - posx2) - (workspaceImage.getBoundingClientRect().x + actualMargin)) / workspaceImage.offsetWidth * 800 >= 0 && ((div.getElement().offsetLeft - posx2 + div.getElement().offsetWidth) - (workspaceImage.getBoundingClientRect().x - actualMargin)) / workspaceImage.offsetWidth * 800 <= 800) {
                     div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`;
                 }
 
@@ -68,7 +69,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth - posx2) * 0.8 / workspaceImage.width <= .01) {
                             div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
                             null;
                         }
                         else {
@@ -110,7 +111,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth - posx2) * 800 / workspaceImage.width <= 10) {
                             div.getElement().style.width = 10 * workspaceImage.width / 800 +'px';
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
                             null;
                         }
                         else {
@@ -144,7 +145,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth - posx2) * 0.8 / workspaceImage.width <= .01) {
                             div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
-                        else if (workspaceImage.getBoundingClientRect().right - horizontalMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+                        else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
                             null;
                         }
                         else {
@@ -181,7 +182,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth + posx2) * 0.8 / workspaceImage.width <= 0.01) {
                             div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > div.getElement().offsetLeft - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > div.getElement().offsetLeft - posx2) {
                             null;
                         }
                         else {
@@ -216,7 +217,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth + posx2) * 0.8 / workspaceImage.width <= 0.01) {
                             div.getElement().style.width = 0.01 * workspaceImage.width / 0.8 +'px';
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > div.getElement().offsetLeft - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > div.getElement().offsetLeft - posx2) {
                             null;
                         }
                         else {
@@ -268,7 +269,7 @@ export function TextFunctions(div: CustomText) : void{
                         if ((div.getElement().offsetWidth + posx2) * 800 / workspaceImage.width <= 10) {
                             div.getElement().style.width = 10 * workspaceImage.width / 800 +'px';
                         }
-                        else if ((workspaceImage.getBoundingClientRect().x + horizontalMargin) > div.getElement().offsetLeft - posx2) {
+                        else if ((workspaceImage.getBoundingClientRect().x + actualMargin) > div.getElement().offsetLeft - posx2) {
                             null;
                         }
                         else {
@@ -394,7 +395,7 @@ function inputElementsUpdate(div: CustomText) {
         const editor = Editor.GetDocumentEditor();
         const workspaceImage = editor.workspaceImage;
         const parameterEditor = editor.parameterEditor;
-        const horizontalMargin = 240/1920*workspaceImage.width
+        const horizontalMargin = Editor.getInnerMargin()
 
         parameterEditor.inputElementWidth.value = InputEdit((div.getElement().offsetWidth * 800 / (workspaceImage.width - 2*horizontalMargin)));
         div.setWidth(+parameterEditor.inputElementWidth.value, true)

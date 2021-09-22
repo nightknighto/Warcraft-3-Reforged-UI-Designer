@@ -149,15 +149,17 @@ export class ParameterEditor {
         const focusedCustom = focusedFrame.custom;
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
-        const horizontalMargin = 240 / 1920 * rect.width
+        const horizontalMargin = Editor.getInnerMargin()
+        const actualMargin = Editor.getActualMargin()
+        alert(Editor.getActualMarginLimits().min+", "+Editor.getActualMarginLimits().max)
 
-        if (+inputElement.value > 0.8 || +inputElement.value < 0) {
-            debugText("Input refused. Width is limited to 0 and 0.8.")
+        if (+inputElement.value > Editor.getActualMarginLimits().max || +inputElement.value < Editor.getActualMarginLimits().min) {
+            debugText(`Input refused. Width is limited to ${Editor.getActualMarginLimits().min} and ${Editor.getActualMarginLimits().max}.`)
             return
         }
 
-        if (focusedCustom.getElement().getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width - 2 * horizontalMargin) > workspace.getBoundingClientRect().right - horizontalMargin) {
-            debugText("Input refused. Image right edge will be out of screen.")
+        if (focusedCustom.getElement().getBoundingClientRect().left + +inputElement.value / 0.8 * (workspace.width - 2 * horizontalMargin) > workspace.getBoundingClientRect().right - actualMargin) {
+            debugText(`Input refused. Image right edge will be out of screen.`)
             return
         }
 
@@ -181,12 +183,12 @@ export class ParameterEditor {
             const workspace = Editor.GetDocumentEditor().workspaceImage
 
             if (+inputElement.value > 0.6 || +inputElement.value < 0) {
-                debugText("Input refused. Height is limited to 0 and 0.6.")
+                debugText(`Input refused. Height is limited to 0 and 0.6.`)
                 return
             }
 
             if (focusedCustom.getElement().getBoundingClientRect().bottom - +inputElement.value / 0.6 * workspace.height < workspace.getBoundingClientRect().top) {
-                debugText("Input refused. Image top edge will be out of screen.")
+                debugText(`Input refused. Image top edge will be out of screen.`)
                 return
             }
 
@@ -355,13 +357,13 @@ export class ParameterEditor {
         const editor = Editor.GetDocumentEditor();
         const rect = editor.workspaceImage.getBoundingClientRect()
         const image = editor.projectTree.getSelectedFrame().custom.getElement()
-        const horizontalMargin = 240 / 1920 * rect.width
+        const horizontalMargin = Editor.getInnerMargin()
 
-        if (+loc > 0.8 || +loc < 0) {
-            debugText("Input refused. X coordinate is limited to 0 and 0.8.")
+        if (+loc > Editor.getActualMarginLimits().max || +loc < Editor.getActualMarginLimits().min) {
+            debugText(`Input refused. X coordinate is limited to ${Editor.getActualMarginLimits().min} and ${Editor.getActualMarginLimits().max}`)
             return
         }
-        if (+loc + image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin) * 0.8 > 0.8) {
+        if (+loc + image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin) * 0.8 > Editor.getActualMarginLimits().max) {
             debugText("Input refused. Image right edge will be out of screen.")
             return
         }
@@ -380,7 +382,7 @@ export class ParameterEditor {
             const image = editor.projectTree.getSelectedFrame().custom.getElement()
 
             if (+loc > 0.6 || +loc < 0) {
-                debugText("Input refused. Y coordinate is limited to 0 and 0.6.")
+                debugText(`Input refused. Y coordinate is limited to 0 and 0.6.`)
                 return
             }
             if (+loc + image.getBoundingClientRect().height / rect.height * 0.6 > 0.6) {
@@ -515,7 +517,7 @@ export class ParameterEditor {
 
             const editor = Editor.GetDocumentEditor();
 
-            const horizontalMargin = 240 / 1920 * editor.workspaceImage.width
+            const horizontalMargin = Editor.getInnerMargin()
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 this.disableFields(false)
