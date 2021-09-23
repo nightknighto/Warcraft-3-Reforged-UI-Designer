@@ -270,19 +270,22 @@
                 <div id="originMode" style="background-color: #6b5c52;">
                     <label for="" class="mb-2"><b>Origin Mode</b></label>
                     <br>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
+                     title="BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>above</b> the Default Game UI.<br>Game messages are displayed <b>under</b> the Frames.">
                         <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode1" value="gameui" checked>
                         <label class="form-check-label" for="OriginMode1">
                             Game UI <span class="badge rounded-pill bg-secondary">Default</span>
                         </label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
+                     title="BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>under</b> the Default Game UI.<br>Game messages are displayed <b>above</b> the Frames.">
                         <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode2" value="worldframe">
                         <label class="form-check-label" for="OriginMode2">
                             World Frame
                         </label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
+                     title='BlzGetFrameByName("ConsoleUIBackdrop", 0)<hr>Frames are <b>NOT</b> locked in the area bounded by the green columns and <b>can be put outside</b>.<hr>Frames are displayed <b>under</b> the Default Game UI.<br>Game messages are displayed <b>above</b> the Frames.''>
                         <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode3" value="consoleui">
                         <label class="form-check-label" for="OriginMode3">
                             ConsoleUI <span class="badge bg-danger">v1.32+</span>
