@@ -266,8 +266,30 @@
                 title="Chat messages sent by players' won't be visible">Hide Chat: </label>
                 <input type="checkbox" name="generalChat" id="generalChat">
 
-
                 <hr>
+                <div id="originMode" style="background-color: #6b5c52;">
+                    <label for="" class="mb-2"><b>Origin Mode</b></label>
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode1" value="gameui" checked>
+                        <label class="form-check-label" for="OriginMode1">
+                            Game UI <span class="badge rounded-pill bg-secondary">Default</span>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode2" value="worldframe">
+                        <label class="form-check-label" for="OriginMode2">
+                            World Frame
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode3" value="consoleui">
+                        <label class="form-check-label" for="OriginMode3">
+                            ConsoleUI <span class="badge bg-danger">v1.32+</span>
+                        </label>
+                    </div>
+                </div>
+
             </div>
 
             

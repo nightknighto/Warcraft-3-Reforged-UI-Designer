@@ -14,6 +14,7 @@ import ChangeFrameParent from '../Commands/Implementation/ChangeFrameParent';
 import ChangeFrameTooltip from '../Commands/Implementation/ChangeFrameTooltip';
 import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
+import { ProjectTree } from './ProjectTree';
 
 export class ParameterEditor {
 
@@ -127,6 +128,8 @@ export class ParameterEditor {
         this.inputElementTextColor.onchange = ParameterEditor.InputTextColor;
         this.inputElementTrigVar.oninput = ParameterEditor.InputTrigVar;
 
+        var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
+        radios.forEach(radio => (radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value))
     }
 
     /** checks whether value is smaller than 0.1. True if smaller. */
@@ -474,6 +477,10 @@ export class ParameterEditor {
     /**gives the instance */
     static inst(): ParameterEditor {
         return Editor.GetDocumentEditor().parameterEditor
+    }
+
+    static OriginModeChanges(val: string): void{
+        ProjectTree.OriginMode = val
     }
 
     public emptyFields(): void {

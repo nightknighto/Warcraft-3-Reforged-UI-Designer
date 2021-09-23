@@ -330,6 +330,17 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 }
             }
             if(el.world_frame) textEdit = textEdit.replace("ORIGIN_FRAME_GAME_UI", "ORIGIN_FRAME_WORLD_FRAME")
+            
+            if(ProjectTree.OriginMode == 'worldframe') 
+                textEdit = textEdit.replace("ORIGIN_FRAME_GAME_UI", "ORIGIN_FRAME_WORLD_FRAME");
+            else if(ProjectTree.OriginMode == 'consoleui') {
+                textEdit = textEdit.replace("BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)", 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+                textEdit = textEdit.replace("BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)", 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+
+                textEdit = textEdit.replace("Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)", 'Frame.fromName("ConsoleUIBackdrop",0)');
+                textEdit = textEdit.replace("Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0)", 'Frame.fromName("ConsoleUIBackdrop",0)');
+            }
+
             textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
             textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
             textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)

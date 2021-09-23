@@ -37,7 +37,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideButtonBar = false;
     public static HidePortrait = false;
     public static HideChat = false;
-    public static OriginMode: 'gameui' | 'worldframe' | 'consoleui' = 'gameui';
+    public static OriginMode: string = 'gameui';
 
     public static getSelected() : FrameComponent {
         return Editor.GetDocumentEditor().projectTree.getSelectedFrame()

@@ -234,11 +234,11 @@ export class Editor {
     }
 
     public static getActualMargin(): number {
-        // if(ProjectTree.OriginMode === 'consoleui') {
+        if(ProjectTree.OriginMode === 'consoleui') {
             return 0;
-        // } else {
-            // return this.getInnerMargin();
-        // }
+        } else {
+            return this.getInnerMargin();
+        }
     }
 
     //gives the max and min numbers for the x-position (edges of the frame-movable area)
