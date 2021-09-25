@@ -53,7 +53,7 @@ export class CustomImage extends FrameBaseContent {
         try {
 
             const element = document.createElement('img');
-            super(frameComponent, element, text, width, height, x, y, z);
+            super(frameComponent, element, width, height, x, y, z);
 
             this.setDiskTexture(texturePath);
             this.setWc3Texture(wc3TexturePath);

@@ -1,10 +1,10 @@
 import { debugText, InputEdit } from "./Mini-Functions"
 import { Editor } from "../Editor/Editor";
-import { CustomText } from "../Editor/FrameLogic/CustomText";
 import MoveFrame from "../Commands/Implementation/MoveFrame";
 import { GUIEvents } from "./GUIEvents";
+import CustomComplex from "../Editor/FrameLogic/CustomComplex";
 
-export function TextFunctions(div: CustomText) : void{
+export function MouseFunctions(div: CustomComplex) : void{
 
     const workspaceImage = Editor.GetDocumentEditor().workspaceImage;
 
@@ -390,7 +390,7 @@ export function TextFunctions(div: CustomText) : void{
     }
 } 
 
-function inputElementsUpdate(div: CustomText) {
+function inputElementsUpdate(div: CustomComplex) {
 
         const editor = Editor.GetDocumentEditor();
         const workspaceImage = editor.workspaceImage;

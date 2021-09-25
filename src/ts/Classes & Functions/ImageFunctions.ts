@@ -18,7 +18,7 @@ export function ImageFunctions(img: CustomImage): void {
         const startingWidth = img.getWidth();
         const startingHeight = img.getHeight();
 
-        projectTree.select(img);
+        // projectTree.select(img);
 
         let posx1 = e.clientX;
         let posy1 = e.clientY;

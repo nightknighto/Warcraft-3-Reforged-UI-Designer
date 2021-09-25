@@ -1,6 +1,6 @@
 import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
-import { CustomImage } from "../../Editor/FrameLogic/CustomImage";
+import CustomComplex from "../../Editor/FrameLogic/CustomComplex";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
 
@@ -33,8 +33,8 @@ export default class ChangeFrameDiskTexture extends SimpleCommand{
             return;
         }
 
-        if(!(frame.custom instanceof CustomImage)){
-            debugText("Frame not CustomImage");
+        if(!(frame.custom instanceof CustomComplex)){
+            debugText("Frame not CustomComplex");
             return;
         }
 

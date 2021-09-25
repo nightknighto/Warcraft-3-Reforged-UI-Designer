@@ -108,7 +108,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
     }
 
-    protected constructor(frameComponent: FrameComponent, element: HTMLElement, text: string, width: number, height: number, x: number, y: number, z: number) {
+    protected constructor(frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number, z: number) {
 
         this.frameComponent = frameComponent;
         this.element = element;
@@ -119,7 +119,6 @@ export default abstract class FrameBaseContent implements Saveable {
         this.setLeftX(x);
         this.setBotY(y);
         this.setZIndex(z);
-        this.setText(text);
 
         this.element.draggable = false;
         this.element.style.position = "absolute";

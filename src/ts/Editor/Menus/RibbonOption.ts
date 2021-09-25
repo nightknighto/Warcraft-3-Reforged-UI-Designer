@@ -22,17 +22,17 @@ export class RibbonOption {
         //div.innerText = this.name;
         switch(this.name) {
 
-            case "Texts": {
-                div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2 insert');
-                break;
-            }
+            // case "Texts": {
+            //     div.innerText = this.name
+            //     div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2 insert');
+            //     break;
+            // }
 
             case "About Us": {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#AboutUs')
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2');
                 break;
             }
 
@@ -40,7 +40,7 @@ export class RibbonOption {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#HallOfFame')
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2');
                 break;
             }
 
@@ -48,7 +48,7 @@ export class RibbonOption {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#Tutorial')
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2');
                 break;
             }
 
@@ -56,7 +56,7 @@ export class RibbonOption {
                 div.setAttribute('data-bs-toggle','modal')
                 div.setAttribute('data-bs-target','#ChangeLog')
                 div.innerText = this.name
-                div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+                div.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2');
                 break;
             }
 
@@ -66,7 +66,7 @@ export class RibbonOption {
                     else callBtn = this.dropdownMenu(div, this.name, false)
                 } else {
                     div.innerText = this.name
-                    div.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2');
+                    div.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2');
                 }
             }
         }
@@ -88,19 +88,20 @@ export class RibbonOption {
 
         let dropBtn: HTMLButtonElement; //the button to have dropdown menu
         if(withCaret) {
-            btn.setAttribute('class', 'ribbonOption btn btn-outline-danger pt-2 insert');
+            btn.setAttribute('class', 'ribbonOption btn btn-outline-warning pt-2 insert');
 
             const caret = div.appendChild(document.createElement('button'))           
-            caret.setAttribute('class', 'ribbonOption btn btn-outline-danger dropdown-toggle dropdown-toggle-split pt-3')
+            caret.setAttribute('class', 'ribbonOption btn btn-outline-warning dropdown-toggle dropdown-toggle-split pt-3')
+            caret.style.marginRight = "10px"
 
             const sp = caret.appendChild(document.createElement("span"))
             sp.setAttribute('class', 'caret')
 
             dropBtn = caret;
         } else {
-            btn.setAttribute('class', 'ribbonOption btn btn-outline-danger dropdown-toggle insert pt-2');
+            btn.setAttribute('class', 'ribbonOption btn btn-outline-warning dropdown-toggle insert pt-2');
 
-            btn.style.marginLeft = "1"
+            // btn.style.marginLeft = "1"
             btn.style.minWidth = "100px"
             div.style.width = "7%"
             

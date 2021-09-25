@@ -6,8 +6,7 @@ import { FrameType } from "../Editor/FrameLogic/FrameType"
 import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
-import { CustomImage } from '../Editor/FrameLogic/CustomImage';
-import { CustomText } from '../Editor/FrameLogic/CustomText';
+import CustomComplex from '../Editor/FrameLogic/CustomComplex';
 
 /**0 for globals, 1 the body */
 
@@ -214,7 +213,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                             }
                         }
                         if (lang == 'jass' || lang == 'lua' ) {
-                            if (el.custom instanceof CustomImage) {
+                            if (el.custom instanceof CustomComplex) {
                                 if(el.type == FrameType.CHECKBOX) {
                                     if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
                                 } else text += temp.declaresFUNCTIONALITYArray;
@@ -237,7 +236,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         }
                     }
                     if (lang == 'jass' || lang == 'lua' ) {
-                        if (el.custom instanceof CustomImage) {
+                        if (el.custom instanceof CustomComplex) {
                             if(el.type == FrameType.CHECKBOX) {
                                 if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
                             } else text += temp.declaresFUNCTIONALITY;
@@ -247,13 +246,12 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
 
             } else if (kind == 1 && lang != 'ts') {
                 text = ""
-                if (el.custom instanceof CustomText) continue;
                 if (el.type != FrameType.BROWSER_BUTTON && el.type != FrameType.SCRIPT_DIALOG_BUTTON && el.type != FrameType.BUTTON && el.type != FrameType.INVIS_BUTTON
                     && el.type != FrameType.CHECKBOX) continue;
 
                 if(el.type != FrameType.CHECKBOX) {
                     text = temp.TriggerButtonDisableStart
-                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
+                    if (el.custom.getTrigVar() == "") {
                         text += temp.TriggerButtonDisableEnd
                     } else {
                         text += temp.TriggerVariableInit
@@ -261,7 +259,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     }
                 } else if(temp == JASS) {
                     text = JASS.TriggerCheckboxStart
-                    if (el.custom instanceof CustomImage && el.custom.getTrigVar() == "") {
+                    if (el.custom.getTrigVar() == "") {
                         text += JASS.TriggerCheckboxEnd
                     } else {
                         text += JASS.TriggerCheckboxTrig
@@ -270,7 +268,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 }
             } else if (kind == 2) {
                 let functionality = false
-                if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") functionality = true;
+                if (el.custom instanceof CustomComplex && el.custom.getTrigVar() != "") functionality = true;
                 switch(lang) {
                     case ('jass'): text = JassGetTypeText(el.type, true); break;
                     case ('lua'): text = LuaGetTypeText(el.type, true); break;
@@ -309,7 +307,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                 textEdit = textEdit.replace(/FRvrr/gi, el.getName())
             }
 
-            if (el.custom instanceof CustomImage && el.custom.getTrigVar() != "") textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
+            if (el.custom instanceof CustomComplex && el.custom.getTrigVar() != "") textEdit = textEdit.replace(/TRIGvar/gi, el.custom.getTrigVar())
             if (kind == 0) {
                 sumText += textEdit;
                 continue;
@@ -347,15 +345,15 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
 
             switch (el.custom.constructor) {
-                case (CustomImage):
-                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomImage).getWc3Texture() + '"');
-                    if((el.custom as CustomImage).getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomImage).getTrigVar() + '"');
+                case (CustomComplex):
+                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomComplex).getWc3Texture() + '"');
+                    if((el.custom as CustomComplex).getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomComplex).getTrigVar() + '"');
                     textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
                     break;
 
-                case (CustomText):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomText).getColor().slice(1) + (el.custom as CustomText).getText().replace(/\n/gi, "\\n") + '|r"');
-                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomText).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+                case (CustomComplex):
+                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomComplex).getColor().slice(1) + (el.custom as CustomComplex).getText().replace(/\n/gi, "\\n") + '|r"');
+                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomComplex).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
                     break;
             }
 

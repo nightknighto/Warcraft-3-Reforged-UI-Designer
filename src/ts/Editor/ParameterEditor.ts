@@ -3,8 +3,6 @@ import { Editor } from './Editor';
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
-import { CustomImage } from './FrameLogic/CustomImage';
-import { CustomText } from './FrameLogic/CustomText';
 import ChangeFrameName from '../Commands/Implementation/ChangeFrameName';
 import ChangeFrameWidth from '../Commands/Implementation/ChangeFrameWidth';
 import Actionable from '../Commands/Actionable';
@@ -15,6 +13,7 @@ import ChangeFrameTooltip from '../Commands/Implementation/ChangeFrameTooltip';
 import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
 import { ProjectTree } from './ProjectTree';
+import CustomComplex from './FrameLogic/CustomComplex';
 
 export class ParameterEditor {
 
@@ -402,7 +401,7 @@ export class ParameterEditor {
 
         const inputElement = ev.target as HTMLInputElement;
 
-        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomImage).setDiskTexture(inputElement.value);
+        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setDiskTexture(inputElement.value);
         debugText('Disk Texture changed.');
 
     }
@@ -412,7 +411,7 @@ export class ParameterEditor {
         const path = URL.createObjectURL(inputElement.files[0])
 
         const editor = Editor.GetDocumentEditor();
-        (editor.projectTree.getSelectedFrame().custom as CustomImage).setDiskTexture(path);
+        (editor.projectTree.getSelectedFrame().custom as CustomComplex).setDiskTexture(path);
 
         editor.parameterEditor.inputElementDiskTexture.value = path;
         debugText("Disk Texture changed. However, the app can't know the path of this texture.")
@@ -425,7 +424,7 @@ export class ParameterEditor {
         text = text.replace(/(?<!\\)\\(?!\\)/g, "\\\\");
         inputElement.value = text
 
-        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomImage).setWc3Texture(text);
+        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setWc3Texture(text);
         debugText('WC3 Texture changed.');
 
     }
@@ -453,7 +452,7 @@ export class ParameterEditor {
             console.log(text)
         }
 
-        if (frameBaseContent instanceof CustomImage) {
+        if (frameBaseContent instanceof CustomComplex) {
             frameBaseContent.setTrigVar(text);
             debugText("Triggered Variable changed.");
         }
@@ -463,14 +462,14 @@ export class ParameterEditor {
     static InputTextScale(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
-        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomText).setScale(+inputElement.value);
+        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setScale(+inputElement.value);
 
     }
 
     static InputTextColor(ev: Event): void {
 
         const inputElement = ev.target as HTMLInputElement;
-        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomText).setColor(inputElement.value);
+        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setColor(inputElement.value);
 
     }
 
@@ -530,22 +529,20 @@ export class ParameterEditor {
                 this.setupLists(frame)
                 this.inputElementName.value = frame.getName();
 
-                if (frame.custom instanceof CustomImage) {
-                    this.inputElementWidth.value = InputEdit(frame.custom.getElement().width * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
-                    this.inputElementHeight.value = InputEdit(frame.custom.getElement().height * 600 / editor.workspaceImage.height)
+                // if (frame.custom instanceof CustomComplex) {
+                    this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
+                    this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
 
                     this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
                     this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
                     this.inputElementTrigVar.value = frame.custom.getTrigVar()
                     this.inputElementText.value = frame.custom.getText()
-                } else if (frame.custom instanceof CustomText) {
-                    this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
-                    this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
+                // } else if (frame.custom instanceof CustomComplex) {
 
                     this.inputElementTextScale.value = frame.custom.getScale() + ""
                     this.inputElementTextColor.value = frame.custom.getColor()
                     this.inputElementTextBig.value = frame.custom.getText()
-                }
+                // }
 
                 this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) / (editor.workspaceImage.width - 2 * horizontalMargin) * 800)}`;
                 this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom) / editor.workspaceImage.height * 600)}`;

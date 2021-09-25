@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Editor } from "../Editor";
-import { CustomImage } from "./CustomImage";
 import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
 import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
-import { CustomText } from "./CustomText";
+import CustomComplex, { CustomComplexPropsConst } from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 
@@ -25,7 +24,7 @@ export class FrameComponent implements Saveable {
 
     public world_frame = false;
 
-    public readonly custom: FrameBaseContent;
+    public readonly custom: CustomComplex;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
 
@@ -77,9 +76,9 @@ export class FrameComponent implements Saveable {
             this.parentOption = document.createElement('option');
             this.type = frameBuildOptions.type;
             if (frameBuildOptions.type == FrameType.TEXT_FRAME)
-                this.custom = new CustomText(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.color, frameBuildOptions.scale);
+                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, new CustomComplexPropsConst({text: frameBuildOptions.text, color: frameBuildOptions.color, scale: frameBuildOptions.scale}));
             else
-                this.custom = new CustomImage(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions.text, frameBuildOptions.texture, frameBuildOptions.wc3Texture, frameBuildOptions.trigVar);
+                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, new CustomComplexPropsConst({text: frameBuildOptions.text, textureDiskPath: frameBuildOptions.texture, textureWc3Path: frameBuildOptions.wc3Texture, trigVar: frameBuildOptions.trigVar}));
 
             this.setName(frameBuildOptions.name);
 

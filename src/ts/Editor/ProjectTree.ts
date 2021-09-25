@@ -1,12 +1,11 @@
 import { Queue } from 'queue-typescript';
-import { CustomImage } from './FrameLogic/CustomImage';
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameBuilder } from './FrameLogic/FrameBuilder';
 import { FrameType } from './FrameLogic/FrameType';
 import { Editor } from './Editor';
 import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
-import { CustomText } from './FrameLogic/CustomText';
+import CustomComplex from './FrameLogic/CustomComplex';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
@@ -124,7 +123,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         return this.selectedFrame;
     }
 
-    public select(frame: FrameComponent | CustomImage | CustomText | HTMLImageElement | HTMLDivElement | HTMLElement): void {
+    public select(frame: FrameComponent | CustomComplex | CustomComplex | HTMLImageElement | HTMLDivElement | HTMLElement): void {
 
         //should go to workspace class?
         if (this.selectedFrame != null) {
@@ -134,10 +133,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
 
         if (frame instanceof FrameComponent) this.selectedFrame = frame;
-        else if (frame instanceof CustomImage) this.selectedFrame = frame.getFrameComponent()
-        else if (frame instanceof CustomText) this.selectedFrame = frame.getFrameComponent()
-        else if (frame instanceof HTMLImageElement) this.selectedFrame = CustomImage.GetCustomImageFromHTMLImageElement(frame).getFrameComponent();
-        else if (frame instanceof HTMLDivElement) this.selectedFrame = CustomText.GetCustomTextFromHTMLDivElement(frame).getFrameComponent();
+        else if (frame instanceof CustomComplex) this.selectedFrame = frame.getFrameComponent()
+        else if (frame instanceof CustomComplex) this.selectedFrame = frame.getFrameComponent()
+        else if (frame instanceof HTMLImageElement) this.selectedFrame = CustomComplex.GetCustomComplexFromHTMLDivElement(frame).getFrameComponent();
+        else if (frame instanceof HTMLDivElement) this.selectedFrame = CustomComplex.GetCustomComplexFromHTMLDivElement(frame).getFrameComponent();
         else if (frame instanceof HTMLElement) this.selectedFrame = FrameComponent.GetFrameComponent(frame);
         else {
             this.selectedFrame = null;

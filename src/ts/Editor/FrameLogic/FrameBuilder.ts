@@ -2,8 +2,7 @@ import { FrameType } from "./FrameType";
 import { Editor } from "../Editor";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";
-import { CustomImage } from "./CustomImage";
-import { CustomText } from "./CustomText";
+import CustomComplex from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 
@@ -60,24 +59,24 @@ export class FrameBuilder{
         this.y = container.load(FrameBaseContent.SAVE_KEY_BOTY);
         this.height = container.load(FrameBaseContent.SAVE_KEY_HEIGHT);
         this.width = container.load(FrameBaseContent.SAVE_KEY_WIDTH);
-        this.text = container.load(CustomText.SAVE_KEY_TEXT);
+        this.text = container.load(CustomComplex.SAVE_KEY_TEXT);
 
         if (this.type != FrameType.TEXT_FRAME) {
-            if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
 
-            this.texture = container.load(CustomImage.SAVE_KEY_TEXTURE_DISK_PATH);
-            this.wc3Texture = container.load(CustomImage.SAVE_KEY_TEXTURE_WC3_PATH);
-            this.trigVar = container.load(CustomImage.SAVE_KEY_TRIGGER_VARIABLE_NAME);
+            this.texture = container.load(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH);
+            this.wc3Texture = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
+            this.trigVar = container.load(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME);
         }
         else {
-            if (!container.hasKey(CustomText.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomText.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
+            if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
             try{
-                this.scale = container.load(CustomText.SAVE_KEY_SCALE);
-                this.color = container.load(CustomText.SAVE_KEY_COLOR);
+                this.scale = container.load(CustomComplex.SAVE_KEY_SCALE);
+                this.color = container.load(CustomComplex.SAVE_KEY_COLOR);
             }catch(e) {alert("Loading Error: Text Frame Options Missing.");}
 
         }
@@ -128,16 +127,12 @@ export class FrameBuilder{
         frameBuilder.y = frame.custom.getBotY();
         frameBuilder.x = frame.custom.getLeftX();
         frameBuilder.z = frame.custom.getZIndex();
-
-        if(frame.custom instanceof CustomImage){
-            frameBuilder.trigVar = frame.custom.getTrigVar();
-            frameBuilder.texture = frame.custom.getDiskTexture();
-            frameBuilder.wc3Texture = frame.custom.getWc3Texture();
-        }
-        else if(frame.custom instanceof CustomText){
-            frameBuilder.color = frame.custom.getColor();
-            frameBuilder.scale = frame.custom.getScale();
-        }
+        frameBuilder.trigVar = frame.custom.getTrigVar();
+        frameBuilder.texture = frame.custom.getDiskTexture();
+        frameBuilder.wc3Texture = frame.custom.getWc3Texture();
+    
+        frameBuilder.color = frame.custom.getColor();
+        frameBuilder.scale = frame.custom.getScale();
 
         return frameBuilder;
 
