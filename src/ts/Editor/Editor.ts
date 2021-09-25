@@ -15,7 +15,8 @@ import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelec
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
 import { BackgroundTexture } from "./Menus/Backgrounds";
-import { AppInterfaceWoodenTexture, AppInterfaceBrownColors } from "./Menus/App Interface";
+import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors } from "./Menus/App Interface";
+import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 export class Editor {
 
@@ -42,6 +43,8 @@ export class Editor {
     //UI
     public readonly treeButton: HTMLButtonElement;
     public readonly panelButton: HTMLButtonElement;
+
+    public readonly titleBar: Titlebar;
 
     private initializeMenus(): TabsMenu {
 
@@ -77,8 +80,9 @@ export class Editor {
         viewMenu.addRibbonOption(ribAppInterface);
         ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture)
         ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors)
+        ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors)
 
-        const ribBackground = new RibbonOption('Background', null)
+        const ribBackground = new RibbonOption('Background/Resolution', null)
         viewMenu.addRibbonOption(ribBackground);
         ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture("./files/images/backgroundWorkspace.png"))
         ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture("./files/images/backgroundWorkspace2.png"))
@@ -220,6 +224,13 @@ export class Editor {
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement;
         this.panelButton = document.getElementById('panelClose') as HTMLButtonElement;
 
+    
+        this.titleBar = new Titlebar({
+            backgroundColor: new Color( new RGBA(69,49,26,255)),
+            icon: "./files/icon.png",
+            menu: null,
+        
+        })
     }
 
     public static GetDocumentEditor(): Editor {

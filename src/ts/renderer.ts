@@ -8,12 +8,10 @@
 // needed in the renderer process.
 
 import { ipcRenderer, remote } from "electron";
-import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 import { GUIEvents } from "./Classes & Functions/GUIEvents";
 import { Editor } from "./Editor/Editor";
 import * as path from "path";
-import { CustomText } from "./Editor/FrameLogic/CustomText";
 import { ProjectTree } from "./Editor/ProjectTree";
 import { Modals } from "./modals/modals Init";
 import bootstrap = require("bootstrap");
@@ -22,6 +20,7 @@ import Undo from "./Commands/Undo";
 import Redo from "./Commands/Redo";
 import RemoveFrame from "./Commands/Implementation/RemoveFrame";
 import { ParameterEditor } from "./Editor/ParameterEditor";
+import CustomComplex from "./Editor/FrameLogic/CustomComplex";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -136,19 +135,12 @@ try{
           image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
           image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
 
-          if(el.custom instanceof CustomText) {
+          if(el.custom instanceof CustomComplex) {
               image.style.fontSize = (el.custom.getScale()) * rect.width / 100 + "px"
           }
       
         }
   }
-
-new Titlebar({
-  backgroundColor: new Color( new RGBA(69,49,26,255)),
-  icon: "./files/icon.png",
-  menu: null,
-
-})
 
 //keyboard shortcuts
 window.addEventListener('keydown', function (event) {

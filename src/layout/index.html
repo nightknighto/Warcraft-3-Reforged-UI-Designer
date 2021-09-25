@@ -75,27 +75,6 @@
 
         </div>
 
-        <div id="barTab" style='color: rgb(248,224,197);'>
-
-            <div id="barTabInner">
-                <div class="tab">File</div>
-                <div class="tab">Edit</div>
-                <div class="tab">View</div>
-                <div class="tab">Insert</div>
-                <div class="tab">Window</div>
-            </div>
-
-        </div>
-
-        <div id="barRibbon" style='color: rgb(248,224,197);'>
-
-            <div class="ribbonOption">New</div>
-            <div class="ribbonOption">Open</div>
-            <div class="ribbonOption">Save</div>
-            <div class="ribbonOption">Export</div>
-
-        </div>
-
         <div id="panelParameters" class="panels scroll_enabled">
             <div class='row justify-content-start'>
                 <button class='col-4 btn btn-warning' id='panelClose'>Panel</button>
@@ -269,13 +248,13 @@
 
                 <hr>
                 <div id="originMode">
-                    <label for="" class="mb-2"><b>Origin Mode</b></label>
+                    <label for=""><b>Origin Mode</b></label>
                     <br>
                     <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
                      title="BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>above</b> the Default Game UI.<br>Game messages are displayed <b>under</b> the Frames.">
                         <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode1" value="gameui" checked>
                         <label class="form-check-label" for="OriginMode1">
-                            Game UI <span class="badge rounded-pill bg-secondary">Default</span>
+                            Game UI <span class="badge bg-secondary">Default</span>
                         </label>
                     </div>
                     <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
@@ -330,6 +309,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+
+        <div id="barTab" style='color: rgb(248,224,197);'>
+
+            <div id="barTabInner">
+                <div class="tab">File</div>
+                <div class="tab">Edit</div>
+                <div class="tab">View</div>
+                <div class="tab">Insert</div>
+                <div class="tab">Window</div>
+            </div>
+
+            <div id="barRibbon" style='color: rgb(248,224,197);'>
+    
+                <div class="ribbonOption">New</div>
+                <div class="ribbonOption">Open</div>
+                <div class="ribbonOption">Save</div>
+                <div class="ribbonOption">Export</div>
+    
+            </div>
+
         </div>
 
     <script type="module" src="renderer.js"></script>
