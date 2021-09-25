@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="./styles/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="bootstrap.min.css">
 
-    <link rel="stylesheet" href="position.css">
-    <link rel="stylesheet" href="./styles/highlight.css">
+    <link rel="stylesheet" href="styles.css">
     
 </head>
 
@@ -78,11 +77,13 @@
 
         <div id="barTab" style='color: rgb(248,224,197);'>
 
-            <div class="tab">File</div>
-            <div class="tab">Edit</div>
-            <div class="tab">View</div>
-            <div class="tab">Insert</div>
-            <div class="tab">Window</div>
+            <div id="barTabInner">
+                <div class="tab">File</div>
+                <div class="tab">Edit</div>
+                <div class="tab">View</div>
+                <div class="tab">Insert</div>
+                <div class="tab">Window</div>
+            </div>
 
         </div>
 
@@ -267,7 +268,7 @@
                 <input type="checkbox" name="generalChat" id="generalChat">
 
                 <hr>
-                <div id="originMode" style="background-color: #6b5c52;">
+                <div id="originMode">
                     <label for="" class="mb-2"><b>Origin Mode</b></label>
                     <br>
                     <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"

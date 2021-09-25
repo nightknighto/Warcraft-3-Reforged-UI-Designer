@@ -20,6 +20,9 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
+        element = document.getElementById('barTabInner')
+        element.style.backgroundColor = 'none'
+        element.style.border = 'none'
     }
 }
 export class AppInterfaceBrownColors implements ICallableDivInstance {
@@ -42,6 +45,8 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element.style.backgroundImage = 'none'
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'none'
-        
+        element = document.getElementById('barTabInner')
+        element.style.backgroundColor = '#28160C'
+        element.style.border = '2px solid #B87E59'
     }
 }
