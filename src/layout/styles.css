@@ -36,6 +36,20 @@ body{
     display: flex;
 }
 
+#barTabImg{
+    position: fixed;
+    top: 30px;
+    height: 40px;
+    right: 0;
+    width: 20vw;
+    background-size: 200% 100%;
+    background-color: #B87E59;
+    background-color: rgb(115, 49, 146);
+    background-image: url('./files/barTabImg.png');
+    
+    display: flex;
+}
+
 #barTab .tab{
     width: fit-content;
 

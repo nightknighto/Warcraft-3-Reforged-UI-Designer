@@ -23,8 +23,10 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         element = document.getElementById('barTabInner')
-        element.style.backgroundColor = 'none'
-        element.style.border = 'none'
+        element.style.backgroundColor = 'unset'
+        element.style.border = 'unset'
+        element = document.getElementById('barTabImg')
+        element.style.visibility = 'hidden'
     }
 }
 export class AppInterfaceBrownColors implements ICallableDivInstance {
@@ -63,6 +65,8 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element.style.backgroundColor = '#5B4432'
         element.style.border = '6px solid #3A2718'
         element.style.color = 'white';
+        element = document.getElementById('barTabImg')
+        element.style.visibility = 'hidden'
     }
 }
 export class AppInterfacePurpleColors implements ICallableDivInstance {
@@ -80,7 +84,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground');
         for(var i=0; i<elements.length; i++){
             elements[i].style.backgroundImage = 'none'
-            elements[i].style.backgroundColor = '#951CCF'
+            elements[i].style.backgroundColor = 'rgb(115, 49, 146)'
         }
 
         let element = document.getElementById('barTab')
@@ -99,7 +103,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element.style.width = "450px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#492D56'
-        element.style.border = '6px solid #C6D0D9'
+        element.style.border = '6px ridge #11819a'
         element.style.color = 'white';
 
     }
