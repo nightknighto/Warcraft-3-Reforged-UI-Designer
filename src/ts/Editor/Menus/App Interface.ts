@@ -8,7 +8,7 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels');
         for(var i=0; i<elements.length; i++){
-            elements[i].style.color = "white"
+            elements[i].style.color = "rgb(248, 224, 197)"
             elements[i].style.backgroundImage = "url('./files/WoodenPanels.png')"
         }
 
@@ -68,7 +68,7 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#5B4432'
         element.style.border = '6px solid #3A2718'
-        element.style.color = 'white';
+        element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
     }
@@ -109,7 +109,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#492D56'
         element.style.border = '6px ridge #11819a'
-        element.style.color = 'white';
+        element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'visible'
 
@@ -147,11 +147,54 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
         element.style.backgroundColor = '#222B70'
         element.style.border = '2px solid #6EADBE'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
-        element.style.width = "450px"
+        element.style.width = "500px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#1B3A4F'
         element.style.border = '6px ridge rgb(78, 114, 140)'
-        element.style.color = 'white';
+        element.style.color = 'rgb(248, 224, 197)';
+        element = document.getElementById('barTabImg')
+        element.style.visibility = 'hidden'
+
+    }
+}
+
+export class AppInterfaceDarkColors implements ICallableDivInstance {
+    run() {
+        Editor.GetDocumentEditor().titleBar.updateBackground(new Color( new RGBA(0,0,0,255)))
+
+        var elements = document.querySelectorAll<HTMLDivElement>('.panels');
+        for(var i=0; i<elements.length; i++){
+            elements[i].style.color = "rgb(248, 224, 197)"
+            elements[i].style.backgroundImage = 'none'
+            elements[i].style.backgroundColor = '#312B2B'
+        }
+
+        
+        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground');
+        for(var i=0; i<elements.length; i++){
+            elements[i].style.backgroundImage = 'none'
+            elements[i].style.backgroundColor = '#433D3D'
+        }
+
+        let element = document.getElementById('barTab')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#827877'
+        element = document.getElementById('barRibbon')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#454140'
+        element = document.getElementById('panelDebug')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#24130B'
+        element.style.color = 'rgb(248,224,197)'
+        element = document.getElementById('barTabInner')
+        element.style.backgroundColor = '#312B2B'
+        element.style.border = '2px solid #827877'
+        element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
+        element.style.width = "500px"
+        element = document.getElementById('originMode')
+        element.style.backgroundColor = '#827877'
+        element.style.border = '6px ridge rgb(160, 68, 37)'
+        element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
 
