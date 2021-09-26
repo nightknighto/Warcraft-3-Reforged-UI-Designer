@@ -44,6 +44,8 @@ export class ParameterEditor {
     public readonly checkboxButtonBar: HTMLInputElement;
     public readonly checkboxPortrait: HTMLInputElement;
     public readonly checkboxChat: HTMLInputElement;
+    public readonly selectElementHorAlign: HTMLSelectElement;
+    public readonly selectElementVerAlign: HTMLSelectElement;
 
     public readonly fieldTexture: HTMLDivElement;
     public readonly fieldType: HTMLDivElement;
@@ -84,7 +86,9 @@ export class ParameterEditor {
         this.checkboxButtonBar = document.getElementById('generalButtonBar') as HTMLInputElement;
         this.checkboxPortrait = document.getElementById('generalPortrait') as HTMLInputElement;
         this.checkboxChat = document.getElementById('generalChat') as HTMLInputElement;
-
+        this.selectElementHorAlign = document.getElementById('elementTextHorAlign') as HTMLSelectElement
+        this.selectElementVerAlign = document.getElementById('elementTextVerAlign') as HTMLSelectElement
+        
         this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement;
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;
         this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement;
@@ -126,6 +130,8 @@ export class ParameterEditor {
         this.inputElementTextScale.onchange = ParameterEditor.InputTextScale;
         this.inputElementTextColor.onchange = ParameterEditor.InputTextColor;
         this.inputElementTrigVar.oninput = ParameterEditor.InputTrigVar;
+        this.selectElementHorAlign.onchange = ParameterEditor.InputHorAlign;
+        this.selectElementVerAlign.onchange = ParameterEditor.InputVerAlign;
 
         var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach(radio => (radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value))
@@ -473,6 +479,22 @@ export class ParameterEditor {
 
     }
 
+    static InputHorAlign(ev: Event): void {
+
+        const el = ev.target as HTMLSelectElement;
+        if(el.value == 'left' || el.value == 'center' || el.value == 'right')
+            (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom).setHorAlign(el.value);
+        else alert('Critical Error: InputHorAlign input type is wrong!')
+    }
+
+    static InputVerAlign(ev: Event): void {
+
+        const el = ev.target as HTMLSelectElement;
+        if(el.value == 'start' || el.value == 'center' || el.value == 'flex-end')
+            (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom).setVerAlign(el.value);
+        else alert('Critical Error: InputVerAlign input type is wrong!')
+    }
+
     /**gives the instance */
     static inst(): ParameterEditor {
         return Editor.GetDocumentEditor().parameterEditor
@@ -542,6 +564,22 @@ export class ParameterEditor {
                     this.inputElementTextScale.value = frame.custom.getScale() + ""
                     this.inputElementTextColor.value = frame.custom.getColor()
                     this.inputElementTextBig.value = frame.custom.getText()
+                    switch(frame.custom.getHorAlign()) {
+                        case 'left': this.selectElementHorAlign.selectedIndex = 0;
+                            break;
+                        case 'center': this.selectElementHorAlign.selectedIndex = 1;
+                            break;
+                        case 'right': this.selectElementHorAlign.selectedIndex = 2;
+                            break;
+                    }
+                    switch(frame.custom.getVerAlign()) {
+                        case 'start': this.selectElementVerAlign.selectedIndex = 0;
+                            break;
+                        case 'center': this.selectElementVerAlign.selectedIndex = 1;
+                            break;
+                        case 'flex-end': this.selectElementVerAlign.selectedIndex = 2;
+                            break;
+                    }
                 // }
 
                 this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) / (editor.workspaceImage.width - 2 * horizontalMargin) * 800)}`;

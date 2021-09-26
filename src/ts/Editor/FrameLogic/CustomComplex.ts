@@ -17,10 +17,13 @@ export default class CustomComplex extends FrameBaseContent {
 
     private scale: number;
     private color: string;
+    private textHorAlign: 'left'|'center'|'right';
+    private textVerAlign: 'start'|'center'|'flex-end';
     private textureDiskPath: string;
     private textureWc3Path: string;
     private trigVar: string;
 
+    private elemTextContainer: HTMLDivElement;
     private elemText: HTMLParagraphElement;
     private elemImage: HTMLImageElement;
     private elemImageAddition: HTMLImageElement;
@@ -52,6 +55,24 @@ export default class CustomComplex extends FrameBaseContent {
         this.elemText.style.color = val
         this.color = val
         debugText("Color changed.")
+    }
+
+    public getHorAlign(): 'left' | 'center' | 'right' {
+        return this.textHorAlign
+    }
+
+    public setHorAlign(align: 'left' | 'center' | 'right') {
+        this.elemText.style.textAlign = align
+        this.textHorAlign = align
+    }
+
+    public getVerAlign(): 'start' | 'center' | 'flex-end' {
+        return this.textVerAlign
+    }
+
+    public setVerAlign(align: 'start' | 'center' | 'flex-end') {
+        this.elemTextContainer.style.alignItems = align
+        this.textVerAlign = align
     }
 
     public getText(): string {
@@ -130,6 +151,8 @@ export default class CustomComplex extends FrameBaseContent {
         return (divElement as any).CustomComplex;
     }
 
+
+    /* ***********************************************  */
     private specialTypesSetup(props: CustomComplexProps) {
 
         const ImageSetup = () => {
@@ -146,13 +169,24 @@ export default class CustomComplex extends FrameBaseContent {
         }
 
         const TextSetup = () => {
-            this.elemText = this.element.appendChild(document.createElement('p'))
+            this.elemTextContainer = this.element.appendChild(document.createElement('div'))
+            this.elemTextContainer.style.width = '100%';
+            this.elemTextContainer.style.height = '100%';
+            this.elemTextContainer.style.display = 'flex';
+            this.elemTextContainer.style.pointerEvents = 'none';
+            this.elemTextContainer.draggable = false;
+            this.elemText = this.elemTextContainer.appendChild(document.createElement('p'))
             this.elemText.draggable = false
             this.elemText.style.pointerEvents = "none"
+            this.elemText.style.marginBottom = "0"
+            this.elemText.style.width = '100%';
+            this.elemText.style.height = 'auto';
             if(props) {          
                 props.text && this.setText(props.text);
                 props.color && this.setColor(props.color);
                 props.scale && this.setScale(props.scale);
+                props.textHorAlign && this.setHorAlign(props.textHorAlign)
+                props.textVerAlign && this.setVerAlign(props.textVerAlign)
             }
         }
 
@@ -166,6 +200,9 @@ export default class CustomComplex extends FrameBaseContent {
             ImageSetup()
         }
     }
+    /* ***********************************************  */
+
+
 
 }
 
@@ -175,6 +212,8 @@ export class CustomComplexPropsConst implements CustomComplexProps {
     scale= 1
     textureDiskPath= "";
     textureWc3Path= ""
+    textHorAlign: 'left' | 'center' | 'right' = 'left'
+    textVerAlign: 'start' | 'center' | 'flex-end' = 'start'
     trigVar= "";
 
     constructor(props: CustomComplexProps) {try{
@@ -190,6 +229,8 @@ interface CustomComplexProps {
     text?: string 
     color?: string
     scale?: number
+    textHorAlign?: 'left' | 'center' | 'right'
+    textVerAlign?: 'start' | 'center' | 'flex-end'
     textureDiskPath?: string;
     textureWc3Path?: string
     trigVar?: string;
