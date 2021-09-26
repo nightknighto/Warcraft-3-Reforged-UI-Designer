@@ -46,6 +46,7 @@ body{
     background-color: #B87E59;
     background-color: rgb(115, 49, 146);
     background-image: url('./files/barTabImg.png');
+    visibility: hidden;
     
     display: flex;
 }

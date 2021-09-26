@@ -105,6 +105,49 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element.style.backgroundColor = '#492D56'
         element.style.border = '6px ridge #11819a'
         element.style.color = 'white';
+        element = document.getElementById('barTabImg')
+        element.style.visibility = 'visible'
+
+    }
+}
+export class AppInterfaceBlueColors implements ICallableDivInstance {
+    run() {
+        Editor.GetDocumentEditor().titleBar.updateBackground(new Color( new RGBA(75,90,193,255)))
+
+        var elements = document.querySelectorAll<HTMLDivElement>('.panels');
+        for(var i=0; i<elements.length; i++){
+            elements[i].style.color = "black"
+            elements[i].style.backgroundImage = 'none'
+            elements[i].style.backgroundColor = '#67A2C2'
+        }
+
+        
+        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground');
+        for(var i=0; i<elements.length; i++){
+            elements[i].style.backgroundImage = 'none'
+            elements[i].style.backgroundColor = '#4057C7'
+        }
+
+        let element = document.getElementById('barTab')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#6EADBE'
+        element = document.getElementById('barRibbon')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#4057C7'
+        element = document.getElementById('panelDebug')
+        element.style.backgroundImage = 'none'
+        element.style.backgroundColor = '#497C9B'
+        element = document.getElementById('barTabInner')
+        element.style.backgroundColor = '#222B70'
+        element.style.border = '2px solid #6EADBE'
+        element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
+        element.style.width = "450px"
+        element = document.getElementById('originMode')
+        element.style.backgroundColor = '#1B3A4F'
+        element.style.border = '6px ridge rgb(78, 114, 140)'
+        element.style.color = 'white';
+        element = document.getElementById('barTabImg')
+        element.style.visibility = 'hidden'
 
     }
 }

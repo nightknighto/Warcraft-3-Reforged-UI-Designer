@@ -15,7 +15,7 @@ import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelec
 import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
 import { BackgroundTexture } from "./Menus/Backgrounds";
-import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors } from "./Menus/App Interface";
+import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors, AppInterfaceBlueColors } from "./Menus/App Interface";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 
 export class Editor {
@@ -81,6 +81,7 @@ export class Editor {
         ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture)
         ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors)
         ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors)
+        ribAppInterface.addMenuOption('Blue Interface', new AppInterfaceBlueColors)
 
         const ribBackground = new RibbonOption('Background/Resolution', null)
         viewMenu.addRibbonOption(ribBackground);
