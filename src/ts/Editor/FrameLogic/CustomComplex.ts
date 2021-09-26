@@ -137,6 +137,7 @@ export default class CustomComplex extends FrameBaseContent {
             this.elemImage.style.width = "100%"
             this.elemImage.style.height = "100%"
             this.elemImage.draggable = false
+            this.elemImage.style.pointerEvents = "none"
             if(props) {
                 props.textureDiskPath && this.setDiskTexture(props.textureDiskPath);
                 props.textureWc3Path && this.setWc3Texture(props.textureWc3Path);   
@@ -147,6 +148,7 @@ export default class CustomComplex extends FrameBaseContent {
         const TextSetup = () => {
             this.elemText = this.element.appendChild(document.createElement('p'))
             this.elemText.draggable = false
+            this.elemText.style.pointerEvents = "none"
             if(props) {          
                 props.text && this.setText(props.text);
                 props.color && this.setColor(props.color);
@@ -161,7 +163,7 @@ export default class CustomComplex extends FrameBaseContent {
         }
         if(ty == FrameType.TEXT_FRAME) TextSetup()
         if(ty == FrameType.HORIZONTAL_BAR) {
-            ImageSetup
+            ImageSetup()
         }
     }
 
