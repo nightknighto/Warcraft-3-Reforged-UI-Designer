@@ -112,7 +112,6 @@ body{
 #panelParameters{
     position: fixed;
     top:120px;
-    bottom:0;
     max-width: 200px;
     min-width: 80px;
     left:0;
@@ -178,7 +177,7 @@ body{
 
 #workspaceContainer #workspace{
     position: relative;
-    height: 89%;
+    height: 85%;
     width:auto;
     margin: auto;
     margin-top: 3px;
@@ -191,7 +190,6 @@ body{
 
     right: 0;
     top:120px;
-    bottom:0px;
     overflow-x: auto;
     overflow-y: auto;
 
@@ -209,9 +207,10 @@ body{
 #panelDebug{
     background-image: url('./files/woodenplankHorBig.png');
     background-color: #904619;   
-    height:8%;
-    width:40vw;
-
+    height:20px;
+    width:100vw;
+    font-size: 15px;
+    color: rgb(248,224,197);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -219,15 +218,17 @@ body{
     margin: auto;
 
     padding: 5px;
+    border: 3px solid;
 }
 
 .panelDebugBackground{
-    height: 6%;
-    bottom: 0;
+    height: 4%;
+    bottom: 20px;
     position: fixed;
     background-color: #CBB6A1;
-    left: 212px;
-    right: 212px;
+    /* left: 212px;
+    right: 212px; */
+    width: 100vw;
 }
 
 .card-text {
@@ -260,6 +261,7 @@ body{
     background-size: auto 100%;
     color: white;
     background-color: #ECBD87;
+    bottom: 20px;
 }
 
 .CircArrayBody {

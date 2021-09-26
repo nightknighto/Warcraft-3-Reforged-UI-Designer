@@ -4,6 +4,8 @@ import { Editor } from "../Editor";
 
 export class AppInterfaceWoodenTexture implements ICallableDivInstance {
     run() {
+        Editor.GetDocumentEditor().titleBar.updateBackground(new Color( new RGBA(69,49,26,255)))
+
         var elements = document.querySelectorAll<HTMLDivElement>('.panels');
         for(var i=0; i<elements.length; i++){
             elements[i].style.color = "white"
@@ -22,6 +24,7 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
+        element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner')
         element.style.backgroundColor = 'unset'
         element.style.border = 'unset'
@@ -56,6 +59,7 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#904619'
+        element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner')
         element.style.backgroundColor = '#28160C'
         element.style.border = '2px solid #B87E59'
@@ -96,6 +100,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#5A3E64'
+        element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner')
         element.style.backgroundColor = '#480B68'
         element.style.border = '2px solid #D29FEE'
@@ -136,7 +141,8 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
         element.style.backgroundColor = '#4057C7'
         element = document.getElementById('panelDebug')
         element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#497C9B'
+        element.style.backgroundColor = '#49539B'
+        element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner')
         element.style.backgroundColor = '#222B70'
         element.style.border = '2px solid #6EADBE'
