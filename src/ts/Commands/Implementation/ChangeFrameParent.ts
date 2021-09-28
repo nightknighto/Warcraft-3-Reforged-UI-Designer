@@ -47,7 +47,7 @@ export default class ChangeFrameParent extends SimpleCommand{
 
         this.oldParent = frame.getParent().getName();
         this.frameChildren = frame.getChildren().map((it : FrameComponent) => it.getName());
-        parent.makeParentTo(frame);
+        parent.makeAsParentTo(frame);
 
     }
 
@@ -67,7 +67,7 @@ export default class ChangeFrameParent extends SimpleCommand{
 
             const frame = projectTree.findByName(frameName);
             if(typeof(frame) === "undefined") continue;
-            parent.makeParentTo(frame);
+            parent.makeAsParentTo(frame);
 
         }
 

@@ -7,6 +7,7 @@ import SaveContainer from "../../Persistence/SaveContainer";
 import CustomComplex from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
+import ChangeFrameParent from "../../Commands/Implementation/ChangeFrameParent";
 
 export class FrameComponent implements Saveable {
 
@@ -89,10 +90,7 @@ export class FrameComponent implements Saveable {
             this.children = [];
             this.parentOption = document.createElement('option');
             this.type = frameBuildOptions.type;
-            if (frameBuildOptions.type == FrameType.TEXT_FRAME)
-                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, {text: frameBuildOptions.text, color: frameBuildOptions.color, scale: frameBuildOptions.scale});
-            else
-                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, {text: frameBuildOptions.text, textureDiskPath: frameBuildOptions.texture, textureWc3Path: frameBuildOptions.wc3Texture});
+            this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions);
 
             this.setName(frameBuildOptions.name);
 
@@ -153,6 +151,9 @@ export class FrameComponent implements Saveable {
         const newChild = new FrameComponent(newFrame);
 
         this.appendFrame(newChild);
+        if(!newChild.FieldsAllowed.parent) {
+            new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
+        }
 
         return newChild;
     }
@@ -173,10 +174,9 @@ export class FrameComponent implements Saveable {
         Editor.GetDocumentEditor().parameterEditor.updateFields(null);
     }
 
-    public makeParentTo(newChild: FrameComponent): boolean {
-
+    public makeAsParentTo(newChild: FrameComponent): boolean {
         if (newChild == this) return false;
-
+        
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let traverseNode: FrameComponent = this;
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -287,15 +287,27 @@ export class FrameComponent implements Saveable {
                 f.backTextures = true;
                 f.tooltip = false;
                 break;
-            // case ft.HOR_BAR_BACKGROUND:
-            //     f.textures = true;
-            //     break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
+            case ft.HOR_BAR_BACKGROUND:
+                f.textures = true;
+                f.backTextures = true;
+                f.tooltip = false
+                f.parent = false
+                break;
+            case ft.HOR_BAR_TEXT:
+                f.textures = true;
+                allowText()
+                f.textAlign = true
+                f.tooltip = false
+                f.parent = false
+                break;
+            case ft.HOR_BAR_BACKGROUND_TEXT:
+                f.textures = true;
+                f.backTextures = true;
+                allowText()
+                f.textAlign = true
+                f.tooltip = false
+                f.parent = false
+                break;
             // case ft.CHECKBOX:
             //     f.trigVar = true;
             //     break;

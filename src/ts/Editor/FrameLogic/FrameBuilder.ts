@@ -6,7 +6,7 @@ import CustomComplex, {CustomComplexProps} from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 
-export class FrameBuilder{
+export class FrameBuilder implements CustomComplexProps{
 
     public static frameNumber = 1;
 
@@ -17,12 +17,16 @@ export class FrameBuilder{
     public z = 1;
     public name = 'Frame';
     public type: FrameType = FrameType.BACKDROP;
-    public texture = "";
-    public wc3Texture = "";
+    public textureDiskPath = "";
+    public textureWc3Path = "";
+    public textureBackDiskPath = "";
+    public textureBackWc3Path = ""
     public trigVar = "";
     public text = "Text";
     public scale = 1;
     public color = "#FFFFFF";
+    public textHorAlign: "left" | "center" | "right" = "left"
+    public textVerAlign: "center" | "start" | "flex-end" = "start"
     public autoId = false;
 
     public constructor(autoassignId : boolean) { 
@@ -60,25 +64,23 @@ export class FrameBuilder{
         this.width = container.load(FrameBaseContent.SAVE_KEY_WIDTH);
         this.text = container.load(CustomComplex.SAVE_KEY_TEXT);
 
-        if (this.type != FrameType.TEXT_FRAME) {
-            if (!container.hasKey(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME)) { console.error("Could not parse JSON."); return; }
-
-            this.texture = container.load(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH);
-            this.wc3Texture = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
+        try{
+            this.textureDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH);
+            this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
             this.trigVar = container.load(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME);
-        }
-        else {
-            if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
-            if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
+            this.textureBackDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH)
+            this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH)
+        }catch(e){alert('textures error: '+e)}
+        if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
+        if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
-            try{
-                this.scale = container.load(CustomComplex.SAVE_KEY_SCALE);
-                this.color = container.load(CustomComplex.SAVE_KEY_COLOR);
-            }catch(e) {alert("Loading Error: Text Frame Options Missing.");}
+        try{
+            this.scale = container.load(CustomComplex.SAVE_KEY_SCALE);
+            this.color = container.load(CustomComplex.SAVE_KEY_COLOR);
+            this.textHorAlign = container.load(CustomComplex.SAVE_KEY_HorAlign)
+            this.textVerAlign = container.load(CustomComplex.SAVE_KEY_VerAlign)
+        }catch(e) {alert("Loading Error: Text Frame Options Missing.");}
 
-        }
 
         const frameComponent = projectTree.appendToSelected(this)
         
@@ -127,11 +129,14 @@ export class FrameBuilder{
         frameBuilder.x = frame.custom.getLeftX();
         frameBuilder.z = frame.custom.getZIndex();
         frameBuilder.trigVar = frame.custom.getTrigVar();
-        frameBuilder.texture = frame.custom.getDiskTexture();
-        frameBuilder.wc3Texture = frame.custom.getWc3Texture();
-    
+        frameBuilder.textureDiskPath = frame.custom.getDiskTexture();
+        frameBuilder.textureWc3Path = frame.custom.getWc3Texture();
+        frameBuilder.textureBackDiskPath = frame.custom.getBackDiskTexture();
+        frameBuilder.textureBackWc3Path = frame.custom.getBackWc3Texture();
         frameBuilder.color = frame.custom.getColor();
         frameBuilder.scale = frame.custom.getScale();
+        frameBuilder.textHorAlign = frame.custom.getHorAlign()
+        frameBuilder.textVerAlign = frame.custom.getVerAlign()
 
         return frameBuilder;
 

@@ -7,7 +7,7 @@ import FrameBaseContent from "./FrameBaseContent";
 import { FrameType } from "./FrameType";
 import { MouseFunctions } from "../../Classes & Functions/Mouse Functions";
 
-export default class CustomComplex extends FrameBaseContent {
+export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     
     public static readonly SAVE_KEY_TEXT = "text";
     public static readonly SAVE_KEY_SCALE = "scale";
@@ -16,18 +16,21 @@ export default class CustomComplex extends FrameBaseContent {
     public static readonly SAVE_KEY_VerAlign = "VerAlign";
     public static readonly SAVE_KEY_TEXTURE_DISK_PATH = "textureDiskPath";
     public static readonly SAVE_KEY_TEXTURE_WC3_PATH = "textureWc3Path"
+    public static readonly SAVE_KEY_TEXTURE_BACK_DISK_PATH = "textureBackDiskPath";
+    public static readonly SAVE_KEY_TEXTURE_BACK_WC3_PATH = "textureBackWc3Path"
     public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
+    
 
-    private text: string = "";
-    private scale: number = 1;
-    private color: string = '#ffffff';
-    private textHorAlign: 'left'|'center'|'right' = 'left';
-    private textVerAlign: 'start'|'center'|'flex-end' = 'start';
-    private textureDiskPath: string = '';
-    private textureWc3Path: string = '';
-    private textureBackDiskPath: string = '';
-    private textureBackWc3Path: string = '';
-    private trigVar: string = "";
+    text: string = "";
+    scale: number = 1;
+    color: string = '#ffffff';
+    textHorAlign: 'left'|'center'|'right' = 'left';
+    textVerAlign: 'start'|'center'|'flex-end' = 'start';
+    textureDiskPath: string = '';
+    textureWc3Path: string = '';
+    textureBackDiskPath: string = '';
+    textureBackWc3Path: string = '';
+    trigVar: string = "";
 
     private elemTextContainer: HTMLDivElement;
     private elemText: HTMLParagraphElement;
@@ -182,7 +185,7 @@ export default class CustomComplex extends FrameBaseContent {
 
 
     /* ***********************************************  */
-    private specialTypesSetup(props: CustomComplexProps) {
+    private specialTypesSetup(props: Partial<CustomComplexProps>) {
 
         const ImageSetup = () => {
             this.elemImage = this.element.appendChild(document.createElement('img'));
@@ -234,7 +237,14 @@ export default class CustomComplex extends FrameBaseContent {
             this.elemImageBack.style.clipPath = 'polygon(100% 0, 50% 0, 50% 100%, 100% 100%)';
             this.elemImageBack.style.top = '0'
             this.elemImageBack.style.right = '0'
+            this.elemImageBack.style.position = "absolute"
+            this.elemImageBack.style.pointerEvents = "none"
+            this.elemImageBack.draggable = false
             this.element.style.border = '1px solid black'
+            if(props) {          
+                props.textureBackDiskPath && this.setBackDiskTexture(props.textureBackDiskPath);
+                props.textureBackWc3Path && this.setBackWc3Texture(props.textureBackWc3Path);
+            }
         }
 
         const ty = this.frameComponent.type
@@ -261,8 +271,8 @@ export default class CustomComplex extends FrameBaseContent {
         }
         if(ty == f.HOR_BAR_BACKGROUND_TEXT) {
             ImageSetup()
-            TextSetup()
             ImageBackSetup()
+            TextSetup()
         }
     }
     /* ***********************************************  */
@@ -272,12 +282,14 @@ export default class CustomComplex extends FrameBaseContent {
 }
 
 export interface CustomComplexProps {
-    text?: string 
-    color?: string
-    scale?: number
-    textHorAlign?: 'left' | 'center' | 'right'
-    textVerAlign?: 'start' | 'center' | 'flex-end'
-    textureDiskPath?: string;
-    textureWc3Path?: string
-    trigVar?: string;
+    text: string 
+    color: string
+    scale: number
+    textHorAlign: 'left' | 'center' | 'right'
+    textVerAlign: 'start' | 'center' | 'flex-end'
+    textureDiskPath: string;
+    textureWc3Path: string
+    textureBackDiskPath: string;
+    textureBackWc3Path: string;
+    trigVar: string;
 }

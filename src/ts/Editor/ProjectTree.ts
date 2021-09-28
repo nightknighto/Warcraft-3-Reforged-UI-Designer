@@ -38,6 +38,10 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideChat = false;
     public static OriginMode: string = 'gameui';
 
+    public static inst() {
+        return Editor.GetDocumentEditor().projectTree
+    }
+
     public static getSelected() : FrameComponent {
         return Editor.GetDocumentEditor().projectTree.getSelectedFrame()
     }

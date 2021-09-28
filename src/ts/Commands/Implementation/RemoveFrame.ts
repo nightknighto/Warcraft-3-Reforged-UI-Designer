@@ -64,7 +64,7 @@ export default class RemoveFrame extends SimpleCommand{
 
             const frame = projectTree.findByName(frameName);
             if(typeof(frame) === "undefined") continue;
-            parent.makeParentTo(frame);
+            parent.makeAsParentTo(frame);
 
         }
 

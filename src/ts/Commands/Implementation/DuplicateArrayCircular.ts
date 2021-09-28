@@ -75,7 +75,7 @@ export default class DuplicateArrayCircular extends SimpleCommand{
                     // alert('checkingName: '+checkingName)
                     // alert('prod: '+checkingName+"["+ind+"]")
                     if(el.getName() == checkingName+"["+i+"]" || el.getName() == checkingName+"["+"0"+i+"]") {
-                        el.makeParentTo(newFrame)
+                        el.makeAsParentTo(newFrame)
                         console.log("step1")
                         console.log("check1: "+tooltip)
                         if(tooltip) {
