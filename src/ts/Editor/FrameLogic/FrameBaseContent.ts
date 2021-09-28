@@ -12,7 +12,6 @@ export default abstract class FrameBaseContent implements Saveable {
     public static readonly SAVE_KEY_WIDTH = "width";
     public static readonly SAVE_KEY_LEFTX = "leftX";
     public static readonly SAVE_KEY_BOTY = "botY";
-    public static readonly SAVE_KEY_TEXT = "text";
 
     protected readonly frameComponent: FrameComponent;
     protected readonly element: HTMLElement;
@@ -22,15 +21,8 @@ export default abstract class FrameBaseContent implements Saveable {
     protected botY: number;
     protected leftX: number;
     protected zIndex: number;
-    protected text: string;
 
     public abstract delete(): void;
-
-    public abstract setText(text: string): void;
-
-    public getText(): string{
-        return this.text;
-    }
 
     public getElement(): HTMLElement {
         return this.element;
@@ -126,9 +118,6 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.style.outlineColor = ProjectTree.outlineUnSelected
         this.element.style.outlineOffset = "-3px";
 
-        if(this.frameComponent.type == FrameType.HORIZONTAL_BAR) {
-            this.element.style.filter = "brightness(0.6) saturate(0.5)"
-        }
         (element as any).frameBaseContent = this;
         
         //step 1: event sent to main.ts to display the menu.
@@ -150,7 +139,6 @@ export default abstract class FrameBaseContent implements Saveable {
         container.save(FrameBaseContent.SAVE_KEY_WIDTH, this.width);
         container.save(FrameBaseContent.SAVE_KEY_LEFTX, this.leftX);
         container.save(FrameBaseContent.SAVE_KEY_BOTY, this.botY);
-        container.save(FrameBaseContent.SAVE_KEY_TEXT, this.text);
     }
 
 }

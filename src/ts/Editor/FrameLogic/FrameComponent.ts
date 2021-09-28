@@ -4,7 +4,7 @@ import { FrameBuilder } from "./FrameBuilder";
 import { FrameType } from "./FrameType";
 import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
-import CustomComplex, { CustomComplexPropsConst } from "./CustomComplex";
+import CustomComplex from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 
@@ -16,7 +16,6 @@ export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_TOOLTIP = "tooltip";
     public static readonly SAVE_KEY_WORLDFRAME = "world_frame";
 
-
     private name: string;
     private children: FrameComponent[];
     public type: FrameType;
@@ -27,6 +26,20 @@ export class FrameComponent implements Saveable {
     public readonly custom: CustomComplex;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
+
+    public FieldsAllowed: ElementFieldsAllowed = {
+        parent: true,
+        tooltip: true,
+
+        color: false,
+        scale: false,
+        text: false,
+        textBig: false,
+        textAlign: false,
+        textures: false,
+        trigVar: false,
+        type: false
+    }
 
     public setTooltip(on: boolean): FrameComponent {
         this.tooltip = on
@@ -76,9 +89,9 @@ export class FrameComponent implements Saveable {
             this.parentOption = document.createElement('option');
             this.type = frameBuildOptions.type;
             if (frameBuildOptions.type == FrameType.TEXT_FRAME)
-                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, new CustomComplexPropsConst({text: frameBuildOptions.text, color: frameBuildOptions.color, scale: frameBuildOptions.scale}));
+                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, {text: frameBuildOptions.text, color: frameBuildOptions.color, scale: frameBuildOptions.scale});
             else
-                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, new CustomComplexPropsConst({text: frameBuildOptions.text, textureDiskPath: frameBuildOptions.texture, textureWc3Path: frameBuildOptions.wc3Texture, trigVar: frameBuildOptions.trigVar}));
+                this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, {text: frameBuildOptions.text, textureDiskPath: frameBuildOptions.texture, textureWc3Path: frameBuildOptions.wc3Texture});
 
             this.setName(frameBuildOptions.name);
 
@@ -87,6 +100,8 @@ export class FrameComponent implements Saveable {
             li.onclick = () => {
                 Editor.GetDocumentEditor().projectTree.select(this);
             }
+
+            this.setupAllowedFields()
 
         } catch (e) { alert('FrameComp Const: ' + e) }
     }
@@ -215,4 +230,102 @@ export class FrameComponent implements Saveable {
 
         return this
     }
+
+    setupAllowedFields() {
+        const i = this.type
+        const ft = FrameType
+        const f = this.FieldsAllowed
+
+
+        const allowText = () => {
+            f.text = true
+            f.color = true
+            f.scale = true
+        }
+
+        switch (i) {
+            case ft.BROWSER_BUTTON:
+                allowText()
+                f.trigVar = true
+                f.tooltip = false
+                break;
+            case ft.BUTTON:
+                f.trigVar = true
+                f.tooltip = false
+                f.textures = true
+                f.type = true
+                
+                break;
+            case ft.SCRIPT_DIALOG_BUTTON:
+                allowText()
+                f.trigVar = true
+                f.tooltip = false
+                
+                break;
+            case ft.INVIS_BUTTON:
+                f.trigVar = true
+                f.tooltip = false
+                
+                break;
+            case ft.BACKDROP:
+                f.textures = true;
+                f.type = true;
+                
+                break;
+            case ft.CHECKBOX:
+                f.trigVar = true;
+                break;
+            case ft.TEXT_FRAME:
+                allowText()
+                f.text = false
+                f.textBig = true
+                f.textAlign = true;
+                break;
+            case ft.HORIZONTAL_BAR:
+                f.textures = true;
+                f.tooltip = false;
+                break;
+            // case ft.HOR_BAR_BACKGROUND:
+            //     f.textures = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+        
+            default:
+                break;
+        }
+
+
+    }
+}
+
+interface ElementFieldsAllowed {
+    text: boolean
+    textBig: boolean
+    type: boolean
+    color: boolean
+    scale: boolean
+    textAlign: boolean
+    textures: boolean;
+    trigVar: boolean;
+    /**Default is true */
+    parent: boolean
+    /**Default is true */
+    tooltip: boolean;
 }

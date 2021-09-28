@@ -106,7 +106,7 @@
             </div>
 
 
-            <div data-bs-toggle="tooltip" title="Select the parent. Children are displayed over parents ingame">
+            <div id='FieldParent' data-bs-toggle="tooltip" title="Select the parent. Children are displayed over parents ingame">
                 <label for="elementParent" class="col-4">Parent: </label>
                 <select name="elementParent" id="elementParent" class="parameter">
                     <option value="parentTest1">Parent1</option>
@@ -194,28 +194,30 @@
                 </div>
                 
                 
-                <div id='FieldFunctionalityTextFrame'>
-                    <div class="form-floating mb-1" data-bs-toggle="tooltip" title="Supports multi-line. Can also use color strings for colored parts of the text">
-                        <textarea class="form-control" name="elementTextBig" id="elementTextBig" cols="22" rows="10" style="height: 100px;"></textarea>
-                        <!-- <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name"> -->
-                        <label class="text-black" for="elementTextBig">Text</label>
-                    </div>
-                
-                
+                <div id='FieldFunctionalityTextBig' class="form-floating mb-1" data-bs-toggle="tooltip" title="Supports multi-line. Can also use color strings for colored parts of the text">
+                    <textarea class="form-control" name="elementTextBig" id="elementTextBig" cols="22" rows="10" style="height: 100px;"></textarea>
+                    <!-- <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name"> -->
+                    <label class="text-black" for="elementTextBig">Text</label>
+                </div>
+            
+                <div id='FieldFunctionalityScale'>
                     <label for="elementTextScale" class="col-8">Text Scale: </label>
                     <input type="number" class="col-3" name="elementTextScale" id="elementTextScale" value="1" step="0.1" min="0" max="5">
-               
+                </div>
 
+                <div id='FieldFunctionalityColor'>
                     <label for="elementTextColor" class="col-8">Text Color: </label>
                     <input type="color" name="elementTextColor" id="elementTextColor" value="#FFFFFF">
-                
+                </div>
+
+                <div id='FieldFunctionalityAlign'>
                     <label for="elementTextHorAlign" class="col-12 mt-2">Horizontal Alignment: </label>
                     <select name="elementTextHorAlign" class="col-12" id="elementTextHorAlign">
                         <option value="left">Left</option>
                         <option value="center">Center</option>
                         <option value="right">Right</option>
                     </select>
-                
+            
                     <label for="elementTextVerAlign" class="col-12 mt-2">Vertical Alignment: </label>
                     <select name="elementTextVerAlign" class="col-12" id="elementTextVerAlign">
                         <option value="start">Top</option>
@@ -224,9 +226,10 @@
                     </select>
                 </div>
 
+
                
                 <div id='FieldFunctionalityVar' data-bs-toggle="tooltip" data-bs-html="true" title="Requires a variable of type 'real'. Variable name is always preceded by 'udg_'.<hr>For buttons, the variable will have the <b>number of the pressing player.</b><hr>For checkbox, value = 1 if it was unchecked, value = 2 if it was checked">
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 mt-2">
                         <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
                         <label class="text-black" for="elementTrigVar">Triggered Variable</label>
                     </div>

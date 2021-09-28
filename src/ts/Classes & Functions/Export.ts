@@ -344,18 +344,33 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
             textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
 
-            switch (el.custom.constructor) {
-                case (CustomComplex):
-                    textEdit = textEdit.replace("PATHvar", '"' + (el.custom as CustomComplex).getWc3Texture() + '"');
-                    if((el.custom as CustomComplex).getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + (el.custom as CustomComplex).getTrigVar() + '"');
-                    textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
+            textEdit = textEdit.replace("PATHvar", '"' + el.custom.getWc3Texture() + '"');
+            if(el.custom.getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + el.custom.getTrigVar() + '"');
+            // textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
+            textEdit = textEdit.replace("TEXTvar", '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
+            textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * el.custom.getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+            
+            let align_ver = 'TEXT_JUSTIFY_TOP';
+            switch(el.custom.getVerAlign()) {
+                case 'start': align_ver = 'TEXT_JUSTIFY_TOP'
                     break;
-
-                case (CustomComplex):
-                    textEdit = textEdit.replace("TEXTvar", '"|cff' + (el.custom as CustomComplex).getColor().slice(1) + (el.custom as CustomComplex).getText().replace(/\n/gi, "\\n") + '|r"');
-                    textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * (el.custom as CustomComplex).getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+                case 'center': align_ver = 'TEXT_JUSTIFY_CENTER'
+                    break;
+                case 'flex-end': align_ver = 'TEXT_JUSTIFY_BOTTOM'
                     break;
             }
+            textEdit = textEdit.replace("ALIGN_VER", align_ver)
+            
+            let align_hor = 'TEXT_JUSTIFY_LEFT';
+            switch(el.custom.getHorAlign()) {
+                case 'left': align_hor = 'TEXT_JUSTIFY_LEFT'
+                    break;
+                case 'center': align_hor = 'TEXT_JUSTIFY_MIDDLE'
+                    break;
+                case 'right': align_hor = 'TEXT_JUSTIFY_RIGHT'
+                    break;
+            }
+            textEdit = textEdit.replace("ALIGN_HOR", align_hor)
 
             sumText += textEdit;
         }

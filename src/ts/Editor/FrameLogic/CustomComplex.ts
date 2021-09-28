@@ -9,19 +9,23 @@ import { MouseFunctions } from "../../Classes & Functions/Mouse Functions";
 
 export default class CustomComplex extends FrameBaseContent {
     
+    public static readonly SAVE_KEY_TEXT = "text";
+    public static readonly SAVE_KEY_SCALE = "scale";
+    public static readonly SAVE_KEY_COLOR = "color";
+    public static readonly SAVE_KEY_HorAlign = "HorAlign";
+    public static readonly SAVE_KEY_VerAlign = "VerAlign";
     public static readonly SAVE_KEY_TEXTURE_DISK_PATH = "textureDiskPath";
     public static readonly SAVE_KEY_TEXTURE_WC3_PATH = "textureWc3Path"
     public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
-    public static readonly SAVE_KEY_SCALE = "scale";
-    public static readonly SAVE_KEY_COLOR = "color";
 
-    private scale: number;
-    private color: string;
-    private textHorAlign: 'left'|'center'|'right';
-    private textVerAlign: 'start'|'center'|'flex-end';
-    private textureDiskPath: string;
-    private textureWc3Path: string;
-    private trigVar: string;
+    private text: string = "";
+    private scale: number = 1;
+    private color: string = '#ffffff';
+    private textHorAlign: 'left'|'center'|'right' = 'left';
+    private textVerAlign: 'start'|'center'|'flex-end' = 'start';
+    private textureDiskPath: string = '';
+    private textureWc3Path: string = '';
+    private trigVar: string = "";
 
     private elemTextContainer: HTMLDivElement;
     private elemText: HTMLParagraphElement;
@@ -109,13 +113,12 @@ export default class CustomComplex extends FrameBaseContent {
     }
 
 
-    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexPropsConst) {
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
+
+
+        super(frameComponent, document.createElement('div'), width, height, x, y, z);
 
         try {
-
-            const element = document.createElement('div');
-            super(frameComponent, element, width, height, x, y, z);
-
             this.specialTypesSetup(props)
 
             this.element.style.wordBreak = "break-word"
@@ -134,8 +137,15 @@ export default class CustomComplex extends FrameBaseContent {
     public save(container: SaveContainer): void {
 
         super.save(container);
+        container.save(CustomComplex.SAVE_KEY_TEXT, this.text);
         container.save(CustomComplex.SAVE_KEY_SCALE, this.scale);
         container.save(CustomComplex.SAVE_KEY_COLOR, this.color);
+        container.save(CustomComplex.SAVE_KEY_HorAlign, this.textHorAlign);
+        container.save(CustomComplex.SAVE_KEY_VerAlign, this.textVerAlign);
+        container.save(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH, this.textureWc3Path);
+        container.save(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH, this.textureDiskPath);
+        container.save(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar);
+        // container.save(CustomComplex.SAVE_KEY_, this.);
 
     }
 
@@ -161,6 +171,8 @@ export default class CustomComplex extends FrameBaseContent {
             this.elemImage.style.height = "100%"
             this.elemImage.draggable = false
             this.elemImage.style.pointerEvents = "none"
+            // this.elemImage.style.position = 'absolute';
+            // if(this.elemText) this.elemImage.style.zIndex = '-1';
             if(props) {
                 props.textureDiskPath && this.setDiskTexture(props.textureDiskPath);
                 props.textureWc3Path && this.setWc3Texture(props.textureWc3Path);   
@@ -170,10 +182,12 @@ export default class CustomComplex extends FrameBaseContent {
 
         const TextSetup = () => {
             this.elemTextContainer = this.element.appendChild(document.createElement('div'))
+            this.elemTextContainer.style.top = '0';
             this.elemTextContainer.style.width = '100%';
             this.elemTextContainer.style.height = '100%';
             this.elemTextContainer.style.display = 'flex';
             this.elemTextContainer.style.pointerEvents = 'none';
+            this.elemTextContainer.style.position = 'absolute';
             this.elemTextContainer.draggable = false;
             this.elemText = this.elemTextContainer.appendChild(document.createElement('p'))
             this.elemText.draggable = false
@@ -181,6 +195,9 @@ export default class CustomComplex extends FrameBaseContent {
             this.elemText.style.marginBottom = "0"
             this.elemText.style.width = '100%';
             this.elemText.style.height = 'auto';
+            // if(this.elemImage) this.elemImage.style.zIndex = '-1';
+            this.setColor(this.color)
+            this.setScale(this.scale)
             if(props) {          
                 props.text && this.setText(props.text);
                 props.color && this.setColor(props.color);
@@ -191,12 +208,19 @@ export default class CustomComplex extends FrameBaseContent {
         }
 
         const ty = this.frameComponent.type
+        let f = FrameType
 
-        if(ty >= FrameType.BACKDROP && ty <= FrameType.INVIS_BUTTON) {
+        if(ty >= f.BACKDROP && ty <= f.INVIS_BUTTON) {
             ImageSetup()
         }
-        if(ty == FrameType.TEXT_FRAME) TextSetup()
-        if(ty == FrameType.HORIZONTAL_BAR) {
+        if(ty == f.SCRIPT_DIALOG_BUTTON || ty == f.BROWSER_BUTTON) {
+            TextSetup()
+            this.setVerAlign("center")
+            this.setHorAlign("center")
+            this.setColor('#FCD20D')
+        }
+        if(ty == f.TEXT_FRAME) TextSetup()
+        if(ty == f.HORIZONTAL_BAR) {
             ImageSetup()
         }
     }
@@ -206,26 +230,7 @@ export default class CustomComplex extends FrameBaseContent {
 
 }
 
-export class CustomComplexPropsConst implements CustomComplexProps {
-    text= "" 
-    color= ""
-    scale= 1
-    textureDiskPath= "";
-    textureWc3Path= ""
-    textHorAlign: 'left' | 'center' | 'right' = 'left'
-    textVerAlign: 'start' | 'center' | 'flex-end' = 'start'
-    trigVar= "";
-
-    constructor(props: CustomComplexProps) {try{
-        for(let p in props) {
-            if(props[p])
-                this[p] = props[p];
-        }
-    }catch(e){alert('CustomComplexPropsConst: '+e)}}
-
-}
-
-interface CustomComplexProps {
+export interface CustomComplexProps {
     text?: string 
     color?: string
     scale?: number

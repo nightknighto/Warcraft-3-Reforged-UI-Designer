@@ -2,7 +2,7 @@ import { FrameType } from "./FrameType";
 import { Editor } from "../Editor";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";
-import CustomComplex from "./CustomComplex";
+import CustomComplex, {CustomComplexProps} from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 
@@ -41,7 +41,6 @@ export class FrameBuilder{
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_BOTY)) { console.error("Could not parse JSON."); return; }
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_HEIGHT)) { console.error("Could not parse JSON."); return; }
         if (!container.hasKey(FrameBaseContent.SAVE_KEY_WIDTH)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(FrameBaseContent.SAVE_KEY_TEXT)) { console.error("Could not parse JSON."); return; }
 
         this.name = container.load(FrameComponent.SAVE_KEY_NAME);
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE);

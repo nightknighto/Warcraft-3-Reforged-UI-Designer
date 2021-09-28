@@ -51,11 +51,15 @@ export class ParameterEditor {
     public readonly fieldType: HTMLDivElement;
     public readonly fieldFunctionalityFull: HTMLDivElement;
     public readonly fieldFunctionalityText: HTMLDivElement;
+    public readonly fieldFunctionalityTextBig: HTMLDivElement;
+    public readonly fieldFunctionalityTextScale: HTMLDivElement;
+    public readonly fieldFunctionalityTextColor: HTMLDivElement;
+    public readonly fieldFunctionalityTextAlign: HTMLDivElement;
     public readonly fieldFunctionalityVar: HTMLDivElement;
     public readonly fieldGeneral: HTMLDivElement;
     public readonly fieldElement: HTMLDivElement;
-    public readonly fieldTextFrame: HTMLDivElement;
     public readonly fieldTooltip: HTMLDivElement;
+    public readonly fieldParent: HTMLDivElement;
 
 
     public constructor() {
@@ -92,26 +96,30 @@ export class ParameterEditor {
         this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement;
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;
         this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement;
+        this.fieldParent = document.getElementById('FieldParent') as HTMLDivElement;
         this.fieldFunctionalityFull = document.getElementById('FieldFunctionalityFull') as HTMLDivElement;
         this.fieldFunctionalityText = document.getElementById('FieldFunctionalityText') as HTMLDivElement;
+        this.fieldFunctionalityTextBig = document.getElementById('FieldFunctionalityTextBig') as HTMLDivElement;
+        this.fieldFunctionalityTextScale = document.getElementById('FieldFunctionalityScale') as HTMLDivElement;
+        this.fieldFunctionalityTextColor = document.getElementById('FieldFunctionalityColor') as HTMLDivElement;
+        this.fieldFunctionalityTextAlign = document.getElementById('FieldFunctionalityAlign') as HTMLDivElement;
         this.fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
         this.fieldGeneral = document.getElementById('FieldGeneral') as HTMLDivElement;
         this.fieldElement = document.getElementById('FieldElement') as HTMLDivElement;
-        this.fieldTextFrame = document.getElementById('FieldFunctionalityTextFrame') as HTMLDivElement;
 
 
-        this.inputElementWidth.disabled = true
-        this.inputElementHeight.disabled = true
-        this.inputElementName.disabled = true
-        this.selectElementType.disabled = true
-        this.selectElementParent.disabled = true
-        this.inputElementCoordinateX.disabled = true
-        this.inputElementCoordinateY.disabled = true
-        this.inputElementDiskTexture.disabled = true
-        this.fileElementTextureBrowse.disabled = true
-        this.inputElementWC3Texture.disabled = true
-        this.inputElementText.disabled = true
-        this.inputElementTrigVar.disabled = true
+        // this.inputElementWidth.disabled = true
+        // this.inputElementHeight.disabled = true
+        // this.inputElementName.disabled = true
+        // this.selectElementType.disabled = true
+        // this.selectElementParent.disabled = true
+        // this.inputElementCoordinateX.disabled = true
+        // this.inputElementCoordinateY.disabled = true
+        // this.inputElementDiskTexture.disabled = true
+        // this.fileElementTextureBrowse.disabled = true
+        // this.inputElementWC3Texture.disabled = true
+        // this.inputElementText.disabled = true
+        // this.inputElementTrigVar.disabled = true
 
         this.inputElementWidth.onchange = ParameterEditor.InputWidth;
         this.inputElementHeight.onchange = ParameterEditor.InputHeight;
@@ -547,100 +555,80 @@ export class ParameterEditor {
             const horizontalMargin = Editor.getInnerMargin()
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
-                this.disableFields(false)
+                // this.disableFields(false)
                 this.setupLists(frame)
                 this.inputElementName.value = frame.getName();
+                this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
+                this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
 
-                // if (frame.custom instanceof CustomComplex) {
-                    this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
-                    this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
+                this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
+                this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
+                this.inputElementTrigVar.value = frame.custom.getTrigVar()
+                this.inputElementText.value = frame.custom.getText()
 
-                    this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
-                    this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
-                    this.inputElementTrigVar.value = frame.custom.getTrigVar()
-                    this.inputElementText.value = frame.custom.getText()
-                // } else if (frame.custom instanceof CustomComplex) {
-
-                    this.inputElementTextScale.value = frame.custom.getScale() + ""
-                    this.inputElementTextColor.value = frame.custom.getColor()
-                    this.inputElementTextBig.value = frame.custom.getText()
-                    switch(frame.custom.getHorAlign()) {
-                        case 'left': this.selectElementHorAlign.selectedIndex = 0;
-                            break;
-                        case 'center': this.selectElementHorAlign.selectedIndex = 1;
-                            break;
-                        case 'right': this.selectElementHorAlign.selectedIndex = 2;
-                            break;
-                    }
-                    switch(frame.custom.getVerAlign()) {
-                        case 'start': this.selectElementVerAlign.selectedIndex = 0;
-                            break;
-                        case 'center': this.selectElementVerAlign.selectedIndex = 1;
-                            break;
-                        case 'flex-end': this.selectElementVerAlign.selectedIndex = 2;
-                            break;
-                    }
-                // }
+                this.inputElementTextScale.value = frame.custom.getScale() + ""
+                this.inputElementTextColor.value = frame.custom.getColor()
+                this.inputElementTextBig.value = frame.custom.getText()
+                switch(frame.custom.getHorAlign()) {
+                    case 'left': this.selectElementHorAlign.selectedIndex = 0;
+                        break;
+                    case 'center': this.selectElementHorAlign.selectedIndex = 1;
+                        break;
+                    case 'right': this.selectElementHorAlign.selectedIndex = 2;
+                        break;
+                }
+                switch(frame.custom.getVerAlign()) {
+                    case 'start': this.selectElementVerAlign.selectedIndex = 0;
+                        break;
+                    case 'center': this.selectElementVerAlign.selectedIndex = 1;
+                        break;
+                    case 'flex-end': this.selectElementVerAlign.selectedIndex = 2;
+                        break;
+                }
 
                 this.inputElementCoordinateX.value = `${InputEdit((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) / (editor.workspaceImage.width - 2 * horizontalMargin) * 800)}`;
                 this.inputElementCoordinateY.value = `${InputEdit((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom) / editor.workspaceImage.height * 600)}`;
                 this.checkboxElementTooltip.checked = frame.getTooltip()
 
                 this.fieldElement.style.display = "initial"
-                this.fieldType.style.display = "initial"
-                this.fieldTooltip.style.display = "none"
-                this.fieldTexture.style.display = "initial"
-                this.fieldFunctionalityFull.style.display = "initial"
-                this.fieldFunctionalityText.style.display = "initial"
-                this.fieldFunctionalityVar.style.display = "initial"
                 this.fieldGeneral.style.display = "none"
-                this.fieldTextFrame.style.display = "none"
+                this.fieldType.style.display = "none"
+                this.fieldTooltip.style.display = "none"
+                this.fieldParent.style.display = "none"
+                this.fieldTexture.style.display = "none"
+                this.fieldFunctionalityFull.style.display = "none"
+                this.fieldFunctionalityText.style.display = "none"
+                this.fieldFunctionalityTextBig.style.display = "none"
+                this.fieldFunctionalityTextScale.style.display = "none"
+                this.fieldFunctionalityTextColor.style.display = "none"
+                this.fieldFunctionalityTextAlign.style.display = "none"
+                this.fieldFunctionalityVar.style.display = "none"
 
+                if(frame.FieldsAllowed.parent) this.fieldParent.style.display = "initial"
+                if(frame.FieldsAllowed.type) this.fieldType.style.display = "initial"
+                if(frame.FieldsAllowed.tooltip) this.fieldTooltip.style.display = "initial"
+                if(frame.FieldsAllowed.textures) this.fieldTexture.style.display = "initial"
+                if(frame.FieldsAllowed.trigVar) this.fieldFunctionalityVar.style.display = "initial"
+                if(frame.FieldsAllowed.text) this.fieldFunctionalityText.style.display = "initial"
+                if(frame.FieldsAllowed.textBig) this.fieldFunctionalityTextBig.style.display = "initial"
+                if(frame.FieldsAllowed.scale) this.fieldFunctionalityTextScale.style.display = "initial"
+                if(frame.FieldsAllowed.color) this.fieldFunctionalityTextColor.style.display = "initial"
+                if(frame.FieldsAllowed.textAlign) this.fieldFunctionalityTextAlign.style.display = "initial"
+
+                const f = frame.FieldsAllowed
+                if(f.trigVar || f.text || f.textBig || f.scale ||
+                     f.color || f.textAlign) this.fieldFunctionalityFull.style.display = "initial"
+
+
+                this.checkboxElementTooltip.disabled = false;
 
                 if (frame.type == FrameType.BACKDROP || frame.type == FrameType.BUTTON) {
                     this.selectElementType.selectedIndex = frame.type - 1
-                    this.fieldFunctionalityText.style.display = "none"
-
-                    if (frame.type == FrameType.BACKDROP) {
-                        this.fieldFunctionalityFull.style.display = "none";
-                        this.fieldTooltip.style.display = "initial"
-                    }
-
-                } else {
-                    this.fieldType.style.display = "none"
-                    this.fieldTexture.style.display = "none"
-
-                    if (frame.type != FrameType.BROWSER_BUTTON && frame.type != FrameType.SCRIPT_DIALOG_BUTTON && frame.type != FrameType.TEXT_FRAME) {
-                        if (frame.type == FrameType.INVIS_BUTTON) this.fieldFunctionalityText.style.display = "none";
-                        else {
-                            this.fieldFunctionalityFull.style.display = "none";
-                            this.fieldTooltip.style.display = "initial";
-                        }
-                    }
-
-
-                    else if (frame.type == FrameType.TEXT_FRAME) {
-                        this.fieldTextFrame.style.display = "initial";
-                        this.fieldFunctionalityText.style.display = "none";
-                        this.fieldFunctionalityVar.style.display = "none";
-                        this.fieldTooltip.style.display = "initial";
-                    }
                 }
 
                 if(frame.getParent() == Editor.GetDocumentEditor().projectTree.rootFrame) {
-                    this.fieldTooltip.style.display = "none";
+                    this.checkboxElementTooltip.disabled = true
                     frame.setTooltip(false);
-                }
-                
-                if(frame.type == FrameType.HORIZONTAL_BAR) {
-                    this.fieldTooltip.style.display = "none";
-                    this.fieldTexture.style.display = "initial";
-                }
-                
-                if(frame.type == FrameType.CHECKBOX) {
-                    this.fieldFunctionalityFull.style.display = "initial";
-                    this.fieldFunctionalityText.style.display = "none";
-                    this.fieldFunctionalityVar.style.display = "initial";
                 }
 
                 let parentHasTooltip = false;
@@ -653,19 +641,6 @@ export class ParameterEditor {
                 if(frame.getParent().getTooltip() || parentHasTooltip) {
                     this.checkboxElementTooltip.disabled = true
                     frame.setTooltip(false);
-                }
-
-                const n = frame.type;
-                if (n != FrameType.BUTTON && n != FrameType.SCRIPT_DIALOG_BUTTON
-                    && n != FrameType.BROWSER_BUTTON && n != FrameType.INVIS_BUTTON && n != FrameType.CHECKBOX) {
-                    this.inputElementTrigVar.disabled = true
-                    this.inputElementTrigVar.value = ""
-                }
-
-                if (n != FrameType.SCRIPT_DIALOG_BUTTON && n != FrameType.BROWSER_BUTTON) {
-                    this.inputElementText.disabled = true
-                    this.inputElementText.value = ""
-
                 }
 
                 const options = this.selectElementParent.options
@@ -685,7 +660,7 @@ export class ParameterEditor {
                 selected.selected = true;
 
             } else {
-                this.disableFields(true)
+                // this.disableFields(true)
                 this.emptyFields()
 
                 this.fieldElement.style.display = "none"
