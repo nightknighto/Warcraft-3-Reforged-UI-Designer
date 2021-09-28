@@ -435,14 +435,14 @@ export class ParameterEditor {
     static ButtonInputDiskTexture(ev: Event, normal: boolean): void {
         const inputElement = ev.target as HTMLInputElement;
         const path = URL.createObjectURL(inputElement.files[0])
-
+        inputElement.value = "";
         const editor = Editor.GetDocumentEditor();
         if (normal) editor.projectTree.getSelectedFrame().custom.setDiskTexture(path);
         else editor.projectTree.getSelectedFrame().custom.setBackDiskTexture(path);
 
         if (normal) editor.parameterEditor.inputElementDiskTexture.value = path;
         else editor.parameterEditor.inputElementBackDiskTexture.value = path;
-        debugText("Disk Texture changed. However, the app can't know the path of this texture.")
+        debugText("Disk Texture changed.")
     }
 
     static InputWC3Texture(ev: Event, normal: boolean): void {
