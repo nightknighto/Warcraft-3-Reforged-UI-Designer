@@ -30,6 +30,9 @@ export class ParameterEditor {
     public readonly inputElementDiskTexture: HTMLInputElement;
     public readonly fileElementTextureBrowse: HTMLInputElement;
     public readonly inputElementWC3Texture: HTMLInputElement;
+    public readonly inputElementBackDiskTexture: HTMLInputElement;
+    public readonly fileElementBackTextureBrowse: HTMLInputElement;
+    public readonly inputElementBackWC3Texture: HTMLInputElement;
     public readonly inputElementText: HTMLInputElement;
     public readonly inputElementTrigVar: HTMLInputElement;
     public readonly inputElementTextBig: HTMLInputElement;
@@ -48,6 +51,7 @@ export class ParameterEditor {
     public readonly selectElementVerAlign: HTMLSelectElement;
 
     public readonly fieldTexture: HTMLDivElement;
+    public readonly fieldBackgroundTexture: HTMLDivElement;
     public readonly fieldType: HTMLDivElement;
     public readonly fieldFunctionalityFull: HTMLDivElement;
     public readonly fieldFunctionalityText: HTMLDivElement;
@@ -76,6 +80,9 @@ export class ParameterEditor {
         this.inputElementDiskTexture = document.getElementById('elementDiskTexture') as HTMLInputElement;
         this.fileElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLInputElement;
         this.inputElementWC3Texture = document.getElementById('elementWC3Texture') as HTMLInputElement;
+        this.inputElementBackDiskTexture = document.getElementById('elementBackDiskTexture') as HTMLInputElement;
+        this.fileElementBackTextureBrowse = document.getElementById('buttonBackBrowseTexture') as HTMLInputElement;
+        this.inputElementBackWC3Texture = document.getElementById('elementBackWC3Texture') as HTMLInputElement;
         this.inputElementText = document.getElementById('elementText') as HTMLInputElement;
         this.inputElementTextBig = document.getElementById('elementTextBig') as HTMLInputElement;
         this.inputElementTextScale = document.getElementById('elementTextScale') as HTMLInputElement;
@@ -94,6 +101,7 @@ export class ParameterEditor {
         this.selectElementVerAlign = document.getElementById('elementTextVerAlign') as HTMLSelectElement
         
         this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement;
+        this.fieldBackgroundTexture = document.getElementById('FieldBackgroundTexture') as HTMLDivElement;
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;
         this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement;
         this.fieldParent = document.getElementById('FieldParent') as HTMLDivElement;
@@ -130,9 +138,12 @@ export class ParameterEditor {
         this.checkboxElementTooltip.onchange = ParameterEditor.ChangeTooltip;
         this.inputElementCoordinateX.onchange = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange = ParameterEditor.InputCoordinateY;
-        this.inputElementDiskTexture.onchange = ParameterEditor.TextInputDiskTexture;
-        this.fileElementTextureBrowse.onchange = ParameterEditor.ButtonInputDiskTexture;
-        this.inputElementWC3Texture.oninput = ParameterEditor.InputWC3Texture;
+        this.inputElementDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, true);
+        this.fileElementTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, true);
+        this.inputElementWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, true);
+        this.inputElementBackDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, false);
+        this.fileElementBackTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, false);
+        this.inputElementBackWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, false);
         this.inputElementText.oninput = ParameterEditor.InputText;
         this.inputElementTextBig.oninput = ParameterEditor.InputText;
         this.inputElementTextScale.onchange = ParameterEditor.InputTextScale;
@@ -411,34 +422,38 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
-    static TextInputDiskTexture(ev: Event): void {
+    static TextInputDiskTexture(ev: Event, normal: boolean): void {
 
         const inputElement = ev.target as HTMLInputElement;
 
-        (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setDiskTexture(inputElement.value);
+        if (normal) Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setDiskTexture(inputElement.value)
+        else Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setBackDiskTexture(inputElement.value);
         debugText('Disk Texture changed.');
 
     }
 
-    static ButtonInputDiskTexture(ev: Event): void {
+    static ButtonInputDiskTexture(ev: Event, normal: boolean): void {
         const inputElement = ev.target as HTMLInputElement;
         const path = URL.createObjectURL(inputElement.files[0])
 
         const editor = Editor.GetDocumentEditor();
-        (editor.projectTree.getSelectedFrame().custom as CustomComplex).setDiskTexture(path);
+        if (normal) editor.projectTree.getSelectedFrame().custom.setDiskTexture(path);
+        else editor.projectTree.getSelectedFrame().custom.setBackDiskTexture(path);
 
-        editor.parameterEditor.inputElementDiskTexture.value = path;
+        if (normal) editor.parameterEditor.inputElementDiskTexture.value = path;
+        else editor.parameterEditor.inputElementBackDiskTexture.value = path;
         debugText("Disk Texture changed. However, the app can't know the path of this texture.")
     }
 
-    static InputWC3Texture(ev: Event): void {
+    static InputWC3Texture(ev: Event, normal: boolean): void {
 
         const inputElement = ev.target as HTMLInputElement;
         let text = inputElement.value;
         text = text.replace(/(?<!\\)\\(?!\\)/g, "\\\\");
         inputElement.value = text
 
-        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setWc3Texture(text);
+        if (normal) Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setWc3Texture(text);
+        else Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setBackWc3Texture(text);
         debugText('WC3 Texture changed.');
 
     }
@@ -563,6 +578,8 @@ export class ParameterEditor {
 
                 this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
                 this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
+                this.inputElementBackDiskTexture.value = frame.custom.getBackDiskTexture()
+                this.inputElementBackWC3Texture.value = frame.custom.getBackWc3Texture()
                 this.inputElementTrigVar.value = frame.custom.getTrigVar()
                 this.inputElementText.value = frame.custom.getText()
 
@@ -596,6 +613,7 @@ export class ParameterEditor {
                 this.fieldTooltip.style.display = "none"
                 this.fieldParent.style.display = "none"
                 this.fieldTexture.style.display = "none"
+                this.fieldBackgroundTexture.style.display = "none"
                 this.fieldFunctionalityFull.style.display = "none"
                 this.fieldFunctionalityText.style.display = "none"
                 this.fieldFunctionalityTextBig.style.display = "none"
@@ -608,6 +626,7 @@ export class ParameterEditor {
                 if(frame.FieldsAllowed.type) this.fieldType.style.display = "initial"
                 if(frame.FieldsAllowed.tooltip) this.fieldTooltip.style.display = "initial"
                 if(frame.FieldsAllowed.textures) this.fieldTexture.style.display = "initial"
+                if(frame.FieldsAllowed.backTextures) this.fieldBackgroundTexture.style.display = "initial"
                 if(frame.FieldsAllowed.trigVar) this.fieldFunctionalityVar.style.display = "initial"
                 if(frame.FieldsAllowed.text) this.fieldFunctionalityText.style.display = "initial"
                 if(frame.FieldsAllowed.textBig) this.fieldFunctionalityTextBig.style.display = "initial"

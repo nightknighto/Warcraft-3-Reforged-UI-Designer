@@ -25,12 +25,14 @@ export default class CustomComplex extends FrameBaseContent {
     private textVerAlign: 'start'|'center'|'flex-end' = 'start';
     private textureDiskPath: string = '';
     private textureWc3Path: string = '';
+    private textureBackDiskPath: string = '';
+    private textureBackWc3Path: string = '';
     private trigVar: string = "";
 
     private elemTextContainer: HTMLDivElement;
     private elemText: HTMLParagraphElement;
     private elemImage: HTMLImageElement;
-    private elemImageAddition: HTMLImageElement;
+    elemImageBack: HTMLImageElement;
 
 
     public getElement(): HTMLDivElement {
@@ -102,6 +104,23 @@ export default class CustomComplex extends FrameBaseContent {
 
     public getWc3Texture(): string {
         return this.textureWc3Path;
+    }
+
+    public getBackDiskTexture(): string {
+        return this.textureBackDiskPath;
+    }
+
+    public setBackDiskTexture(newTexturePath: string): void {
+        this.textureBackDiskPath = newTexturePath;
+        this.elemImageBack.src = newTexturePath;
+    }
+
+    public setBackWc3Texture(newTexturePath: string): void {
+        this.textureBackWc3Path = newTexturePath;
+    }
+
+    public getBackWc3Texture(): string {
+        return this.textureBackWc3Path;
     }
     
     public setTrigVar(VarName: string): void {
@@ -207,6 +226,17 @@ export default class CustomComplex extends FrameBaseContent {
             }
         }
 
+        const ImageBackSetup = () => {
+            this.elemImageBack = this.element.appendChild(document.createElement('img'))
+            this.elemImage.style.width = '100%'
+            this.elemImage.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0% 100%)';
+            this.elemImageBack.style.width = '100%'
+            this.elemImageBack.style.clipPath = 'polygon(100% 0, 50% 0, 50% 100%, 100% 100%)';
+            this.elemImageBack.style.top = '0'
+            this.elemImageBack.style.right = '0'
+            this.element.style.border = '1px solid black'
+        }
+
         const ty = this.frameComponent.type
         let f = FrameType
 
@@ -220,8 +250,19 @@ export default class CustomComplex extends FrameBaseContent {
             this.setColor('#FCD20D')
         }
         if(ty == f.TEXT_FRAME) TextSetup()
-        if(ty == f.HORIZONTAL_BAR) {
+        if(ty == f.HORIZONTAL_BAR) ImageSetup()
+        if(ty == f.HOR_BAR_BACKGROUND) {
             ImageSetup()
+            ImageBackSetup()
+        }
+        if(ty == f.HOR_BAR_TEXT) {
+            ImageSetup()
+            TextSetup()
+        }
+        if(ty == f.HOR_BAR_BACKGROUND_TEXT) {
+            ImageSetup()
+            TextSetup()
+            ImageBackSetup()
         }
     }
     /* ***********************************************  */

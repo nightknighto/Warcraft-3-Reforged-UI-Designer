@@ -37,6 +37,7 @@ export class FrameComponent implements Saveable {
         textBig: false,
         textAlign: false,
         textures: false,
+        backTextures: false,
         trigVar: false,
         type: false
     }
@@ -283,6 +284,7 @@ export class FrameComponent implements Saveable {
                 break;
             case ft.HORIZONTAL_BAR:
                 f.textures = true;
+                f.backTextures = true;
                 f.tooltip = false;
                 break;
             // case ft.HOR_BAR_BACKGROUND:
@@ -323,6 +325,7 @@ interface ElementFieldsAllowed {
     scale: boolean
     textAlign: boolean
     textures: boolean;
+    backTextures: boolean;
     trigVar: boolean;
     /**Default is true */
     parent: boolean
