@@ -170,6 +170,34 @@
                 <div class="form-floating mb-3" id="tooltipTextureWC3" data-bs-toggle="tooltip" title="The appearance ingame. Put the path of the blp file in Asset Manager here">
                     <input type="text" list="WC3TextureList" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
                     <label class="text-black" for="elementWC3Texture">Texture Path (WE)</label>
+                    <!-- <datalist id="WC3TextureList">
+                        <option value="Black">
+                        <option value="Red">
+                        <option value="Green">
+                        <option value="Blue">
+                        <option value="White">
+                    </datalist> -->
+                </div>
+
+                <hr>
+            </div>
+                
+            <div id='FieldBackgroundTexture'>
+                <label for=""><b>Background Texture Paths</b></label>
+                <div class='row gx-1'>
+                    <div class="col-9 form-floating mb-1" id="tooltipBackTextureApp" data-bs-toggle="tooltip" title="The appearance of the Background inside the app.">
+                        <input type="text" id="elementBackDiskTexture" class="form-control" placeholder="name">
+                        <label class="text-black" for="elementBackDiskTexture">Texture Path</label>
+                    </div>
+
+                    <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
+                    <input type="file" accept="image/*" style="display:none" id="buttonBackBrowseTexture">
+                </div>
+                        
+
+                <div class="form-floating mb-3" id="tooltipBackTextureWC3" data-bs-toggle="tooltip" title="The background's appearance ingame. Put the path of the blp file in Asset Manager here">
+                    <input type="text" list="WC3TextureList" name="elementBackWC3Texture" id="elementBackWC3Texture" class="form-control" placeholder="name">
+                    <label class="text-black" for="elementBackWC3Texture">Texture Path (WE)</label>
                     <datalist id="WC3TextureList">
                         <option value="Black">
                         <option value="Red">
