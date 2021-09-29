@@ -62,19 +62,23 @@ export class FrameBuilder implements CustomComplexProps{
         this.y = container.load(FrameBaseContent.SAVE_KEY_BOTY);
         this.height = container.load(FrameBaseContent.SAVE_KEY_HEIGHT);
         this.width = container.load(FrameBaseContent.SAVE_KEY_WIDTH);
-        this.text = container.load(CustomComplex.SAVE_KEY_TEXT);
 
         try{
             this.textureDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH);
-            this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
+            this.textureWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
             this.trigVar = container.load(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME);
             this.textureBackDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH)
             this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH)
+            console.log('textureDisk: '+this.textureDiskPath)
+            console.log('textureWC3: '+this.textureWc3Path)
+            console.log('textureBackDisk: '+this.textureBackDiskPath)
+            console.log('textureBackWC3: '+this.textureBackWc3Path)
         }catch(e){alert('textures error: '+e)}
-        if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
-        if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
+        // if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
+        // if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
         try{
+            this.text = container.load(CustomComplex.SAVE_KEY_TEXT);
             this.scale = container.load(CustomComplex.SAVE_KEY_SCALE);
             this.color = container.load(CustomComplex.SAVE_KEY_COLOR);
             this.textHorAlign = container.load(CustomComplex.SAVE_KEY_HorAlign)

@@ -166,6 +166,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         container.save(CustomComplex.SAVE_KEY_VerAlign, this.textVerAlign);
         container.save(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH, this.textureWc3Path);
         container.save(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH, this.textureDiskPath);
+        container.save(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH, this.textureBackWc3Path);
+        container.save(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH, this.textureBackDiskPath);
         container.save(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar);
         // container.save(CustomComplex.SAVE_KEY_, this.);
 

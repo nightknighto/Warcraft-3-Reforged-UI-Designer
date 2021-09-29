@@ -64,6 +64,9 @@ export class ParameterEditor {
     public readonly fieldElement: HTMLDivElement;
     public readonly fieldTooltip: HTMLDivElement;
     public readonly fieldParent: HTMLDivElement;
+    public readonly fieldElementInfo: HTMLDivElement;
+    public readonly fieldElementInfoTitle: HTMLElement;
+    public readonly fieldElementInfoDesc: HTMLSpanElement;
 
 
     public constructor() {
@@ -114,6 +117,9 @@ export class ParameterEditor {
         this.fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement;
         this.fieldGeneral = document.getElementById('FieldGeneral') as HTMLDivElement;
         this.fieldElement = document.getElementById('FieldElement') as HTMLDivElement;
+        this.fieldElementInfo = document.getElementById('ElementInfo') as HTMLDivElement;
+        this.fieldElementInfoTitle = document.getElementById('ElementInfoTitle') as HTMLElement;
+        this.fieldElementInfoDesc = document.getElementById('ElementInfoDesc') as HTMLSpanElement;
 
 
         // this.inputElementWidth.disabled = true
@@ -571,6 +577,100 @@ export class ParameterEditor {
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 // this.disableFields(false)
+
+                // change title and desc info
+                let txt = ""
+                let dsc = ""
+                const ft = FrameType
+                switch(frame.type) {
+                    case ft.BROWSER_BUTTON:
+                        txt="Browser Button"
+                        dsc="A clickable button with presaved texture and text inside. Buttons can't be tooltips."
+                        break;
+                    case ft.SCRIPT_DIALOG_BUTTON:
+                        txt="Script Dialog Button"
+                        dsc="A clickable button with presaved texture and text inside. Buttons can't be tooltips."
+                        break
+                    case ft.BUTTON:
+                        txt="Custom Button"
+                        dsc="A clickable button with custom texture. Buttons can't be tooltips."
+
+                        break;
+                    case ft.CHECKBOX:
+                        txt="Checkbox"
+                        dsc="A checkbox that can be checked or unchecked by clicking on it."
+
+                        break;
+                    case ft.HORIZONTAL_BAR:
+                        txt="Horizontal Bar"
+                        dsc="A horizontal bar similar to loadings bars, that takes the whole texture and displays a percentage of it."
+                        
+                        break
+                    case ft.HOR_BAR_BACKGROUND:
+                        txt="Horizontal Bar with Background"
+                        dsc="A horizontal bar combined with a backdrop. The backdrop acts as a background, and shows below the bar when the bar's display percentage isn't 100%. It exists by itself and can't be a child to other frames."
+
+                    break;
+                    case ft.HOR_BAR_BACKGROUND_TEXT:
+                        txt="Horizontal Bar with Background & Text"
+                        dsc="A horizontal bar combined with a backdrop (acts as a background) and a text frame above it. It exists by itself and can't be a child to other frames."
+
+                        break;
+                    case ft.HOR_BAR_TEXT:
+                        txt="Horizontal Bar with Text"
+                        dsc="A horizontal bar combined with a text frame above it. It exists by itself and can't be a child to other frames."
+                        
+                        break
+                    case ft.INVIS_BUTTON:
+                        txt="Invisible Button"
+                        dsc="A transparent but clickable button. Can be put over other elements like text frames or backdrops to simulate clicks over them. Buttons can't be tooltips."
+
+                        break;
+                    case ft.TEXT_FRAME:
+                        txt="Text Frame"
+                        dsc="A piece of text that can be displayed anywhere on the screen."
+
+                        break;
+                    case ft.BACKDROP:
+                        txt="Custom Backdrop"
+                        dsc="A static image with a custom texture and no interactions. Mostly used as background."
+                        
+                        break
+                    // case ft.BUTTON
+
+                    //     break;
+                    // case ft.BROWSER_BUTTON:
+
+                    //     break;
+                    // case ft.SCRIPT_DIALOG_BUTTON:
+                        
+                    //     break
+                    // case ft.BUTTON
+
+                    // break;
+                    // case ft.BROWSER_BUTTON:
+
+                    //     break;
+                    // case ft.SCRIPT_DIALOG_BUTTON:
+                        
+                    //     break
+                    // case ft.BUTTON
+
+                    //     break;
+
+                    default:
+                        txt="Backdrop"
+                        dsc="A static image with a pre-saved texture and no interactions. Mostly used as background."
+                        break;
+                }
+                this.fieldElementInfoTitle.innerText = txt+" "
+                // this.fieldElementInfoDesc.innerHTML = ""
+                // let el = this.fieldElementInfoDesc.appendChild(document.createElement('i'))
+                // el.className = "fa fa-question-circle text-warning"
+                // el.setAttribute('data-bs-toggle', 'tooltip')
+                this.fieldElementInfoDesc.setAttribute('title', dsc)
+
+
                 this.setupLists(frame)
                 this.inputElementName.value = frame.getName();
                 this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
