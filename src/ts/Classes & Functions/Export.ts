@@ -198,51 +198,90 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             //globals or initial declaration
             if (kind == 0) {
 
-                //array
-                if(isArray) {
-                    
-                    if(isArrayMain) { //main instance
-                        if (el.type == FrameType.BUTTON) {
-                            text = temp.declaresBUTTONArray
-                        } else {
-                            if(temp == JASS) {
-                                if(el.getTooltip()) {text = JASS.declaresArrayWiTooltip}
-                                else {text = JASS.declaresArray}
-                            } else {
-                                text = temp.declaresArray
-                            }
-                        }
-                        if (lang == 'jass' || lang == 'lua' ) {
-                            if (el.custom instanceof CustomComplex) {
-                                if(el.type == FrameType.CHECKBOX) {
-                                    if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
-                                } else text += temp.declaresFUNCTIONALITYArray;
-                            }
-                        }
-                    } else { //secondary instance
-                        continue;
-                    }
+                if(isArray && !isArrayMain) continue;
 
-                //single instance; not array
-                } else {
-                    if (el.type == FrameType.BUTTON) {
-                        text = temp.declaresBUTTON
-                    } else {
-                        if(temp == JASS) {
-                            if(el.getTooltip()) {text = JASS.declaresWiTooltip}
-                            else {text = JASS.declares}
-                        } else {
-                            text = temp.declares
-                        }
-                    }
-                    if (lang == 'jass' || lang == 'lua' ) {
-                        if (el.custom instanceof CustomComplex) {
-                            if(el.type == FrameType.CHECKBOX) {
-                                if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
-                            } else text += temp.declaresFUNCTIONALITY;
-                        }
+                switch(el.type) {
+                    case FrameType.BUTTON:
+                        text = temp.declaresBUTTON;
+                        break;
+                    case FrameType.HOR_BAR_BACKGROUND:
+                        text = temp.declaresHorBarBack;
+                        break;
+                    case FrameType.HOR_BAR_TEXT:
+                        text = temp.declaresHorBarText;
+                        break;
+                    case FrameType.HOR_BAR_BACKGROUND_TEXT:
+                        text = temp.declaresHorBarBack_Text;
+                        break;
+                    default:
+                        text = temp.declares
+                        if(temp == JASS && el.getTooltip()) {text = JASS.declaresWiTooltip}
+                        break;
+                }
+
+                if (lang == 'jass' || lang == 'lua' ) {
+                    if(el.type == FrameType.CHECKBOX) {
+                        if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
+                    } else text += temp.declaresFUNCTIONALITY;
+                }
+
+                if(isArray) {
+                    if(temp == LUA) text = text.replace(/nil/gi, '{}')
+                    if(temp == Typescript) text = text.replace(/Frame/gi, 'Frame[] = []')
+                    if(temp == JASS) {
+                        text = text.replace(/(\w*)FRvar = null/gi, ` array \$1FRvar`)
+                        // text = text.replace(/trigger (.)*Frvar = null/gi, `trigger array ${RegExp.$1}FRvar`)
                     }
                 }
+                //array
+                // if(isArray) {
+                    
+                //     if(isArrayMain) { //main instance
+                //         if (el.type == FrameType.BUTTON) {
+                //             if(temp == JASS) text = JASS.declaresBUTTONArray
+                //             else text = temp.declaresBUTTON
+                //         } else {
+                //             if(temp == JASS) {
+                //                 if(el.getTooltip()) {text = JASS.declaresArrayWiTooltip}
+                //                 else {text = JASS.declaresArray}
+                //             } else {
+                //                 text = temp.declares
+                //             }
+                //         }
+                //         if (lang == 'jass' || lang == 'lua' ) {
+                //             if (el.custom instanceof CustomComplex) {
+                //                 if(el.type == FrameType.CHECKBOX) {
+                //                     if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
+                //                 } else text += temp.declaresFUNCTIONALITYArray;
+                //             }
+                //         }
+                //     } else { //secondary instance
+                //         continue;
+                //     }
+                //     // if(temp == JASS) text = text.replace(/framehandle (.)(.)(.)(.)(.)/gi, '{}')
+                //     if(temp == LUA) text = text.replace(/nil/gi, '{}')
+                //     if(temp == Typescript) text = text.replace(/Frame/gi, 'Frame[] = []')
+    
+                // //single instance; not array
+                // } else {
+                //     if (el.type == FrameType.BUTTON) {
+                //         text = temp.declaresBUTTON
+                //     } else {
+                //         if(temp == JASS) {
+                //             if(el.getTooltip()) {text = JASS.declaresWiTooltip}
+                //             else {text = JASS.declares}
+                //         } else {
+                //             text = temp.declares
+                //         }
+                //     }
+                //     if (lang == 'jass' || lang == 'lua' ) {
+                //         if (el.custom instanceof CustomComplex) {
+                //             if(el.type == FrameType.CHECKBOX) {
+                //                 if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
+                //             } else text += temp.declaresFUNCTIONALITY;
+                //         }
+                //     }
+                // }
 
             } else if (kind == 1 && lang != 'ts') {
                 text = ""
@@ -330,25 +369,26 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             if(el.world_frame) textEdit = textEdit.replace("ORIGIN_FRAME_GAME_UI", "ORIGIN_FRAME_WORLD_FRAME")
             
             if(ProjectTree.OriginMode == 'worldframe') 
-                textEdit = textEdit.replace("ORIGIN_FRAME_GAME_UI", "ORIGIN_FRAME_WORLD_FRAME");
+                textEdit = textEdit.replace(/ORIGIN_FRAME_GAME_UI/gi, "ORIGIN_FRAME_WORLD_FRAME");
             else if(ProjectTree.OriginMode == 'consoleui') {
-                textEdit = textEdit.replace("BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)", 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
-                textEdit = textEdit.replace("BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)", 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+                textEdit = textEdit.replace(/BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+                textEdit = textEdit.replace(/BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
 
-                textEdit = textEdit.replace("Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)", 'Frame.fromName("ConsoleUIBackdrop",0)');
-                textEdit = textEdit.replace("Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0)", 'Frame.fromName("ConsoleUIBackdrop",0)');
+                textEdit = textEdit.replace(/Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
+                textEdit = textEdit.replace(/Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
             }
 
-            textEdit = textEdit.replace("TOPLEFTXvar", `${(el.custom.getLeftX()).toPrecision(6)}`)
-            textEdit = textEdit.replace("TOPLEFTYvar", `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTXvar", `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
-            textEdit = textEdit.replace("BOTRIGHTYvar", `${(el.custom.getBotY()).toPrecision(6)}`)
+            textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX()).toPrecision(6)}`)
+            textEdit = textEdit.replace(/TOPLEFTYvar/gi, `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
+            textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
+            textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY()).toPrecision(6)}`)
 
-            textEdit = textEdit.replace("PATHvar", '"' + el.custom.getWc3Texture() + '"');
+            textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getBackWc3Texture() + '"');
+            textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getWc3Texture() + '"');
             if(el.custom.getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + el.custom.getTrigVar() + '"');
             // textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
-            textEdit = textEdit.replace("TEXTvar", '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
-            textEdit = textEdit.replace("FRscale", `${(1 / 0.7 * el.custom.getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+            textEdit = textEdit.replace(/TEXTvar/gi, '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
+            textEdit = textEdit.replace(/FRscale/gi, `${(1 / 0.7 * el.custom.getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
             
             let align_ver = 'TEXT_JUSTIFY_TOP';
             switch(el.custom.getVerAlign()) {
@@ -505,6 +545,15 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
 
         case FrameType.HORIZONTAL_BAR:
             return LUA.HorizontalBar
+
+        case FrameType.HOR_BAR_BACKGROUND:
+            return LUA.HorizontalBarWiBackground
+
+        case FrameType.HOR_BAR_TEXT:
+            return LUA.HorizontalBarWiText
+            
+        case FrameType.HOR_BAR_BACKGROUND_TEXT:
+            return LUA.HorizontalBarWiBackground_Text
     }
     return ""
 }
@@ -559,6 +608,14 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
         case FrameType.HORIZONTAL_BAR:
             return Typescript.HorizontalBar
 
+        case FrameType.HOR_BAR_BACKGROUND:
+            return Typescript.HorizontalBarWiBackground
+
+        case FrameType.HOR_BAR_TEXT:
+            return Typescript.HorizontalBarWiText
+            
+        case FrameType.HOR_BAR_BACKGROUND_TEXT:
+            return Typescript.HorizontalBarWiBackground_Text
     }
     return ""
 }
