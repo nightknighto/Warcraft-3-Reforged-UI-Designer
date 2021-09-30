@@ -144,6 +144,34 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.3.0</h2>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: Origin Modes</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Bypass green borders with ConsoleUI Origin Mode</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Templates tab, Horizontal bar templates</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Text Alignment Options</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: View tab: App's Interface & Background/Resolution Menus</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Selected Element's Name & Brief Info</li>
+                                                        <li class="list-group-item list-group-item-primary">Rework: ScriptDialogButton/BrowserButton</li>
+                                                    </ul>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.2.0</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
@@ -201,48 +229,6 @@ export class Modals {
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row mt-5">
-                                <div class="col-12">
-                                    <div class="card bg-secondary">
-                                        <h2 class="card-header text-white">v 2.0.0</h2>
-                                        <div class="card-body">
-                                            <div class="row justify-content-center">
-                                                <div class="col-5 card-text p-4">
-                                                    <ul class="list-group border border-danger border-2">
-                                                        <li class="list-group-item list-group-item-primary">New: Undo/Redo</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Text Frames</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Tooltips</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Typescript Export</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Info Tab</li>
-                                                        <li class="list-group-item list-group-item-primary">New: About Us page</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Hall of Fame page</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Change Log page</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Parent Array option for TableA.</li>
-                                                        <li class="list-group-item list-group-item-primary">Buttons: Lose Focus After Clicks</li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="offset-1 col-5 card-text p-4">
-                                                    <ul class=" list-group border border-danger border-2">
-                                                        <li class="list-group-item list-group-item-primary">Backward and Forward Support</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Ability to give array names</li>
-                                                        <li class="list-group-item list-group-item-primary">TableArray: counting system changed</li>
-                                                        <li class="list-group-item list-group-item-primary">Improved App's buttons</li>
-                                                        <li class="list-group-item list-group-item-primary">More Game-UI General Options</li>
-                                                        <li class="list-group-item list-group-item-primary">Frame Border: now semi-transparent</li>
-                                                        <li class="list-group-item list-group-item-primary">Improved user experience for text fields</li>
-                                                        <li class="list-group-item list-group-item-primary">TableArray: frames are produced as an array</li>
-                                                        <li class="list-group-item list-group-item-primary">Width/Height Limit: decreased to 0.01</li>
-                                                    </ul>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
 
                         </div>
                     </div> 
