@@ -284,7 +284,6 @@ export class FrameComponent implements Saveable {
                 break;
             case ft.HORIZONTAL_BAR:
                 f.textures = true;
-                f.backTextures = true;
                 f.tooltip = false;
                 break;
             case ft.HOR_BAR_BACKGROUND:

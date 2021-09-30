@@ -236,6 +236,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemImage.style.width = '100%'
             this.elemImage.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0% 100%)';
             this.elemImageBack.style.width = '100%'
+            this.elemImageBack.style.height = '100%'
             this.elemImageBack.style.clipPath = 'polygon(100% 0, 50% 0, 50% 100%, 100% 100%)';
             this.elemImageBack.style.top = '0'
             this.elemImageBack.style.right = '0'
@@ -262,10 +263,15 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.setColor('#FCD20D')
         }
         if(ty == f.TEXT_FRAME) TextSetup()
-        if(ty == f.HORIZONTAL_BAR) ImageSetup()
+        if(ty == f.HORIZONTAL_BAR) {
+            ImageSetup()
+            ImageBackSetup()
+            this.elemImageBack.src = './files/images/InvisButton.png'
+        }
         if(ty == f.HOR_BAR_BACKGROUND) {
             ImageSetup()
             ImageBackSetup()
+            this.elemImageBack.src = './files/images/CustomFrame2.png'
         }
         if(ty == f.HOR_BAR_TEXT) {
             ImageSetup()
@@ -275,6 +281,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             ImageSetup()
             ImageBackSetup()
             TextSetup()
+            this.elemImageBack.src = './files/images/CustomFrame2.png'
         }
     }
     /* ***********************************************  */

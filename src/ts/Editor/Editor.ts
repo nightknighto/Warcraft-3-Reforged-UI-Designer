@@ -147,7 +147,7 @@ export class Editor {
         ribOthers.addMenuOption('Check Box', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
-        newFrameBuilder.textureDiskPath = './files/images/HorizontalBar.png';
+        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png';
         newFrameBuilder.type = FrameType.HORIZONTAL_BAR;
         ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(newFrameBuilder));
 

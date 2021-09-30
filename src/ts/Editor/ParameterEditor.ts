@@ -797,7 +797,8 @@ export class ParameterEditor {
         const listEl = document.getElementById('WC3TextureList')
         listEl.innerHTML = ""
 
-        if(frame.type == FrameType.HORIZONTAL_BAR) {
+        if(frame.type == FrameType.HORIZONTAL_BAR || frame.type == FrameType.HOR_BAR_TEXT
+            || frame.type == FrameType.HOR_BAR_BACKGROUND || frame.type == FrameType.HOR_BAR_BACKGROUND_TEXT) {
             for(let i = 0; i < this.list.length; i++) {
                 const op = document.createElement('option')
                 op.value = 'Replaceabletextures\\Teamcolor\\Teamcolor'+(i < 10? '0'+i:i)+'.blp'
