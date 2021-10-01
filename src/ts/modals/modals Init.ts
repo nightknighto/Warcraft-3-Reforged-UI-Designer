@@ -144,10 +144,10 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
-                                        <h2 class="card-header text-white">v 2.3.1</h2>
+                                        <h2 class="card-header text-white">v 2.3.2 , v 2.3.1</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
-                                                <p>Fixed a bug with WC3 textures.</p>
+                                                <p class="text-white">Fixed a bug with WC3 textures and exporting Origin Mode.</p>
                                                 
                                             </div>
                                         </div>
@@ -159,6 +159,7 @@ export class Modals {
                                     <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.3.0</h2>
                                         <div class="card-body">
+                                            <h3 class="text-white">Version Credits: StormKnight, and Amira Ahmed.</h3>
                                             <div class="row justify-content-center">
                                                 <div class="col-5 card-text p-4">
                                                     <ul class="list-group border border-danger border-2">

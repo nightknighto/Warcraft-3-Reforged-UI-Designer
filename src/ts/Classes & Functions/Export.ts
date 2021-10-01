@@ -371,11 +371,11 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             if(ProjectTree.OriginMode == 'worldframe') 
                 textEdit = textEdit.replace(/ORIGIN_FRAME_GAME_UI/gi, "ORIGIN_FRAME_WORLD_FRAME");
             else if(ProjectTree.OriginMode == 'consoleui') {
-                textEdit = textEdit.replace(/BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
-                textEdit = textEdit.replace(/BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+                textEdit = textEdit.replace(/BlzGetOriginFrame\(ORIGIN_FRAME_GAME_UI, 0\)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
+                textEdit = textEdit.replace(/BlzGetOriginFrame\(ORIGIN_FRAME_WORLD_FRAME, 0\)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)');
 
-                textEdit = textEdit.replace(/Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
-                textEdit = textEdit.replace(/Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
+                textEdit = textEdit.replace(/Frame.fromOrigin\(ORIGIN_FRAME_GAME_UI, 0\)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
+                textEdit = textEdit.replace(/Frame.fromOrigin\(ORIGIN_FRAME_WORLD_FRAME, 0\)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)');
             }
 
             textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX()).toPrecision(6)}`)
