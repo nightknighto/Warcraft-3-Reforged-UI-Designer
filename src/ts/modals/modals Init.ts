@@ -144,6 +144,19 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.3.1</h2>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
+                                                <p>Fixed a bug with WC3 textures.</p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.3.0</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
