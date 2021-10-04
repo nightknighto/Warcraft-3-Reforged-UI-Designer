@@ -97,7 +97,7 @@
                     </label>
                 </div>
             <label><b>Details</b></label>
-            <div class="form-floating mb-1" data-bs-toggle="tooltip" title="Name of the element. Can be an array syntax, but must start with index 0">
+            <div class="form-floating mb-1" data-bs-toggle="tooltip" data-bs-html="true" title='Name of the element. Can be an array syntax, but must start with index 0.<hr><b class="text-danger">Press Enter to save the edit.</b>'>
                 <input type="text" class="form-control" id="elementName" placeholder="name">
                 <label class="text-black" for="elementName">Name</label> 
             </div>
@@ -162,17 +162,17 @@
             <div id='FieldTexture'>
                 <label for=""><b>Texture Paths</b></label>
                 <div class='row gx-1'>
-                    <div class="col-9 form-floating mb-1" id="tooltipTextureApp" data-bs-toggle="tooltip" title="The appearance inside the app. Not related to the game">
+                    <div class="col-9 form-floating mb-1" id="tooltipTextureApp" data-bs-toggle="tooltip" data-bs-html="true" title="The appearance inside the app. Not related to the game.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1 (Could be low quality), BC2/DXT3 & BC3/DXT5 (Excellent quality) ]</span>">
                         <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
                         <label class="text-black" for="elementDiskTexture">Texture Path</label>
                     </div>
 
                     <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
-                    <input type="file" accept="image/*" style="display:none" id="buttonBrowseTexture">
+                    <input type="file" accept="image/*,.dds,.blp" style="display:none" id="buttonBrowseTexture">
                 </div>
                         
 
-                <div class="form-floating mb-3" id="tooltipTextureWC3" data-bs-toggle="tooltip" title="The appearance ingame. Put the path of the blp file in Asset Manager here">
+                <div class="form-floating mb-3" id="tooltipTextureWC3" data-bs-toggle="tooltip" title="The appearance ingame. Put the path of the dds or blp file in Asset Manager here">
                     <input type="text" list="WC3TextureList" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
                     <label class="text-black" for="elementWC3Texture">Texture Path (WE)</label>
                     <!-- <datalist id="WC3TextureList">
@@ -190,17 +190,17 @@
             <div id='FieldBackgroundTexture'>
                 <label for=""><b>Background Texture Paths</b></label>
                 <div class='row gx-1'>
-                    <div class="col-9 form-floating mb-1" id="tooltipBackTextureApp" data-bs-toggle="tooltip" title="The appearance of the Background inside the app.">
+                    <div class="col-9 form-floating mb-1" id="tooltipBackTextureApp" data-bs-toggle="tooltip" data-bs-html="true" title="The appearance of the Background inside the app.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1 (Could be low quality), BC2/DXT3 & BC3/DXT5 (Excellent quality) ]</span>">
                         <input type="text" id="elementBackDiskTexture" class="form-control" placeholder="name">
                         <label class="text-black" for="elementBackDiskTexture">Texture Path</label>
                     </div>
 
                     <label class='col btn btn-primary' for='buttonBackBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
-                    <input type="file" accept="image/*" style="display:none" id="buttonBackBrowseTexture">
+                    <input type="file" accept="image/*,.dds,.blp" style="display:none" id="buttonBackBrowseTexture">
                 </div>
                         
 
-                <div class="form-floating mb-3" id="tooltipBackTextureWC3" data-bs-toggle="tooltip" title="The background's appearance ingame. Put the path of the blp file in Asset Manager here">
+                <div class="form-floating mb-3" id="tooltipBackTextureWC3" data-bs-toggle="tooltip" title="The background's appearance ingame. Put the path of the dds or blp file in Asset Manager here">
                     <input type="text" list="WC3TextureList" name="elementBackWC3Texture" id="elementBackWC3Texture" class="form-control" placeholder="name">
                     <label class="text-black" for="elementBackWC3Texture">Texture Path (WE)</label>
                     <datalist id="WC3TextureList">

@@ -14,6 +14,10 @@ import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
 import { ProjectTree } from './ProjectTree';
 import CustomComplex from './FrameLogic/CustomComplex';
+import { dds_to_png } from '../image conversion/dds/dds to png';
+import { extname } from '../image conversion/shared';
+import { blp_to_png } from '../image conversion/blp/blp to png';
+var toArrayBuffer = require('buffer-to-arraybuffer')
 
 export class ParameterEditor {
 
@@ -438,18 +442,25 @@ export class ParameterEditor {
 
     }
 
-    static ButtonInputDiskTexture(ev: Event, normal: boolean): void {
+    static async ButtonInputDiskTexture(ev: Event, normal: boolean): Promise<void> {try{
         const inputElement = ev.target as HTMLInputElement;
         const path = URL.createObjectURL(inputElement.files[0])
-        inputElement.value = "";
         const editor = Editor.GetDocumentEditor();
-        if (normal) editor.projectTree.getSelectedFrame().custom.setDiskTexture(path);
-        else editor.projectTree.getSelectedFrame().custom.setBackDiskTexture(path);
+        const ext = extname(inputElement.files[0].name)
+        if(ext === '.dds')
+            dds_to_png(inputElement.files[0], editor.projectTree.getSelectedFrame().custom, normal)
+        else if(ext === '.blp')
+            blp_to_png(inputElement.files[0], editor.projectTree.getSelectedFrame().custom, normal)
+        else {
+            if (normal) editor.projectTree.getSelectedFrame().custom.setDiskTexture(path);
+            else editor.projectTree.getSelectedFrame().custom.setBackDiskTexture(path);
 
-        if (normal) editor.parameterEditor.inputElementDiskTexture.value = path;
-        else editor.parameterEditor.inputElementBackDiskTexture.value = path;
+            if (normal) editor.parameterEditor.inputElementDiskTexture.value = path;
+            else editor.parameterEditor.inputElementBackDiskTexture.value = path;
+        }
+        inputElement.value = "";
         debugText("Disk Texture changed.")
-    }
+    }catch(e){console.log(e)}}
 
     static InputWC3Texture(ev: Event, normal: boolean): void {
 
