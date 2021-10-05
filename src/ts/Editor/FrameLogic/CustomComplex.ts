@@ -6,6 +6,11 @@ import SaveContainer from "../../Persistence/SaveContainer";
 import FrameBaseContent from "./FrameBaseContent";
 import { FrameType } from "./FrameType";
 import { MouseFunctions } from "../../Classes & Functions/Mouse Functions";
+import { blp_to_png } from "../../image conversion/blp/blp to png";
+import { dds_to_png } from "../../image conversion/dds/dds to png";
+import { extname } from "../../image conversion/shared";
+import { readFile } from "fs";
+import { basename } from "path";
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     
@@ -92,38 +97,65 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         this.text = Text;
         this.elemText.innerText = Text;
     }
-    public getDiskTexture(): string {
-        return this.textureDiskPath;
+    public getDiskTexture(which: 'normal' | 'back'): string {
+        if(which == 'normal') return this.textureDiskPath;
+        else return this.textureBackDiskPath;
     }
 
-    public setDiskTexture(newTexturePath: string): void {
-        this.textureDiskPath = newTexturePath;
-        this.elemImage.src = newTexturePath;
+    public setDiskTexture(Input: File | string, which: 'normal' | 'back'): void {
+        let Image: HTMLImageElement;
+        if(which == 'normal') Image = this.elemImage
+        else Image = this.elemImageBack
+
+        if(typeof Input !== 'string') {
+            let file = Input
+            if(which == 'normal') this.textureDiskPath = file.path;
+            else this.textureBackDiskPath = file.path;
+            
+            const ext = extname(file.name)
+
+            if(ext === '.dds') {
+                const buf = file.arrayBuffer()
+                buf.then((buffer) => {
+                    Image.src = dds_to_png(buffer)
+                })
+            } else if(ext === '.blp') {
+                const buf = file.arrayBuffer()
+                buf.then((buffer) => {
+                    Image.src = blp_to_png(buffer)
+                })
+            } else {
+                Image.src = file.path;
+            }
+        } else {
+            const ext = extname(basename(Input))
+            console.log(ext)
+            if(which == 'normal') this.textureDiskPath = Input;
+            else this.textureBackDiskPath = Input;
+            
+            readFile(Input, (e, buffer) =>{try{
+                if(e) console.log('setDiskTexture: '+e);
+                if(ext === '.dds') {
+                        Image.src = dds_to_png(buffer)
+                } else if(ext === '.blp') {
+                        Image.src = blp_to_png(buffer)
+                } else {
+                    Image.src = Input;
+                }
+            }catch(e){console.log('setDiskTexture-readFILE: '+e)}})
+
+        }
+
     }
 
-    public setWc3Texture(newTexturePath: string): void {
-        this.textureWc3Path = newTexturePath;
+    public setWc3Texture(newTexturePath: string, which: 'normal' | 'back'): void {
+        if(which == 'normal') this.textureWc3Path = newTexturePath;
+        else this.textureBackWc3Path = newTexturePath;
     }
 
-    public getWc3Texture(): string {
-        return this.textureWc3Path;
-    }
-
-    public getBackDiskTexture(): string {
-        return this.textureBackDiskPath;
-    }
-
-    public setBackDiskTexture(newTexturePath: string): void {
-        this.textureBackDiskPath = newTexturePath;
-        this.elemImageBack.src = newTexturePath;
-    }
-
-    public setBackWc3Texture(newTexturePath: string): void {
-        this.textureBackWc3Path = newTexturePath;
-    }
-
-    public getBackWc3Texture(): string {
-        return this.textureBackWc3Path;
+    public getWc3Texture(which: 'normal' | 'back'): string {
+        if(which == 'normal') return this.textureWc3Path;
+        else return this.textureBackWc3Path;
     }
     
     public setTrigVar(VarName: string): void {
@@ -198,8 +230,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             // this.elemImage.style.position = 'absolute';
             // if(this.elemText) this.elemImage.style.zIndex = '-1';
             if(props) {
-                props.textureDiskPath && this.setDiskTexture(props.textureDiskPath);
-                props.textureWc3Path && this.setWc3Texture(props.textureWc3Path);   
+                props.textureDiskPath && this.setDiskTexture(props.textureDiskPath, 'normal');
+                props.textureWc3Path && this.setWc3Texture(props.textureWc3Path, 'normal');   
                 props.trigVar && this.setTrigVar(props.trigVar);
             }
         }
@@ -245,8 +277,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemImageBack.draggable = false
             this.element.style.border = '1px solid black'
             if(props) {          
-                props.textureBackDiskPath && this.setBackDiskTexture(props.textureBackDiskPath);
-                props.textureBackWc3Path && this.setBackWc3Texture(props.textureBackWc3Path);
+                props.textureBackDiskPath && this.setDiskTexture(props.textureBackDiskPath, 'back');
+                props.textureBackWc3Path && this.setWc3Texture(props.textureBackWc3Path, 'back');
             }
         }
 

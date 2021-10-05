@@ -148,12 +148,12 @@ export class ParameterEditor {
         this.checkboxElementTooltip.onchange = ParameterEditor.ChangeTooltip;
         this.inputElementCoordinateX.onchange = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange = ParameterEditor.InputCoordinateY;
-        this.inputElementDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, true);
-        this.fileElementTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, true);
-        this.inputElementWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, true);
-        this.inputElementBackDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, false);
-        this.fileElementBackTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, false);
-        this.inputElementBackWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, false);
+        this.inputElementDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, 'normal');
+        this.fileElementTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, 'normal');
+        this.inputElementWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, 'normal');
+        this.inputElementBackDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, 'back');
+        this.fileElementBackTextureBrowse.onchange = (ev) => ParameterEditor.ButtonInputDiskTexture(ev, 'back');
+        this.inputElementBackWC3Texture.oninput = (ev) => ParameterEditor.InputWC3Texture(ev, 'back');
         this.inputElementText.oninput = ParameterEditor.InputText;
         this.inputElementTextBig.oninput = ParameterEditor.InputText;
         this.inputElementTextScale.onchange = ParameterEditor.InputTextScale;
@@ -432,45 +432,35 @@ export class ParameterEditor {
         } catch (e) { alert(e) }
     }
 
-    static TextInputDiskTexture(ev: Event, normal: boolean): void {
+    static TextInputDiskTexture(ev: Event, which: 'normal' | 'back'): void {
 
         const inputElement = ev.target as HTMLInputElement;
 
-        if (normal) Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setDiskTexture(inputElement.value)
-        else Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setBackDiskTexture(inputElement.value);
+        Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setDiskTexture(inputElement.value, which)
         debugText('Disk Texture changed.');
 
     }
 
-    static async ButtonInputDiskTexture(ev: Event, normal: boolean): Promise<void> {try{
+    static async ButtonInputDiskTexture(ev: Event, which: 'normal' | 'back'): Promise<void> {try{
         const inputElement = ev.target as HTMLInputElement;
-        const path = URL.createObjectURL(inputElement.files[0])
         const editor = Editor.GetDocumentEditor();
-        const ext = extname(inputElement.files[0].name)
-        if(ext === '.dds')
-            dds_to_png(inputElement.files[0], editor.projectTree.getSelectedFrame().custom, normal)
-        else if(ext === '.blp')
-            blp_to_png(inputElement.files[0], editor.projectTree.getSelectedFrame().custom, normal)
-        else {
-            if (normal) editor.projectTree.getSelectedFrame().custom.setDiskTexture(path);
-            else editor.projectTree.getSelectedFrame().custom.setBackDiskTexture(path);
+        const file = inputElement.files[0]
+        editor.projectTree.getSelectedFrame().custom.setDiskTexture(file, which);
 
-            if (normal) editor.parameterEditor.inputElementDiskTexture.value = path;
-            else editor.parameterEditor.inputElementBackDiskTexture.value = path;
-        }
+        // if (normal) editor.parameterEditor.inputElementDiskTexture.value = file.path;
+        // else editor.parameterEditor.inputElementBackDiskTexture.value = file.path;
         inputElement.value = "";
         debugText("Disk Texture changed.")
     }catch(e){console.log(e)}}
 
-    static InputWC3Texture(ev: Event, normal: boolean): void {
+    static InputWC3Texture(ev: Event, which: 'normal' | 'back'): void {
 
         const inputElement = ev.target as HTMLInputElement;
         let text = inputElement.value;
         text = text.replace(/(?<!\\)\\(?!\\)/g, "\\\\");
         inputElement.value = text
 
-        if (normal) Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setWc3Texture(text);
-        else Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setBackWc3Texture(text);
+        Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setWc3Texture(text, which);
         debugText('WC3 Texture changed.');
 
     }
@@ -687,10 +677,10 @@ export class ParameterEditor {
                 this.inputElementWidth.value = InputEdit(+frame.custom.getElement().offsetWidth * 800 / (editor.workspaceImage.width - 2 * horizontalMargin))
                 this.inputElementHeight.value = InputEdit(+frame.custom.getElement().offsetHeight * 600 / editor.workspaceImage.height)
 
-                this.inputElementDiskTexture.value = frame.custom.getDiskTexture()
-                this.inputElementWC3Texture.value = frame.custom.getWc3Texture()
-                this.inputElementBackDiskTexture.value = frame.custom.getBackDiskTexture()
-                this.inputElementBackWC3Texture.value = frame.custom.getBackWc3Texture()
+                this.inputElementDiskTexture.value = frame.custom.getDiskTexture('normal')
+                this.inputElementWC3Texture.value = frame.custom.getWc3Texture('normal')
+                this.inputElementBackDiskTexture.value = frame.custom.getDiskTexture('back')
+                this.inputElementBackWC3Texture.value = frame.custom.getWc3Texture('back')
                 this.inputElementTrigVar.value = frame.custom.getTrigVar()
                 this.inputElementText.value = frame.custom.getText()
 

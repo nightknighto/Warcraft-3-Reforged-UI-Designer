@@ -1,12 +1,8 @@
 import CustomComplex from "../../Editor/FrameLogic/CustomComplex";
 import { BlpImage } from "./blpImage";
 
-export function blp_to_png(file: File, custom: CustomComplex, normal: boolean) {
-  
-    console.log(file.path)
-    const buf = file.arrayBuffer()
-    buf.then((buffer) => {try{
-
+export function blp_to_png(buffer: ArrayBuffer) {
+    try{
       const blp = new BlpImage();
         try {
           blp.load(buffer)
@@ -22,8 +18,9 @@ export function blp_to_png(file: File, custom: CustomComplex, normal: boolean) {
         canvas.height = imagedata.height;
         ctx.putImageData(imagedata, 0, 0);
         
-        if (normal) custom.setDiskTexture(canvas.toDataURL());
-        else custom.setBackDiskTexture(canvas.toDataURL());
+        const imageString = canvas.toDataURL()
+        canvas.remove()
+        return imageString
         
         // var canvasBuffer = require('electron-canvas-to-buffer-fixed')
 
@@ -33,9 +30,7 @@ export function blp_to_png(file: File, custom: CustomComplex, normal: boolean) {
         // writeFile('image.png', buffer2, function (err) {
         //   throw err
         // });
-
-        console.log('finished!!!!')
-    }catch(e){console.log('buffer: '+e)}})
+    }catch(e){console.log('buffer: '+e)}
 }
 
 

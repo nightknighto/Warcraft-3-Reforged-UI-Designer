@@ -27,7 +27,6 @@ export class DdsImage {
     mipmapDatas: Uint8Array[] = [];
   
     load(buffer: ArrayBuffer | Uint8Array) {
-        console.log('reached')
       const bytes = bytesOf(buffer);
       const header = new Int32Array(bytes.buffer, 0, 31);
       let offset = 128; // sizeof(DDS_HEADER) + 4 for the magic.
@@ -98,7 +97,6 @@ export class DdsImage {
         width = Math.max(width / 2, 1);
         height = Math.max(height / 2, 1);
       }
-      console.log('done')
     }
   
     mipmaps() {
