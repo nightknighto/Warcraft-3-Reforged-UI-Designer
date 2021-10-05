@@ -383,8 +383,8 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
             textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY()).toPrecision(6)}`)
 
-            textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getWc3Texture() + '"');
-            textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getBackWc3Texture() + '"');
+            textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getWc3Texture('normal') + '"');
+            textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getWc3Texture('back') + '"');
             if(el.custom.getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + el.custom.getTrigVar() + '"');
             // textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
             textEdit = textEdit.replace(/TEXTvar/gi, '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
@@ -492,6 +492,15 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
             
         case FrameType.HORIZONTAL_BAR:
             return JASS.HorizontalBar
+            
+        case FrameType.HOR_BAR_BACKGROUND:
+            return JASS.HorizontalBarWiBackground
+
+        case FrameType.HOR_BAR_TEXT:
+            return JASS.HorizontalBarWiText
+            
+        case FrameType.HOR_BAR_BACKGROUND_TEXT:
+            return JASS.HorizontalBarWiBackground_Text
     }
     return ""
 }
