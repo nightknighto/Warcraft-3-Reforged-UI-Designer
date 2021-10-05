@@ -7,8 +7,33 @@ import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
 import CustomComplex from '../Editor/FrameLogic/CustomComplex';
+import { readFileSync } from 'original-fs';
 
 /**0 for globals, 1 the body */
+
+async function finishExport(filepath: string) {try{
+    const buffer = readFileSync(filepath)
+    // const txt = document.createElement('textarea')
+    // let val = buffer.toString()
+    // console.log(val)
+    // txt.value = val
+    // txt.select()
+    // txt.setSelectionRange(0, 999999)
+    // document.execCommand("copy");
+    // alert(`File Created. Path: ${filepath}`);
+    window.focus()
+    navigator.clipboard.writeText(buffer.toString())
+            .then(() => {
+              alert(`Code copied to clipboard. 
+              File created at ${filepath}`);
+            })
+            .catch(err => {
+              alert(`Error in copying text: ${err}.
+              File has been created at ${filepath}`);
+            });
+    // navigator.clipboard.writeText(txt.value);
+
+}catch(e){alert('error: '+e)}}
 
 export class ExportJass implements ICallableDivInstance { 
 
@@ -24,7 +49,7 @@ export class ExportJass implements ICallableDivInstance {
                                     appendFile(filepath, generalOptions('jass'), () => {
                                         appendFile(filepath, TemplateReplace('jass',2), () => {
                                             appendFile(filepath, JASS.endlibrary, () => {
-                                                alert(`File Created. Path: ${filepath}`);
+                                                finishExport(filepath)
                                             })
                                         })
                                     })
@@ -78,7 +103,7 @@ export class ExportLua implements ICallableDivInstance {
                                 appendFile(filepath, generalOptions('lua'), () => {
                                     appendFile(filepath, TemplateReplace('lua',2), () => {
                                         appendFile(filepath, LUA.endlibrary, () => {
-                                            alert(`File Created. Path: ${filepath}`);
+                                            finishExport(filepath)
                                         })
                                     })
                                 })
@@ -130,7 +155,7 @@ export class ExportTS implements ICallableDivInstance {
                             appendFile(filepath, generalOptions('typescript'), () => {
                                 appendFile(filepath, TemplateReplace('ts',2), () => {
                                     appendFile(filepath, Typescript.endconstructor_library, () => {
-                                        alert(`File Created. Path: ${filepath}`);
+                                        finishExport(filepath)
                                     })
                                 })
                             })
