@@ -13,25 +13,16 @@ import { readFileSync } from 'original-fs';
 
 async function finishExport(filepath: string) {try{
     const buffer = readFileSync(filepath)
-    // const txt = document.createElement('textarea')
-    // let val = buffer.toString()
-    // console.log(val)
-    // txt.value = val
-    // txt.select()
-    // txt.setSelectionRange(0, 999999)
-    // document.execCommand("copy");
-    // alert(`File Created. Path: ${filepath}`);
     window.focus()
     navigator.clipboard.writeText(buffer.toString())
-            .then(() => {
-              alert(`Code copied to clipboard. 
-              File created at ${filepath}`);
-            })
-            .catch(err => {
-              alert(`Error in copying text: ${err}.
-              File has been created at ${filepath}`);
-            });
-    // navigator.clipboard.writeText(txt.value);
+        .then(() => {
+            alert(`Code copied to clipboard. 
+            File created at ${filepath}`);
+        })
+        .catch(err => {
+            alert(`Error in copying text: ${err}.
+            File has been created at ${filepath}`);
+        });
 
 }catch(e){alert('error: '+e)}}
 
@@ -258,55 +249,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         // text = text.replace(/trigger (.)*Frvar = null/gi, `trigger array ${RegExp.$1}FRvar`)
                     }
                 }
-                //array
-                // if(isArray) {
-                    
-                //     if(isArrayMain) { //main instance
-                //         if (el.type == FrameType.BUTTON) {
-                //             if(temp == JASS) text = JASS.declaresBUTTONArray
-                //             else text = temp.declaresBUTTON
-                //         } else {
-                //             if(temp == JASS) {
-                //                 if(el.getTooltip()) {text = JASS.declaresArrayWiTooltip}
-                //                 else {text = JASS.declaresArray}
-                //             } else {
-                //                 text = temp.declares
-                //             }
-                //         }
-                //         if (lang == 'jass' || lang == 'lua' ) {
-                //             if (el.custom instanceof CustomComplex) {
-                //                 if(el.type == FrameType.CHECKBOX) {
-                //                     if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
-                //                 } else text += temp.declaresFUNCTIONALITYArray;
-                //             }
-                //         }
-                //     } else { //secondary instance
-                //         continue;
-                //     }
-                //     // if(temp == JASS) text = text.replace(/framehandle (.)(.)(.)(.)(.)/gi, '{}')
-                //     if(temp == LUA) text = text.replace(/nil/gi, '{}')
-                //     if(temp == Typescript) text = text.replace(/Frame/gi, 'Frame[] = []')
-    
-                // //single instance; not array
-                // } else {
-                //     if (el.type == FrameType.BUTTON) {
-                //         text = temp.declaresBUTTON
-                //     } else {
-                //         if(temp == JASS) {
-                //             if(el.getTooltip()) {text = JASS.declaresWiTooltip}
-                //             else {text = JASS.declares}
-                //         } else {
-                //             text = temp.declares
-                //         }
-                //     }
-                //     if (lang == 'jass' || lang == 'lua' ) {
-                //         if (el.custom instanceof CustomComplex) {
-                //             if(el.type == FrameType.CHECKBOX) {
-                //                 if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
-                //             } else text += temp.declaresFUNCTIONALITY;
-                //         }
-                //     }
-                // }
+               
 
             } else if (kind == 1 && lang != 'ts') {
                 text = ""

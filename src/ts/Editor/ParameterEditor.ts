@@ -447,8 +447,6 @@ export class ParameterEditor {
         const file = inputElement.files[0]
         editor.projectTree.getSelectedFrame().custom.setDiskTexture(file, which);
 
-        // if (normal) editor.parameterEditor.inputElementDiskTexture.value = file.path;
-        // else editor.parameterEditor.inputElementBackDiskTexture.value = file.path;
         inputElement.value = "";
         debugText("Disk Texture changed.")
     }catch(e){console.log(e)}}
