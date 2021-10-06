@@ -133,10 +133,10 @@ export class FrameBuilder implements CustomComplexProps{
         frameBuilder.x = frame.custom.getLeftX();
         frameBuilder.z = frame.custom.getZIndex();
         frameBuilder.trigVar = frame.custom.getTrigVar();
-        frameBuilder.textureDiskPath = frame.custom.getDiskTexture();
-        frameBuilder.textureWc3Path = frame.custom.getWc3Texture();
-        frameBuilder.textureBackDiskPath = frame.custom.getBackDiskTexture();
-        frameBuilder.textureBackWc3Path = frame.custom.getBackWc3Texture();
+        frameBuilder.textureDiskPath = frame.custom.getDiskTexture('normal');
+        frameBuilder.textureWc3Path = frame.custom.getWc3Texture('normal');
+        frameBuilder.textureBackDiskPath = frame.custom.getDiskTexture('back');
+        frameBuilder.textureBackWc3Path = frame.custom.getWc3Texture('back');
         frameBuilder.color = frame.custom.getColor();
         frameBuilder.scale = frame.custom.getScale();
         frameBuilder.textHorAlign = frame.custom.getHorAlign()

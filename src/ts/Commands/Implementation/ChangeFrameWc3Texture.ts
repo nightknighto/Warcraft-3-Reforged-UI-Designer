@@ -38,8 +38,8 @@ export default class ChangeFrameWc3Texture extends SimpleCommand{
             return;
         }
 
-        this.oldTexture = frame.custom.getDiskTexture();
-        frame.custom.setDiskTexture(this.newTexture);
+        this.oldTexture = frame.custom.getDiskTexture('normal');
+        frame.custom.setDiskTexture(this.newTexture, 'normal');
 
     }
 

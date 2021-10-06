@@ -94,11 +94,6 @@ export class Editor {
         infoMenu.addRibbonOption(new RibbonOption('Tutorials', null));
         infoMenu.addRibbonOption(new RibbonOption('Change Log', null));
 
-        // insertMenu.addRibbonOption(new RibbonOption('Buttons', null))
-        // insertMenu.addRibbonOption(new RibbonOption('Backdrops', null))
-        // insertMenu.addRibbonOption(new RibbonOption('Texts', null))
-        // insertMenu.addRibbonOption(new RibbonOption('Others', null))
-
         let newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png';
         newFrameBuilder.type = FrameType.BUTTON;

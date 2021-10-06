@@ -7,8 +7,24 @@ import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
 import CustomComplex from '../Editor/FrameLogic/CustomComplex';
+import { readFileSync } from 'original-fs';
 
 /**0 for globals, 1 the body */
+
+async function finishExport(filepath: string) {try{
+    const buffer = readFileSync(filepath)
+    window.focus()
+    navigator.clipboard.writeText(buffer.toString())
+        .then(() => {
+            alert(`Code copied to clipboard. 
+            File created at ${filepath}`);
+        })
+        .catch(err => {
+            alert(`Error in copying text: ${err}.
+            File has been created at ${filepath}`);
+        });
+
+}catch(e){alert('error: '+e)}}
 
 export class ExportJass implements ICallableDivInstance { 
 
@@ -24,7 +40,7 @@ export class ExportJass implements ICallableDivInstance {
                                     appendFile(filepath, generalOptions('jass'), () => {
                                         appendFile(filepath, TemplateReplace('jass',2), () => {
                                             appendFile(filepath, JASS.endlibrary, () => {
-                                                alert(`File Created. Path: ${filepath}`);
+                                                finishExport(filepath)
                                             })
                                         })
                                     })
@@ -78,7 +94,7 @@ export class ExportLua implements ICallableDivInstance {
                                 appendFile(filepath, generalOptions('lua'), () => {
                                     appendFile(filepath, TemplateReplace('lua',2), () => {
                                         appendFile(filepath, LUA.endlibrary, () => {
-                                            alert(`File Created. Path: ${filepath}`);
+                                            finishExport(filepath)
                                         })
                                     })
                                 })
@@ -130,7 +146,7 @@ export class ExportTS implements ICallableDivInstance {
                             appendFile(filepath, generalOptions('typescript'), () => {
                                 appendFile(filepath, TemplateReplace('ts',2), () => {
                                     appendFile(filepath, Typescript.endconstructor_library, () => {
-                                        alert(`File Created. Path: ${filepath}`);
+                                        finishExport(filepath)
                                     })
                                 })
                             })
@@ -233,55 +249,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                         // text = text.replace(/trigger (.)*Frvar = null/gi, `trigger array ${RegExp.$1}FRvar`)
                     }
                 }
-                //array
-                // if(isArray) {
-                    
-                //     if(isArrayMain) { //main instance
-                //         if (el.type == FrameType.BUTTON) {
-                //             if(temp == JASS) text = JASS.declaresBUTTONArray
-                //             else text = temp.declaresBUTTON
-                //         } else {
-                //             if(temp == JASS) {
-                //                 if(el.getTooltip()) {text = JASS.declaresArrayWiTooltip}
-                //                 else {text = JASS.declaresArray}
-                //             } else {
-                //                 text = temp.declares
-                //             }
-                //         }
-                //         if (lang == 'jass' || lang == 'lua' ) {
-                //             if (el.custom instanceof CustomComplex) {
-                //                 if(el.type == FrameType.CHECKBOX) {
-                //                     if(temp == JASS) text += JASS.declaresFUNCTIONALITYArraycheckbox
-                //                 } else text += temp.declaresFUNCTIONALITYArray;
-                //             }
-                //         }
-                //     } else { //secondary instance
-                //         continue;
-                //     }
-                //     // if(temp == JASS) text = text.replace(/framehandle (.)(.)(.)(.)(.)/gi, '{}')
-                //     if(temp == LUA) text = text.replace(/nil/gi, '{}')
-                //     if(temp == Typescript) text = text.replace(/Frame/gi, 'Frame[] = []')
-    
-                // //single instance; not array
-                // } else {
-                //     if (el.type == FrameType.BUTTON) {
-                //         text = temp.declaresBUTTON
-                //     } else {
-                //         if(temp == JASS) {
-                //             if(el.getTooltip()) {text = JASS.declaresWiTooltip}
-                //             else {text = JASS.declares}
-                //         } else {
-                //             text = temp.declares
-                //         }
-                //     }
-                //     if (lang == 'jass' || lang == 'lua' ) {
-                //         if (el.custom instanceof CustomComplex) {
-                //             if(el.type == FrameType.CHECKBOX) {
-                //                 if(temp == JASS) text += JASS.declaresFUNCTIONALITYcheckbox
-                //             } else text += temp.declaresFUNCTIONALITY;
-                //         }
-                //     }
-                // }
+               
 
             } else if (kind == 1 && lang != 'ts') {
                 text = ""
@@ -383,8 +351,8 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
             textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY()).toPrecision(6)}`)
 
-            textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getWc3Texture() + '"');
-            textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getBackWc3Texture() + '"');
+            textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getWc3Texture('normal') + '"');
+            textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getWc3Texture('back') + '"');
             if(el.custom.getTrigVar() != "") textEdit = textEdit.replace("TRIGvar", '"' + el.custom.getTrigVar() + '"');
             // textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
             textEdit = textEdit.replace(/TEXTvar/gi, '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, "\\n") + '|r"');
@@ -492,6 +460,15 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
             
         case FrameType.HORIZONTAL_BAR:
             return JASS.HorizontalBar
+            
+        case FrameType.HOR_BAR_BACKGROUND:
+            return JASS.HorizontalBarWiBackground
+
+        case FrameType.HOR_BAR_TEXT:
+            return JASS.HorizontalBarWiText
+            
+        case FrameType.HOR_BAR_BACKGROUND_TEXT:
+            return JASS.HorizontalBarWiBackground_Text
     }
     return ""
 }
