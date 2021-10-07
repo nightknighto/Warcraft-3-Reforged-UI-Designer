@@ -14,10 +14,6 @@ import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
 import { ProjectTree } from './ProjectTree';
 import CustomComplex from './FrameLogic/CustomComplex';
-import { dds_to_png } from '../image conversion/dds/dds to png';
-import { extname } from '../image conversion/shared';
-import { blp_to_png } from '../image conversion/blp/blp to png';
-var toArrayBuffer = require('buffer-to-arraybuffer')
 
 export class ParameterEditor {
 
@@ -185,7 +181,6 @@ export class ParameterEditor {
         const focusedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame();
         const focusedCustom = focusedFrame.custom;
         const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspace.getBoundingClientRect()
         const horizontalMargin = Editor.getInnerMargin()
         const actualMargin = Editor.getActualMargin()
 

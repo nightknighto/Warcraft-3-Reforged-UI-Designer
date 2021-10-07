@@ -26,42 +26,9 @@ window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
 ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage);
 
-ipcRenderer.on('TableArray', () => {try{
-  const win = new remote.BrowserWindow( {
-    height: 400,
-    width: 300,
-    resizable: false,
-    movable: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-    },
-    
-  })
-  win.show()
-  win.focus()
-  if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
-    win.loadFile(path.join(__dirname, "./TableArrayArrayOn.html"));
-  } else {
-    win.loadFile(path.join(__dirname, "./TableArrayArrayOff.html"));
-  }
-
-
-}catch(e){alert(e)}});
-
-ipcRenderer.on('TableArraySubmit', (event, args) => {try{
-  const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
-  GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), args[0], args[1], args[2], args[3], args[4])
-}catch(e){alert(e)}})
-
-// ipcRenderer.on('CircularArraySubmit', (event, args) => {
-//   const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
-//   GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), args[0], args[1], args[2])
-// })
-const mod = new bootstrap.Modal(document.getElementById('CircArray'))
+const circArray = new bootstrap.Modal(document.getElementById('CircArray'))
 const CircParent = document.getElementById('CircCheckParent') as HTMLInputElement 
+
 ipcRenderer.on('CircularArray', () => {
   CircParent.checked = false
   if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
@@ -69,7 +36,7 @@ ipcRenderer.on('CircularArray', () => {
   } else {
     CircParent.disabled = true
   }
-  mod.show();
+  circArray.show();
 });
 
 const CircArraySubmit = document.getElementById('CircArraySubmit')
@@ -91,7 +58,43 @@ CircArraySubmit.onclick = (e) => {
 
       const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
       GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), radius.valueAsNumber, count.valueAsNumber, initAng.valueAsNumber, CircParent.checked)
-      mod.hide();
+      circArray.hide();
+      
+  } catch (e) { alert(e) }
+}
+const tableArray = new bootstrap.Modal(document.getElementById('TableArray'))
+const tableParent = document.getElementById('TableCheckParent') as HTMLInputElement 
+
+ipcRenderer.on('TableArray', () => {
+  tableParent.checked = false
+  if(ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
+    tableParent.disabled = false
+  } else {
+    tableParent.disabled = true
+  }
+  tableArray.show();
+});
+
+const TableArraySubmit = document.getElementById('TableArraySubmit')
+const rows = document.getElementById('rows') as HTMLInputElement
+const columns = document.getElementById('columns') as HTMLInputElement
+const gapX = document.getElementById('gapX') as HTMLInputElement
+const gapY = document.getElementById('gapY') as HTMLInputElement
+
+TableArraySubmit.onclick = (e) => {
+  try {
+      //conditions plz
+      e.preventDefault();
+      if (+rows.value <= 0 || +columns.value <= 0) {
+
+        if (+rows.value <= 0) { rows.value = "" }
+        if (+columns.value <= 0) { columns.value = '' }
+        return;
+      }
+
+      const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom;
+      GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), rows.valueAsNumber, columns.valueAsNumber, gapX.valueAsNumber, gapY.valueAsNumber, tableParent.checked)
+      tableArray.hide();
       
   } catch (e) { alert(e) }
 }

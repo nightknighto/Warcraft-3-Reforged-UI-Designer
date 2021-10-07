@@ -4,7 +4,6 @@ import SaveContainer from "../../Persistence/SaveContainer";
 import { Editor } from "../Editor";
 import { FrameComponent } from "./FrameComponent";
 import { ProjectTree } from "../ProjectTree";
-import { FrameType } from "./FrameType";
 
 export default abstract class FrameBaseContent implements Saveable {
 

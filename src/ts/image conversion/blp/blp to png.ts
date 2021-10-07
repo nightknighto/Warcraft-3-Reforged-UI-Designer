@@ -1,4 +1,3 @@
-import CustomComplex from "../../Editor/FrameLogic/CustomComplex";
 import { BlpImage } from "./blpImage";
 
 export function blp_to_png(buffer: ArrayBuffer) {
@@ -22,6 +21,7 @@ export function blp_to_png(buffer: ArrayBuffer) {
         canvas.remove()
         return imageString
         
+        // //note: "electron-canvas-to-buffer" was uninstalled. Also, is bugged. Look into its issues.
         // var canvasBuffer = require('electron-canvas-to-buffer-fixed')
 
         // var buffer2 = canvasBuffer(canvas, 'image/png')
@@ -30,6 +30,7 @@ export function blp_to_png(buffer: ArrayBuffer) {
         // writeFile('image.png', buffer2, function (err) {
         //   throw err
         // });
+
     }catch(e){console.log('buffer: '+e)}
 }
 

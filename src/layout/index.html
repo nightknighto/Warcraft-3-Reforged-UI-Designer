@@ -21,7 +21,7 @@
     <!-- CircArray -->
     <div class="modal fade" id="CircArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content CircArrayBody">
+            <div class="modal-content ArrayBody">
                 <div class="modal-header">
                     <h5>Circular Array</h5>
                 </div>
@@ -48,8 +48,8 @@
 
                             <div class="row align-items-center" style="margin: 0px; margin-top: -20px" 
                             data-bs-toggle="tooltip" title="Automatically assign each child created to the parent of the corresponding index">
-                                <input type="checkbox" disabled name="checkParent" id="CircCheckParent" class="col-2 order-1" style="min-height: 80px;">
-                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="checkParent">Array Parent</label>    
+                                <input type="checkbox" disabled name="CircCheckParent" id="CircCheckParent" class="col-2 order-1" style="min-height: 80px;">
+                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="CircCheckParent">Array Parent</label>    
                             </div>
                             <div class="w-100" style="margin-top: -15px">
                               <hr class="m-0; mt-1">
@@ -57,6 +57,55 @@
                         
                             <div class='row justify-content-center btn-group'>
                                 <button class='col-3 btn btn-success' id='CircArraySubmit'>Submit</button>
+                                <button class='col-3 btn btn-danger' data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="TableArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content ArrayBody">
+                <div class="modal-header">
+                    <h5>Table Array</h5>
+                </div>
+                <div class="modal-body text-black">
+                    <div class="container-fluid">
+                        <div>
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="10" step="1" value="3" name="rows" id="rows" class="form-control" placeholder="name">
+                                <label for="rows">Rows: </label>
+                            </div>
+                        
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="10" step="1" value="3" name="columns" id="columns" class="form-control" placeholder="name">
+                                <label for="columns">Columns: </label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="0.4" step="0.01" value="0" name="gapX" id="gapX" class="form-control" placeholder="name">
+                                <label for="gapX">X-Gap: </label>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <input type="number" min="0" max="0.4" step="0.01" value="0" name="gapY" id="gapY" class="form-control" placeholder="name">
+                                <label for="gapY">Y-Gap: </label>
+                            </div>
+                            <hr class="m-0; mt-1">
+                        
+                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px">
+                                <input type="checkbox"  name="TableCheckParent" id="TableCheckParent" class="col-2 order-1" style="min-height: 80px;">
+                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="TableCheckParent">Array Parent</label>    
+                            </div>
+                            <div class="w-100" style="margin-top: -15px">
+                              <hr class="m-0; mt-1">
+                            </div>
+                        
+                            <div class='row justify-content-center btn-group'>
+                                <button class='col-3 btn btn-success' id='TableArraySubmit'>Submit</button>
                                 <button class='col-3 btn btn-danger' data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>

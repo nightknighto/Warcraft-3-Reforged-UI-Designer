@@ -46,7 +46,19 @@ export class GUIEvents {
 
         builder.x = builder.x + 0.03;
         builder.y = builder.y - 0.03;
-        builder.name += "Copy";
+        builder.name = builder.name.replace('[','').replace(']','');
+        if(projectTree.findByName(builder.name+"Copy")) {
+            let i = 0;
+            while(true) {
+                i++;
+                if(!projectTree.findByName(builder.name+"Copy"+i)) {
+                    builder.name += "Copy"+i
+                    break;
+                }
+            }
+        } else {
+            builder.name += "Copy";
+        }
         
         const command = new CreateFrame(selected.getParent(), builder);
         command.action();

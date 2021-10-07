@@ -55,14 +55,6 @@ function setupEvents(mainWindow: BrowserWindow) {
   ipcMain.on('show-context-menu', () => {
     contextMenu.showContextMenu();
   })
-
-  ipcMain.on('TableArraySubmit', (event, args) => {
-    mainWindow.webContents.send('TableArraySubmit', args)
-  })
-
-  ipcMain.on('CircularArraySubmit', (event, args) => {
-    mainWindow.webContents.send('CircularArraySubmit', args)
-  })
   
   //following code makes links open in external browser
   mainWindow.webContents.on('new-window', function(e, url) {
