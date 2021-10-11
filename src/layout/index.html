@@ -331,34 +331,75 @@
                     <input type="text" name="generalLibName" id="generalLibName" class="form-control" placeholder="name" value="REFORGEDUIMAKER">
                     <label class="text-black" for="generalLibName">Library Name</label>
                 </div>
+                
+                <div class="form-check mb-3">
+                    <label for="generalPathFill" class="form-check-label" data-bs-toggle="tooltip" data-bs-html="true"
+                    title="When opening .blp or .dds images, automatically put the file name in <b>Texture Path (WE) field</b>.">
+                        Automatic Path Fill
+                        <input class="form-check-input" type="checkbox" name="generalPathFill" id="generalPathFill">
+                    </label>
+                </div>
                     
-                <label for="generalGameUI" class="col-10" data-bs-toggle="tooltip" 
-                    title="Hides all the default UI like resource bar and unit data UI">Hide Default Game UI: </label>
-                <input type="checkbox" name="generalGameUI" id="generalGameUI">
+
+                <hr>
+                <label for=""><b>Default Game UI</b></label>
+                <div class="form-check">
+                    <label for="generalGameUI" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hides all the default game UI like resource bar and unit data UI">
+                        Hide All Game UI
+                        <input class="form-check-input" type="checkbox" name="generalGameUI" id="generalGameUI">
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <label for="generalHeroBar" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hides hero health and mana bars from the left side">
+                        Hide Hero Bar
+                        <input class="form-check-input" type="checkbox" name="generalHeroBar" id="generalHeroBar">
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <label for="generalMiniMap" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hides the minimap">
+                        Hide Minimap
+                        <input class="form-check-input" type="checkbox" name="generalMiniMap" id="generalMiniMap">
+                    </label>
+                </div>
+                
                     
-                <label for="generalHeroBar" class="col-10" data-bs-toggle="tooltip" 
-                title="Hides hero health and mana bars from the left side">Hide Hero Bar: </label>
-                <input type="checkbox" name="generalHeroBar" id="generalHeroBar">
+                <div class="form-check">
+                    <label for="generalResources" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hides the resource bar (gold, lumber)">
+                        Hide Resources Bar
+                        <input class="form-check-input" type="checkbox" name="generalResources" id="generalResources">
+                    </label>
                     
-                <label for="generalMiniMap" class="col-10" data-bs-toggle="tooltip" 
-                title="Hides the minimap">Hide Minimap: </label>
-                <input type="checkbox" name="generalMiniMap" id="generalMiniMap">
-                    
-                <label for="generalResources" class="col-10" data-bs-toggle="tooltip" 
-                title="Hides the resource bar (gold, lumber)">Hide Resources Bar: </label>
-                <input type="checkbox" name="generalResources" id="generalResources">
-                    
-                <label for="generalButtonBar" class="col-10" data-bs-toggle="tooltip" 
-                title="Hide the button bar (menu, log)">Hide Button Bar: </label>
-                <input type="checkbox" name="generalButtonBar" id="generalButtonBar">
-                    
-                <label for="generalPortrait" class="col-10" data-bs-toggle="tooltip" 
-                title="Hides the units' portraits">Hide Portrait: </label>
-                <input type="checkbox" name="generalPortrait" id="generalPortrait">
-                    
-                <label for="generalChat" class="col-10" data-bs-toggle="tooltip" 
-                title="Chat messages sent by players' won't be visible">Hide Chat: </label>
-                <input type="checkbox" name="generalChat" id="generalChat">
+                </div>
+
+                <div class="form-check">
+                    <label for="generalButtonBar" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hide the button bar (menu, log)">
+                        Hide Button Bar
+                        <input class="form-check-input" type="checkbox" name="generalButtonBar" id="generalButtonBar">    
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <label for="generalPortrait" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Hides the units' portraits">
+                        Hide Portrait
+                        <input class="form-check-input" type="checkbox" name="generalPortrait" id="generalPortrait">
+                    </label>
+                </div>
+
+                <div class="form-check">
+                    <label for="generalChat" class="form-check-label" data-bs-toggle="tooltip" 
+                    title="Chat messages sent by players won't be visible">
+                        Hide Chat
+                        <input class="form-check-input" type="checkbox" name="generalChat" id="generalChat">
+                    </label>
+                </div>
 
                 <hr>
                 <div id="originMode">

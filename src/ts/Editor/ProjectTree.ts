@@ -45,7 +45,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     public static setOriginMode(value: string) {
         if(value != 'gameui' && value != 'worldframe' && value != 'consoleui') value = 'gameui';
-        
+
         this.OriginMode = value;
         
         var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
@@ -84,6 +84,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.rootFrame = new FrameComponent(originBuilder);
         this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame;
+        this.rootFrame.treeElement.style.fontWeight = "600"
 
         this.panelTree = document.getElementById('panelTreeView');
 

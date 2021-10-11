@@ -48,6 +48,7 @@ export class ParameterEditor {
     public readonly checkboxButtonBar: HTMLInputElement;
     public readonly checkboxPortrait: HTMLInputElement;
     public readonly checkboxChat: HTMLInputElement;
+    public readonly checkboxPathFill: HTMLInputElement;
     public readonly selectElementHorAlign: HTMLSelectElement;
     public readonly selectElementVerAlign: HTMLSelectElement;
 
@@ -101,6 +102,7 @@ export class ParameterEditor {
         this.checkboxButtonBar = document.getElementById('generalButtonBar') as HTMLInputElement;
         this.checkboxPortrait = document.getElementById('generalPortrait') as HTMLInputElement;
         this.checkboxChat = document.getElementById('generalChat') as HTMLInputElement;
+        this.checkboxPathFill = document.getElementById('generalPathFill') as HTMLInputElement;
         this.selectElementHorAlign = document.getElementById('elementTextHorAlign') as HTMLSelectElement
         this.selectElementVerAlign = document.getElementById('elementTextVerAlign') as HTMLSelectElement
         

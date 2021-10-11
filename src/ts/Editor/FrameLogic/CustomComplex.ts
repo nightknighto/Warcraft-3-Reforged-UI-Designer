@@ -11,6 +11,7 @@ import { dds_to_png } from "../../image conversion/dds/dds to png";
 import { extname } from "../../image conversion/shared";
 import { readFile } from "fs";
 import { basename } from "path";
+import { ParameterEditor } from "../ParameterEditor";
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     
@@ -127,6 +128,10 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             } else {
                 Image.src = file.path;
             }
+
+            if(ParameterEditor.inst().checkboxPathFill.checked) {
+                this.setWc3Texture(file.name, which, true)
+            }
         } else {
             const ext = extname(basename(Input))
             console.log(ext)
@@ -143,14 +148,30 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                     Image.src = Input;
                 }
             }catch(e){console.log('setDiskTexture-readFILE: '+e)}})
-
+            
+            if(ParameterEditor.inst().checkboxPathFill.checked) {
+                this.setWc3Texture(basename(Input), which, true)
+            }
         }
 
     }
 
-    public setWc3Texture(newTexturePath: string, which: 'normal' | 'back'): void {
-        if(which == 'normal') this.textureWc3Path = newTexturePath;
-        else this.textureBackWc3Path = newTexturePath;
+    /**
+     * 
+     * @param newTexturePath 
+     * @param which 
+     * @param refresh refresh input field? Default is false
+     */
+    public setWc3Texture(newTexturePath: string, which: 'normal' | 'back', refresh?: boolean): void {
+        if(which == 'normal') {
+            this.textureWc3Path = newTexturePath;
+            if(refresh) ParameterEditor.inst().inputElementWC3Texture.value = newTexturePath
+        }
+        else {
+            this.textureBackWc3Path = newTexturePath;
+            if(refresh) ParameterEditor.inst().inputElementBackWC3Texture.value = newTexturePath
+        }
+
     }
 
     public getWc3Texture(which: 'normal' | 'back'): string {
