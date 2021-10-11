@@ -147,6 +147,9 @@ try{
 
 //keyboard shortcuts
 window.addEventListener('keydown', function (event) {
+  let t = event.target as HTMLInputElement
+  if(t.tagName != "BODY") return;
+  
   if (event.ctrlKey && event.code === 'KeyZ') {
       new Undo().run()
   }
