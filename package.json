@@ -48,6 +48,7 @@
     "popper.js": "^1.16.1",
     "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",
+    "tippy.js": "^6.3.2",
     "ts-data.stack": "^1.0.6",
     "webpack": "^5.11.1"
   }

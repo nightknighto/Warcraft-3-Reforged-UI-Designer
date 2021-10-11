@@ -3,7 +3,7 @@ import { Editor } from './Editor';
 import { InputEdit } from "../Classes & Functions/Mini-Functions";
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameType } from './FrameLogic/FrameType';
-import ChangeFrameName from '../Commands/Implementation/ChangeFrameName';
+import ChangeElementName from '../Commands/Implementation/ChangeFrameName';
 import ChangeFrameWidth from '../Commands/Implementation/ChangeFrameWidth';
 import Actionable from '../Commands/Actionable';
 import ChangeFrameHeight from '../Commands/Implementation/ChangeFrameHeight';
@@ -14,6 +14,7 @@ import ChangeFrameX from '../Commands/Implementation/ChangeFrameX';
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY';
 import { ProjectTree } from './ProjectTree';
 import CustomComplex from './FrameLogic/CustomComplex';
+import { Tooltips } from '../Classes & Functions/Tooltips';
 
 export class ParameterEditor {
 
@@ -324,7 +325,7 @@ export class ParameterEditor {
                 return;
             }
 
-            const command = new ChangeFrameName(projectTree.getSelectedFrame(), text);
+            const command = new ChangeElementName(projectTree.getSelectedFrame(), text);
             command.action();
 
             debugText('Name changed to "' + text + '"');
@@ -569,66 +570,182 @@ export class ParameterEditor {
 
             const horizontalMargin = Editor.getInnerMargin()
 
+
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 // this.disableFields(false)
 
                 // change title and desc info
                 let txt = ""
                 let dsc = ""
+                let func = ""
+
+                /**In case another native needs to be inserted */
+                let hideNativePart1 = `<strong>Hide/Show:</strong>
+                <br><span class="bg-dark text-white">call BlzFrameSetVisible( ElementName, true/false )</span>`
+
+                let hideNativePart2 = `<br> <b>"true"</b> to show it, <b>"false"</b> to hide it.
+                <br> Shows or hides the frame. <b>Hiding a parent</b> will hide all its children as well.`
+
+                let hideNativeFull = hideNativePart1+hideNativePart2
+
+                let disableNative = `<strong>Enable/Disable:</strong>
+                <br><span class="bg-dark text-white">call BlzFrameSetEnable( ElementName, true/false )</span>
+                <br> <b>"true"</b> to enable it, <b>"false"</b> to disable it.
+                <br> Enables or disables the user interaction with the frame. Ex: For buttons, enables or disables the ability to click on them.`
+
                 const ft = FrameType
                 switch(frame.type) {
                     case ft.BROWSER_BUTTON:
                         txt="Browser Button"
-                        dsc="A clickable button with presaved texture and text inside. Buttons can't be tooltips."
+                        dsc="A clickable button with black color and may have text inside. Buttons can't be tooltips."
+                        func=`<strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br> Changes the text inside the button.<hr>`+disableNative+`<hr>`+hideNativeFull
+
                         break;
                     case ft.SCRIPT_DIALOG_BUTTON:
                         txt="Script Dialog Button"
-                        dsc="A clickable button with presaved texture and text inside. Buttons can't be tooltips."
-                        break
+                        dsc="A clickable button with blue color and may have text inside. Buttons can't be tooltips."
+                        func=`<strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br>Changes the text inside the button.<hr>`+disableNative+`<hr>`+hideNativeFull
+
+                        break;
                     case ft.BUTTON:
                         txt="Custom Button"
                         dsc="A clickable button with custom texture. Buttons can't be tooltips."
+                        func=`Consists of 2 frames above each other. A ScriptDialog button, which controls clickability & a backdrop to show custom texture.
+                        The ScriptDialog button has the same name assigned to the element, while the backdrop has the prefix <b>"Backdrop"</b> before the name.
+                        <hr><strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( <b>Backdrop</b>ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>Replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the button.<hr>`+disableNative+`<hr>`+hideNativePart1+`<br><span class="bg-dark text-white">call BlzFrameSetVisible( <b>Backdrop</b>ElementName, true/false )</span>`+hideNativePart2
 
                         break;
                     case ft.CHECKBOX:
                         txt="Checkbox"
                         dsc="A checkbox that can be checked or unchecked by clicking on it."
+                        func=disableNative+`<hr>`+hideNativeFull
 
                         break;
                     case ft.HORIZONTAL_BAR:
                         txt="Horizontal Bar"
                         dsc="A horizontal bar similar to loadings bars, that takes the whole texture and displays a percentage of it."
+                        func=`<strong>Change Value:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetValue( ElementName, udg_IntegerVariable )</span> 
+                        <br>Replace <b>"IntegerVariable"</b> with the name of an integer variable, which holds the desired value. <b>Default Value: 50</b>.
+                        <br><b>Value</b> controls the percentage of the bar that is displayed. It is bounded between the Min & Max Values. If Value is equal to Min-Value, it is at 0%.
+                        If equal to Max-Value, it is at 100%.
+                        
+                        <hr><strong>Change Min & Max Values:</strong>
+                        <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
+                        <br>Replace <b>"minValue" & "maxValue"</b> with the names of integer variables, which holds the desired values. <b>Default Value: Min=0, Max=100.</b>.
+                        <br><b>Min & Max Value</b> controls the boundries of the bar's Value, which was explained above.
+                        
+                        <hr><strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>Replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the bar.<hr>`+hideNativeFull
                         
                         break
                     case ft.HOR_BAR_BACKGROUND:
                         txt="Horizontal Bar with Background"
                         dsc="A horizontal bar combined with a backdrop. The backdrop acts as a background, and shows below the bar when the bar's display percentage isn't 100%. It exists by itself and can't be a child to other frames."
+                        func=`Consists of 2 frames above each other. A Horizontal Bar & a backdrop below it. The backdrop acts as a background for the bar. The backdrop has the prefix <b>"Back"</b> followed by the name.
+                        <hr><strong>Change Value: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetValue( ElementName, udg_IntegerVariable )</span> 
+                        
+                        <hr><strong>Change Min & Max Values: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
+                        
+                        <hr><strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( <b>Back</b>ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>Replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the bar.<hr>`+hideNativePart1+`<br><span class="bg-dark text-white">call BlzFrameSetVisible( <b>Back</b>ElementName, true/false )</span>`+hideNativePart2
 
                     break;
                     case ft.HOR_BAR_BACKGROUND_TEXT:
                         txt="Horizontal Bar with Background & Text"
                         dsc="A horizontal bar combined with a backdrop (acts as a background) and a text frame above it. It exists by itself and can't be a child to other frames."
+                        func=`Consists of 3 frames above each other. A Horizontal Bar, a backdrop below it, & a text frame above it. The backdrop acts as a background for the bar. The backdrop has the prefix <b>"Back"</b> followed by the name.
+                        The textframe has the prefix <b>"Text"</b> followed by the name.
+
+                        <hr><strong>Change Value: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetValue( ElementName, udg_IntegerVariable )</span> 
+                        
+                        <hr><strong>Change Min & Max Values: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
+                        
+                        <hr><strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( <b>Text</b>ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br>Changes the text. Put color codes in the text for coloring. Any number formatting is done in the variable before using it here.
+
+                        <hr><strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( <b>Back</b>ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>Replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the bar.<hr>`
+                        +hideNativePart1+
+                        `<br><span class="bg-dark text-white">call BlzFrameSetVisible( <b>Back</b>ElementName, true/false )</span>`
+                        +`<br><span class="bg-dark text-white">call BlzFrameSetVisible( <b>Text</b>ElementName, true/false )</span>`
+                        +hideNativePart2
 
                         break;
                     case ft.HOR_BAR_TEXT:
                         txt="Horizontal Bar with Text"
                         dsc="A horizontal bar combined with a text frame above it. It exists by itself and can't be a child to other frames."
+                        func=`Consists of 2 frames above each other. A Horizontal Bar & a text frame above it. 
+                        The textframe has the prefix <b>"Text"</b> followed by the name.
+
+                        <hr><strong>Change Value: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetValue( ElementName, udg_IntegerVariable )</span> 
                         
+                        <hr><strong>Change Min & Max Values: Explained in Horizontal Bar</strong>
+                        <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
+                        
+                        <hr><strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( <b>Text</b>ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br>Changes the text. Put color codes in the text for coloring. Any number formatting is done in the variable before using it here.
+
+                        <hr><strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>Replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the bar.<hr>
+
+                        ${hideNativePart1}
+                        <br><span class="bg-dark text-white">call BlzFrameSetVisible( <b>Text</b>ElementName, true/false )</span>
+                        ${hideNativePart2}`
+
                         break
                     case ft.INVIS_BUTTON:
                         txt="Invisible Button"
                         dsc="A transparent but clickable button. Can be put over other elements like text frames or backdrops to simulate clicks over them. Buttons can't be tooltips."
+                        func=disableNative+`<hr>`+hideNativeFull
 
                         break;
                     case ft.TEXT_FRAME:
                         txt="Text Frame"
                         dsc="A piece of text that can be displayed anywhere on the screen."
+                        func=`<strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br>Changes the text. Put color codes in the text for coloring. Any number formatting is done in the variable before using it here.
+                        <hr>`+hideNativeFull
 
                         break;
                     case ft.BACKDROP:
                         txt="Custom Backdrop"
                         dsc="A static image with a custom texture and no interactions. Mostly used as background."
-                        
+                        func=`<strong>Change Texture:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
+                        <br>replace "StringVariable" with the name of a string variable, which holds the path to the texture.
+                        <br>Changes the texture of the backdrop.<hr>`+hideNativeFull
+
                         break
                     // case ft.BUTTON
 
@@ -655,6 +772,7 @@ export class ParameterEditor {
                     default:
                         txt="Backdrop"
                         dsc="A static image with a pre-saved texture and no interactions. Mostly used as background."
+                        func=hideNativeFull
                         break;
                 }
                 this.fieldElementInfoTitle.innerText = txt+" "
@@ -662,7 +780,9 @@ export class ParameterEditor {
                 // let el = this.fieldElementInfoDesc.appendChild(document.createElement('i'))
                 // el.className = "fa fa-question-circle text-warning"
                 // el.setAttribute('data-bs-toggle', 'tooltip')
-                this.fieldElementInfoDesc.setAttribute('title', dsc)
+                // this.fieldElementInfoDesc.setAttribute('title', dsc)
+                Tooltips.TooltipDesc[0].setContent(dsc)
+                Tooltips.TooltipFunc[0].setContent(func)
 
 
                 this.setupLists(frame)

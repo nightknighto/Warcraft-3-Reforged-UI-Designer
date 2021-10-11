@@ -21,6 +21,7 @@ import Redo from "./Commands/Redo";
 import RemoveFrame from "./Commands/Implementation/RemoveFrame";
 import { ParameterEditor } from "./Editor/ParameterEditor";
 import CustomComplex from "./Editor/FrameLogic/CustomComplex";
+import { Tooltips } from "./Classes & Functions/Tooltips";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -149,7 +150,7 @@ try{
 window.addEventListener('keydown', function (event) {
   let t = event.target as HTMLInputElement
   if(t.tagName != "BODY") return;
-  
+
   if (event.ctrlKey && event.code === 'KeyZ') {
       new Undo().run()
   }
@@ -219,4 +220,5 @@ var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
+
 //# sourceMappingURL=renderer.js.map
