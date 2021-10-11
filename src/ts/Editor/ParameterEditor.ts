@@ -240,7 +240,7 @@ export class ParameterEditor {
         const text = inputElement.value;
 
         //checks only the first character if it is number or not
-        if (+text.charAt(0) >= 0 && +text.charAt(0) <= 9) {
+        if (text.charAt(0) != "" && +text.charAt(0) >= 0 && +text.charAt(0) <= 9) {
             inputElement.value = ""
             debugText("Name can't start with a number")
         }
