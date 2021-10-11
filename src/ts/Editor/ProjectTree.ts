@@ -6,6 +6,7 @@ import { Editor } from './Editor';
 import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
 import CustomComplex from './FrameLogic/CustomComplex';
+import { ParameterEditor } from './ParameterEditor';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
@@ -40,6 +41,15 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     public static inst() {
         return Editor.GetDocumentEditor().projectTree
+    }
+
+    public static setOriginMode(value: string) {
+        if(value != 'gameui' && value != 'worldframe' && value != 'consoleui') value = 'gameui';
+        
+        this.OriginMode = value;
+        
+        var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
+        radios.forEach(radio => (radio as HTMLInputElement).checked = (radio as HTMLInputElement).value === value)
     }
 
     public static getSelected() : FrameComponent {
@@ -182,7 +192,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 ProjectTree.HideButtonBar = container.load(ProjectTree.SAVE_KEY_HIDE_BUTTONBAR);
                 ProjectTree.HidePortrait = container.load(ProjectTree.SAVE_KEY_HIDE_PORTRAIT);
                 ProjectTree.HideChat = container.load(ProjectTree.SAVE_KEY_HIDE_CHAT);
-                ProjectTree.OriginMode = container.load(ProjectTree.SAVE_KEY_ORIGIN_MODE);
+                ProjectTree.setOriginMode(container.load(ProjectTree.SAVE_KEY_ORIGIN_MODE));
             } catch(e) {alert("Loading Error: General Options Missing.");}
 
 
