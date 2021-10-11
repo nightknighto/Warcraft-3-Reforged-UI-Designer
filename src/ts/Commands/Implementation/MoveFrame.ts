@@ -49,7 +49,12 @@ export default class MoveFrame extends SimpleCommand {
         debugText("Redid frame mouse manipulation.");
     }
     
-    public pureAction(): void {
+    public action(DontMoveFrame?: boolean): void {
+        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true);
+        this.pureAction(DontMoveFrame);
+    }
+
+    public pureAction(DontMoveFrame?: boolean): void {
         
         const target = Editor.GetDocumentEditor().projectTree.findByName(this.target);
 
@@ -59,10 +64,10 @@ export default class MoveFrame extends SimpleCommand {
         }
         const frameContent = target.custom;
 
-        frameContent.setBotY(this.newY);
-        frameContent.setLeftX(this.newX);
-        frameContent.setHeight(this.newHeight);
-        frameContent.setWidth(this.newWidth);
+        frameContent.setHeight(this.newHeight, DontMoveFrame);
+        frameContent.setWidth(this.newWidth, DontMoveFrame);
+        frameContent.setBotY(this.newY, DontMoveFrame);
+        frameContent.setLeftX(this.newX, DontMoveFrame);
 
     }
 

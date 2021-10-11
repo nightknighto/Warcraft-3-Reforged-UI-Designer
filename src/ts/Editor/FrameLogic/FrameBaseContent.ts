@@ -94,7 +94,6 @@ export default abstract class FrameBaseContent implements Saveable {
         const rect = editor.workspaceImage.getBoundingClientRect()
 
         this.botY = newY;
-        //@ts-ignore: Element will have height;
         if(!noChange) this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
 
     }

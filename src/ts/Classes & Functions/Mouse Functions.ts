@@ -311,7 +311,7 @@ export function MouseFunctions(div: CustomComplex) : void{
             }
 
             const command = new MoveFrame(frame, div.getLeftX(), div.getBotY(), div.getWidth(), div.getHeight(), {oldX: startingX, oldY: startingY, oldWidth: startingWidth, oldHeight: startingHeight})
-            command.action();
+            command.action(true);
         };
 
     };

@@ -73,7 +73,7 @@ export class FrameBuilder implements CustomComplexProps{
             console.log('textureWC3: '+this.textureWc3Path)
             console.log('textureBackDisk: '+this.textureBackDiskPath)
             console.log('textureBackWC3: '+this.textureBackWc3Path)
-        }catch(e){alert('textures error: '+e)}
+        }catch(e){console.log('textures error: '+e)}
         // if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
         // if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
@@ -83,7 +83,7 @@ export class FrameBuilder implements CustomComplexProps{
             this.color = container.load(CustomComplex.SAVE_KEY_COLOR);
             this.textHorAlign = container.load(CustomComplex.SAVE_KEY_HorAlign)
             this.textVerAlign = container.load(CustomComplex.SAVE_KEY_VerAlign)
-        }catch(e) {alert("Loading Error: Text Frame Options Missing.");}
+        }catch(e) {console.log("Loading Error: Text Frame Options Missing.");}
 
 
         const frameComponent = projectTree.appendToSelected(this)
@@ -91,7 +91,7 @@ export class FrameBuilder implements CustomComplexProps{
         try{
             frameComponent.setTooltip(container.load(FrameComponent.SAVE_KEY_TOOLTIP));
             frameComponent.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected_Tooltip
-        }catch(e) {alert("Loading Error: Tooltip Info")}
+        }catch(e) {console.log("Loading Error: Tooltip Info")}
 
         try{
             frameComponent.world_frame = container.load(FrameComponent.SAVE_KEY_WORLDFRAME);
