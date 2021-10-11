@@ -1,6 +1,6 @@
 {
   "name": "wc3-ui-maker",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
   "main": "./app/main.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "icon": "files/icon.png",
     "appId": "org.Deadreyo.W3RUID",
     "productName": "Reforged UI Designer",
-    "buildVersion": "2.3.2"
+    "buildVersion": "2.4.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.4.0",

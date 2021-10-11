@@ -144,6 +144,36 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.4.0</h2>
+                                        <div class="card-body">
+                                            <h3 class="text-white">Version Credits: GhostWolf/PuffTheMagicDragonIsNoMore</h3>
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: Support for .dds & .blp images</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Disk Texture field now saves path to file</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Automatic Path Fill option</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Extensive functionality documentation for each element</li>
+                                                        <li class="list-group-item list-group-item-primary">Table Array window improved</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">Export: Automatically copies the code to clipboard</li>
+                                                        <li class="list-group-item list-group-item-primary">Table Array: gapX & gapY can accept negative values</li>
+                                                        <li class="list-group-item list-group-item-primary">Arrow Movement no longer work if a field is focused</li>
+                                                        <li class="list-group-item list-group-item-primary">Bug fixes & experience improvements</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.3.2 , v 2.3.1</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
