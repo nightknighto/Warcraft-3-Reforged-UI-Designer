@@ -64,7 +64,7 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element.style.backgroundColor = '#28160C'
         element.style.border = '2px solid #B87E59'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
-        element.style.width = "500px"
+        element.style.width = "600px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#5B4432'
         element.style.border = '6px solid #3A2718'
@@ -105,7 +105,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element.style.backgroundColor = '#480B68'
         element.style.border = '2px solid #D29FEE'
         element.style.clipPath = 'polygon(0% 20%, 0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 0% 80%)';
-        element.style.width = "450px"
+        element.style.width = "550px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#492D56'
         element.style.border = '6px ridge #11819a'
@@ -147,7 +147,7 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
         element.style.backgroundColor = '#222B70'
         element.style.border = '2px solid #6EADBE'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
-        element.style.width = "500px"
+        element.style.width = "600px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#1B3A4F'
         element.style.border = '6px ridge rgb(78, 114, 140)'
@@ -190,7 +190,7 @@ export class AppInterfaceDarkColors implements ICallableDivInstance {
         element.style.backgroundColor = '#312B2B'
         element.style.border = '2px solid #827877'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)';
-        element.style.width = "500px"
+        element.style.width = "600px"
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#827877'
         element.style.border = '6px ridge rgb(160, 68, 37)'

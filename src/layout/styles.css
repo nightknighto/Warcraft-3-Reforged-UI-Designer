@@ -67,7 +67,7 @@ body{
 #barTabInner{
     background-color: none; /* #28160C */
     clip-path: polygon(0 0, 100% 0, 81% 100%, 0% 100%);
-    width: 500px;
+    width: 600px;
     border: none; /* 2px solid #B87E59 */
 }
 

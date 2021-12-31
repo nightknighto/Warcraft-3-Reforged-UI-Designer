@@ -55,12 +55,14 @@ export class Editor {
         const viewMenu = new RibbonMenu('View');
         const insertMenu = new RibbonMenu('Insert')
         const infoMenu = new RibbonMenu('Info');
+        const OptionsMenu = new RibbonMenu('Options');
 
         tabsMenu.addTab(fileMenu);
         tabsMenu.addTab(editMenu);
         tabsMenu.addTab(viewMenu);
         tabsMenu.addTab(insertMenu);
         tabsMenu.addTab(infoMenu);
+        tabsMenu.addTab(OptionsMenu);
 
         fileMenu.addRibbonOption(new RibbonOption('New', new NewDocument()));
         fileMenu.addRibbonOption(new RibbonOption('Open', new LoadDocument()));
@@ -193,7 +195,11 @@ export class Editor {
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
         ribBackdrop.addMenuOption('Esc Menu', new CreateFrameAtSelected(newFrameBuilder));
 
-        fileMenu.run();
+        OptionsMenu.override = () => {
+            ProjectTree.inst().select(ProjectTree.inst().rootFrame)
+        }
+
+        insertMenu.run();
         return tabsMenu;
 
     }

@@ -7,6 +7,11 @@ export class RibbonMenu implements ICallableDivInstance {
     public readonly ribbonBar: HTMLElement;
     private ribbonOptions: RibbonOption[] = [];
 
+    /**Overrides the default behavior with custom behavior. If it is used, default behavior of
+     * removing and re-filling the bar below will not happen.
+     */
+    public override: () => void = null;
+
     public constructor(name: string) {
 
         this.tabName = name;
@@ -24,6 +29,11 @@ export class RibbonMenu implements ICallableDivInstance {
     }
 
     public run(): void {
+
+        if(this.override) {
+            this.override()
+            return;
+        }
 
         //Remove everything from div.
         for (let i = this.ribbonBar.children.length - 1; i >= 0; i--) {
