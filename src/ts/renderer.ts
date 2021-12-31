@@ -139,9 +139,7 @@ try{
           image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
           image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
 
-          if(el.custom instanceof CustomComplex) {
-              image.style.fontSize = (el.custom.getScale()) * rect.width / 100 + "px"
-          }
+          el.custom.setScale(el.custom.getScale())
       
         }
   }
