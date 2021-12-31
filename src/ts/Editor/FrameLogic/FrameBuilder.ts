@@ -24,7 +24,7 @@ export class FrameBuilder implements CustomComplexProps{
     public trigVar = "";
     public text = "Text";
     public scale = 1;
-    public color = "#FFFFFF";
+    public color = "#FFCC00";
     public textHorAlign: "left" | "center" | "right" = "left"
     public textVerAlign: "center" | "start" | "flex-end" = "start"
     public autoId = false;
