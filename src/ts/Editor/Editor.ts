@@ -80,6 +80,7 @@ export class Editor {
 
         const ribAppInterface = new RibbonOption('App Interface', null)
         viewMenu.addRibbonOption(ribAppInterface);
+
         ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture)
         ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors)
         ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors)
@@ -234,6 +235,8 @@ export class Editor {
             menu: null,
         
         })
+
+        new AppInterfaceDarkColors().run()
     }
 
     public static GetDocumentEditor(): Editor {
