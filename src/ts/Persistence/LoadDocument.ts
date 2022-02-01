@@ -36,7 +36,7 @@ export default class LoadDocument implements ICallableDivInstance {
 
             if (openData.canceled) return;
             this.load(openData.filePaths[0]);
-            Editor.GetDocumentEditor().changeStack.clear();
+            // Editor.GetDocumentEditor().changeStack.clear();
 
         });
 
