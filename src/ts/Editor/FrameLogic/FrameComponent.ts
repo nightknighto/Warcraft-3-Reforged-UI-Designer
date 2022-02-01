@@ -28,20 +28,7 @@ export class FrameComponent implements Saveable {
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
 
-    public FieldsAllowed: ElementFieldsAllowed = {
-        parent: true,
-        tooltip: true,
-
-        color: false,
-        scale: false,
-        text: false,
-        textBig: false,
-        textAlign: false,
-        textures: false,
-        backTextures: false,
-        trigVar: false,
-        type: false
-    }
+    public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
     public setTooltip(on: boolean): FrameComponent {
         this.tooltip = on
@@ -237,6 +224,10 @@ export class FrameComponent implements Saveable {
         const ft = FrameType
         const f = this.FieldsAllowed
 
+        //reset to default
+        Object.assign(this.FieldsAllowed, defaultFieldsAllowed)
+
+
 
         const allowText = () => {
             f.text = true
@@ -342,4 +333,19 @@ interface ElementFieldsAllowed {
     parent: boolean
     /**Default is true */
     tooltip: boolean;
+}
+
+const defaultFieldsAllowed: ElementFieldsAllowed = {
+    parent: true,
+    tooltip: true,
+
+    color: false,
+    scale: false,
+    text: false,
+    textBig: false,
+    textAlign: false,
+    textures: false,
+    backTextures: false,
+    trigVar: false,
+    type: false
 }

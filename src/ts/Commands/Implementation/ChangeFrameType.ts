@@ -35,6 +35,7 @@ export default class ChangeFrameType extends SimpleCommand{
 
         this.oldType = frame.type;
         frame.type = this.newType;
+        frame.setupAllowedFields()
 
     }
 

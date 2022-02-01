@@ -55,7 +55,7 @@ export class ParameterEditor {
     public readonly fieldTexture: HTMLDivElement;
     public readonly fieldBackgroundTexture: HTMLDivElement;
     public readonly fieldType: HTMLDivElement;
-    public readonly fieldFunctionalityFull: HTMLDivElement;
+    public readonly FieldPropertiesFull: HTMLDivElement;
     public readonly fieldFunctionalityText: HTMLDivElement;
     public readonly fieldFunctionalityTextBig: HTMLDivElement;
     public readonly fieldFunctionalityTextScale: HTMLDivElement;
@@ -69,7 +69,9 @@ export class ParameterEditor {
     public readonly fieldElementInfo: HTMLDivElement;
     public readonly fieldElementInfoTitle: HTMLElement;
     public readonly fieldElementInfoDesc: HTMLSpanElement;
-
+    public readonly fieldPropertiesOutermost: HTMLDivElement;
+    public readonly fieldFunctionalityOutermost: HTMLDivElement;
+    
 
     public constructor() {
 
@@ -111,7 +113,7 @@ export class ParameterEditor {
         this.fieldType = document.getElementById('FieldType') as HTMLDivElement;
         this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement;
         this.fieldParent = document.getElementById('FieldParent') as HTMLDivElement;
-        this.fieldFunctionalityFull = document.getElementById('FieldFunctionalityFull') as HTMLDivElement;
+        this.FieldPropertiesFull = document.getElementById('FieldPropertiesFull') as HTMLDivElement;
         this.fieldFunctionalityText = document.getElementById('FieldFunctionalityText') as HTMLDivElement;
         this.fieldFunctionalityTextBig = document.getElementById('FieldFunctionalityTextBig') as HTMLDivElement;
         this.fieldFunctionalityTextScale = document.getElementById('FieldFunctionalityScale') as HTMLDivElement;
@@ -123,6 +125,8 @@ export class ParameterEditor {
         this.fieldElementInfo = document.getElementById('ElementInfo') as HTMLDivElement;
         this.fieldElementInfoTitle = document.getElementById('ElementInfoTitle') as HTMLElement;
         this.fieldElementInfoDesc = document.getElementById('ElementInfoDesc') as HTMLSpanElement;
+        this.fieldPropertiesOutermost = document.getElementById('PropertiesOutermostLevel') as HTMLDivElement;
+        this.fieldFunctionalityOutermost = document.getElementById('FunctionalityOutermostLevel') as HTMLDivElement;
 
 
         // this.inputElementWidth.disabled = true
@@ -830,20 +834,25 @@ export class ParameterEditor {
                 this.fieldParent.style.display = "none"
                 this.fieldTexture.style.display = "none"
                 this.fieldBackgroundTexture.style.display = "none"
-                this.fieldFunctionalityFull.style.display = "none"
+                this.FieldPropertiesFull.style.display = "none"
                 this.fieldFunctionalityText.style.display = "none"
                 this.fieldFunctionalityTextBig.style.display = "none"
                 this.fieldFunctionalityTextScale.style.display = "none"
                 this.fieldFunctionalityTextColor.style.display = "none"
                 this.fieldFunctionalityTextAlign.style.display = "none"
                 this.fieldFunctionalityVar.style.display = "none"
+                this.fieldPropertiesOutermost.style.display = "none"
+                this.fieldFunctionalityOutermost.style.display = "none"
 
                 if(frame.FieldsAllowed.parent) this.fieldParent.style.display = "initial"
                 if(frame.FieldsAllowed.type) this.fieldType.style.display = "initial"
                 if(frame.FieldsAllowed.tooltip) this.fieldTooltip.style.display = "initial"
                 if(frame.FieldsAllowed.textures) this.fieldTexture.style.display = "initial"
                 if(frame.FieldsAllowed.backTextures) this.fieldBackgroundTexture.style.display = "initial"
-                if(frame.FieldsAllowed.trigVar) this.fieldFunctionalityVar.style.display = "initial"
+                if(frame.FieldsAllowed.trigVar) {
+                    this.fieldFunctionalityVar.style.display = "initial";
+                    this.fieldFunctionalityOutermost.style.display = "initial"
+                }
                 if(frame.FieldsAllowed.text) this.fieldFunctionalityText.style.display = "initial"
                 if(frame.FieldsAllowed.textBig) this.fieldFunctionalityTextBig.style.display = "initial"
                 if(frame.FieldsAllowed.scale) this.fieldFunctionalityTextScale.style.display = "initial"
@@ -851,9 +860,15 @@ export class ParameterEditor {
                 if(frame.FieldsAllowed.textAlign) this.fieldFunctionalityTextAlign.style.display = "initial"
 
                 const f = frame.FieldsAllowed
-                if(f.trigVar || f.text || f.textBig || f.scale ||
-                     f.color || f.textAlign) this.fieldFunctionalityFull.style.display = "initial"
+                if(f.text || f.textBig || f.scale ||
+                     f.color || f.textAlign) {
+                        this.FieldPropertiesFull.style.display = "initial"
+                }
 
+                if(f.text || f.textBig || f.scale ||
+                    f.color || f.textAlign || f.backTextures || f.textures) {
+                        this.fieldPropertiesOutermost.style.display = "initial"
+                }
 
                 this.checkboxElementTooltip.disabled = false;
 
