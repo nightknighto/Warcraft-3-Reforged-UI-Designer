@@ -22,6 +22,7 @@ import RemoveFrame from "./Commands/Implementation/RemoveFrame";
 import { ParameterEditor } from "./Editor/ParameterEditor";
 import CustomComplex from "./Editor/FrameLogic/CustomComplex";
 import { Tooltips } from "./Classes & Functions/Tooltips";
+import SaveDocument from "./Persistence/SaveDocument";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
@@ -154,6 +155,9 @@ window.addEventListener('keydown', function (event) {
   }
   if (event.ctrlKey && event.code === 'KeyY') {
       new Redo().run()
+  }
+  if (event.ctrlKey && event.code === 'KeyS') {
+      new SaveDocument().run()
   }
   if (event.which === 46) {
       if(ProjectTree.getSelected()) {
