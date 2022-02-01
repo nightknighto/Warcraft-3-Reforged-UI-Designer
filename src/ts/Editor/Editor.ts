@@ -6,7 +6,7 @@ import { RibbonOption } from "./Menus/RibbonOption";
 import { TabsMenu } from "./Menus/TabsMenu";
 import { ParameterEditor } from "./ParameterEditor";
 import { ProjectTree } from "./ProjectTree";
-import SaveDocument from "../Persistence/SaveDocument";
+import SaveASDocument from "../Persistence/SaveASDocument";
 import LoadDocument from "../Persistence/LoadDocument";
 import ChangeStack from "./ChangeStack";
 import Undo from "../Commands/Undo";
@@ -17,6 +17,7 @@ import NewDocument from "../Persistence/NewDocument";
 import { BackgroundTexture } from "./Menus/Backgrounds";
 import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors, AppInterfaceBlueColors, AppInterfaceDarkColors } from "./Menus/App Interface";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
+import SaveDocument from "../Persistence/SaveDocument";
 
 export class Editor {
 
@@ -67,6 +68,7 @@ export class Editor {
         fileMenu.addRibbonOption(new RibbonOption('New', new NewDocument()));
         fileMenu.addRibbonOption(new RibbonOption('Open', new LoadDocument()));
         fileMenu.addRibbonOption(new RibbonOption('Save', new SaveDocument()));
+        fileMenu.addRibbonOption(new RibbonOption('Save As', new SaveASDocument()));
 
         const expRib = new RibbonOption('Export', null)
         fileMenu.addRibbonOption(expRib);

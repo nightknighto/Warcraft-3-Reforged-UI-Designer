@@ -39,6 +39,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideChat = false;
     public static OriginMode: string = 'gameui';
 
+    //path of project that was loaded. used for "Save" functionality
+    public static fileSavePath: string | null = null;
+
     public static inst() {
         return Editor.GetDocumentEditor().projectTree
     }

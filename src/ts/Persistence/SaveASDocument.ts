@@ -6,7 +6,7 @@ import SaveContainer from "./SaveContainer";
 import { ProjectTree } from "../Editor/ProjectTree";
 import { debugText } from "../Classes & Functions/Mini-Functions";
 
-export default class SaveDocument implements ICallableDivInstance {
+export default class SaveASDocument implements ICallableDivInstance {
 
     public save(filepath: string): void {
         try {
@@ -26,13 +26,18 @@ export default class SaveDocument implements ICallableDivInstance {
 
         ProjectTree.saveGeneralOptions();
 
-        if(!ProjectTree.fileSavePath) {
-            debugText("Can't save: No project was loaded. Use Save As instead")
-            return;
-        }
+        const saveParams = remote.dialog.showSaveDialog({
+            filters: [{ name: 'JSON', extensions: ['json'] }],
+            properties: ['createDirectory']
+        });
 
-        this.save(ProjectTree.fileSavePath)
-        debugText('Project saved in '+ProjectTree.fileSavePath)
+        saveParams.then((saveData: SaveDialogReturnValue) => {
+
+            if (saveData.canceled) return;
+            this.save(saveData.filePath)
+            ProjectTree.fileSavePath = saveData.filePath
+            debugText('Project saved in '+saveData.filePath)
+        });
 
     }
 
