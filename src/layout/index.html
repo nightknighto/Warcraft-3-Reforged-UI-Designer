@@ -200,7 +200,7 @@
                 <div class="p-1">
                     <div class="border border-3 border-primary">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementPosition">
-                            <span data-bs-toggle="tooltip" title="Reference Point is Bottom Left of the element"><b>Coordinates</b></span>
+                            <span data-bs-toggle="tooltip" title="Zero-coordinates is the Bottom Left corner of screen. Reference Point of element is its Bottom Left corner."><b>Coordinates</b></span>
                         </button>
                     </div>
                 </div>
@@ -225,6 +225,12 @@
                     <div class="form-floating mb-3">
                         <input type="number" min="0" max="0.8" step="0.01" name="elementHeight" id="elementHeight" class="form-control" placeholder="name">
                         <label class="text-black" for="elementHeight">Height: </label>
+                    </div>
+                    <div class="form-check">
+                        <label for="relativeCheckbox" class="form-check-label" data-bs-toggle="tooltip" data-bs-html="true" title="Uses Relative Coordinates relative to parent instead of Absolute Coordinates. Useful in dynamic & moving UIs.<hr>Doesn't affect elements with parents as the Origin.">
+                            Relative to Parent 
+                            <input type="checkbox" class="form-check-input" name="relativeCheckbox" id="relativeCheckbox">
+                        </label>
                     </div>
 
                 </div>

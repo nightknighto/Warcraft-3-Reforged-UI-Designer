@@ -25,6 +25,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     public static readonly SAVE_KEY_TEXTURE_BACK_DISK_PATH = "textureBackDiskPath";
     public static readonly SAVE_KEY_TEXTURE_BACK_WC3_PATH = "textureBackWc3Path"
     public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
+    public static readonly SAVE_KEY_TRIGGER_IS_RELATIVE = "isRelative";
     
 
     text: string = "";
@@ -37,6 +38,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     textureBackDiskPath: string = '';
     textureBackWc3Path: string = '';
     trigVar: string = "";
+    isRelative: boolean = false;
 
     private elemTextContainer: HTMLDivElement;
     private elemText: HTMLParagraphElement;
@@ -52,15 +54,14 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         return this.scale;
     }
 
-    public setScale(val: number): void {
+    public setScale(val: number): void {try{
         if (val <= 0) {
             debugText("Scale can't be zero or less")
             return;
         }
         this.scale = val;
-        this.elemText.style.fontSize = (val) * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width / 100 + "px"
-        debugText("Scale changed.")
-    }
+        if(this.elemText) {this.elemText.style.fontSize = (val) * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width / 100 + "px"};
+    }catch(e){console.log('e: '+e)}}
 
     public getColor(): string {
         return this.color;
@@ -186,6 +187,14 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     public getTrigVar(): string {
         return this.trigVar;
     }
+    
+    public setIsRelative(IsIt: boolean): void {
+        this.isRelative = IsIt
+    }
+
+    public getIsRelative(): boolean {
+        return this.isRelative;
+    }
 
 
     public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
@@ -194,6 +203,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         super(frameComponent, document.createElement('div'), width, height, x, y, z);
 
         try {
+            if(props) this.isRelative = props.isRelative
             this.specialTypesSetup(props)
 
             this.element.style.wordBreak = "break-word"
@@ -222,6 +232,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         container.save(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH, this.textureBackWc3Path);
         container.save(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH, this.textureBackDiskPath);
         container.save(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar);
+        container.save(CustomComplex.SAVE_KEY_TRIGGER_IS_RELATIVE, this.isRelative);
         // container.save(CustomComplex.SAVE_KEY_, this.);
 
     }
@@ -231,7 +242,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         this.element.remove()
         Editor.GetDocumentEditor().projectTree.select(null);
 
-        debugText("Deleted CustomComplex Object")
+        debugText("Deleted the element.")
     }
 
     public static GetCustomComplexFromHTMLDivElement(divElement: HTMLDivElement): CustomComplex {
@@ -354,4 +365,5 @@ export interface CustomComplexProps {
     textureBackDiskPath: string;
     textureBackWc3Path: string;
     trigVar: string;
+    isRelative: boolean;
 }

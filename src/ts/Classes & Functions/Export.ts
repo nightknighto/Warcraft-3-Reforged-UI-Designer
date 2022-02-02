@@ -20,7 +20,7 @@ async function finishExport(filepath: string) {try{
             File created at ${filepath}`);
         })
         .catch(err => {
-            alert(`Error in copying text: ${err}.
+            alert(`Error in copying text: ${err}. Try again.
             File has been created at ${filepath}`);
         });
 
@@ -318,6 +318,20 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
             if (kind == 0) {
                 sumText += textEdit;
                 continue;
+            }
+
+            if(el.custom.getIsRelative() && el.getParent().type !== FrameType.ORIGIN) {
+                if(lang === 'jass' || lang === 'lua'){
+                    textEdit = textEdit.replace(/BlzFrameSetAbsPoint\((\w*), (\w*), (\w*), (\w*)\)/gi, `BlzFrameSetPoint(\$1, \$2, OWNERvar, \$2, \$3, \$4)`)
+                } else if(lang === 'ts') {
+                    textEdit = textEdit.replace(/setAbsPoint\((\w*), (\w*), (\w*)\)/gi, `setPoint($1, OWNERvar, $1, $2, $3)`)
+                }
+                const par = el.getParent().custom
+                textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX() - par.getLeftX()).toPrecision(5)}`)
+                textEdit = textEdit.replace(/TOPLEFTYvar/gi, `${(el.custom.getBotY() + el.custom.getHeight() - (par.getBotY() + par.getHeight()) ).toPrecision(5)}`)
+                textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth() - (par.getLeftX() + par.getWidth()) ).toPrecision(5)}`)
+                textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY() - par.getBotY()).toPrecision(5)}`)
+    
             }
 
             if (el) {

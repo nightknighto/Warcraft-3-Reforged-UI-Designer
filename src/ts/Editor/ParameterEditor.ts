@@ -25,6 +25,7 @@ export class ParameterEditor {
     public readonly selectElementParent: HTMLSelectElement;
     public readonly checkboxElementTooltip: HTMLInputElement;
     public readonly checkboxElementBorders: HTMLInputElement;
+    public readonly checkboxElementRelative: HTMLInputElement;
     public readonly inputElementWidth: HTMLInputElement;
     public readonly inputElementHeight: HTMLInputElement;
     public readonly inputElementCoordinateX: HTMLInputElement;
@@ -82,6 +83,7 @@ export class ParameterEditor {
         this.selectElementParent = document.getElementById('elementParent') as HTMLSelectElement;
         this.checkboxElementTooltip = document.getElementById('elementTooltip') as HTMLInputElement;
         this.checkboxElementBorders = document.getElementById('CheckboxElementBorders') as HTMLInputElement;
+        this.checkboxElementRelative = document.getElementById('relativeCheckbox') as HTMLInputElement;
         this.inputElementWidth = document.getElementById('elementWidth') as HTMLInputElement;
         this.inputElementHeight = document.getElementById('elementHeight') as HTMLInputElement;
         this.inputElementCoordinateX = document.getElementById('elementCoordinateX') as HTMLInputElement;
@@ -152,6 +154,7 @@ export class ParameterEditor {
         this.selectElementParent.onchange = ParameterEditor.ChangeParent;
         this.checkboxElementTooltip.onchange = ParameterEditor.ChangeTooltip;
         this.checkboxElementBorders.onchange = ParameterEditor.HideBorders;
+        this.checkboxElementRelative.onchange = ParameterEditor.InputIsRelative;
         this.inputElementCoordinateX.onchange = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange = ParameterEditor.InputCoordinateY;
         this.inputElementDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, 'normal');
@@ -413,6 +416,17 @@ export class ParameterEditor {
         debugText(`All element borders have been ${val? 'activated' : 'deactivated'}.`)
     }catch(e){console.log('HideBorders: '+e)}}
 
+    
+    static InputIsRelative(ev: Event): void {try{
+        const val = (ev.target as HTMLInputElement).checked;
+        const sel = ProjectTree.getSelected()
+
+        sel.custom.setIsRelative(val);
+
+        debugText(`Relative Positioning has been ${val? 'enabled' : 'disabled'} for this element.`)
+    }catch(e){console.log('EnableRelativePosition: '+e)}}
+
+
     static InputCoordinateX(ev: Event): void {
         const loc = (ev.target as HTMLInputElement).value;
         const editor = Editor.GetDocumentEditor();
@@ -522,6 +536,7 @@ export class ParameterEditor {
 
         const inputElement = ev.target as HTMLInputElement;
         (Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setScale(+inputElement.value);
+        debugText("Scale changed.")
 
     }
 
@@ -564,6 +579,7 @@ export class ParameterEditor {
         this.selectElementType.value = ""
         this.selectElementParent.value = ""
         this.checkboxElementTooltip.checked = false
+        this.checkboxElementRelative.checked = false
         this.inputElementCoordinateX.value = ""
         this.inputElementCoordinateY.value = ""
         this.inputElementDiskTexture.value = ""
@@ -583,6 +599,7 @@ export class ParameterEditor {
         this.selectElementType.disabled = disable
         this.selectElementParent.disabled = disable
         this.checkboxElementTooltip.disabled = disable
+        this.checkboxElementRelative.disabled = disable
         this.inputElementCoordinateX.disabled = disable
         this.inputElementCoordinateY.disabled = disable
         this.inputElementDiskTexture.disabled = disable
@@ -661,7 +678,7 @@ export class ParameterEditor {
                         break;
                     case ft.HORIZONTAL_BAR:
                         txt="Horizontal Bar"
-                        dsc="A horizontal bar similar to loadings bars, that takes the whole texture and displays a percentage of it."
+                        dsc="A horizontal bar similar to loadings bars, that takes the whole texture and displays a percentage of it. The remaining part is transparent."
                         func=`<strong>Change Value:</strong>
                         <br><span class="bg-dark text-white">call BlzFrameSetValue( ElementName, udg_IntegerVariable )</span> 
                         <br>Replace <b>"IntegerVariable"</b> with the name of an integer variable, which holds the desired value. <b>Default Value: 50</b>.
@@ -824,6 +841,7 @@ export class ParameterEditor {
                 this.inputElementBackDiskTexture.value = frame.custom.getDiskTexture('back')
                 this.inputElementBackWC3Texture.value = frame.custom.getWc3Texture('back')
                 this.inputElementTrigVar.value = frame.custom.getTrigVar()
+                this.checkboxElementRelative.checked = frame.custom.getIsRelative()
                 this.inputElementText.value = frame.custom.getText()
 
                 this.inputElementTextScale.value = frame.custom.getScale() + ""

@@ -22,6 +22,7 @@ export class FrameBuilder implements CustomComplexProps{
     public textureBackDiskPath = "";
     public textureBackWc3Path = ""
     public trigVar = "";
+    public isRelative = false;
     public text = "Text";
     public scale = 1;
     public color = "#FFCC00";
@@ -67,6 +68,7 @@ export class FrameBuilder implements CustomComplexProps{
             this.textureDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_DISK_PATH);
             this.textureWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_WC3_PATH);
             this.trigVar = container.load(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME);
+            this.isRelative = container.load(CustomComplex.SAVE_KEY_TRIGGER_IS_RELATIVE);
             this.textureBackDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH)
             this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH)
             console.log('textureDisk: '+this.textureDiskPath)
@@ -133,6 +135,7 @@ export class FrameBuilder implements CustomComplexProps{
         frameBuilder.x = frame.custom.getLeftX();
         frameBuilder.z = frame.custom.getZIndex();
         frameBuilder.trigVar = frame.custom.getTrigVar();
+        frameBuilder.isRelative = frame.custom.getIsRelative();
         frameBuilder.textureDiskPath = frame.custom.getDiskTexture('normal');
         frameBuilder.textureWc3Path = frame.custom.getWc3Texture('normal');
         frameBuilder.textureBackDiskPath = frame.custom.getDiskTexture('back');
