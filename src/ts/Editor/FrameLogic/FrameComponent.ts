@@ -89,6 +89,8 @@ export class FrameComponent implements Saveable {
 
             this.setupAllowedFields()
 
+            if(!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px"
+
         } catch (e) { alert('FrameComp Const: ' + e) }
     }
 

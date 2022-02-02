@@ -24,6 +24,7 @@ export class ParameterEditor {
     public readonly selectElementType: HTMLSelectElement;
     public readonly selectElementParent: HTMLSelectElement;
     public readonly checkboxElementTooltip: HTMLInputElement;
+    public readonly checkboxElementBorders: HTMLInputElement;
     public readonly inputElementWidth: HTMLInputElement;
     public readonly inputElementHeight: HTMLInputElement;
     public readonly inputElementCoordinateX: HTMLInputElement;
@@ -80,6 +81,7 @@ export class ParameterEditor {
         this.selectElementType = document.getElementById('elementType') as HTMLSelectElement;
         this.selectElementParent = document.getElementById('elementParent') as HTMLSelectElement;
         this.checkboxElementTooltip = document.getElementById('elementTooltip') as HTMLInputElement;
+        this.checkboxElementBorders = document.getElementById('CheckboxElementBorders') as HTMLInputElement;
         this.inputElementWidth = document.getElementById('elementWidth') as HTMLInputElement;
         this.inputElementHeight = document.getElementById('elementHeight') as HTMLInputElement;
         this.inputElementCoordinateX = document.getElementById('elementCoordinateX') as HTMLInputElement;
@@ -149,6 +151,7 @@ export class ParameterEditor {
         this.selectElementType.onchange = ParameterEditor.ChangeType;
         this.selectElementParent.onchange = ParameterEditor.ChangeParent;
         this.checkboxElementTooltip.onchange = ParameterEditor.ChangeTooltip;
+        this.checkboxElementBorders.onchange = ParameterEditor.HideBorders;
         this.inputElementCoordinateX.onchange = ParameterEditor.InputCoordinateX;
         this.inputElementCoordinateY.onchange = ParameterEditor.InputCoordinateY;
         this.inputElementDiskTexture.onchange = (ev) => ParameterEditor.TextInputDiskTexture(ev, 'normal');
@@ -389,6 +392,26 @@ export class ParameterEditor {
         if(val) debugText("Is now a Tooltip")
         else debugText("No longer a Tooltip")
     }
+
+    static HideBorders(ev: Event): void {try{
+        const val = (ev.target as HTMLInputElement).checked;
+
+        let typs = FrameType
+
+        for(const fr of ProjectTree.inst().getIterator()) {
+
+            if(fr.type !== typs.ORIGIN && fr.type !== typs.HOR_BAR_BACKGROUND && fr.type != typs.HOR_BAR_BACKGROUND_TEXT && fr.type != typs.HOR_BAR_TEXT) {
+                if(val) {
+                    fr.custom.getElement().style.outlineWidth = "3px"
+                    console.log(fr.custom.getElement().style.outlineWidth)
+                } else {
+                    fr.custom.getElement().style.outlineWidth = "0px"
+                }
+            }
+        }
+        ProjectTree.ShowBorders = val;
+        debugText(`All element borders have been ${val? 'activated' : 'deactivated'}.`)
+    }catch(e){console.log('HideBorders: '+e)}}
 
     static InputCoordinateX(ev: Event): void {
         const loc = (ev.target as HTMLInputElement).value;
