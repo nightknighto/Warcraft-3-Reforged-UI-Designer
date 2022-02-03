@@ -1,55 +1,50 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
-import { writeFile, appendFile } from 'fs';
+import { writeFile, appendFile, mkdtempSync, writeFileSync } from 'fs';
 import { FrameType } from "../Editor/FrameLogic/FrameType"
 import { Editor } from "../Editor/Editor"
-import { SaveDialogReturnValue, remote } from 'electron';
+import { SaveDialogReturnValue, remote, clipboard } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
 import CustomComplex from '../Editor/FrameLogic/CustomComplex';
 import { readFileSync } from 'original-fs';
 
-/**0 for globals, 1 the body */
-
-async function finishExport(filepath: string) {try{
-    const buffer = readFileSync(filepath)
+//writes data into file and copies text to clipboard
+async function finalizeExport(data: string, filepath: string | null) {try{
+    if(filepath) {
+        writeFileSync(filepath, data)
+    }
+    
     window.focus()
-    navigator.clipboard.writeText(buffer.toString())
-        .then(() => {
-            alert(`Code copied to clipboard. 
-            File created at ${filepath}`);
-        })
-        .catch(err => {
-            alert(`Error in copying text: ${err}. Try again.
-            File has been created at ${filepath}`);
-        });
+    
+    clipboard.writeText(data)
+
+    alert(`Code copied to clipboard.${filepath? `
+    File created at `+filepath : ""}`);
 
 }catch(e){alert('error: '+e)}}
 
 export class ExportJass implements ICallableDivInstance { 
+    private saveToFile = false;
 
-    public SaveJASS(filepath: string): void {
+    constructor(saveToFile: boolean){
+        this.saveToFile = saveToFile;
+    }
+
+    public SaveJASS(filepath: string | null): void {
         try {
 
-            writeFile(filepath, JASS.globals, () => {
-                appendFile(filepath, TemplateReplace('jass',0), () => {
-                    appendFile(filepath, JASS.endglobals, () => {
-                        appendFile(filepath, JASS.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-                            appendFile(filepath, TemplateReplace('jass',1), () => {
-                                appendFile(filepath, JASS.libraryInit, () => {
-                                    appendFile(filepath, generalOptions('jass'), () => {
-                                        appendFile(filepath, TemplateReplace('jass',2), () => {
-                                            appendFile(filepath, JASS.endlibrary, () => {
-                                                finishExport(filepath)
-                                            })
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
-                })
-            })
+            let data = JASS.globals
+            data += TemplateReplace('jass',0)
+            data += JASS.endglobals
+            data += JASS.library.replace(/FRlib/gi, ProjectTree.LibraryName)
+            data += TemplateReplace('jass',1)
+            data += JASS.libraryInit
+            data += generalOptions('jass')
+            data += TemplateReplace('jass',2)
+            data += JASS.endlibrary
+            finalizeExport(data, filepath)
+            
 
         } catch (e) { alert("SaveJASS: " + e) }
     }
@@ -58,52 +53,52 @@ export class ExportJass implements ICallableDivInstance {
 
         ProjectTree.saveGeneralOptions();
 
-        const saveParams = remote.dialog.showSaveDialog({
-            filters: [
-                { name: 'JASS file', extensions: ['j'] },
-            ], properties: ['createDirectory']
-        });
+        if(this.saveToFile) {
+            const saveParams = remote.dialog.showSaveDialog({
+                filters: [
+                    { name: 'JASS file', extensions: ['j'] },
+                ], properties: ['createDirectory']
+            });
 
-        saveParams.then((saveData: SaveDialogReturnValue) => {
+            saveParams.then((saveData: SaveDialogReturnValue) => {
 
-            const filepathsections = saveData.filePath.split('.');
-            const fileExtension = filepathsections[filepathsections.length - 1];
+                const filepathsections = saveData.filePath.split('.');
+                const fileExtension = filepathsections[filepathsections.length - 1];
 
-            if (saveData.canceled) return;
+                if (saveData.canceled) return;
 
-            switch (fileExtension) {
-                case 'j': this.SaveJASS(saveData.filePath); break;
-                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-            }
+                switch (fileExtension) {
+                    case 'j': this.SaveJASS(saveData.filePath); break;
+                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                }
 
-        });
+            });
+        } else {
+            this.SaveJASS(null);
+        }
 
     }
 
 }
 export class ExportLua implements ICallableDivInstance { 
+    private saveToFile = false;
 
-    public SaveLUA(filepath: string): void {
+    constructor(saveToFile: boolean){
+        this.saveToFile = saveToFile;
+    }
 
-        writeFile(filepath, LUA.globals, () => {
-            appendFile(filepath, TemplateReplace('lua',0), () => {
-                appendFile(filepath, LUA.endglobals, () => {
-                    appendFile(filepath, LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-                        appendFile(filepath, TemplateReplace('lua',1), () => {
-                            appendFile(filepath, LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-                                appendFile(filepath, generalOptions('lua'), () => {
-                                    appendFile(filepath, TemplateReplace('lua',2), () => {
-                                        appendFile(filepath, LUA.endlibrary, () => {
-                                            finishExport(filepath)
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
-                })
-            })
-        })
+    public SaveLUA(filepath: string | null): void {
+
+        let data = LUA.globals
+        data += TemplateReplace('lua',0)
+        data += LUA.endglobals
+        data += LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName)
+        data += TemplateReplace('lua',1)
+        data += LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName)
+        data += generalOptions('lua')
+        data += TemplateReplace('lua',2)
+        data += LUA.endlibrary
+        finalizeExport(data, filepath)                        
 
     }
 
@@ -111,50 +106,52 @@ export class ExportLua implements ICallableDivInstance {
 
         ProjectTree.saveGeneralOptions();
 
-        const saveParams = remote.dialog.showSaveDialog({
-            filters: [
-                { name: 'LUA file', extensions: ['lua'] },
-            ], properties: ['createDirectory']
-        });
+        if(this.saveToFile) {
 
-        saveParams.then((saveData: SaveDialogReturnValue) => {
+            const saveParams = remote.dialog.showSaveDialog({
+                filters: [
+                    { name: 'LUA file', extensions: ['lua'] },
+                ], properties: ['createDirectory']
+            });
 
-            const filepathsections = saveData.filePath.split('.');
-            const fileExtension = filepathsections[filepathsections.length - 1];
+            saveParams.then((saveData: SaveDialogReturnValue) => {
 
-            if (saveData.canceled) return;
+                const filepathsections = saveData.filePath.split('.');
+                const fileExtension = filepathsections[filepathsections.length - 1];
 
-            switch (fileExtension) {
-                case 'lua': this.SaveLUA(saveData.filePath); break;
-                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-            }
+                if (saveData.canceled) return;
 
-        });
+                switch (fileExtension) {
+                    case 'lua': this.SaveLUA(saveData.filePath); break;
+                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                }
+
+            });
+        } else {
+            this.SaveLUA(null)
+        }
 
     }
 
 }
 export class ExportTS implements ICallableDivInstance { 
+    private saveToFile = false;
+
+    constructor(saveToFile: boolean | null){
+        this.saveToFile = saveToFile;
+    }
 
     public SaveTypescript(filepath: string): void {
 
-        writeFile(filepath, Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName), () => {
-            appendFile(filepath, Typescript.globals, () => {
-                appendFile(filepath, TemplateReplace('ts',0), () => {
-                    appendFile(filepath, Typescript.endglobals, () => {
-                        appendFile(filepath, Typescript.constructorInit, () => {
-                            appendFile(filepath, generalOptions('typescript'), () => {
-                                appendFile(filepath, TemplateReplace('ts',2), () => {
-                                    appendFile(filepath, Typescript.endconstructor_library, () => {
-                                        finishExport(filepath)
-                                    })
-                                })
-                            })
-                        })
-                    })
-                })
-            })
-        })
+        let data = Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName)
+        data += Typescript.globals
+        data += TemplateReplace('ts',0)
+        data += Typescript.endglobals
+        data += Typescript.constructorInit
+        data += generalOptions('typescript')
+        data += TemplateReplace('ts',2)
+        data += Typescript.endconstructor_library
+        finalizeExport(data, filepath)
 
     }
 
@@ -162,25 +159,29 @@ export class ExportTS implements ICallableDivInstance {
 
         ProjectTree.saveGeneralOptions();
 
-        const saveParams = remote.dialog.showSaveDialog({
-            filters: [
-                { name: 'Typescript file', extensions: ['ts'] }
-            ], properties: ['createDirectory']
-        });
+        if(this.saveToFile) {
+            const saveParams = remote.dialog.showSaveDialog({
+                filters: [
+                    { name: 'Typescript file', extensions: ['ts'] }
+                ], properties: ['createDirectory']
+            });
 
-        saveParams.then((saveData: SaveDialogReturnValue) => {
+            saveParams.then((saveData: SaveDialogReturnValue) => {
 
-            const filepathsections = saveData.filePath.split('.');
-            const fileExtension = filepathsections[filepathsections.length - 1];
+                const filepathsections = saveData.filePath.split('.');
+                const fileExtension = filepathsections[filepathsections.length - 1];
 
-            if (saveData.canceled) return;
+                if (saveData.canceled) return;
 
-            switch (fileExtension) {
-                case 'ts': this.SaveTypescript(saveData.filePath); break;
-                default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-            }
+                switch (fileExtension) {
+                    case 'ts': this.SaveTypescript(saveData.filePath); break;
+                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                }
 
-        });
+            });
+        } else {
+            this.SaveTypescript(null);
+        }
 
     }
 

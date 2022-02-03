@@ -111,7 +111,7 @@ export class RibbonOption {
         dropBtn.setAttribute('data-bs-toggle', "dropdown")
         dropBtn.setAttribute('aria-haspopup', "true")
         dropBtn.setAttribute('aria-expanded', "false")
-        dropBtn.setAttribute('data-bs-auto-close',"outside")
+        if(name !== "Export") dropBtn.setAttribute('data-bs-auto-close',"outside")
 
         const ul = div.appendChild(document.createElement('ul'))
         ul.setAttribute('class', 'dropdown-menu')

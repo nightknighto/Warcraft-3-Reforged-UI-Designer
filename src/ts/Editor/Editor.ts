@@ -72,9 +72,15 @@ export class Editor {
 
         const expRib = new RibbonOption('Export', null)
         fileMenu.addRibbonOption(expRib);
-        expRib.addMenuOption('JASS', new ExportJass)
-        expRib.addMenuOption('LUA', new ExportLua)
-        expRib.addMenuOption('TYPESCRIPT', new ExportTS)
+        expRib.addMenuOption('JASS', new ExportJass(false))
+        expRib.addMenuOption('LUA', new ExportLua(false))
+        expRib.addMenuOption('TYPESCRIPT', new ExportTS(false))
+
+        const expRibAs = new RibbonOption('Export As', null)
+        fileMenu.addRibbonOption(expRibAs);
+        expRibAs.addMenuOption('JASS', new ExportJass(true))
+        expRibAs.addMenuOption('LUA', new ExportLua(true))
+        expRibAs.addMenuOption('TYPESCRIPT', new ExportTS(true))
 
 
         editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()));
