@@ -1,6 +1,15 @@
 import { Color, RGBA } from 'custom-electron-titlebar'
 import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance"
 import { Editor } from "../Editor";
+import { ProjectTree } from '../ProjectTree';
+
+export enum AppInterfaces {
+    wood = 0,
+    brown = 1,
+    purple = 2,
+    blue = 3,
+    dark = 4,
+}
 
 export class AppInterfaceWoodenTexture implements ICallableDivInstance {
     run() {
@@ -30,6 +39,8 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
         element.style.border = 'unset'
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
+
+        ProjectTree.AppInterface = AppInterfaces.wood
     }
 }
 export class AppInterfaceBrownColors implements ICallableDivInstance {
@@ -71,6 +82,8 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
+
+        ProjectTree.AppInterface = AppInterfaces.brown
     }
 }
 export class AppInterfacePurpleColors implements ICallableDivInstance {
@@ -112,7 +125,8 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'visible'
-
+        
+        ProjectTree.AppInterface = AppInterfaces.purple
     }
 }
 export class AppInterfaceBlueColors implements ICallableDivInstance {
@@ -154,7 +168,8 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
         element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
-
+        
+        ProjectTree.AppInterface = AppInterfaces.blue
     }
 }
 
@@ -197,6 +212,7 @@ export class AppInterfaceDarkColors implements ICallableDivInstance {
         element.style.color = 'rgb(248, 224, 197)';
         element = document.getElementById('barTabImg')
         element.style.visibility = 'hidden'
-
+        
+        ProjectTree.AppInterface = AppInterfaces.dark
     }
 }

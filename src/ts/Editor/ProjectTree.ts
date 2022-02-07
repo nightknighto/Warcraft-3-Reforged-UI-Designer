@@ -7,6 +7,7 @@ import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
 import CustomComplex from './FrameLogic/CustomComplex';
 import { ParameterEditor } from './ParameterEditor';
+import { AppInterfaces, AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfaceBlueColors, AppInterfacePurpleColors, AppInterfaceDarkColors } from './Menus/App Interface';
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
@@ -20,6 +21,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static readonly SAVE_KEY_HIDE_PORTRAIT = "Portrait";
     public static readonly SAVE_KEY_HIDE_CHAT = "Chat";
     public static readonly SAVE_KEY_ORIGIN_MODE = "OriginMode";
+    public static readonly SAVE_KEY_APP_INTERFACE = "AppInterface";
 
     public static readonly outlineUnSelected_Tooltip = "rgba(220, 242, 19, 0.5)" //yellow
     public static readonly outlineUnSelected = "rgba(0, 230, 64, 0.4)" //green
@@ -40,6 +42,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static OriginMode: string = 'gameui';
 
     public static ShowBorders: boolean = true
+    public static AppInterface = AppInterfaces.dark
 
     //path of project that was loaded. used for "Save" functionality
     public static fileSavePath: string | null = null;
@@ -156,6 +159,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_HIDE_PORTRAIT, ProjectTree.HidePortrait);
         container.save(ProjectTree.SAVE_KEY_HIDE_CHAT, ProjectTree.HideChat);
         container.save(ProjectTree.SAVE_KEY_ORIGIN_MODE, ProjectTree.OriginMode);
+        container.save(ProjectTree.SAVE_KEY_APP_INTERFACE, ProjectTree.AppInterface);
 
     }
 
@@ -232,6 +236,24 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 ProjectTree.setOriginMode(container.load(ProjectTree.SAVE_KEY_ORIGIN_MODE));
             } catch(e) {alert("Loading Error: General Options Missing.");}
 
+            
+            if(container.load(ProjectTree.SAVE_KEY_APP_INTERFACE) !== undefined) {
+                ProjectTree.AppInterface = container.load(ProjectTree.SAVE_KEY_APP_INTERFACE);
+                const app = ProjectTree.AppInterface;
+                switch (app) {
+                    case AppInterfaces.wood:
+                        new AppInterfaceWoodenTexture().run(); break;
+                    case AppInterfaces.brown:
+                        new AppInterfaceBrownColors().run(); break;
+                    case AppInterfaces.blue:
+                        new AppInterfaceBlueColors().run(); break;
+                    case AppInterfaces.purple:
+                        new AppInterfacePurpleColors().run(); break;
+                    case AppInterfaces.dark:
+                        new AppInterfaceDarkColors().run(); break;
+                }
+            }
+
 
             //this should happen after those values are loaded
             const par = Editor.GetDocumentEditor().parameterEditor
@@ -243,7 +265,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             par.checkboxButtonBar.checked = ProjectTree.HideButtonBar
             par.checkboxPortrait.checked = ProjectTree.HidePortrait
             par.checkboxChat.checked = ProjectTree.HideChat
-            
+
             ProjectTree.refreshElements()
         }
         else {
