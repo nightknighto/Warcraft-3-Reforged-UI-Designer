@@ -71,10 +71,6 @@ export class FrameBuilder implements CustomComplexProps{
             this.isRelative = container.load(CustomComplex.SAVE_KEY_TRIGGER_IS_RELATIVE);
             this.textureBackDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH)
             this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH)
-            console.log('textureDisk: '+this.textureDiskPath)
-            console.log('textureWC3: '+this.textureWc3Path)
-            console.log('textureBackDisk: '+this.textureBackDiskPath)
-            console.log('textureBackWC3: '+this.textureBackWc3Path)
         }catch(e){console.log('textures error: '+e)}
         // if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
         // if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }

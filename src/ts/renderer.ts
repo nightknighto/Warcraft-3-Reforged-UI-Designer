@@ -118,33 +118,7 @@ Element.formIMG.addEventListener("submit", e => {
 try{
 
   window.onresize = () =>{
-
-    for(const el of ProjectTree.inst().getIterator()) {
-
-      if(el.type === FrameType.ORIGIN) { //base
-        continue;
-      }
-      
-      const image = el.custom.getElement()
-      const rect = editor.workspaceImage.getBoundingClientRect() 
-      const workspace = Editor.GetDocumentEditor().workspaceImage
-      const horizontalMargin = Editor.getInnerMargin()
-  
-      const x = el.custom.getLeftX();
-      const y = el.custom.getBotY();
-      const w = el.custom.getWidth();
-      const h = el.custom.getHeight();
-  
-      image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
-      image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
-
-      image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-      image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
-
-      el.custom.setScale(el.custom.getScale())
-  
-    }
-
+    ProjectTree.refreshElements()
   }
 
 //keyboard shortcuts

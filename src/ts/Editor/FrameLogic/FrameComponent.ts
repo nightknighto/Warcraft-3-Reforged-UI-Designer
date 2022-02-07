@@ -8,6 +8,7 @@ import CustomComplex from "./CustomComplex";
 import FrameBaseContent from "./FrameBaseContent";
 import { ProjectTree } from "../ProjectTree";
 import ChangeFrameParent from "../../Commands/Implementation/ChangeFrameParent";
+import { ParameterEditor } from "../ParameterEditor";
 
 export class FrameComponent implements Saveable {
 
@@ -27,6 +28,8 @@ export class FrameComponent implements Saveable {
     public readonly custom: CustomComplex;
     public readonly treeElement: HTMLElement;
     public parentOption: HTMLOptionElement;
+    readonly layerDiv: HTMLDivElement;
+    // private orderInParent = 0; 
 
     public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
@@ -77,6 +80,7 @@ export class FrameComponent implements Saveable {
             this.children = [];
             this.parentOption = document.createElement('option');
             this.type = frameBuildOptions.type;
+            this.layerDiv = document.createElement("div")
             this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions);
 
             this.setName(frameBuildOptions.name);
@@ -119,6 +123,15 @@ export class FrameComponent implements Saveable {
 
     private appendFrame(frame: FrameComponent): void {
 
+        // if(!this.layerDiv) {
+        //     this.layerDiv = document.createElement("div")
+        //     this.getParent().layerDiv.appendChild(this.layerDiv)
+        // }
+
+        // this.layerDiv.appendChild(frame.custom.getElement())
+
+        this.layerDiv.appendChild(frame.layerDiv)
+        
         this.children.push(frame);
         this.treeElement.append(frame.treeElement);
 

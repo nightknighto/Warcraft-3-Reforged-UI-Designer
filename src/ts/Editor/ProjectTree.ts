@@ -48,6 +48,36 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         return Editor.GetDocumentEditor().projectTree
     }
 
+    public static refreshElements() {
+        
+
+    for(const el of ProjectTree.inst().getIterator()) {
+
+        if(el.type === FrameType.ORIGIN) { //base
+          continue;
+        }
+        
+        const image = el.custom.getElement()
+        const rect = Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect() 
+        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const horizontalMargin = Editor.getInnerMargin()
+    
+        const x = el.custom.getLeftX();
+        const y = el.custom.getBotY();
+        const w = el.custom.getWidth();
+        const h = el.custom.getHeight();
+    
+        image.style.width = w / 0.8 * (workspace.width-2*horizontalMargin) + "px"
+        image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
+  
+        image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
+        image.style.top = `${rect.bottom - y*rect.height/0.6 - image.offsetHeight - 120}px`
+  
+        el.custom.setScale(el.custom.getScale())
+    
+      }
+    }
+
     public static setOriginMode(value: string) {
         if(value != 'gameui' && value != 'worldframe' && value != 'consoleui') value = 'gameui';
 
@@ -90,6 +120,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame;
         this.rootFrame.treeElement.style.fontWeight = "600"
+        Editor.GetDocumentEditor().workspace.appendChild(this.rootFrame.layerDiv)
 
         this.panelTree = document.getElementById('panelTreeView');
 
@@ -212,6 +243,8 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             par.checkboxButtonBar.checked = ProjectTree.HideButtonBar
             par.checkboxPortrait.checked = ProjectTree.HidePortrait
             par.checkboxChat.checked = ProjectTree.HideChat
+            
+            ProjectTree.refreshElements()
         }
         else {
             console.error("Could not parse JSON");

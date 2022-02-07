@@ -102,7 +102,8 @@ export default abstract class FrameBaseContent implements Saveable {
 
         this.frameComponent = frameComponent;
         this.element = element;
-        Editor.GetDocumentEditor().workspace.appendChild(this.element);
+        frameComponent.layerDiv.appendChild(this.element);
+
 
         this.setWidth(width);
         this.setHeight(height);

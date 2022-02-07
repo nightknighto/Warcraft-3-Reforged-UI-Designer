@@ -29,7 +29,7 @@ export class Editor {
 
     //Workspace
     public readonly workspaceImage: HTMLImageElement;
-    public readonly workspace: HTMLElement;
+    public readonly workspace: HTMLDivElement;
 
     //Debug
     public readonly debugLine: HTMLElement;
@@ -223,7 +223,7 @@ export class Editor {
         this.btnCloseParameterPanel = document.getElementById('panelClose') as HTMLButtonElement;
 
         this.workspaceImage = document.getElementById('workspace') as HTMLImageElement;
-        this.workspace = document.getElementById('workspaceContainer') as HTMLElement;
+        this.workspace = document.getElementById('workspaceContainer') as HTMLDivElement;
 
         this.debugLine = document.getElementById('debugLine');
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates');

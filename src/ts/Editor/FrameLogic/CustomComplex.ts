@@ -135,7 +135,6 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             }
         } else {
             const ext = extname(basename(Input))
-            console.log(ext)
             if(which == 'normal') this.textureDiskPath = Input;
             else this.textureBackDiskPath = Input;
             
