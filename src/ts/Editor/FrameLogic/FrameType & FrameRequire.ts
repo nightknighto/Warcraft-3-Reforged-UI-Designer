@@ -18,8 +18,10 @@ export enum FrameType {
     HOR_BAR_TEXT = 16,
     HOR_BAR_BACKGROUND_TEXT = 17,
     TEXTAREA = 18,
+    EDITBOX = 19,
 }
 
 export const FrameRequire = {
-    "EDITBOX": `UI\\FrameDef\\UI\\escmenutemplates.fdf`
+    "TEXTAREA": `UI\\FrameDef\\UI\\escmenutemplates.fdf`,
+    "EDITBOX": `UI\\FrameDef\\UI\\escmenutemplates.fdf`,
 }

@@ -355,9 +355,21 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemTextContainer.style.right = '6px'
             this.elemTextContainer.style.top = '6px'
             this.elemTextContainer.style.bottom = '16px'
-            this.elemTextContainer.style.lineHeight = '1.8px'
+            this.elemTextContainer.style.lineHeight = '10px'
             this.elemTextContainer.style.overflowY = "auto"
             this.elemTextContainer.className = "scroll_textarea"
+        }
+        if(ty == f.EDITBOX) {
+            ImageSetup()
+            TextSetup()
+            this.setColor('#ffffff')
+            this.elemTextContainer.style.height = ''
+            this.elemTextContainer.style.top = '45%'
+            // this.elemTextContainer.style.right = '6px'
+            this.elemTextContainer.style.width = '100vw'
+            this.elemTextContainer.style.left = '6px'
+            this.elemTextContainer.style.bottom = '16px'
+            this.element.style.overflowX = "hidden"
         };
     }
     /* ***********************************************  */

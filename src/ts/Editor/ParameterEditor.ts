@@ -624,6 +624,7 @@ export class ParameterEditor {
                 let txt = ""
                 let dsc = ""
                 let func = ""
+                let requireExt = false
 
                 /**In case another native needs to be inserted */
                 let hideNativePart1 = `<strong>Hide/Show:</strong>
@@ -806,6 +807,24 @@ export class ParameterEditor {
                         <br>Adds to the text. This won't delete the text, just add to it. Because there are limitations on string size in JASS, big texts
                         are divided into several strings and put in the TextArea through 1 SetText and multiple AddText.
                         <hr>`+hideNativeFull
+                        requireExt = true
+
+                        break;
+                    case ft.EDITBOX:
+                        txt="Edit Box"
+                        dsc="A box in which the players can interact with the text inside, such as copying text and or edit/overwrite it. Useful for copying save codes and links."
+                        func=`It consists of a box with only 1 line of text in the middle. Color codes do not work.
+                        
+                        <strong>Change Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetText( ElementName, udg_StringVariable )</span> 
+                        <br>Replace "StringVariable" with the name of a string variable.
+                        <br>Changes the text. Put color codes in the text for coloring. Any number formatting is done in the variable before using it here.
+                        <hr><strong>Limit Input Text:</strong>
+                        <br><span class="bg-dark text-white">call BlzFrameSetTextSizeLimit( ElementName, number )</span> 
+                        <br>Replace "number" with the max number of characters allowed. Ex: Setting to 12 will allow players to only input 12 characters.
+                        <br>Puts a limit to the number of characters a player can write inside the Edit Box.
+                        <hr>`+hideNativeFull
+                        requireExt = true
 
                         break;
                     // case ft.BROWSER_BUTTON:
@@ -841,6 +860,7 @@ export class ParameterEditor {
                 // this.fieldElementInfoDesc.setAttribute('title', dsc)
                 Tooltips.TooltipDesc[0].setContent(dsc)
                 Tooltips.TooltipFunc[0].setContent(func)
+                document.getElementById('ElementInfoExtFile').style.display = requireExt? 'initial' : 'none'
 
 
                 this.setupLists(frame)

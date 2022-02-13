@@ -317,6 +317,9 @@ export class FrameComponent implements Saveable {
                 f.color = true;
                 f.textBig = true;
                 break;
+            case ft.EDITBOX:
+                f.text = true;
+                break;
             // case ft.CHECKBOX:
             //     f.trigVar = true;
             //     break;

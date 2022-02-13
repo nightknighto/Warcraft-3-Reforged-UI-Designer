@@ -9,7 +9,7 @@ import { ProjectTree } from '../Editor/ProjectTree';
 import CustomComplex from '../Editor/FrameLogic/CustomComplex';
 
 //writes data into file and copies text to clipboard
-async function finalizeExport(data: string, filepath: string | null) {try{
+async function finalizeExport(data: string, filepath: string | null, FDFs: string[]) {try{
     if(filepath) {
         writeFileSync(filepath, data)
     }
@@ -19,7 +19,8 @@ async function finalizeExport(data: string, filepath: string | null) {try{
     clipboard.writeText(data)
 
     alert(`Code copied to clipboard.${filepath? `
-    File created at `+filepath : ""}`);
+    File created at `+filepath : ""}${FDFs.length > 0? `
+    TOC file created at ${filepath.split('.')[0]}TOC.toc ... Put it in your map and delete the "war3mapImported\\" prefix.` : ""}`);
 
 }catch(e){alert('error: '+e)}}
 
@@ -30,6 +31,9 @@ function getFDFsList(): string[] {
         let require = ""
         switch (el.type) {
             case ft.TEXTAREA:
+                require = FrameRequire.TEXTAREA
+            break;
+            case ft.EDITBOX:
                 require = FrameRequire.EDITBOX
             break;
         }
@@ -46,7 +50,7 @@ function getFDFsList(): string[] {
 }
 
 /**Creates the TOC file and fills it with the FDFs.*/
-function createTOCfile(filepath: string | null, FDFsRequired) {
+function createTOCfile(filepath: string | null, FDFsRequired: string[]) {
 
     if(FDFsRequired.length > 0) {
         if(filepath !== null) {
@@ -69,10 +73,13 @@ export class Export implements ICallableDivInstance {
 
     public Save(filepath: string | null): void {
         let FDFs = getFDFsList()
-        createTOCfile(filepath, FDFs)
-        let tocname = filepath.split('\\').pop();
-        tocname = tocname.split('.')[0]
-        tocname = tocname + 'TOC'
+        let tocname = ""
+        if(filepath !== null) {
+            createTOCfile(filepath, FDFs)
+            let tocname = filepath.split('\\').pop();
+            tocname = tocname.split('.')[0]
+            tocname = tocname + 'TOC'
+        }
 
         let data;
         if(this.lang == 'jass') {
@@ -113,7 +120,7 @@ export class Export implements ICallableDivInstance {
             data += Typescript.endconstructor_library
         }
 
-        finalizeExport(data, filepath)
+        finalizeExport(data, filepath, FDFs)
             
     }
 
@@ -491,6 +498,9 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
 
         case FrameType.TEXTAREA:
             return JASS.TextArea
+        
+        case FrameType.EDITBOX:
+            return JASS.EditBox
     }
     return ""
 }
@@ -556,6 +566,9 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
         
         case FrameType.TEXTAREA:
             return LUA.TextArea
+
+        case FrameType.EDITBOX:
+            return LUA.EditBox
     }
     return ""
 }
@@ -621,6 +634,9 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
             
         case FrameType.TEXTAREA:
             return Typescript.TextArea
+            
+        case FrameType.EDITBOX:
+            return Typescript.EditBox
     }
     return ""
 }

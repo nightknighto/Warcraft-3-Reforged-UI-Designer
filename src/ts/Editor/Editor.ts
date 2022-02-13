@@ -133,6 +133,11 @@ export class Editor {
         newFrameBuilder.textureDiskPath = './files/images/TextArea.png';
         newFrameBuilder.type = FrameType.TEXTAREA;
         ribText.addMenuOption('Text Area', new CreateFrameAtSelected(newFrameBuilder));
+
+        newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.textureDiskPath = './files/images/EditBox.png';
+        newFrameBuilder.type = FrameType.EDITBOX;
+        ribText.addMenuOption('Edit Box', new CreateFrameAtSelected(newFrameBuilder));
         
         const ribOthers = new RibbonOption('Others', null)
         insertMenu.addRibbonOption(ribOthers)
@@ -143,17 +148,17 @@ export class Editor {
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/ScriptDialogButton.png';
         newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON;
-        ribButton.addMenuOption('Script Dialog Button', new CreateFrameAtSelected(newFrameBuilder));
+        ribButton.addMenuOption('Black Text Button', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/BrowserButton.png';
         newFrameBuilder.type = FrameType.BROWSER_BUTTON;
-        ribButton.addMenuOption('Browser Button', new CreateFrameAtSelected(newFrameBuilder));
+        ribButton.addMenuOption('Blue Text Button', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/InvisButton.png';
         newFrameBuilder.type = FrameType.INVIS_BUTTON;
-        ribButton.addMenuOption('Invis Button', new CreateFrameAtSelected(newFrameBuilder));
+        ribButton.addMenuOption('Invisible Button', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/QuestCheckBox.png';
@@ -185,32 +190,32 @@ export class Editor {
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/CheckListBox.png';
         newFrameBuilder.type = FrameType.CHECKLIST_BOX;
-        ribBackdrop.addMenuOption('Checklist Box', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Semi-transparent w border', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/OptionsPopupMenuBackdropTemplate.png';
         newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE;
-        ribBackdrop.addMenuOption('Options Popup', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Black Box with arrow', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/QuestButtonBaseTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE;
-        ribBackdrop.addMenuOption('Button Base', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Black Backdrop', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/QuestButtonPushedBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE;
-        ribBackdrop.addMenuOption('Button Pushed', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Grey Backdrop', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/QuestButtonDisabledBackdropTemplate.png';
         newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE;
-        ribBackdrop.addMenuOption('Button Disabled', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Very Black Backdrop', new CreateFrameAtSelected(newFrameBuilder));
 
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.textureDiskPath = './files/images/EscMenuBackdrop.png';
         newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP;
-        ribBackdrop.addMenuOption('Esc Menu', new CreateFrameAtSelected(newFrameBuilder));
+        ribBackdrop.addMenuOption('Default Menus Backdrop', new CreateFrameAtSelected(newFrameBuilder));
 
         OptionsMenu.override = () => {
             ProjectTree.inst().select(ProjectTree.inst().rootFrame)
