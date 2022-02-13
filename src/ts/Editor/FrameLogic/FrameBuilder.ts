@@ -1,4 +1,4 @@
-import { FrameType } from "./FrameType";
+import { FrameType } from "./FrameType & FrameRequire";
 import { Editor } from "../Editor";
 import SaveContainer from "../../Persistence/SaveContainer";
 import { FrameComponent } from "./FrameComponent";

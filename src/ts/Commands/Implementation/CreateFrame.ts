@@ -4,7 +4,7 @@ import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
 import RemoveFrame from "./RemoveFrame";
-import { FrameType } from "../../Editor/FrameLogic/FrameType";
+import { FrameType } from "../../Editor/FrameLogic/FrameType & FrameRequire";
 
 export default class CreateFrame extends SimpleCommand{
     private frameBuilder: FrameBuilder;

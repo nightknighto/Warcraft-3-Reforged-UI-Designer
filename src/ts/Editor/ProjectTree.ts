@@ -1,7 +1,7 @@
 import { Queue } from 'queue-typescript';
 import { FrameComponent } from './FrameLogic/FrameComponent';
 import { FrameBuilder } from './FrameLogic/FrameBuilder';
-import { FrameType } from './FrameLogic/FrameType';
+import { FrameType, FrameRequire } from './FrameLogic/FrameType & FrameRequire';
 import { Editor } from './Editor';
 import Saveable from '../Persistence/Saveable';
 import SaveContainer from '../Persistence/SaveContainer';
@@ -323,4 +323,5 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             }
         }
     }
+    
 }

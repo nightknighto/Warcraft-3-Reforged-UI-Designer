@@ -23,7 +23,7 @@ import { ParameterEditor } from "./Editor/ParameterEditor";
 import CustomComplex from "./Editor/FrameLogic/CustomComplex";
 import { Tooltips } from "./Classes & Functions/Tooltips";
 import SaveDocument from "./Persistence/SaveDocument";
-import { FrameType } from "./Editor/FrameLogic/FrameType";
+import { FrameType } from "./Editor/FrameLogic/FrameType & FrameRequire";
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);

@@ -1,7 +1,7 @@
 import { debugText } from "../../Classes & Functions/Mini-Functions";
 import { Editor } from "../../Editor/Editor";
 import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
-import { FrameType } from "../../Editor/FrameLogic/FrameType";
+import { FrameType } from "../../Editor/FrameLogic/FrameType & FrameRequire";
 import SaveContainer from "../../Persistence/SaveContainer";
 import SimpleCommand from "../SimpleCommand";
 import Load from "./Load";
