@@ -110,9 +110,10 @@ body{
 }
 
 #panelParameters{
+    resize: horizontal;
     position: fixed;
     top:120px;
-    max-width: 200px;
+    max-width: 50%;
     min-width: 80px;
     left:0;
     
@@ -187,14 +188,23 @@ body{
 #panelTree{
     position: fixed;
     width: 200px;
+    direction: rtl;
+    max-width: 50%;
+    min-width: 40px;
+    overflow: scroll;
+    resize: horizontal;
 
     right: 0;
     top:120px;
-    overflow-x: auto;
-    overflow-y: auto;
 
     padding-right: 0.5%;
     
+}
+
+#panelTreeInnerDiv {
+    direction: ltr;
+    overflow: auto;
+    height: 100%;
 }
 
 #treeClose{
