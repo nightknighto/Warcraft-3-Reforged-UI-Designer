@@ -144,6 +144,38 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.5.0</h2>
+                                        <div class="card-body">
+                                            <h3 class="text-white">Version Credits: Tasyen Tutorials</h3>
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: EditBox (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Text Box (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Custom Background Option (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Option to hide or show element Borders</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Relative Positioning Option on elements (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">Update: Element Layering Display finally fixed</li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: Save As & Export As. New Shortcut: CTRL+S</li>
+                                                        <li class="list-group-item list-group-item-primary">Update: Panels are now expandable</li>
+                                                        <li class="list-group-item list-group-item-primary">Default Text color is now wc3's gold color</li>
+                                                        <li class="list-group-item list-group-item-primary">Project File now saves the app interface as well</li>
+                                                        <li class="list-group-item list-group-item-primary">Bug fixes & experience improvements</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.4.0</h2>
                                         <div class="card-body">
                                             <h3 class="text-white">Version Credits: GhostWolf/PuffTheMagicDragonIsNoMore</h3>
