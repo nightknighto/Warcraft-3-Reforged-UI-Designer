@@ -14,7 +14,7 @@ import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
 import { Export } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
-import { BackgroundTexture } from "./Menus/Backgrounds";
+import { BackgroundTexture, CustomBackground } from "./Menus/Backgrounds";
 import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors, AppInterfaceBlueColors, AppInterfaceDarkColors } from "./Menus/App Interface";
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from "../Persistence/SaveDocument";
@@ -99,6 +99,7 @@ export class Editor {
         viewMenu.addRibbonOption(ribBackground);
         ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture("./files/images/backgroundWorkspace.png"))
         ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture("./files/images/backgroundWorkspace2.png"))
+        ribBackground.addMenuOption('Custom Background (Experimental)', new CustomBackground())
 
         infoMenu.addRibbonOption(new RibbonOption('About Us', null));
         infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null));
