@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FrameBuilder } from "./FrameLogic/FrameBuilder";
-import { FrameType } from "./FrameLogic/FrameType";
+import { FrameType } from "./FrameLogic/FrameType & FrameRequire";
 import { RibbonMenu } from "./Menus/RibbonMenu";
 import { RibbonOption } from "./Menus/RibbonOption";
 import { TabsMenu } from "./Menus/TabsMenu";
@@ -12,7 +12,7 @@ import ChangeStack from "./ChangeStack";
 import Undo from "../Commands/Undo";
 import Redo from "../Commands/Redo";
 import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected";
-import { ExportJass, ExportLua, ExportTS } from "../Classes & Functions/Export";
+import { Export } from "../Classes & Functions/Export";
 import NewDocument from "../Persistence/NewDocument";
 import { BackgroundTexture } from "./Menus/Backgrounds";
 import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors, AppInterfaceBlueColors, AppInterfaceDarkColors } from "./Menus/App Interface";
@@ -72,15 +72,15 @@ export class Editor {
 
         const expRib = new RibbonOption('Export', null)
         fileMenu.addRibbonOption(expRib);
-        expRib.addMenuOption('JASS', new ExportJass(false))
-        expRib.addMenuOption('LUA', new ExportLua(false))
-        expRib.addMenuOption('TYPESCRIPT', new ExportTS(false))
+        expRib.addMenuOption('JASS', new Export(false, 'jass'))
+        expRib.addMenuOption('LUA', new Export(false, 'lua'))
+        expRib.addMenuOption('TYPESCRIPT', new Export(false, 'ts'))
 
         const expRibAs = new RibbonOption('Export As', null)
         fileMenu.addRibbonOption(expRibAs);
-        expRibAs.addMenuOption('JASS', new ExportJass(true))
-        expRibAs.addMenuOption('LUA', new ExportLua(true))
-        expRibAs.addMenuOption('TYPESCRIPT', new ExportTS(true))
+        expRibAs.addMenuOption('JASS', new Export(true, 'jass'))
+        expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
+        expRibAs.addMenuOption('TYPESCRIPT', new Export(true, 'ts'))
 
 
         editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()));
@@ -119,12 +119,20 @@ export class Editor {
         insertMenu.addRibbonOption(ribBackdrop)
         ribBackdrop.addMenuOption('Custom Backdrop', new CreateFrameAtSelected(newFrameBuilder));
 
+
         newFrameBuilder = new FrameBuilder(true);
         newFrameBuilder.type = FrameType.TEXT_FRAME;
         newFrameBuilder.text = "Text Frame"
         newFrameBuilder.width = 0.07
         newFrameBuilder.height = 0.07
-        insertMenu.addRibbonOption(new RibbonOption('Texts', new CreateFrameAtSelected(newFrameBuilder)))
+        const ribText = new RibbonOption('Texts', new CreateFrameAtSelected(newFrameBuilder))
+        insertMenu.addRibbonOption(ribText);
+        ribText.addMenuOption('Text Frame', new CreateFrameAtSelected(newFrameBuilder))
+
+        newFrameBuilder = new FrameBuilder(true);
+        newFrameBuilder.textureDiskPath = './files/images/TextArea.png';
+        newFrameBuilder.type = FrameType.TEXTAREA;
+        ribText.addMenuOption('Text Area', new CreateFrameAtSelected(newFrameBuilder));
         
         const ribOthers = new RibbonOption('Others', null)
         insertMenu.addRibbonOption(ribOthers)

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
-import { writeFile, appendFile, mkdtempSync, writeFileSync } from 'fs';
-import { FrameType } from "../Editor/FrameLogic/FrameType"
+import { writeFileSync } from 'fs';
+import { FrameType, FrameRequire } from "../Editor/FrameLogic/FrameType & FrameRequire"
 import { Editor } from "../Editor/Editor"
 import { SaveDialogReturnValue, remote, clipboard } from 'electron';
 import { ProjectTree } from '../Editor/ProjectTree';
 import CustomComplex from '../Editor/FrameLogic/CustomComplex';
-import { readFileSync } from 'original-fs';
 
 //writes data into file and copies text to clipboard
 async function finalizeExport(data: string, filepath: string | null) {try{
@@ -24,135 +23,98 @@ async function finalizeExport(data: string, filepath: string | null) {try{
 
 }catch(e){alert('error: '+e)}}
 
-export class ExportJass implements ICallableDivInstance { 
-    private saveToFile = false;
+function getFDFsList(): string[] {
+    let FDFsRequired: string[] = []
+    const ft = FrameType;
+    for(let el of ProjectTree.inst().getIterator()) {
+        let require = ""
+        switch (el.type) {
+            case ft.TEXTAREA:
+                require = FrameRequire.EDITBOX
+            break;
+        }
 
-    constructor(saveToFile: boolean){
-        this.saveToFile = saveToFile;
+        if(require !== "") {
+            if (FDFsRequired.indexOf(require) < 0) {
+                FDFsRequired.push(require)
+            }
+        }
+
     }
 
-    public SaveJASS(filepath: string | null): void {
-        try {
+    return FDFsRequired;
+}
 
-            let data = JASS.globals
+/**Creates the TOC file and fills it with the FDFs.*/
+function createTOCfile(filepath: string | null, FDFsRequired) {
+
+    if(FDFsRequired.length > 0) {
+        if(filepath !== null) {
+            let f = filepath.split('.'); //splits into 2 parts, part 1 is path before the .jass or lua, and part 2 is jass or lua 
+            let TOCpath = f[0] + "TOC" + ".toc"
+            writeFileSync( TOCpath, FDFsRequired.join("\n")+"\n ")
+        }
+    }
+}
+
+
+export class Export implements ICallableDivInstance { 
+    private saveToFile = false;
+    private lang: 'jass' | 'lua' | 'ts' = 'jass'
+
+    constructor(saveToFile: boolean, lang: 'jass' | 'lua' | 'ts'){
+        this.saveToFile = saveToFile;
+        this.lang = lang;
+    }
+
+    public Save(filepath: string | null): void {
+        let FDFs = getFDFsList()
+        createTOCfile(filepath, FDFs)
+        let tocname = filepath.split('\\').pop();
+        tocname = tocname.split('.')[0]
+        tocname = tocname + 'TOC'
+
+        let data;
+        if(this.lang == 'jass') {
+            data = JASS.globals
             data += TemplateReplace('jass',0)
             data += JASS.endglobals
             data += JASS.library.replace(/FRlib/gi, ProjectTree.LibraryName)
             data += TemplateReplace('jass',1)
             data += JASS.libraryInit
             data += generalOptions('jass')
+            if(FDFs.length > 0) data += JASS.LoadTOC.replace("name", tocname) 
             data += TemplateReplace('jass',2)
             data += JASS.endlibrary
-            finalizeExport(data, filepath)
-            
-
-        } catch (e) { alert("SaveJASS: " + e) }
-    }
-
-    public run(): void {
-
-        ProjectTree.saveGeneralOptions();
-
-        if(this.saveToFile) {
-            const saveParams = remote.dialog.showSaveDialog({
-                filters: [
-                    { name: 'JASS file', extensions: ['j'] },
-                ], properties: ['createDirectory']
-            });
-
-            saveParams.then((saveData: SaveDialogReturnValue) => {
-
-                const filepathsections = saveData.filePath.split('.');
-                const fileExtension = filepathsections[filepathsections.length - 1];
-
-                if (saveData.canceled) return;
-
-                switch (fileExtension) {
-                    case 'j': this.SaveJASS(saveData.filePath); break;
-                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-                }
-
-            });
-        } else {
-            this.SaveJASS(null);
         }
 
-    }
-
-}
-export class ExportLua implements ICallableDivInstance { 
-    private saveToFile = false;
-
-    constructor(saveToFile: boolean){
-        this.saveToFile = saveToFile;
-    }
-
-    public SaveLUA(filepath: string | null): void {
-
-        let data = LUA.globals
-        data += TemplateReplace('lua',0)
-        data += LUA.endglobals
-        data += LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName)
-        data += TemplateReplace('lua',1)
-        data += LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName)
-        data += generalOptions('lua')
-        data += TemplateReplace('lua',2)
-        data += LUA.endlibrary
-        finalizeExport(data, filepath)                        
-
-    }
-
-    public run(): void {
-
-        ProjectTree.saveGeneralOptions();
-
-        if(this.saveToFile) {
-
-            const saveParams = remote.dialog.showSaveDialog({
-                filters: [
-                    { name: 'LUA file', extensions: ['lua'] },
-                ], properties: ['createDirectory']
-            });
-
-            saveParams.then((saveData: SaveDialogReturnValue) => {
-
-                const filepathsections = saveData.filePath.split('.');
-                const fileExtension = filepathsections[filepathsections.length - 1];
-
-                if (saveData.canceled) return;
-
-                switch (fileExtension) {
-                    case 'lua': this.SaveLUA(saveData.filePath); break;
-                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-                }
-
-            });
-        } else {
-            this.SaveLUA(null)
+        if(this.lang == 'lua') {
+            data = LUA.globals
+            data += TemplateReplace('lua',0)
+            data += LUA.endglobals
+            data += LUA.library.replace(/FRlib/gi, ProjectTree.LibraryName)
+            data += TemplateReplace('lua',1)
+            data += LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName)
+            data += generalOptions('lua')
+            if(FDFs.length > 0) data += LUA.LoadTOC.replace("name", tocname) 
+            data += TemplateReplace('lua',2)
+            data += LUA.endlibrary
         }
 
-    }
+        if(this.lang == 'ts') {
+            data = Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName)
+            data += Typescript.globals
+            data += TemplateReplace('ts',0)
+            data += Typescript.endglobals
+            data += Typescript.constructorInit
+            data += generalOptions('typescript')
+            if(FDFs.length > 0) data += LUA.LoadTOC.replace("name", tocname) 
+            data += TemplateReplace('ts',2)
+            data += Typescript.endconstructor_library
+        }
 
-}
-export class ExportTS implements ICallableDivInstance { 
-    private saveToFile = false;
-
-    constructor(saveToFile: boolean | null){
-        this.saveToFile = saveToFile;
-    }
-
-    public SaveTypescript(filepath: string): void {
-
-        let data = Typescript.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName)
-        data += Typescript.globals
-        data += TemplateReplace('ts',0)
-        data += Typescript.endglobals
-        data += Typescript.constructorInit
-        data += generalOptions('typescript')
-        data += TemplateReplace('ts',2)
-        data += Typescript.endconstructor_library
         finalizeExport(data, filepath)
-
+            
     }
 
     public run(): void {
@@ -160,11 +122,32 @@ export class ExportTS implements ICallableDivInstance {
         ProjectTree.saveGeneralOptions();
 
         if(this.saveToFile) {
-            const saveParams = remote.dialog.showSaveDialog({
-                filters: [
-                    { name: 'Typescript file', extensions: ['ts'] }
-                ], properties: ['createDirectory']
-            });
+
+            let saveParams;
+
+            if(this.lang == 'jass') {
+                saveParams = remote.dialog.showSaveDialog({
+                    filters: [
+                        { name: 'JASS file', extensions: ['j'] },
+                    ], properties: ['createDirectory']
+                });
+            }
+
+            if(this.lang == 'lua') {
+                saveParams = remote.dialog.showSaveDialog({
+                    filters: [
+                        { name: 'LUA file', extensions: ['lua'] },
+                    ], properties: ['createDirectory']
+                });
+            }
+
+            if(this.lang == 'ts') {
+                saveParams = remote.dialog.showSaveDialog({
+                    filters: [
+                        { name: 'Typescript file', extensions: ['ts'] }
+                    ], properties: ['createDirectory']
+                });
+            }
 
             saveParams.then((saveData: SaveDialogReturnValue) => {
 
@@ -173,19 +156,42 @@ export class ExportTS implements ICallableDivInstance {
 
                 if (saveData.canceled) return;
 
-                switch (fileExtension) {
-                    case 'ts': this.SaveTypescript(saveData.filePath); break;
-                    default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
-                }
+                if(this.lang == 'jass')
+                    switch (fileExtension) {
+                        case 'j': this.Save(saveData.filePath); break;
+                        default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                    }
+                
+                if(this.lang == 'lua')
+                    switch (fileExtension) {
+                        case 'lua': this.Save(saveData.filePath); break;
+                        default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                    }
+
+                if(this.lang == 'ts')
+                    switch (fileExtension) {
+                        case 'ts': this.Save(saveData.filePath); break;
+                        default: remote.dialog.showErrorBox("Invalid file extension", "You have selected an invalid file extension."); break;
+                    }
 
             });
+
         } else {
-            this.SaveTypescript(null);
+
+            let FDFs = getFDFsList()
+            if(FDFs.length > 0) {
+                alert("This library needs to create external files. Please use Export As instead.")
+            } else {
+                this.Save(null);
+            }
+
         }
 
     }
 
 }
+
+
 
 /** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
 export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
@@ -275,8 +281,6 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
                     }
                 }
             } else if (kind == 2) {
-                let functionality = false
-                if (el.custom instanceof CustomComplex && el.custom.getTrigVar() != "") functionality = true;
                 switch(lang) {
                     case ('jass'): text = JassGetTypeText(el.type, true); break;
                     case ('lua'): text = LuaGetTypeText(el.type, true); break;
@@ -484,6 +488,9 @@ function JassGetTypeText(type: FrameType, functionality: boolean): string {
             
         case FrameType.HOR_BAR_BACKGROUND_TEXT:
             return JASS.HorizontalBarWiBackground_Text
+
+        case FrameType.TEXTAREA:
+            return JASS.TextArea
     }
     return ""
 }
@@ -546,6 +553,9 @@ function LuaGetTypeText(type: FrameType, functionality: boolean): string {
             
         case FrameType.HOR_BAR_BACKGROUND_TEXT:
             return LUA.HorizontalBarWiBackground_Text
+        
+        case FrameType.TEXTAREA:
+            return LUA.TextArea
     }
     return ""
 }
@@ -608,6 +618,9 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
             
         case FrameType.HOR_BAR_BACKGROUND_TEXT:
             return Typescript.HorizontalBarWiBackground_Text
+            
+        case FrameType.TEXTAREA:
+            return Typescript.TextArea
     }
     return ""
 }

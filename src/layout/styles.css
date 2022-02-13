@@ -292,3 +292,21 @@ body{
 .scroll_enabled::-webkit-scrollbar-track {
     background-color: rgb(29, 28, 29);
 }
+
+
+.scroll_textarea {
+}
+.scroll_textarea::-webkit-scrollbar {
+    width: 10px;
+}
+.scroll_textarea::-webkit-scrollbar-thumb {
+    background-color: #7B4311;
+    border-radius: 10px;
+    border: 2px solid #1e0b0300;
+    background-clip: content-box;
+    min-width: 32px;
+    min-height: 1px;
+}
+.scroll_textarea::-webkit-scrollbar-track {
+    background-color: rgb(29, 28, 29);
+}

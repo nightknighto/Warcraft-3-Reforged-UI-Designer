@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Editor } from "../Editor";
 import { FrameBuilder } from "./FrameBuilder";
-import { FrameType } from "./FrameType";
+import { FrameType } from "./FrameType & FrameRequire";
 import Saveable from "../../Persistence/Saveable";
 import SaveContainer from "../../Persistence/SaveContainer";
 import CustomComplex from "./CustomComplex";
@@ -313,9 +313,10 @@ export class FrameComponent implements Saveable {
                 f.tooltip = false
                 f.parent = false
                 break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
+            case ft.TEXTAREA:
+                f.color = true;
+                f.textBig = true;
+                break;
             // case ft.CHECKBOX:
             //     f.trigVar = true;
             //     break;
@@ -332,7 +333,9 @@ export class FrameComponent implements Saveable {
 
 
     }
+
 }
+
 
 interface ElementFieldsAllowed {
     text: boolean

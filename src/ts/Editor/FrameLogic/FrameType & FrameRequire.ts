@@ -17,4 +17,9 @@ export enum FrameType {
     HOR_BAR_BACKGROUND = 15,
     HOR_BAR_TEXT = 16,
     HOR_BAR_BACKGROUND_TEXT = 17,
+    TEXTAREA = 18,
+}
+
+export const FrameRequire = {
+    "EDITBOX": `UI\\FrameDef\\UI\\escmenutemplates.fdf`
 }

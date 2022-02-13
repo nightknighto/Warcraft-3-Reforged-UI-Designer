@@ -4,7 +4,7 @@ import { FrameComponent } from "./FrameComponent";
 import { Editor } from "../Editor";
 import SaveContainer from "../../Persistence/SaveContainer";
 import FrameBaseContent from "./FrameBaseContent";
-import { FrameType } from "./FrameType";
+import { FrameType } from "./FrameType & FrameRequire";
 import { MouseFunctions } from "../../Classes & Functions/Mouse Functions";
 import { blp_to_png } from "../../image conversion/blp/blp to png";
 import { dds_to_png } from "../../image conversion/dds/dds to png";
@@ -346,6 +346,19 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             TextSetup()
             this.elemImageBack.src = './files/images/CustomFrame2.png'
         }
+        if(ty == f.TEXTAREA) {
+            ImageSetup()
+            TextSetup()
+            this.elemTextContainer.style.width = ''
+            this.elemTextContainer.style.height = ''
+            this.elemTextContainer.style.left = '10px'
+            this.elemTextContainer.style.right = '6px'
+            this.elemTextContainer.style.top = '6px'
+            this.elemTextContainer.style.bottom = '16px'
+            this.elemTextContainer.style.lineHeight = '1.8px'
+            this.elemTextContainer.style.overflowY = "auto"
+            this.elemTextContainer.className = "scroll_textarea"
+        };
     }
     /* ***********************************************  */
 
