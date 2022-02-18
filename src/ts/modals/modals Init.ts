@@ -144,11 +144,12 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
-                                        <h2 class="card-header text-white">v 2.5.1</h2>
+                                        <h2 class="card-header text-white">v 2.5.1, v 2.5.2</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
                                                 <div class="col-10 card-text p-4">
-                                                    Fixed an issue causing elements to be wrongly positioned when created or duplicated.
+                                                    Fixed an issue causing elements to be wrongly positioned when created or duplicated. Also fixed
+                                                    an issue causing relative position to not work with arrays.
                                                 </div>
                                             </div>
                                         </div>

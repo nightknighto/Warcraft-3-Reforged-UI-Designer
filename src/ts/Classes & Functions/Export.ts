@@ -334,7 +334,7 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
 
             if(el.custom.getIsRelative() && el.getParent().type !== FrameType.ORIGIN) {
                 if(lang === 'jass' || lang === 'lua'){
-                    textEdit = textEdit.replace(/BlzFrameSetAbsPoint\((\w*), (\w*), (\w*), (\w*)\)/gi, `BlzFrameSetPoint(\$1, \$2, OWNERvar, \$2, \$3, \$4)`)
+                    textEdit = textEdit.replace(/BlzFrameSetAbsPoint\((\w|\d|\[|\])*, (\w*), (\w*), (\w*)\)/gi, `BlzFrameSetPoint(\$1, \$2, OWNERvar, \$2, \$3, \$4)`)
                 } else if(lang === 'ts') {
                     textEdit = textEdit.replace(/setAbsPoint\((\w*), (\w*), (\w*)\)/gi, `setPoint($1, OWNERvar, $1, $2, $3)`)
                 }
