@@ -12,6 +12,7 @@ import { extname } from "../../image conversion/shared";
 import { readFile } from "fs";
 import { basename } from "path";
 import { ParameterEditor } from "../ParameterEditor";
+import { ProjectTree } from "../ProjectTree";
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     

@@ -35,12 +35,6 @@ export default abstract class FrameBaseContent implements Saveable {
         return this.zIndex;
     }
 
-    public setZIndex(zIndex: number): void {
-
-        //this.element.style.zIndex = `${zIndex}`;
-        this.zIndex = zIndex;
-    }
-
     public getWidth(): number {
         return this.width;
     }
@@ -90,11 +84,10 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setBotY(newY: number, noChange?: boolean): void {
-        const editor = Editor.GetDocumentEditor();
-        const rect = editor.workspaceImage.getBoundingClientRect()
+        const rect = Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect()
 
         this.botY = newY;
-        if(!noChange) this.element.style.top = `${rect.bottom - +newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
+        if(!noChange) this.element.style.top = `${rect.bottom - newY*rect.height/0.6 - this.element.offsetHeight - 120}px`
 
     }
 
@@ -109,7 +102,6 @@ export default abstract class FrameBaseContent implements Saveable {
         this.setHeight(height);
         this.setLeftX(x);
         this.setBotY(y);
-        this.setZIndex(z);
 
         this.element.draggable = false;
         this.element.style.position = "absolute";

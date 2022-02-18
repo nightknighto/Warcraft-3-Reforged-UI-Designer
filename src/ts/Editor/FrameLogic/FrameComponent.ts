@@ -93,9 +93,9 @@ export class FrameComponent implements Saveable {
 
             this.setupAllowedFields()
 
-            if(!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px"
+            if(!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px";
 
-        } catch (e) { alert('FrameComp Const: ' + e) }
+        } catch (e) { alert('FrameComp Construc: ' + e) }
     }
 
     public save(container: SaveContainer): void {
@@ -157,6 +157,7 @@ export class FrameComponent implements Saveable {
             new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
         }
 
+        ProjectTree.refreshElements()
         return newChild;
     }
 

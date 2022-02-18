@@ -144,6 +144,18 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.5.1</h2>
+                                        <div class="card-body">
+                                            <div class="row justify-content-center">
+                                                <div class="col-10 card-text p-4">
+                                                    Fixed an issue causing elements to be wrongly positioned when created or duplicated.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.5.0</h2>
                                         <div class="card-body">
                                             <h3 class="text-white">Version Credits: Tasyen Tutorials</h3>
@@ -174,7 +186,7 @@ export class Modals {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 mt-5">
                                     <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.4.0</h2>
                                         <div class="card-body">
@@ -204,7 +216,7 @@ export class Modals {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 mt-5">
                                     <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.3.2 , v 2.3.1</h2>
                                         <div class="card-body">
