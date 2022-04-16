@@ -170,50 +170,74 @@ export class LUA implements I_Templates {
  
 
 
+
+
 export class Typescript implements I_Templates {
-    static classDeclare = "export class FRlib {\n"
-
-    static globals = "\n"
-
-    static declares = "   FRvar: Frame\n"
+    static classDeclare =
+      'export class FRlib {\n\n'
+  
+    static globals = '\n'
+  
+    static declares = '   FRvar: Frame\n'
     // static declaresArray = "   FRvar: Frame[] = []\n"
-    static declaresBUTTON = "   FRvar: Frame\n   BackdropFRvar: Frame \n"
+    static declaresBUTTON = '   FRvar: Frame\n   BackdropFRvar: Frame \n'
     // static declaresBUTTONArray = "   FRvar: Frame[] = []\n   BackdropFRvar: Frame[] = [] \n"
-    static declaresHorBarBack = "FRvar: Frame \nBackFRvar: Frame \n"
-    static declaresHorBarText = "FRvar: Frame \nTextFRvar: Frame \n"
-    static declaresHorBarBack_Text = "FRvar: Frame \nBackFRvar: Frame \nTextFRvar: Frame \n"
-
-    static endglobals = "\n"
-
-    static constructorInit = "   constructor() {\n      let t: Trigger;\n\n"
-
-    static backdrop = '\nthis.FRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "BACKDROP", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setTexture(PATHvar, 0, true) \n'
-
-    static button = '\nthis.FRvar = new Frame("ScriptDialogButton", OWNERvar, 0, 0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.BackdropFRvar = new Frame(" this.BackdropFRvar ", this.FRvar, 1, 1, "BACKDROP", "") \nthis.BackdropFRvar.setAllPoints(this.FRvar) \nthis.BackdropFRvar.setTexture(PATHvar, 0, true) \n'
-
-    static ScriptDialogButton = '\nthis.FRvar = new Frame("ScriptDialogButton", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.setScale(FRscale) \n '
-    static BrowserButton = '\nthis.FRvar = new Frame("BrowserButton", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.setScale(FRscale) \n'
-    static CheckListBox = '\nthis.FRvar = new Frame("CheckListBox", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static EscMenuBackdrop = '\nthis.FRvar = new Frame("EscMenuBackdrop", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static OptionsPopupMenuBackdropTemplate = '\nthis.FRvar = new Frame("OptionsPopupMenuBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static QuestButtonBaseTemplate = '\nthis.FRvar = new Frame("QuestButtonBaseTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static QuestButtonDisabledBackdropTemplate = '\nthis.FRvar = new Frame("QuestButtonDisabledBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static QuestButtonPushedBackdropTemplate = '\nthis.FRvar = new Frame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static QuestCheckBox = '\nthis.FRvar = new Frame("QuestCheckBox", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static InvisButton = '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "GLUEBUTTON", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
-    static TextFrame = `\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXT", "") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \nthis.FRvar.enabled = false \nthis.FRvar.setScale(FRscale) \nBlzFrameSetTextAlignment(this.FRvar.handle, ALIGN_VER, ALIGN_HOR) \n`
-    static HorizontalBar = '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "SIMPLESTATUSBAR", "") \nthis.FRvar.setTexture(PATHvar, 0, true) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.value = 100 \n'
-    static HorizontalBarWiBackground = '\nthis.BackFRvar = new Frame("this.BackFRvar", Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0), 1, 1, "BACKDROP", "") \n this.BackFRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n this.BackFRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n this.BackFRvar.setTexture(BACKvar, 0, true) \nthis.FRvar = new Frame("this.FRvar", this.BackFRvar, 1, 1, "SIMPLESTATUSBAR", "") \nthis.FRvar.setTexture(PATHvar, 0, true) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setValue(50) \n'
-    static HorizontalBarWiText = '\nthis.FRvar = new Frame("this.TextFRvar", Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0), 1, 1, "SIMPLESTATUSBAR", "") \nthis.FRvar.setTexture(PATHvar, 0, true) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setValue(100) \nthis.TextFRvar = new Frame("this.TextFRvar", Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0), 1, 1, "TEXT", "") \nthis.TextFRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.TextFRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.TextFRvar.text = TEXTvar \nthis.TextFRvar.enabled = false \nthis.TextFRvar.setScale(FRscale) \nBlzFrameSetTextAlignment(this.TextFRvar.handle, ALIGN_VER, ALIGN_HOR) \n'
-    static HorizontalBarWiBackground_Text = '\nthis.BackFRvar = new Frame("this.BackFRvar", Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0), 1, 1, "BACKDROP", "") \n this.BackFRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n this.BackFRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n this.BackFRvar.setTexture(BACKvar, 0, true) \nthis.FRvar = new Frame("this.FRvar", this.BackFRvar, 1, 1, "SIMPLESTATUSBAR", "") \nthis.FRvar.setTexture(PATHvar, 0, true) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.setValue(50) \nthis.TextFRvar = new Frame("this.TextFRvar", Frame.fromOrigin(ORIGIN_FRAME_WORLD_FRAME, 0), 1, 1, "TEXT", "") \nthis.TextFRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.TextFRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.TextFRvar.text = TEXTvar \nthis.TextFRvar.enabled = false \nthis.TextFRvar.setScale(FRscale) \nBlzFrameSetTextAlignment(this.TextFRvar.handle, ALIGN_VER, ALIGN_HOR) \n'
-    static TextArea = `\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXTAREA", "EscMenuTextAreaTemplate") \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar \n`
-    static EditBox = '\nthis.FRvar = new Frame("EscMenuEditBoxTemplate", OWNERvar,0,0) \nthis.FRvar.setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \nthis.FRvar.setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.FRvar.text = TEXTvar\n'
-
+    static declaresHorBarBack = 'FRvar: Frame \nFRvarBack: Frame \n'
+    static declaresHorBarText = 'FRvar: Frame \nFRvarText: Frame \n'
+    static declaresHorBarBack_Text = 'FRvar: Frame \nFRvarBack: Frame \nFRvarText: Frame \n'
+  
+    static endglobals = '\n'
+  
+    static constructorInit = '  constructor() {\n      let t: Trigger;\n\n'
+  
+    static backdrop =
+      '\nthis.FRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "BACKDROP", "") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setTexture(PATHvar, 0, true) \n'
+  
+    static button =
+      '\nthis.FRvar = new Frame("ScriptDialogButton", OWNERvar, 0, 0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \nthis.BackdropFRvar = new Frame(" this.BackdropFRvar ", this.FRvar, 1, 1, "BACKDROP", "") \nthis.BackdropFRvar.setAllPoints(this.FRvar) \nthis.BackdropFRvar.setTexture(PATHvar, 0, true) \n'
+  
+    static ScriptDialogButton =
+      '\nthis.FRvar = new Frame("ScriptDialogButton", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n  .setScale(FRscale) \n '
+    static BrowserButton =
+      '\nthis.FRvar = new Frame("BrowserButton", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n  .setScale(FRscale) \n'
+    static CheckListBox =
+      '\nthis.FRvar = new Frame("CheckListBox", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static EscMenuBackdrop =
+      '\nthis.FRvar = new Frame("EscMenuBackdrop", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static OptionsPopupMenuBackdropTemplate =
+      '\nthis.FRvar = new Frame("OptionsPopupMenuBackdropTemplate", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static QuestButtonBaseTemplate =
+      '\nthis.FRvar = new Frame("QuestButtonBaseTemplate", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static QuestButtonDisabledBackdropTemplate =
+      '\nthis.FRvar = new Frame("QuestButtonDisabledBackdropTemplate", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static QuestButtonPushedBackdropTemplate =
+      '\nthis.FRvar = new Frame("QuestButtonPushedBackdropTemplate", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static QuestCheckBox =
+      '\nthis.FRvar = new Frame("QuestCheckBox", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static InvisButton =
+      '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "GLUEBUTTON", "") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n'
+    static TextFrame = `\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXT", "") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n  .setEnabled(false) \n  .setScale(FRscale) \nBlzFrameSetTextAlignment(this.FRvar.handle, ALIGN_VER, ALIGN_HOR) \n`
+    static HorizontalBar =
+      '\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "SIMPLESTATUSBAR", "") \n  .setTexture(PATHvar, 0, true) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setValue(100) \n'
+    static HorizontalBarWiBackground =
+      '\nthis.FRvarBack = new Frame("this.FRvarBack", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 1, 1, "BACKDROP", "") \n   .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n   .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n   .setTexture(BACKvar, 0, true) \nthis.FRvar = new Frame("this.FRvar", this.FRvarBack, 1, 1, "SIMPLESTATUSBAR", "") \n  .setTexture(PATHvar, 0, true) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setValue(50) \n'
+    static HorizontalBarWiText =
+      '\nthis.FRvar = new Frame("FRvar", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 0, 0, "SIMPLESTATUSBAR", "") \n  .setTexture(PATHvar, 0, true) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setValue(100) \nthis.FRvarText = new Frame("name", Frame.fromOrigin( ORIGIN_FRAME_GAME_UI, 0), 0, 0, "TEXT", "") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n  .setEnabled(false) \n  .setScale(FRscale) \nBlzFrameSetTextAlignment(this.FRvarText.handle, ALIGN_VER, ALIGN_HOR) \n'
+    static HorizontalBarWiBackground_Text =
+      '\nthis.FRvarBack = new Frame("this.FRvarBack", Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0), 1, 1, "BACKDROP", "") \n   .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n   .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n   .setTexture(BACKvar, 0, true) \nthis.FRvar = new Frame("this.FRvar", this.FRvarBack, 1, 1, "SIMPLESTATUSBAR", "") \n  .setTexture(PATHvar, 0, true) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setValue(50) \nthis.FRvarText = new Frame("name", Frame.fromOrigin( ORIGIN_FRAME_GAME_UI, 0), 0, 0, "TEXT", "") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n  .setEnabled(false) \n  .setScale(FRscale) \nBlzFrameSetTextAlignment(this.FRvarText.handle, ALIGN_VER, ALIGN_HOR) \n'
+    static TextArea = `\nthis.FRvar = new Frame("FRvar", OWNERvar, 0,0, "TEXTAREA", "EscMenuTextAreaTemplate") \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar) \n`
+    static EditBox =
+      '\nthis.FRvar = new Frame("EscMenuEditBoxTemplate", OWNERvar,0,0) \n  .setAbsPoint(FRAMEPOINT_TOPLEFT, TOPLEFTXvar, TOPLEFTYvar) \n  .setAbsPoint(FRAMEPOINT_BOTTOMRIGHT, BOTRIGHTXvar, BOTRIGHTYvar) \n  .setText(TEXTvar)\n'
+  
     static TooltipOwnerButton = `OWNERvar.setTooltip(this.FRvar) \n`
     static TooltipOwnerOther = `const TooltipFRvar = new Frame("this.FRvar", OWNERvar, 1, 1, "FRAME", "") \nTooltipFRvar.setAllPoints(OWNERvar) \nTooltipFRvar.setTooltip(this.FRvar) \n`
-
-    static ButtonTriggerSetup = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CONTROL_CLICK) \nt.addAction( () => {\nthis.FRvar.enabled = false \nthis.FRvar.enabled = true \n})\n'
-    static TriggerVariableCheckbox = 't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \nt.addAction( () => {\nif(BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED) {\n//actions\n} else {\n//actions\n}\n})\n'
-    
-    static endconstructor_library = "}\n\n}\n"
-}
+  
+    static ButtonTriggerSetup =
+      't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CONTROL_CLICK) \nt.addAction( () => {\nthis.FRvar.enabled = false \nthis.FRvar.enabled = true \n})\n'
+    static TriggerVariableCheckbox =
+      't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \nt.addAction( () => {\nif(BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED) {\n//actions\n} else {\n//actions\n}\n})\n'
+  
+    static endconstructor_library = '}\n\n}\n'
+  }
+  
+  
