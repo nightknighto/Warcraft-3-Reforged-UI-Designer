@@ -348,11 +348,13 @@ export function TemplateReplace(lang: 'jass'|'lua'|'ts', kind: number): string {
 
             if (el) {
                 if (el.getParent()) {
-                    if(lang == 'jass' || lang == 'lua')  if(el.getParent().getName().indexOf('[0') >= 0) {
-                        textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName().replace('[0','['));
+                    if(lang == 'jass' || lang == 'lua') {
+                        if(el.getParent().getName().indexOf('[0') >= 0) {
+                            textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName().replace('[0','['));
                         } else {
                             textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName())
                         }
+                    }
                     else if(lang == 'ts') {
                         if(el.getParent().getName().indexOf('[0') >= 0) textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName().replace('[0','['));
                         else textEdit = textEdit.replace(/OWNERvar/gi, (el.getParent().getName() == 'Origin') ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : "this."+el.getParent().getName());
