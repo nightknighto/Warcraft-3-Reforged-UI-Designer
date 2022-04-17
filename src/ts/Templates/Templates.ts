@@ -113,7 +113,7 @@ const HorizontalBarMLT = FrameMLText.newFrameByType('FRvar', 'name', 'OWNERvar',
   .setValue(100)
 
 // Horizontal Bar + Background
-const HorizontalBarWiBackground1MLT = FrameMLText.newFrameByType('FRvarBack', 'FRvarBack', OriginWorld, 0, 0, 'BACKDROP', '')
+const HorizontalBarWiBackground1MLT = FrameMLText.newFrameByType('BackFRvar', 'BackFRvar', OriginWorld, 0, 0, 'BACKDROP', '')
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setTexture('BACKvar', 0, true)
@@ -129,7 +129,7 @@ const HorizontalBarWiText1MLT = FrameMLText.newFrameByType('FRvar', '', OriginWo
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setValue(100)
-const HorizontalBarWiText2MLT = FrameMLText.newFrameByType('FRvarText', 'name', OriginGameUI, 0, 0, 'TEXT', '')
+const HorizontalBarWiText2MLT = FrameMLText.newFrameByType('TextFRvar', 'name', OriginGameUI, 0, 0, 'TEXT', '')
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setText('TEXTvar')
@@ -138,7 +138,7 @@ const HorizontalBarWiText2MLT = FrameMLText.newFrameByType('FRvarText', 'name', 
   .setTextAlignment('ALIGN_VER', 'ALIGN_HOR')
 
 // Horizontal Bar + Background + Text
-const HorizontalBarWiBackground_Text1MLT = FrameMLText.newFrameByType('FRvarBack', 'FRvarBack', OriginWorld, 0, 0, 'BACKDROP', '')
+const HorizontalBarWiBackground_Text1MLT = FrameMLText.newFrameByType('BackFRvar', 'BackFRvar', OriginWorld, 0, 0, 'BACKDROP', '')
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setTexture('BACKvar', 0, true)
@@ -147,7 +147,7 @@ const HorizontalBarWiBackground_Text2MLT = FrameMLText.newFrameByType('FRvar', '
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setValue(100)
-const HorizontalBarWiBackground_Text3MLT = FrameMLText.newFrameByType('FRvarText', 'name', OriginGameUI, 0, 0, 'TEXT', '')
+const HorizontalBarWiBackground_Text3MLT = FrameMLText.newFrameByType('TextFRvar', 'name', OriginGameUI, 0, 0, 'TEXT', '')
   .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
   .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
   .setText('TEXTvar')
@@ -202,9 +202,9 @@ export class JASS implements I_Templates {
   // static declaresArrayWiTooltip = "framehandle array FRvar \nframehandle array TooltipFRvar \n"
   static declaresBUTTON = 'framehandle FRvar = null \n framehandle BackdropFRvar = null \n'
   // static declaresBUTTONArray = "framehandle array FRvar \n framehandle array BackdropFRvar \n"
-  static declaresHorBarBack = 'framehandle FRvar = null \nframehandle FRvarBack = null \n'
-  static declaresHorBarText = 'framehandle FRvar = null \nframehandle FRvarText = null \n'
-  static declaresHorBarBack_Text = 'framehandle FRvar = null \nframehandle FRvarBack = null \nframehandle FRvarText = null \n'
+  static declaresHorBarBack = 'framehandle FRvar = null \nframehandle BackFRvar = null \n'
+  static declaresHorBarText = 'framehandle FRvar = null \nframehandle TextFRvar = null \n'
+  static declaresHorBarBack_Text = 'framehandle FRvar = null \nframehandle BackFRvar = null \nframehandle TextFRvar = null \n'
 
   static declaresFUNCTIONALITY = 'trigger TriggerFRvar = null \n'
   // static declaresFUNCTIONALITYArray = "trigger array TriggerFRvar \n"
@@ -275,9 +275,9 @@ export class LUA implements I_Templates {
   // static declaresArrayWiTooltip = "FRvar = {} \n"
   static declaresBUTTON = 'FRvar = nil \nBackdropFRvar = nil \n'
   // static declaresBUTTONArray = "FRvar = {} \nBackdropFRvar = {} \n"
-  static declaresHorBarBack = 'FRvar = nil \nFRvarBack = nil \n'
-  static declaresHorBarText = 'FRvar = nil \nFRvarText = nil \n'
-  static declaresHorBarBack_Text = 'FRvar = nil \nFRvarBack = nil \nFRvarText = nil \n'
+  static declaresHorBarBack = 'FRvar = nil \nBackFRvar = nil \n'
+  static declaresHorBarText = 'FRvar = nil \nTextFRvar = nil \n'
+  static declaresHorBarBack_Text = 'FRvar = nil \nBackFRvar = nil \nTextFRvar = nil \n'
 
   static declaresFUNCTIONALITY = 'TriggerFRvar = nil \n'
   // static declaresFUNCTIONALITYArray = "TriggerFRvar = {} \n"
@@ -342,9 +342,9 @@ export class Typescript implements I_Templates {
   // static declaresArray = "   FRvar: Frame[] = []\n"
   static declaresBUTTON = '   FRvar: Frame\n   BackdropFRvar: Frame \n'
   // static declaresBUTTONArray = "   FRvar: Frame[] = []\n   BackdropFRvar: Frame[] = [] \n"
-  static declaresHorBarBack = 'FRvar: Frame \nFRvarBack: Frame \n'
-  static declaresHorBarText = 'FRvar: Frame \nFRvarText: Frame \n'
-  static declaresHorBarBack_Text = 'FRvar: Frame \nFRvarBack: Frame \nFRvarText: Frame \n'
+  static declaresHorBarBack = 'FRvar: Frame \nBackFRvar: Frame \n'
+  static declaresHorBarText = 'FRvar: Frame \nTextFRvar: Frame \n'
+  static declaresHorBarBack_Text = 'FRvar: Frame \nBackFRvar: Frame \nTextFRvar: Frame \n'
 
   static endglobals = '\n'
 
