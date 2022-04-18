@@ -15,8 +15,6 @@ export function MouseFunctions(div: CustomComplex): void {
     const projectTree = Editor.GetDocumentEditor().projectTree
     const frame = div.getFrameComponent()
 
-    debugText('hi' + Math.random())
-
     const startingX = div.getLeftX()
     const startingY = div.getBotY()
     const startingWidth = div.getWidth()

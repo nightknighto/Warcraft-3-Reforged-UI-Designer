@@ -98,7 +98,7 @@ export class FrameMLText {
   setText = (text: string) => {
     this.output.jass.push(`call BlzFrameSetText(${this.var.jass}, ${text})`)
     this.output.lua.push(`BlzFrameSetText(${this.var.lua}, ${text})`)
-    this.output.ts.push(`.setText(${text})`)
+    this.output.ts.push(`  .setText(${text})`)
     return this
   }
 
