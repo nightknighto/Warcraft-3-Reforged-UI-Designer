@@ -16,15 +16,15 @@ import { FrameMLText } from './FrameMLText'
 // Origin Frames
 const OriginWorld = FrameMLText.fromOrigin('ORIGIN_FRAME_WORLD_FRAME')
 const OriginGameUI = FrameMLText.fromOrigin('ORIGIN_FRAME_GAME_UI')
-const OriginHeroBar = FrameMLText.fromOrigin('ORIGIN_FRAME_HERO_BAR')
-const OriginMinimap = FrameMLText.fromOrigin('ORIGIN_FRAME_MINIMAP')
-const OriginPortrait = FrameMLText.fromOrigin('ORIGIN_FRAME_PORTRAIT')
-const OriginChatMsg = FrameMLText.fromOrigin('ORIGIN_FRAME_CHAT_MSG')
+// const OriginHeroBar = FrameMLText.fromOrigin('ORIGIN_FRAME_HERO_BAR')
+// const OriginMinimap = FrameMLText.fromOrigin('ORIGIN_FRAME_MINIMAP')
+// const OriginPortrait = FrameMLText.fromOrigin('ORIGIN_FRAME_PORTRAIT')
+// const OriginChatMsg = FrameMLText.fromOrigin('ORIGIN_FRAME_CHAT_MSG')
 
 // Frames from Names
-const FrameConsoleUIBackdrop = FrameMLText.fromName('ConsoleUIBackdrop')
-const FrameResourceBarFrame = FrameMLText.fromName('ResourceBarFrame')
-const FrameUpperButtonBarFrame = FrameMLText.fromName('UpperButtonBarFrame')
+// const FrameConsoleUIBackdrop = FrameMLText.fromName('ConsoleUIBackdrop')
+// const FrameResourceBarFrame = FrameMLText.fromName('ResourceBarFrame')
+// const FrameUpperButtonBarFrame = FrameMLText.fromName('UpperButtonBarFrame')
 
 ///////////////////////////
 // Specify Custom Frames //
