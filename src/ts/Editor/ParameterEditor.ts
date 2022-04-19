@@ -670,7 +670,7 @@ export class ParameterEditor {
                         <hr><strong>Change Min & Max Values:</strong>
                         <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
                         <br>Replace <b>"minValue" & "maxValue"</b> with the names of integer variables, which holds the desired values. <b>Default Value: Min=0, Max=100.</b>.
-                        <br><b>Min & Max Value</b> controls the boundries of the bar's Value, which was explained above.
+                        <br><b>Min & Max Value</b> controls the boundaries of the bar's Value, which was explained above.
                         
                         <hr><strong>Change Texture:</strong>
                         <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 

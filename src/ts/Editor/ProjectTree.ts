@@ -30,9 +30,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
   public static readonly SAVE_KEY_ORIGIN_MODE = 'OriginMode'
   public static readonly SAVE_KEY_APP_INTERFACE = 'AppInterface'
 
-  public static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.5)' //yellow
-  public static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.4)' //green
-  public static readonly outlineSelected = 'rgba(242, 38, 19, 0.4)' //red
+  public static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.8)' //yellow
+  public static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.8)' //green
+  public static readonly outlineSelected = 'rgba(242, 38, 19, 0.8)' //red
 
   public readonly rootFrame: FrameComponent
   public readonly panelTree: HTMLElement

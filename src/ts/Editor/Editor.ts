@@ -1,8 +1,5 @@
-/**
- * /* eslint-disable @typescript-eslint/no-explicit-any
- *
- * @format
- */
+/** @format */
+/* eslint @typescript-eslint/no-explicit-any: ["off", { "ignoreRestArgs": false }] */
 
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
 import { FrameType } from './FrameLogic/FrameType & FrameRequire'

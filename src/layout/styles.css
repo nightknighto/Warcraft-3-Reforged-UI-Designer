@@ -1,322 +1,316 @@
+/** @format */
 
-.window-title{
-    color: yellow;
+.window-title {
+  color: yellow;
 }
 
-.window-appicon{
-    background-size: 25px !important;
+.window-appicon {
+  background-size: 25px !important;
 }
 
-body{
-    margin: 0;  
-
+body {
+  margin: 0;
 }
 
-#containerUI{
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    background-color: black;
+#containerUI {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: black;
 }
 
-#barTitle{
-    background-color: rgb(69,49,26);
-    background-image: url('./files/woodenplankVertBord.png');
-    background-repeat: round;
+#barTitle {
+  background-color: rgb(69, 49, 26);
+  background-image: url('./files/woodenplankVertBord.png');
+  background-repeat: round;
 }
 
-#barTab{
-    position: fixed;
-    top: 30px;
-    height: 40px;
-    width: 100vw;
-    background-color: #B87E59;
-    background-image: url('./files/woodenplankVertBord.png');
-    
-    display: flex;
+#barTab {
+  position: fixed;
+  top: 30px;
+  height: 40px;
+  width: 100vw;
+  background-color: #b87e59;
+  background-image: url('./files/woodenplankVertBord.png');
+
+  display: flex;
 }
 
-#barTabImg{
-    position: fixed;
-    top: 30px;
-    height: 40px;
-    right: 0;
-    width: 20vw;
-    background-size: 200% 100%;
-    background-color: #B87E59;
-    background-color: rgb(115, 49, 146);
-    background-image: url('./files/barTabImg.png');
-    visibility: hidden;
-    
-    display: flex;
+#barTabImg {
+  position: fixed;
+  top: 30px;
+  height: 40px;
+  right: 0;
+  width: 20vw;
+  background-size: 200% 100%;
+  background-color: #b87e59;
+  background-color: rgb(115, 49, 146);
+  background-image: url('./files/barTabImg.png');
+  visibility: hidden;
+
+  display: flex;
 }
 
-#barTab .tab{
-    width: fit-content;
+#barTab .tab {
+  width: fit-content;
 
-    position: relative;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 0;
-    margin-bottom: auto;
-    /* transform: translate(0%, 50%); */
-    color: rgb(248,224,197);
-    font-weight: 600;
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: auto;
+  /* transform: translate(0%, 50%); */
+  color: rgb(248, 224, 197);
+  font-weight: 600;
 }
 
-#barTabInner{
-    background-color: none; /* #28160C */
-    clip-path: polygon(0 0, 100% 0, 81% 100%, 0% 100%);
-    width: 600px;
-    border: none; /* 2px solid #B87E59 */
+#barTabInner {
+  background-color: none; /* #28160C */
+  clip-path: polygon(0 0, 100% 0, 81% 100%, 0% 100%);
+  width: 600px;
+  border: none; /* 2px solid #B87E59 */
 }
 
-#barRibbon{
-    position: fixed;
-    top:70px;
-    height: 50px;
-    width: 100vw;
-    background-color: #94471B;
+#barRibbon {
+  position: fixed;
+  top: 70px;
+  height: 50px;
+  width: 100vw;
+  background-color: #94471b;
 
-    display: flex;
-    overflow-x: inherit;
-    z-index: 1;
+  display: flex;
+  overflow-x: inherit;
+  z-index: 1;
 }
 
-.ribbonOption{
-
-    white-space: nowrap;
-    width: auto;
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 90%;
-    align-self: center;
-    min-width: 100px;
-    color: rgb(248,224,197);
+.ribbonOption {
+  white-space: nowrap;
+  width: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 90%;
+  align-self: center;
+  min-width: 100px;
+  color: rgb(248, 224, 197);
 }
 
-.ribbonOption.dropdown-toggle-split{
-    margin-left: -14px !important;
-    padding-top: 10px !important;
-    margin-right: 10%;
-    align-self: center;
-    height: 90%;
-    min-width: fit-content;
+.ribbonOption.dropdown-toggle-split {
+  margin-left: -14px !important;
+  padding-top: 10px !important;
+  margin-right: 10%;
+  align-self: center;
+  height: 90%;
+  min-width: fit-content;
 }
 
-.ribbonOption.insert{
-    width: 7%;
-    min-width: fit-content;
+.ribbonOption.insert {
+  width: 7%;
+  min-width: fit-content;
 }
 
-#panelParameters{
-    resize: horizontal;
-    position: fixed;
-    top:120px;
-    max-width: 50%;
-    min-width: 80px;
-    left:0;
-    
-    overflow-y: auto;
-    padding-left: 0.5%;
-    padding-right: 0.5%;
+#panelParameters {
+  resize: horizontal;
+  position: fixed;
+  top: 120px;
+  max-width: 50%;
+  min-width: 80px;
+  left: 0;
+
+  overflow-y: auto;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
 }
 
 #originMode {
-    background-color: #5B4432;
-    border: 6px solid #3A2718;
-    color: white;
-    padding: 5px;
+  background-color: #5b4432;
+  border: 6px solid #3a2718;
+  color: white;
+  padding: 5px;
 }
 
-#panelClose{
-    position: relative;
-    width: fit-content;
-    height: fit-content;
-    visibility: visible;
+#panelClose {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  visibility: visible;
 }
 
-#tableParameters{
-
-    height: min-content;
-    width: 97%;
-    margin-inline-start: 1%;
-    margin-inline-end: 2%;
-    gap: 0;
-    
+#tableParameters {
+  height: min-content;
+  width: 97%;
+  margin-inline-start: 1%;
+  margin-inline-end: 2%;
+  gap: 0;
 }
 
-#tableParameters td{ 
-    width:100%;
-    height: fit-content;
-    padding: 0;
+#tableParameters td {
+  width: 100%;
+  height: fit-content;
+  padding: 0;
 }
 
-#tableParameters td:first-child{
-    width:fit-content;
-    height: fit-content;
+#tableParameters td:first-child {
+  width: fit-content;
+  height: fit-content;
 }
 
-#tableParameters td:first-child ~ td{
-
-    display: inline-flex;
-    height: fit-content;
+#tableParameters td:first-child ~ td {
+  display: inline-flex;
+  height: fit-content;
 }
 
-#tableParameters .parameter{
-    width: 100%;   
+#tableParameters .parameter {
+  width: 100%;
 }
 
-#workspaceContainer{
-    position: fixed;
-    left: 0;
-    right: 0;
-    top:120px;
-    bottom:0;
-    background-color: black;    
+#workspaceContainer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 120px;
+  bottom: 0;
+  background-color: black;
 }
 
-#workspaceContainer #workspace{
-    position: relative;
-    height: 85%;
-    width:auto;
-    margin: auto;
-    margin-top: 3px;
-    
+#workspaceContainer #workspace {
+  position: absolute;
+  height: 540px;
+  left: 250px;
+  width: auto;
+  margin: auto;
+  margin-top: 0px;
 }
 
-#panelTree{
-    position: fixed;
-    width: 200px;
-    direction: rtl;
-    max-width: 50%;
-    min-width: 40px;
-    overflow: scroll;
-    resize: horizontal;
+#panelTree {
+  position: fixed;
+  width: 200px;
+  direction: rtl;
+  max-width: 50%;
+  min-width: 40px;
+  overflow: scroll;
+  resize: horizontal;
 
-    right: 0;
-    top:120px;
+  right: 0;
+  top: 120px;
 
-    padding-right: 0.5%;
-    
+  padding-right: 0.5%;
 }
 
 #panelTreeInnerDiv {
-    direction: ltr;
-    overflow: auto;
-    height: 100%;
+  direction: ltr;
+  overflow: auto;
+  height: 100%;
 }
 
-#treeClose{
-    right: 100%;
-    width: fit-content;
-    height: fit-content;
-    visibility: visible;
+#treeClose {
+  right: 100%;
+  width: fit-content;
+  height: fit-content;
+  visibility: visible;
 }
 
-#panelDebug{
-    background-image: url('./files/woodenplankHorBig.png');
-    background-color: #904619;   
-    height:20px;
-    width:100vw;
-    font-size: 15px;
-    color: rgb(248,224,197);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+#panelDebug {
+  background-image: url('./files/woodenplankHorBig.png');
+  background-color: #904619;
+  height: 20px;
+  width: 100vw;
+  font-size: 15px;
+  color: rgb(248, 224, 197);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 
-    padding: 5px;
-    border: 3px solid;
+  padding: 5px;
+  border: 3px solid;
 }
 
-.panelDebugBackground{
-    height: 4%;
-    bottom: 20px;
-    position: fixed;
-    background-color: #CBB6A1;
-    /* left: 212px;
+.panelDebugBackground {
+  height: 4%;
+  bottom: 20px;
+  position: fixed;
+  background-color: #cbb6a1;
+  /* left: 212px;
     right: 212px; */
-    width: 100vw;
+  width: 100vw;
 }
 
 .card-text {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .accordion h5 {
-    color: aqua;
+  color: aqua;
 }
 
 .accordion-body strong {
-    color: chartreuse;
+  color: chartreuse;
 }
 
 .accordion-body li {
-    padding: 10px;
+  padding: 10px;
 }
 
 .accordion-body ol {
-    padding: 10px;
+  padding: 10px;
 }
 
 .accordion-body ul {
-    padding: 10px;
+  padding: 10px;
 }
 
 .panels {
-    background-image: url('./files/WoodenPanels.png');
-    background-repeat: round;
-    background-size: auto 100%;
-    color: white;
-    background-color: #ECBD87;
-    bottom: 20px;
+  background-image: url('./files/WoodenPanels.png');
+  background-repeat: round;
+  background-size: auto 100%;
+  color: white;
+  background-color: #ecbd87;
+  bottom: 20px;
 }
 
 .ArrayBody {
-    padding: 10px;
-    font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
-    color: #fff;
-    background-color: #8aba87 !important;
-    text-align: center;
+  padding: 10px;
+  font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+  color: #fff;
+  background-color: #8aba87 !important;
+  text-align: center;
 }
 
 .scroll_enabled {
 }
 
 .scroll_enabled::-webkit-scrollbar {
-    width: 20px;
+  width: 20px;
 }
 .scroll_enabled::-webkit-scrollbar-corner {
-    background: rgb(14, 80, 61);
+  background: rgb(14, 80, 61);
 }
 .scroll_enabled::-webkit-scrollbar-thumb {
-    background-color: #7B4311;
-    border-radius: 6px;
-    border: 4px solid #1e0b0300;
-    background-clip: content-box;
-    min-width: 32px;
-    min-height: 32px;
+  background-color: #7b4311;
+  border-radius: 6px;
+  border: 4px solid #1e0b0300;
+  background-clip: content-box;
+  min-width: 32px;
+  min-height: 32px;
 }
 .scroll_enabled::-webkit-scrollbar-track {
-    background-color: rgb(29, 28, 29);
+  background-color: rgb(29, 28, 29);
 }
-
 
 .scroll_textarea {
 }
 .scroll_textarea::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 .scroll_textarea::-webkit-scrollbar-thumb {
-    background-color: #7B4311;
-    border-radius: 10px;
-    border: 2px solid #1e0b0300;
-    background-clip: content-box;
-    min-width: 32px;
-    min-height: 1px;
+  background-color: #7b4311;
+  border-radius: 10px;
+  border: 2px solid #1e0b0300;
+  background-clip: content-box;
+  min-width: 32px;
+  min-height: 1px;
 }
 .scroll_textarea::-webkit-scrollbar-track {
-    background-color: rgb(29, 28, 29);
+  background-color: rgb(29, 28, 29);
 }

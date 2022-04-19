@@ -1,8 +1,4 @@
-/**
- * /* eslint-disable @typescript-eslint/no-namespace
- *
- * @format
- */
+/** @format */
 
 import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
@@ -14,7 +10,7 @@ import { ProjectTree } from '../Editor/ProjectTree'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
 import { debugText } from './Mini-Functions'
 
-//writes data into file and copies text to clipboard
+// writes data into file and copies text to clipboard
 async function finalizeExport(data: string, filepath: string | null, FDFs: string[], sendMessage = true) {
   try {
     if (filepath) {
@@ -95,12 +91,12 @@ export class Export implements ICallableDivInstance {
 
   public Save(filepath: string | null): void {
     const FDFs = getFDFsList()
-    const tocname = ''
+    let tocName = ''
     if (filepath !== null) {
       createTOCfile(filepath, FDFs)
-      let tocname = filepath.split('\\').pop()
-      tocname = tocname.split('.')[0]
-      tocname = tocname + 'TOC'
+      tocName = filepath.split('\\').pop()
+      tocName = tocName.split('.')[0]
+      tocName = tocName + 'TOC'
     }
 
     let data
@@ -112,7 +108,7 @@ export class Export implements ICallableDivInstance {
       data += TemplateReplace('jass', 1)
       data += JASS.libraryInit
       data += generalOptions('jass')
-      if (FDFs.length > 0) data += JASS.LoadTOC.replace('name', tocname)
+      if (FDFs.length > 0) data += JASS.LoadTOC.replace('name', tocName)
       data += TemplateReplace('jass', 2)
       data += JASS.endlibrary
     }
@@ -125,7 +121,7 @@ export class Export implements ICallableDivInstance {
       data += TemplateReplace('lua', 1)
       data += LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName)
       data += generalOptions('lua')
-      if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocname)
+      if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocName)
       data += TemplateReplace('lua', 2)
       data += LUA.endlibrary
     }
@@ -137,7 +133,7 @@ export class Export implements ICallableDivInstance {
       data += Typescript.endglobals
       data += Typescript.constructorInit
       data += generalOptions('typescript')
-      if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocname)
+      if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocName)
       data += TemplateReplace('ts', 2)
       data += Typescript.endconstructor_library
     }

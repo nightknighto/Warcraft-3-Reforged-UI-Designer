@@ -10,6 +10,7 @@ export function MouseFunctions(div: CustomComplex): void {
   const workspaceImage = Editor.GetDocumentEditor().workspaceImage
 
   div.getElement().onmousedown = function (e) {
+    if (e.altKey) return
     // const horizontalMargin = Editor.getInnerMargin()
     const actualMargin = Editor.getActualMargin()
     const projectTree = Editor.GetDocumentEditor().projectTree
@@ -22,10 +23,10 @@ export function MouseFunctions(div: CustomComplex): void {
 
     projectTree.select(div)
 
-    let posx1 = e.clientX
-    let posy1 = e.clientY
-    let posx2 = 0
-    let posy2 = 0
+    let posX1 = e.clientX
+    let posY1 = e.clientY
+    let posX2 = 0
+    let posY2 = 0
 
     GUIEvents.isInteracting = true
 
@@ -49,27 +50,27 @@ export function MouseFunctions(div: CustomComplex): void {
     ) {
       //not at edge, so drag
       window.onmousemove = function (e) {
-        posx2 = posx1 - e.clientX
-        posy2 = posy1 - e.clientY
-        posx1 = e.clientX
-        posy1 = e.clientY
+        posX2 = posX1 - e.clientX
+        posY2 = posY1 - e.clientY
+        posX1 = e.clientX
+        posY1 = e.clientY
 
         debugText('drag')
         if (
-          ((div.getElement().offsetLeft - posx2 - (workspaceImage.getBoundingClientRect().x + actualMargin)) / workspaceImage.offsetWidth) * 800 >= 0 &&
-          ((div.getElement().offsetLeft - posx2 + div.getElement().offsetWidth - (workspaceImage.getBoundingClientRect().x - actualMargin)) /
+          ((div.getElement().offsetLeft - posX2 - (workspaceImage.getBoundingClientRect().x + actualMargin)) / workspaceImage.offsetWidth) * 800 >= 0 &&
+          ((div.getElement().offsetLeft - posX2 + div.getElement().offsetWidth - (workspaceImage.getBoundingClientRect().x - actualMargin)) /
             workspaceImage.offsetWidth) *
             800 <=
             800
         ) {
-          div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`
+          div.getElement().style.left = `${div.getElement().offsetLeft - posX2}px`
         }
 
         if (
-          workspaceImage.getBoundingClientRect().bottom - (div.getElement().getBoundingClientRect().bottom - posy2) >= 0 &&
-          workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2) <= 0
+          workspaceImage.getBoundingClientRect().bottom - (div.getElement().getBoundingClientRect().bottom - posY2) >= 0 &&
+          workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posY2) <= 0
         ) {
-          div.getElement().style.top = `${div.getElement().offsetTop - posy2}px`
+          div.getElement().style.top = `${div.getElement().offsetTop - posY2}px`
         }
         inputElementsUpdate(div, { x: true, y: true })
         document.body.style.cursor = 'grabbing'
@@ -84,16 +85,16 @@ export function MouseFunctions(div: CustomComplex): void {
         //right and bottom edge: just resize
         if (e.clientX - div.getElement().getBoundingClientRect().x > div.getElement().offsetWidth - 5) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posx1 = e.clientX
+            posX2 = posX1 - e.clientX
+            posX1 = e.clientX
 
             debugText('resize right')
-            if (((div.getElement().offsetWidth - posx2) * 0.8) / workspaceImage.width <= 0.01) {
+            if (((div.getElement().offsetWidth - posX2) * 0.8) / workspaceImage.width <= 0.01) {
               div.getElement().style.width = (0.01 * workspaceImage.width) / 0.8 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posX2)) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth - posx2 + 'px'
+              div.getElement().style.width = div.getElement().offsetWidth - posX2 + 'px'
             }
 
             inputElementsUpdate(div, { width: true })
@@ -103,16 +104,16 @@ export function MouseFunctions(div: CustomComplex): void {
 
         if (e.clientY - div.getElement().getBoundingClientRect().y > div.getElement().offsetHeight - 5) {
           window.onmousemove = function (e) {
-            posy2 = posy1 - e.clientY
-            posy1 = e.clientY
+            posY2 = posY1 - e.clientY
+            posY1 = e.clientY
             debugText('resize bot')
 
-            if (((div.getElement().offsetHeight - posy2) * 600) / workspaceImage.height <= 10) {
+            if (((div.getElement().offsetHeight - posY2) * 600) / workspaceImage.height <= 10) {
               div.getElement().style.height = `${(10 * workspaceImage.height) / 600}px`
-            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posy2)) {
+            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posY2)) {
               null
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight - posY2}px`
             }
             inputElementsUpdate(div, { height: true, y: true })
             document.body.style.cursor = 'n-resize'
@@ -125,26 +126,26 @@ export function MouseFunctions(div: CustomComplex): void {
           e.clientY - div.getElement().getBoundingClientRect().y > div.getElement().offsetHeight - 5
         ) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posy2 = posy1 - e.clientY
-            posx1 = e.clientX
-            posy1 = e.clientY
+            posX2 = posX1 - e.clientX
+            posY2 = posY1 - e.clientY
+            posX1 = e.clientX
+            posY1 = e.clientY
 
             debugText('Bottom Right Corner')
-            if (((div.getElement().offsetWidth - posx2) * 800) / workspaceImage.width <= 10) {
+            if (((div.getElement().offsetWidth - posX2) * 800) / workspaceImage.width <= 10) {
               div.getElement().style.width = (10 * workspaceImage.width) / 800 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posX2)) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth - posx2 + 'px'
+              div.getElement().style.width = div.getElement().offsetWidth - posX2 + 'px'
             }
 
-            if (((div.getElement().offsetHeight - posy2) * 600) / workspaceImage.height <= 10) {
+            if (((div.getElement().offsetHeight - posY2) * 600) / workspaceImage.height <= 10) {
               div.getElement().style.height = `${(10 * workspaceImage.height) / 600}px`
-            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posy2)) {
+            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posY2)) {
               null
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight - posY2}px`
             }
             inputElementsUpdate(div, { y: true, width: true, height: true })
             document.body.style.cursor = 'nw-resize'
@@ -154,31 +155,31 @@ export function MouseFunctions(div: CustomComplex): void {
         //corner top-right NEW
         if (e.clientX - div.getElement().getBoundingClientRect().x > div.getElement().offsetWidth - 5 && e.clientY - div.getElement().getBoundingClientRect().y < 5) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posy2 = posy1 - e.clientY
-            posx1 = e.clientX
-            posy1 = e.clientY
+            posX2 = posX1 - e.clientX
+            posY2 = posY1 - e.clientY
+            posX1 = e.clientX
+            posY1 = e.clientY
 
             debugText('Top Right Corner')
-            if (((div.getElement().offsetWidth - posx2) * 0.8) / workspaceImage.width <= 0.01) {
+            if (((div.getElement().offsetWidth - posX2) * 0.8) / workspaceImage.width <= 0.01) {
               div.getElement().style.width = (0.01 * workspaceImage.width) / 0.8 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posx2)) {
+            } else if (workspaceImage.getBoundingClientRect().right - actualMargin < div.getElement().offsetLeft + (div.getElement().offsetWidth - posX2)) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth - posx2 + 'px'
+              div.getElement().style.width = div.getElement().offsetWidth - posX2 + 'px'
             }
 
-            if (((div.getElement().offsetHeight + posy2) * 0.6) / workspaceImage.height <= 0.01) {
+            if (((div.getElement().offsetHeight + posY2) * 0.6) / workspaceImage.height <= 0.01) {
               div.getElement().style.height = `${(0.01 * workspaceImage.height) / 0.6}`
-            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2) > 0) {
+            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posY2) > 0) {
               null
               debugText('resize top MAX')
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight + posy2}px`
-              div.getElement().style.top = `${div.getElement().offsetTop - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight + posY2}px`
+              div.getElement().style.top = `${div.getElement().offsetTop - posY2}px`
             }
-            // div.getElement().style.height = div.getElement().offsetHeight + posy2
-            // div.getElement().offsetWidth = div.getElement().offsetWidth + posx2
+            // div.getElement().style.height = div.getElement().offsetHeight + posY2
+            // div.getElement().offsetWidth = div.getElement().offsetWidth + posX2
             inputElementsUpdate(div, { height: true, width: true })
             document.body.style.cursor = 'ne-resize'
           }
@@ -187,27 +188,27 @@ export function MouseFunctions(div: CustomComplex): void {
         //corner bottom-left NEW
         if (e.clientX - div.getElement().getBoundingClientRect().x < 5 && e.clientY - div.getElement().getBoundingClientRect().y > div.getElement().offsetHeight - 5) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posy2 = posy1 - e.clientY
-            posx1 = e.clientX
-            posy1 = e.clientY
+            posX2 = posX1 - e.clientX
+            posY2 = posY1 - e.clientY
+            posX1 = e.clientX
+            posY1 = e.clientY
 
             debugText('Bottom Left Corner')
-            if (((div.getElement().offsetWidth + posx2) * 0.8) / workspaceImage.width <= 0.01) {
+            if (((div.getElement().offsetWidth + posX2) * 0.8) / workspaceImage.width <= 0.01) {
               div.getElement().style.width = (0.01 * workspaceImage.width) / 0.8 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posx2) {
+            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posX2) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth + posx2 + 'px'
-              div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`
+              div.getElement().style.width = div.getElement().offsetWidth + posX2 + 'px'
+              div.getElement().style.left = `${div.getElement().offsetLeft - posX2}px`
             }
 
-            if (((div.getElement().offsetHeight - posy2) * 600) / workspaceImage.height <= 10) {
+            if (((div.getElement().offsetHeight - posY2) * 600) / workspaceImage.height <= 10) {
               div.getElement().style.height = `${(10 * workspaceImage.height) / 600}px`
-            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posy2)) {
+            } else if (workspaceImage.getBoundingClientRect().bottom < div.getElement().getBoundingClientRect().top + (div.getElement().offsetHeight - posY2)) {
               null
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight - posY2}px`
             }
             inputElementsUpdate(div, { x: true, y: true, width: true, height: true })
             document.body.style.cursor = 'ne-resize'
@@ -218,21 +219,21 @@ export function MouseFunctions(div: CustomComplex): void {
 
         if (e.clientX - div.getElement().getBoundingClientRect().x < 5) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posx1 = e.clientX
+            posX2 = posX1 - e.clientX
+            posX1 = e.clientX
             debugText('resize left')
 
-            if (((div.getElement().offsetWidth + posx2) * 0.8) / workspaceImage.width <= 0.01) {
+            if (((div.getElement().offsetWidth + posX2) * 0.8) / workspaceImage.width <= 0.01) {
               div.getElement().style.width = (0.01 * workspaceImage.width) / 0.8 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posx2) {
+            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posX2) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth + posx2 + 'px'
-              div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`
+              div.getElement().style.width = div.getElement().offsetWidth + posX2 + 'px'
+              div.getElement().style.left = `${div.getElement().offsetLeft - posX2}px`
             }
 
-            // div.getElement().offsetHeight = div.getElement().offsetHeight + posy2
-            // div.getElement().style.width = div.getElement().offsetWidth + posx2
+            // div.getElement().offsetHeight = div.getElement().offsetHeight + posY2
+            // div.getElement().style.width = div.getElement().offsetWidth + posX2
             inputElementsUpdate(div, { x: true, width: true })
             document.body.style.cursor = 'e-resize'
           }
@@ -240,21 +241,21 @@ export function MouseFunctions(div: CustomComplex): void {
 
         if (e.clientY - div.getElement().getBoundingClientRect().y < 5) {
           window.onmousemove = function (e) {
-            posy2 = posy1 - e.clientY
-            posy1 = e.clientY
+            posY2 = posY1 - e.clientY
+            posY1 = e.clientY
             debugText('resize top')
 
-            if (((div.getElement().offsetHeight + posy2) * 0.6) / workspaceImage.height <= 0.01) {
+            if (((div.getElement().offsetHeight + posY2) * 0.6) / workspaceImage.height <= 0.01) {
               div.getElement().style.height = `${(0.01 * workspaceImage.height) / 0.6}`
-            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2) > 0) {
+            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posY2) > 0) {
               null
               debugText('resize top MAX')
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight + posy2}px`
-              div.getElement().style.top = `${div.getElement().offsetTop - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight + posY2}px`
+              div.getElement().style.top = `${div.getElement().offsetTop - posY2}px`
             }
-            // div.getElement().style.height = div.getElement().offsetHeight + posy2
-            // div.getElement().style.width = div.getElement().offsetWidth + posx2
+            // div.getElement().style.height = div.getElement().offsetHeight + posY2
+            // div.getElement().style.width = div.getElement().offsetWidth + posX2
             inputElementsUpdate(div, { height: true })
             document.body.style.cursor = 'n-resize'
           }
@@ -263,31 +264,31 @@ export function MouseFunctions(div: CustomComplex): void {
         //corner
         if (e.clientX - div.getElement().getBoundingClientRect().x < 5 && e.clientY - div.getElement().getBoundingClientRect().y < 5) {
           window.onmousemove = function (e) {
-            posx2 = posx1 - e.clientX
-            posy2 = posy1 - e.clientY
-            posx1 = e.clientX
-            posy1 = e.clientY
+            posX2 = posX1 - e.clientX
+            posY2 = posY1 - e.clientY
+            posX1 = e.clientX
+            posY1 = e.clientY
 
             debugText('Top Left Corner')
-            if (((div.getElement().offsetWidth + posx2) * 800) / workspaceImage.width <= 10) {
+            if (((div.getElement().offsetWidth + posX2) * 800) / workspaceImage.width <= 10) {
               div.getElement().style.width = (10 * workspaceImage.width) / 800 + 'px'
-            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posx2) {
+            } else if (workspaceImage.getBoundingClientRect().x + actualMargin > div.getElement().offsetLeft - posX2) {
               null
             } else {
-              div.getElement().style.width = div.getElement().offsetWidth + posx2 + 'px'
-              div.getElement().style.left = `${div.getElement().offsetLeft - posx2}px`
+              div.getElement().style.width = div.getElement().offsetWidth + posX2 + 'px'
+              div.getElement().style.left = `${div.getElement().offsetLeft - posX2}px`
             }
 
-            if (((div.getElement().offsetHeight + posy2) * 0.6) / workspaceImage.height <= 0.01) {
+            if (((div.getElement().offsetHeight + posY2) * 0.6) / workspaceImage.height <= 0.01) {
               div.getElement().style.height = `${(0.01 * workspaceImage.height) / 0.6}`
-            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posy2) > 0) {
+            } else if (workspaceImage.getBoundingClientRect().top - (div.getElement().getBoundingClientRect().top - posY2) > 0) {
               null
             } else {
-              div.getElement().style.height = `${div.getElement().offsetHeight + posy2}px`
-              div.getElement().style.top = `${div.getElement().offsetTop - posy2}px`
+              div.getElement().style.height = `${div.getElement().offsetHeight + posY2}px`
+              div.getElement().style.top = `${div.getElement().offsetTop - posY2}px`
             }
-            // div.getElement().style.height = div.getElement().offsetHeight + posy2
-            // div.getElement().style.width = div.getElement().offsetWidth + posx2
+            // div.getElement().style.height = div.getElement().offsetHeight + posY2
+            // div.getElement().style.width = div.getElement().offsetWidth + posX2
             inputElementsUpdate(div, { x: true, width: true, height: true })
             document.body.style.cursor = 'nw-resize'
           }
@@ -319,6 +320,7 @@ export function MouseFunctions(div: CustomComplex): void {
   div.getElement().onmouseenter = function (e) {
     div.getElement().onmousemove = function (e) {
       if (GUIEvents.isInteracting) return
+      if (e.altKey) return
       // if(ProjectTree.getSelected() != div.getFrameComponent()) return
 
       if (

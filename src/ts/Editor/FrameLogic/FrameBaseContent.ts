@@ -104,7 +104,8 @@ export default abstract class FrameBaseContent implements Saveable {
     this.element.style.position = 'absolute'
     this.element.style.outlineStyle = 'dashed'
     this.element.style.outlineColor = ProjectTree.outlineUnSelected
-    this.element.style.outlineOffset = '-3px'
+    this.element.style.outlineOffset = '-1px'
+    this.element.style.outlineWidth = '1px'
     ;(element as any).frameBaseContent = this
 
     //step 1: event sent to main.ts to display the menu.

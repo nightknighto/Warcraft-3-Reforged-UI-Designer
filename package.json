@@ -14,7 +14,7 @@
     "update-files": "xcopy /E /I /y \".\\files\\*\" \".\\app\\files\"",
     "build": "npm run delete-app && npm run delete-build && npm run compile-ts && npm run update-layout && npm run update-styles && npm run update-js && npm run update-files",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
-    "run": "electron ./app/main.js",
+    "run": "electron --inspect=5858 ./app/main.js",
     "start": "npm run build && npm run run",
     "pack": "npm run build && electron-builder"
   },
@@ -45,6 +45,7 @@
     "del": "^6.0.0",
     "electron-canvas-to-buffer-fixed": "^2.0.0",
     "electron-fetch": "^1.7.3",
+    "electron-settings": "^4.0.2",
     "popper.js": "^1.16.1",
     "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",

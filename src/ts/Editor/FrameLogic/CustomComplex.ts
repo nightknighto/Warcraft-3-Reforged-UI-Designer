@@ -1,8 +1,5 @@
-/**
- * /* eslint-disable @typescript-eslint/no-explicit-any
- *
- * @format
- */
+/** @format */
+/* eslint @typescript-eslint/no-explicit-any: ["off", { "ignoreRestArgs": false }]*/
 
 import { debugText } from '../../Classes & Functions/Mini-Functions'
 import { FrameComponent } from './FrameComponent'
@@ -314,7 +311,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     }
 
     const ty = this.frameComponent.type
-    let f = FrameType
+    const f = FrameType
 
     if (ty >= f.BACKDROP && ty <= f.INVIS_BUTTON) {
       ImageSetup()
