@@ -1,14 +1,13 @@
-import * as bootstrap from "bootstrap";
+import * as bootstrap from 'bootstrap'
 
 const modal_container = document.getElementById('modal-container')
 export class Modals {
-
     constructor() {
-        this.AboutUs();
-        this.Hall_of_Fame();
-        this.Changelog();
-        this.Documentation();
-        this.Documentation_online();
+        this.AboutUs()
+        this.Hall_of_Fame()
+        this.Changelog()
+        this.Documentation()
+        this.Documentation_online()
     }
 
     AboutUs() {
@@ -382,11 +381,11 @@ export class Modals {
     Hall_of_Fame() {
         console.log('began')
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML += body
-            console.log(body)
-        })
+            .then((res) => res.text())
+            .then((body) => {
+                modal_container.innerHTML += body
+                console.log(body)
+            })
     }
 
     Documentation() {
@@ -673,33 +672,30 @@ export class Modals {
         </div>
     </div>`
 
-        modal_container.innerHTML += data;
-
+        modal_container.innerHTML += data
     }
 
     Documentation_online() {
         console.log('began')
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML = ""
-            this.WelcomePage();
-            this.AboutUs();
-            this.Changelog();
-            this.Hall_of_Fame();
-            modal_container.innerHTML += body
-        })
+            .then((res) => res.text())
+            .then((body) => {
+                modal_container.innerHTML = ''
+                this.WelcomePage()
+                this.AboutUs()
+                this.Changelog()
+                this.Hall_of_Fame()
+                modal_container.innerHTML += body
+            })
     }
 
     WelcomePage() {
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML += body
-            const modal = new bootstrap.Modal(document.getElementById('Welcome'))
-            modal.show();
-        })
+            .then((res) => res.text())
+            .then((body) => {
+                modal_container.innerHTML += body
+                const modal = new bootstrap.Modal(document.getElementById('Welcome'))
+                modal.show()
+            })
     }
 }
-
-
