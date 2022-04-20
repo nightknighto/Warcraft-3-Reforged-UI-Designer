@@ -1,179 +1,129 @@
-import { debugGameCoordinates, workspaceImage, panelButton, treeButton } from '../Constants/Elements';
-import { Editor } from '../Editor/Editor';
-import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder';
-import { debugText } from '../Classes & Functions/Mini-Functions';
+import { Editor } from '../Editor/Editor'
+import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
+import { debugText } from '../Classes & Functions/Mini-Functions'
+import CreateFrame from '../Commands/Implementation/CreateFrame'
+import RemoveFrame from '../Commands/Implementation/RemoveFrame'
+import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular'
+import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable'
 
 export class GUIEvents {
+    static isInteracting = false
 
-    static DisplayGameCoords(ev: MouseEvent) : void {
-        const horizontalMargin = 240/1920*workspaceImage.width
+    static DisplayGameCoords(ev: MouseEvent): void {
+        const editor = Editor.GetDocumentEditor()
+        const workspaceImage = editor.workspaceImage
 
-        let gameCoordsString: string;
-        const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect();
+        const horizontalMargin = Editor.getInnerMargin()
+        const actualMargin = Editor.getActualMargin()
 
-        if (ev.x >= workspaceRect.left + horizontalMargin && ev.x <= workspaceRect.right - horizontalMargin
-            && ev.y >= workspaceRect.top && ev.y <= workspaceRect.bottom) {
+        let gameCoordsString: string
+        const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect()
 
-            const gameX = Math.floor((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2*240/1920*workspaceImage.width) * 800)/1000;
-            const gameY = Math.floor(600-((ev.y - workspaceRect.top) / workspaceImage.offsetHeight * 600))/1000
-            gameCoordsString = `Game X/Y: (${gameX} , ${gameY}). Client X/Y: (${ev.clientX}, ${ev.clientY})`;
-            debugGameCoordinates.innerText = gameCoordsString;
-
+        if (
+            ev.x >= workspaceRect.left + actualMargin &&
+            ev.x <= workspaceRect.right - actualMargin &&
+            ev.y >= workspaceRect.top &&
+            ev.y <= workspaceRect.bottom
+        ) {
+            const gameX = Math.floor(((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2 * horizontalMargin)) * 800) / 1000
+            const gameY = Math.floor(600 - ((ev.y - workspaceRect.top) / workspaceImage.offsetHeight) * 600) / 1000
+            gameCoordsString = `Game X/Y: (${gameX} , ${gameY})`
+            editor.debugGameCoordinates.innerText = gameCoordsString
         }
-
     }
 
-
-    static DeleteSelectedImage() : void{
-        const projectTree = Editor.GetDocumentEditor().projectTree;
-
-        projectTree.RemoveFrame(projectTree.GetSelectedFrame());
+    static DeleteSelectedImage(): void {
+        const command = new RemoveFrame(Editor.GetDocumentEditor().projectTree.getSelectedFrame())
+        command.action()
     }
 
-    static DuplicateSelectedImage() : void{try{
-        const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
+    static DuplicateSelectedImage(): void {
+        try {
+            const projectTree = Editor.GetDocumentEditor().projectTree
+            const selected = projectTree.getSelectedFrame()
+            const builder = FrameBuilder.copy(selected)
 
-        const frameBuilder =  new FrameBuilder()
-        frameBuilder.type = selected.type;
-        frameBuilder.texture = selected.image.element.src
-        frameBuilder.name = selected.GetName() + 'Copy';
-
-        const newFrame = selected.GetParent().CreateAsChild(frameBuilder);
-        Object.keys(newFrame.image).forEach( prop => {
-            if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
-        })
-
-        newFrame.image.SetLeftX(selected.image.LeftX+0.03)
-        newFrame.image.SetBotY(selected.image.BotY-0.03)
-        
-        projectTree.Select(newFrame);
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
-        GUIEvents.RefreshElements()
-        
-        debugText('Duplicated.')
-    }catch(e){alert(e)}}
-    
-    static DuplicateArrayCircular(CenterX: number, CenterY: number, radius: number, count: number, initAng: number) : void{try{
-        const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
-        const parent = selected.GetParent()
-        
-        const angDisp = Math.PI * 2 / count;
-        for(let i = 0; i < count; i++) {
-            const frameBuilder =  new FrameBuilder()
-            frameBuilder.type = selected.type;
-            frameBuilder.texture = selected.image.element.src
-            frameBuilder.name = selected.GetName() + 'Circ'+i;
-
-            const newFrame = parent.CreateAsChild(frameBuilder);
-            Object.keys(newFrame.image).forEach( prop => {
-                if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
-            })
-
-            let width = newFrame.image.width;
-            const height = newFrame.image.height;
-
-            let newX = CenterX + (radius)*Math.cos(initAng + angDisp*i)
-            let newY = CenterY + (radius)*Math.sin(initAng + angDisp*i)
-            newFrame.image.SetLeftX(newX) 
-            newFrame.image.SetBotY(newY)
-        }
-        
-        projectTree.Select(selected);
-        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
-        GUIEvents.RefreshElements()
-        
-        debugText('Duplicated Circular.')
-    }catch(e){alert(e)}}
-
-    static DuplicateArrayTable(LeftX: number, TopY: number, rows: number, columns: number, gapX: number, gapY: number) : void{try{
-        const projectTree = Editor.GetDocumentEditor().projectTree;
-        const selected = projectTree.GetSelectedFrame();
-        const parent = selected.GetParent()
-        
-        for(let i = 0; i < columns; i++) {
-            for(let j = 0; j < rows; j++){
-                if(i == 0 && j == 0) continue;
-                const frameBuilder =  new FrameBuilder()
-                frameBuilder.type = selected.type;
-                frameBuilder.texture = selected.image.element.src
-                frameBuilder.name = selected.GetName() + 'Table'+i+j;
-
-                const newFrame = parent.CreateAsChild(frameBuilder);
-                Object.keys(newFrame.image).forEach( prop => {
-                    if(prop != 'frameComponent' && prop != 'element') newFrame.image[prop] = selected.image[prop];
-                })
-
-                const width = newFrame.image.width;
-                const height = newFrame.image.height;
-
-                let newX = LeftX + (width + gapX)*j 
-                let newY = TopY + height - (height + gapY)*i
-                newFrame.image.SetLeftX(newX) 
-                newFrame.image.SetBotY(newY)
+            builder.x = builder.x + 0.03
+            builder.y = builder.y - 0.03
+            builder.name = builder.name.replace('[', '').replace(']', '')
+            if (projectTree.findByName(builder.name + 'Copy')) {
+                let i = 0
+                while (true) {
+                    i++
+                    if (!projectTree.findByName(builder.name + 'Copy' + i)) {
+                        builder.name += 'Copy' + i
+                        break
+                    }
+                }
+            } else {
+                builder.name += 'Copy'
             }
-        }
-        
-        projectTree.Select(selected);
-        //Editor.GetDocumentEditor().parameterEditor.UpdateFields(newFrame);
-        GUIEvents.RefreshElements()
-        
-        debugText('Duplicated Table form.')
-    }catch(e){alert(e)}}
 
-    static PanelOpenClose() : void {
-        const panel = document.getElementById("panelParameters")
-        if(panel.style.visibility == "visible") {
+            const command = new CreateFrame(selected.getParent(), builder)
+            command.action()
+
+            debugText('Duplicated.')
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number, ownerArray: boolean): void {
+        try {
+            const projectTree = Editor.GetDocumentEditor().projectTree
+            const selected = projectTree.getSelectedFrame()
+
+            const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng, ownerArray)
+            command.action()
+
+            debugText('Duplicated Circular.')
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean): void {
+        try {
+            const projectTree = Editor.GetDocumentEditor().projectTree
+            const selected = projectTree.getSelectedFrame()
+
+            const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray)
+            command.action()
+
+            debugText('Duplicated Table form.')
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+    static PanelOpenClose(): void {
+        const panel = Editor.GetDocumentEditor().parameterEditor.panelParameters
+        const panelButton = Editor.GetDocumentEditor().panelButton
+
+        if (panel.style.visibility == 'visible') {
             // panel.style.minWidth = "0";
             // panel.style.width = "0";
-            panel.style.visibility = "hidden"
-            panelButton.style.visibility = "visible"
-            document.getElementById("img").style.display = "none"
-            document.getElementById("imgBUTTON").style.display = "none"
-
+            panel.style.visibility = 'hidden'
+            panelButton.style.visibility = 'visible'
+            document.getElementById('img').style.display = 'none'
+            document.getElementById('imgBUTTON').style.display = 'none'
         } else {
             // panel.style.minWidth = panelDefaultminSize;
             // panel.style.width = panelDefaultSize;
-            panel.style.visibility = "visible"
-            document.getElementById("img").style.display = "initial"
-            document.getElementById("imgBUTTON").style.display = "initial"
+            panel.style.visibility = 'visible'
+            document.getElementById('img').style.display = 'initial'
+            document.getElementById('imgBUTTON').style.display = 'initial'
         }
     }
-    
-    static TreeOpenClose() : void {
-        const panel = document.getElementById("panelTree")
-        if(panel.style.visibility == "visible") {
-            panel.style.visibility = "hidden"
-            treeButton.style.visibility = "visible"
+
+    static TreeOpenClose(): void {
+        const panel = document.getElementById('panelTree')
+        const treeButton = Editor.GetDocumentEditor().treeButton
+        if (panel.style.visibility == 'visible') {
+            panel.style.visibility = 'hidden'
+            treeButton.style.visibility = 'visible'
         } else {
-            panel.style.visibility = "visible"
+            panel.style.visibility = 'visible'
         }
     }
-
-    static RefreshElements() : void {
-        for(const el of Editor.GetDocumentEditor().projectTree.GetIterator()) {
-          if(el.type == 0) { //base
-            continue;
-          }
-          
-          const image = el.image.element
-          const rect = workspaceImage.getBoundingClientRect() 
-          const workspace = Editor.GetDocumentEditor().workspaceImage
-          const horizontalMargin = 240/1920*rect.width
-      
-          const x = el.image.LeftX
-          const y = el.image.BotY
-          const w = el.image.width
-          const h = el.image.height
-      
-          image.width = w / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width-2*horizontalMargin)
-          image.style.height = `${+h / 0.6 * workspace.getBoundingClientRect().height}px`;
-      
-          image.style.left = `${ x*(rect.width-2*horizontalMargin)/0.8 + rect.left + horizontalMargin}px`
-          image.style.top = `${rect.bottom - y*rect.height/0.6 - image.height - 120}px`
-      
-        }
-      }
-
 }

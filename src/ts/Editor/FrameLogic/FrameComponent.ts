@@ -1,136 +1,356 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Editor } from "../Editor";
-import { CustomImage } from "./CustomImage";
-import { FrameBuilder } from "./FrameBuilder";
-import { FrameType } from "./FrameType";
+import { Editor } from '../Editor'
+import { FrameBuilder } from './FrameBuilder'
+import { FrameType } from './FrameType & FrameRequire'
+import Saveable from '../../Persistence/Saveable'
+import SaveContainer from '../../Persistence/SaveContainer'
+import CustomComplex from './CustomComplex'
+import FrameBaseContent from './FrameBaseContent'
+import { ProjectTree } from '../ProjectTree'
+import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
+import { ParameterEditor } from '../ParameterEditor'
 
-export class FrameComponent{
+export class FrameComponent implements Saveable {
+    public static readonly SAVE_KEY_NAME = 'name'
+    public static readonly SAVE_KEY_CHILDREN = 'children'
+    public static readonly SAVE_KEY_TYPE = 'type'
+    public static readonly SAVE_KEY_TOOLTIP = 'tooltip'
+    public static readonly SAVE_KEY_WORLDFRAME = 'world_frame'
 
-    private children : FrameComponent[];
-    public readonly image : CustomImage;
-    public readonly treeElement : HTMLElement;
-    public parentOption : HTMLOptionElement;
+    private name: string
+    private children: FrameComponent[]
+    public type: FrameType
+    private tooltip = false
 
-    private name : string;
-    public GetName() : string{
-        return this.name;
-    }
+    public world_frame = false
 
-    public SetName(newName : string) : void{
-        this.name = newName;
-        (this.treeElement.firstChild as HTMLElement).innerText = newName;
-        if(this.parentOption) this.parentOption.text = newName;
-    }
+    public readonly custom: CustomComplex
+    public readonly treeElement: HTMLElement
+    public parentOption: HTMLOptionElement
+    readonly layerDiv: HTMLDivElement
+    // private orderInParent = 0;
 
-    public type : FrameType;
+    public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
-    public constructor(frameBuildOptions : FrameBuilder){try{
-        
-        const ul : HTMLElement = document.createElement('ul');
-        const li : HTMLElement = document.createElement('li');
-        
-        li.innerText = frameBuildOptions.name;
-        ul.append(li);
+    public setTooltip(on: boolean): FrameComponent {
+        this.tooltip = on
+        let color = ProjectTree.outlineUnSelected
+        if (on) color = ProjectTree.outlineUnSelected_Tooltip
 
-        this.type = frameBuildOptions.type;
-        this.name = frameBuildOptions.name;
-        this.treeElement = ul;
-        this.children = [];
-        this.image = new CustomImage(this,frameBuildOptions.texture,frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y);
-        this.parentOption = document.createElement('option');
-        this.parentOption.text = this.name;
-
-        console.log("Again, needs to be a cleaner way to doing 'as any' fetching.");
-        (ul as any).frameComponent = this;
-
-        li.onclick = () => {
-            Editor.GetDocumentEditor().projectTree.Select(this);
+        if (ProjectTree.getSelected() != this) {
+            this.custom.getElement().style.outlineColor = color
         }
 
-    }catch(e){alert('FrameComp Const: '+e)}}
-
-    private AppendFrame(frame : FrameComponent) : void{
-
-        this.children.push(frame);
-        this.treeElement.append(frame.treeElement);
-
+        return this
     }
 
-    public RemoveFrame(whatFrame : FrameComponent) : boolean{
-
-        const childIndex = this.children.indexOf(whatFrame);
-
-        if(childIndex == -1) return false;
-
-            this.children.splice(childIndex,1);
-
-        return true;
-
+    public getTooltip(): boolean {
+        return this.tooltip
     }
 
-    public CreateAsChild(newFrame : FrameBuilder) : FrameComponent{
-        const newChild = new FrameComponent(newFrame);
-        
-        this.AppendFrame(newChild);
-
-        return newChild;
+    public getName(): string {
+        return this.name
     }
 
-    public Destroy() : void{
-
-        const parent = this.GetParent();
-        parent.RemoveFrame(this);
-
-        for(const child of this.children) {
-            parent.AppendFrame(child);
+    public setName(newName: string): void {
+        if (/.*\[[0-9]\]/.test(newName)) {
+            const name1 = newName.slice(0, newName.length - 2)
+            let name2 = newName.slice(newName.length - 2)
+            name2 = '0' + name2
+            newName = name1 + name2
         }
 
-        this.treeElement.remove();
-        if(this.image != null) this.image.Delete();
-        if(this.parentOption != null) this.parentOption.remove();
-        
-        Editor.GetDocumentEditor().parameterEditor.UpdateFields(null);
+        this.name = newName
+        ;(this.treeElement.firstChild as HTMLElement).innerText = newName
+        if (this.parentOption) this.parentOption.text = newName
     }
-    
-    public MakeParentTo(newChild : FrameComponent) : boolean{
 
-        if(newChild == this) return false;
+    public constructor(frameBuildOptions: FrameBuilder) {
+        try {
+            const ul: HTMLElement = document.createElement('ul')
+            const li: HTMLElement = document.createElement('li')
 
-        let traverseNode : FrameComponent = this; 
-        let previousNode : FrameComponent = this;
+            ul.append(li)
 
-        do{
-            
-            if(traverseNode == newChild) {
+            this.treeElement = ul
+            this.treeElement.setAttribute('style', 'cursor: pointer;')
+            this.children = []
+            this.parentOption = document.createElement('option')
+            this.type = frameBuildOptions.type
+            this.layerDiv = document.createElement('div')
+            this.custom = new CustomComplex(
+                this,
+                frameBuildOptions.width,
+                frameBuildOptions.height,
+                frameBuildOptions.x,
+                frameBuildOptions.y,
+                frameBuildOptions.z,
+                frameBuildOptions
+            )
 
-                newChild.RemoveFrame(previousNode);
-                newChild.GetParent().AppendFrame(previousNode);
-                
-                break;
+            this.setName(frameBuildOptions.name)
+
+            ;(ul as any).frameComponent = this
+
+            li.onclick = () => {
+                Editor.GetDocumentEditor().projectTree.select(this)
             }
 
-            previousNode = traverseNode;
-            traverseNode = traverseNode.GetParent();
+            this.setupAllowedFields()
 
-        }while(traverseNode != null);
-
-        newChild.GetParent().RemoveFrame(newChild);
-        this.AppendFrame(newChild);
-
+            if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = '0px'
+        } catch (e) {
+            alert('FrameComp Construc: ' + e)
+        }
     }
 
-    public static GetFrameComponent(ProjectTreeElement : HTMLElement) : FrameComponent{
+    public save(container: SaveContainer): void {
+        container.save(FrameComponent.SAVE_KEY_NAME, this.name)
+        container.save(FrameComponent.SAVE_KEY_TYPE, this.type)
+        container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip)
+        container.save(FrameComponent.SAVE_KEY_WORLDFRAME, this.world_frame)
+        this.custom.save(container)
 
-        console.log("'As any' fetching of frameComponents from HTMLElements");
-        return (ProjectTreeElement as any).frameComponent;
+        const childrenSaveArray = []
 
+        for (const child of this.children) {
+            const childSaveContainer = new SaveContainer(null)
+            child.save(childSaveContainer)
+            childrenSaveArray.push(childSaveContainer)
+        }
+
+        if (childrenSaveArray.length > 0) container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray)
     }
 
-    public GetChildren() : FrameComponent[]{
-        return this.children;
+    private appendFrame(frame: FrameComponent): void {
+        // if(!this.layerDiv) {
+        //     this.layerDiv = document.createElement("div")
+        //     this.getParent().layerDiv.appendChild(this.layerDiv)
+        // }
+
+        // this.layerDiv.appendChild(frame.custom.getElement())
+
+        this.layerDiv.appendChild(frame.layerDiv)
+
+        this.children.push(frame)
+        this.treeElement.append(frame.treeElement)
     }
 
-    public GetParent() : FrameComponent{
-        return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
+    private removeFrame(whatFrame: FrameComponent): boolean {
+        const childIndex = this.children.indexOf(whatFrame)
+
+        if (childIndex == -1) return false
+
+        this.children.splice(childIndex, 1)
+
+        return true
     }
+
+    public createAsChild(newFrame: FrameBuilder): FrameComponent {
+        const newChild = new FrameComponent(newFrame)
+
+        this.appendFrame(newChild)
+        if (!newChild.FieldsAllowed.parent) {
+            new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
+        }
+
+        ProjectTree.refreshElements()
+        return newChild
+    }
+
+    public destroy(): void {
+        const parent = this.getParent()
+        parent.removeFrame(this)
+
+        for (const child of this.children) {
+            parent.appendFrame(child)
+        }
+
+        this.treeElement.remove()
+        if (this.custom != null) this.custom.delete()
+        if (this.parentOption != null) this.parentOption.remove()
+
+        Editor.GetDocumentEditor().parameterEditor.updateFields(null)
+    }
+
+    public makeAsParentTo(newChild: FrameComponent): boolean {
+        if (newChild == this) return false
+
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        let traverseNode: FrameComponent = this
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        let previousNode: FrameComponent = this
+
+        do {
+            if (traverseNode == newChild) {
+                newChild.removeFrame(previousNode)
+                newChild.getParent().appendFrame(previousNode)
+
+                break
+            }
+
+            previousNode = traverseNode
+            traverseNode = traverseNode.getParent()
+        } while (traverseNode != null)
+
+        newChild.getParent().removeFrame(newChild)
+        this.appendFrame(newChild)
+    }
+
+    public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
+        return (ProjectTreeElement as any).frameComponent
+    }
+
+    public getChildren(): FrameComponent[] {
+        return this.children
+    }
+
+    public getParent(): FrameComponent {
+        return FrameComponent.GetFrameComponent(this.treeElement.parentElement)
+    }
+
+    public changeOrigin(world_frame: boolean): FrameComponent {
+        let parent: FrameComponent = this
+        while (1) {
+            if (parent.getParent().type == FrameType.ORIGIN) {
+                if (world_frame) parent.world_frame = true
+                else parent.world_frame = false
+                console.log('world_frame: ' + parent.world_frame)
+                break
+            }
+            parent = parent.getParent()
+        }
+
+        return this
+    }
+
+    setupAllowedFields() {
+        const i = this.type
+        const ft = FrameType
+        const f = this.FieldsAllowed
+
+        //reset to default
+        Object.assign(this.FieldsAllowed, defaultFieldsAllowed)
+
+        const allowText = () => {
+            f.text = true
+            f.color = true
+            f.scale = true
+        }
+
+        switch (i) {
+            case ft.BROWSER_BUTTON:
+                allowText()
+                f.trigVar = true
+                f.tooltip = false
+                break
+            case ft.BUTTON:
+                f.trigVar = true
+                f.tooltip = false
+                f.textures = true
+                f.type = true
+
+                break
+            case ft.SCRIPT_DIALOG_BUTTON:
+                allowText()
+                f.trigVar = true
+                f.tooltip = false
+
+                break
+            case ft.INVIS_BUTTON:
+                f.trigVar = true
+                f.tooltip = false
+
+                break
+            case ft.BACKDROP:
+                f.textures = true
+                f.type = true
+
+                break
+            case ft.CHECKBOX:
+                f.trigVar = true
+                break
+            case ft.TEXT_FRAME:
+                allowText()
+                f.text = false
+                f.textBig = true
+                f.textAlign = true
+                break
+            case ft.HORIZONTAL_BAR:
+                f.textures = true
+                f.tooltip = false
+                break
+            case ft.HOR_BAR_BACKGROUND:
+                f.textures = true
+                f.backTextures = true
+                f.tooltip = false
+                f.parent = false
+                break
+            case ft.HOR_BAR_TEXT:
+                f.textures = true
+                allowText()
+                f.textAlign = true
+                f.tooltip = false
+                f.parent = false
+                break
+            case ft.HOR_BAR_BACKGROUND_TEXT:
+                f.textures = true
+                f.backTextures = true
+                allowText()
+                f.textAlign = true
+                f.tooltip = false
+                f.parent = false
+                break
+            case ft.TEXTAREA:
+                f.color = true
+                f.textBig = true
+                break
+            case ft.EDITBOX:
+                f.text = true
+                break
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+            // case ft.CHECKBOX:
+            //     f.trigVar = true;
+            //     break;
+
+            default:
+                break
+        }
+    }
+}
+
+interface ElementFieldsAllowed {
+    text: boolean
+    textBig: boolean
+    type: boolean
+    color: boolean
+    scale: boolean
+    textAlign: boolean
+    textures: boolean
+    backTextures: boolean
+    trigVar: boolean
+    /**Default is true */
+    parent: boolean
+    /**Default is true */
+    tooltip: boolean
+}
+
+const defaultFieldsAllowed: ElementFieldsAllowed = {
+    parent: true,
+    tooltip: true,
+
+    color: false,
+    scale: false,
+    text: false,
+    textBig: false,
+    textAlign: false,
+    textures: false,
+    backTextures: false,
+    trigVar: false,
+    type: false,
 }

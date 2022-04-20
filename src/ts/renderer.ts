@@ -7,96 +7,225 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { ipcRenderer, BrowserWindow, remote } from "electron";
-import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
+import { ipcRenderer, remote } from 'electron'
 
-import * as Element from "./Constants/Elements";
-import { GUIEvents } from "./Classes & Functions/GUIEvents";
-import { Editor } from "./Editor/Editor";
-import { FrameBuilder } from "./Editor/FrameLogic/FrameBuilder";
-import * as path from "path";
-import { debugText } from './Classes & Functions/Mini-Functions';
+import { GUIEvents } from './Classes & Functions/GUIEvents'
+import { Editor } from './Editor/Editor'
+import * as path from 'path'
+import { ProjectTree } from './Editor/ProjectTree'
+import { Modals } from './modals/modals Init'
+import bootstrap = require('bootstrap')
+import { electron } from 'webpack'
+import Undo from './Commands/Undo'
+import Redo from './Commands/Redo'
+import RemoveFrame from './Commands/Implementation/RemoveFrame'
+import { ParameterEditor } from './Editor/ParameterEditor'
+import CustomComplex from './Editor/FrameLogic/CustomComplex'
+import { Tooltips } from './Classes & Functions/Tooltips'
+import SaveDocument from './Persistence/SaveDocument'
+import { FrameType } from './Editor/FrameLogic/FrameType & FrameRequire'
 
-window.addEventListener('mousemove', GUIEvents.DisplayGameCoords);
-ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage);
-ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage);
+window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
+ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage)
+ipcRenderer.on('Duplicate', GUIEvents.DuplicateSelectedImage)
 
-ipcRenderer.on('TableArray', () => {try{
-  const win = new remote.BrowserWindow( {
-    height: 400,
-    width: 300,
-    resizable: false,
-    movable: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-    },
-    
-  })
-  win.show()
-  win.focus()
-  win.loadFile(path.join(__dirname, "./TableArray.html"));
-
-}catch(e){alert(e)}});
+const circArray = new bootstrap.Modal(document.getElementById('CircArray'))
+const CircParent = document.getElementById('CircCheckParent') as HTMLInputElement
 
 ipcRenderer.on('CircularArray', () => {
-  const win = new remote.BrowserWindow( {
-    height: 400,
-    width: 300,
-    resizable: false,
-    movable: true,
-    alwaysOnTop: true,
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
-    },
-  
-  })
-  win.show()
-  win.focus()
-  win.loadFile(path.join(__dirname, "./CircularArray.html"));
-});
-
-ipcRenderer.on('TableArraySubmit', (event, args) => {try{
-  let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-  GUIEvents.DuplicateArrayTable(source.LeftX, source.BotY - source.height, args[0], args[1], args[2], args[3])
-}catch(e){alert(e)}})
-
-ipcRenderer.on('CircularArraySubmit', (event, args) => {
-  let source = Editor.GetDocumentEditor().projectTree.GetSelectedFrame().image;
-  GUIEvents.DuplicateArrayCircular(source.LeftX, source.BotY, args[0], args[1], args[2])
+    CircParent.checked = false
+    if (ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
+        CircParent.disabled = false
+    } else {
+        CircParent.disabled = true
+    }
+    circArray.show()
 })
 
-Element.panelButton.onclick                 = GUIEvents.PanelOpenClose;
-Element.treeButton.onclick                 = GUIEvents.TreeOpenClose;
+const CircArraySubmit = document.getElementById('CircArraySubmit')
+const radius = document.getElementById('radius') as HTMLInputElement
+const count = document.getElementById('count') as HTMLInputElement
+const initAng = document.getElementById('initAng') as HTMLInputElement
 
-const editor = new Editor(document);
+CircArraySubmit.onclick = (e) => {
+    try {
+        //conditions plz
+        e.preventDefault()
+        if (+radius.value < 0 || +radius.value > 0.4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
+            if (+radius.value < 0 || +radius.value > 0.4) {
+                radius.value = ''
+            }
+            if (+count.value <= 0) {
+                count.value = ''
+            }
+            if (+initAng.value < 0 || +initAng.value > 360) {
+                initAng.value = ''
+            }
+            return
+        }
 
-//required:
-//undo option
-//mouse cursor change before drag or resize
-const input = document.getElementById('imgFile') as HTMLInputElement
+        const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        GUIEvents.DuplicateArrayCircular(
+            source.getLeftX(),
+            source.getBotY(),
+            radius.valueAsNumber,
+            count.valueAsNumber,
+            initAng.valueAsNumber,
+            CircParent.checked
+        )
+        circArray.hide()
+    } catch (e) {
+        alert(e)
+    }
+}
+const tableArray = new bootstrap.Modal(document.getElementById('TableArray'))
+const tableParent = document.getElementById('TableCheckParent') as HTMLInputElement
+
+ipcRenderer.on('TableArray', () => {
+    tableParent.checked = false
+    if (ProjectTree.getSelected().getParent().getName().indexOf('[') >= 0) {
+        tableParent.disabled = false
+    } else {
+        tableParent.disabled = true
+    }
+    tableArray.show()
+})
+
+const TableArraySubmit = document.getElementById('TableArraySubmit')
+const rows = document.getElementById('rows') as HTMLInputElement
+const columns = document.getElementById('columns') as HTMLInputElement
+const gapX = document.getElementById('gapX') as HTMLInputElement
+const gapY = document.getElementById('gapY') as HTMLInputElement
+
+TableArraySubmit.onclick = (e) => {
+    try {
+        //conditions plz
+        e.preventDefault()
+        if (+rows.value <= 0 || +columns.value <= 0) {
+            if (+rows.value <= 0) {
+                rows.value = ''
+            }
+            if (+columns.value <= 0) {
+                columns.value = ''
+            }
+            return
+        }
+
+        const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        GUIEvents.DuplicateArrayTable(
+            source.getLeftX(),
+            source.getBotY() - source.getHeight(),
+            rows.valueAsNumber,
+            columns.valueAsNumber,
+            gapX.valueAsNumber,
+            gapY.valueAsNumber,
+            tableParent.checked
+        )
+        tableArray.hide()
+    } catch (e) {
+        alert(e)
+    }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/*const input = document.getElementById('imgFile') as HTMLInputElement
 
 Element.formIMG.addEventListener("submit", e => {
-  e.preventDefault()
-  const frameBuilder = new FrameBuilder();
+    e.preventDefault()
+    const frameBuilder = new FrameBuilder();
 
-  frameBuilder.name = "name";
-  frameBuilder.texture =  URL.createObjectURL(input.files[0]);
+    frameBuilder.name = "name";
+    frameBuilder.texture =  URL.createObjectURL(input.files[0]);
   
-  frameBuilder.Run();
+    frameBuilder.Run();
 })
+*/
+try {
+    window.onresize = () => {
+        ProjectTree.refreshElements()
+    }
 
-window.onresize = GUIEvents.RefreshElements;
+    //keyboard shortcuts
+    window.addEventListener('keydown', function (event) {
+        let t = event.target as HTMLInputElement
+        if (t.tagName != 'BODY') return
 
-new Titlebar({
-  backgroundColor: new Color( new RGBA(69,49,26,255)),
-  icon: "./files/icon.png",
-  menu: null,
+        if (event.ctrlKey && event.code === 'KeyZ') {
+            new Undo().run()
+        }
+        if (event.ctrlKey && event.code === 'KeyY') {
+            new Redo().run()
+        }
+        if (event.ctrlKey && event.code === 'KeyS') {
+            new SaveDocument().run()
+        }
+        if (event.which === 46) {
+            if (ProjectTree.getSelected()) {
+                const command = new RemoveFrame(ProjectTree.getSelected())
+                command.action()
+            }
+        }
 
+        const par = ParameterEditor.inst()
+        if (event.which === 37) {
+            //left
+            if (ProjectTree.getSelected()) {
+                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.009 + ''
+                par.inputElementCoordinateX.dispatchEvent(new Event('change'))
+            }
+        }
+
+        if (event.which === 38) {
+            //up
+            if (ProjectTree.getSelected()) {
+                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.009 + ''
+                par.inputElementCoordinateY.dispatchEvent(new Event('change'))
+            }
+        }
+
+        if (event.which === 39) {
+            //right
+            if (ProjectTree.getSelected()) {
+                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.009 + ''
+                par.inputElementCoordinateX.dispatchEvent(new Event('change'))
+            }
+        }
+
+        if (event.which === 40) {
+            //down
+            if (ProjectTree.getSelected()) {
+                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.009 + ''
+                par.inputElementCoordinateY.dispatchEvent(new Event('change'))
+            }
+        }
+    })
+
+    //general Initializations
+    const editor = new Editor(document)
+    editor.parameterEditor.fieldElement.style.display = 'none'
+    document.getElementById('panelTree').style.visibility = 'visible'
+    document.getElementById('panelParameters').style.visibility = 'visible'
+
+    //general Initializations
+    editor.parameterEditor.fieldElement.style.display = 'none'
+    document.getElementById('panelTree').style.visibility = 'visible'
+    document.getElementById('panelParameters').style.visibility = 'visible'
+
+    editor.panelButton.onclick = GUIEvents.PanelOpenClose
+    editor.treeButton.onclick = GUIEvents.TreeOpenClose
+} catch (e) {
+    alert('renderer' + e)
+}
+
+new Modals()
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
 //# sourceMappingURL=renderer.js.map

@@ -1,6 +1,6 @@
 {
   "name": "wc3-ui-maker",
-  "version": "1.0.1",
+  "version": "2.5.3",
   "description": "A UI maker for warcraft 3 Reforged using Frame natives.",
   "main": "./app/main.js",
   "scripts": {
@@ -20,28 +20,36 @@
   },
   "author": "Deadreyo",
   "license": "CC0-1.0",
-  "build":{
+  "build": {
     "icon": "files/icon.png",
     "appId": "org.Deadreyo.W3RUID",
     "productName": "Reforged UI Designer",
-    "buildVersion": "1.0.1"
+    "buildVersion": "2.5.3"
   },
   "devDependencies": {
-    "@interactjs/types": "^1.8.3",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
     "electron": "^9.4.3",
-    "electron-builder": "^22.9.1",
+    "electron-builder": "^22.11.9",
     "eslint": "^7.3.1",
     "typescript": "^3.9.5"
   },
   "dependencies": {
     "@material/textfield": "^10.0.0",
+    "@popperjs/core": "^2.9.3",
+    "@types/bootstrap": "^5.1.2",
+    "bootstrap": "^5.1.0",
+    "bootstrap-social": "^5.1.1",
+    "buffer-to-arraybuffer": "0.0.6",
     "custom-electron-titlebar": "^3.2.6",
     "del": "^6.0.0",
-    "interactjs": "^1.10.1",
+    "electron-canvas-to-buffer-fixed": "^2.0.0",
+    "electron-fetch": "^1.7.3",
+    "popper.js": "^1.16.1",
     "queue": "^6.0.2",
     "queue-typescript": "^1.0.1",
+    "tippy.js": "^6.3.2",
+    "ts-data.stack": "^1.0.6",
     "webpack": "^5.11.1"
   }
 }
