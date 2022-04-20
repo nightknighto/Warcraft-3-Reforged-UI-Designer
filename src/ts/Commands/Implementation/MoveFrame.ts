@@ -1,24 +1,29 @@
-import { debugText } from "../../Classes & Functions/Mini-Functions"
-import { Editor } from "../../Editor/Editor"
-import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent"
-import SimpleCommand from "../SimpleCommand"
+import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { Editor } from '../../Editor/Editor'
+import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import SimpleCommand from '../SimpleCommand'
 
 export default class MoveFrame extends SimpleCommand {
-
-    private oldData: { oldX: number, oldY: number, oldWidth: number, oldHeight: number }
+    private oldData: { oldX: number; oldY: number; oldWidth: number; oldHeight: number }
     private newX: number
     private newY: number
     private newWidth: number
     private newHeight: number
     private target: string
 
-    public constructor (frame: string | FrameComponent, newX: number, newY: number, newWidth: number, newHeight: number, oldData?: { oldX: number, oldY: number, oldWidth: number, oldHeight: number }) {
+    public constructor(
+        frame: string | FrameComponent,
+        newX: number,
+        newY: number,
+        newWidth: number,
+        newHeight: number,
+        oldData?: { oldX: number; oldY: number; oldWidth: number; oldHeight: number }
+    ) {
         super()
 
-        if (typeof (frame) === "string") {
+        if (typeof frame === 'string') {
             this.target = frame
-        }
-        else {
+        } else {
             this.target = frame.getName()
         }
 
@@ -27,13 +32,11 @@ export default class MoveFrame extends SimpleCommand {
         this.newY = newY
         this.newWidth = newWidth
         this.newHeight = newHeight
-
     }
 
     public undo(): void {
-
         if (this.oldData === undefined) {
-            debugText("Unknown previous state.")
+            debugText('Unknown previous state.')
             return
         }
 
@@ -41,12 +44,12 @@ export default class MoveFrame extends SimpleCommand {
         command.pureAction()
 
         super.undo()
-        debugText("Undid frame mouse manipulation.")
+        debugText('Undid frame mouse manipulation.')
     }
 
     public redo(): void {
         super.redo()
-        debugText("Redid frame mouse manipulation.")
+        debugText('Redid frame mouse manipulation.')
     }
 
     public action(DontMoveFrame?: boolean): void {
@@ -55,11 +58,10 @@ export default class MoveFrame extends SimpleCommand {
     }
 
     public pureAction(DontMoveFrame?: boolean): void {
-
         const target = Editor.GetDocumentEditor().projectTree.findByName(this.target)
 
-        if (typeof (target) === "undefined") {
-            debugText("Could not find frame.")
+        if (typeof target === 'undefined') {
+            debugText('Could not find frame.')
             return
         }
         const frameContent = target.custom
@@ -68,7 +70,5 @@ export default class MoveFrame extends SimpleCommand {
         frameContent.setWidth(this.newWidth, DontMoveFrame)
         frameContent.setBotY(this.newY, DontMoveFrame)
         frameContent.setLeftX(this.newX, DontMoveFrame)
-
     }
-
 }

@@ -1,9 +1,8 @@
-import * as bootstrap from "bootstrap"
+import * as bootstrap from 'bootstrap'
 
 const modal_container = document.getElementById('modal-container')
 export class Modals {
-
-    constructor () {
+    constructor() {
         this.AboutUs()
         this.Hall_of_Fame()
         this.Changelog()
@@ -382,8 +381,8 @@ export class Modals {
     Hall_of_Fame() {
         console.log('began')
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
-            .then(res => res.text())
-            .then(body => {
+            .then((res) => res.text())
+            .then((body) => {
                 modal_container.innerHTML += body
                 console.log(body)
             })
@@ -674,15 +673,14 @@ export class Modals {
     </div>`
 
         modal_container.innerHTML += data
-
     }
 
     Documentation_online() {
         console.log('began')
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
-            .then(res => res.text())
-            .then(body => {
-                modal_container.innerHTML = ""
+            .then((res) => res.text())
+            .then((body) => {
+                modal_container.innerHTML = ''
                 this.WelcomePage()
                 this.AboutUs()
                 this.Changelog()
@@ -693,13 +691,11 @@ export class Modals {
 
     WelcomePage() {
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
-            .then(res => res.text())
-            .then(body => {
+            .then((res) => res.text())
+            .then((body) => {
                 modal_container.innerHTML += body
                 const modal = new bootstrap.Modal(document.getElementById('Welcome'))
                 modal.show()
             })
     }
 }
-
-

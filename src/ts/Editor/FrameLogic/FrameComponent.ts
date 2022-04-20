@@ -1,35 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Editor } from "../Editor"
-import { FrameBuilder } from "./FrameBuilder"
-import { FrameType } from "./FrameType & FrameRequire"
-import Saveable from "../../Persistence/Saveable"
-import SaveContainer from "../../Persistence/SaveContainer"
-import CustomComplex from "./CustomComplex"
-import FrameBaseContent from "./FrameBaseContent"
-import { ProjectTree } from "../ProjectTree"
-import ChangeFrameParent from "../../Commands/Implementation/ChangeFrameParent"
-import { ParameterEditor } from "../ParameterEditor"
+import { Editor } from '../Editor'
+import { FrameBuilder } from './FrameBuilder'
+import { FrameType } from './FrameType & FrameRequire'
+import Saveable from '../../Persistence/Saveable'
+import SaveContainer from '../../Persistence/SaveContainer'
+import CustomComplex from './CustomComplex'
+import FrameBaseContent from './FrameBaseContent'
+import { ProjectTree } from '../ProjectTree'
+import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
+import { ParameterEditor } from '../ParameterEditor'
 
 export class FrameComponent implements Saveable {
-
-    public static readonly SAVE_KEY_NAME = "name";
-    public static readonly SAVE_KEY_CHILDREN = "children";
-    public static readonly SAVE_KEY_TYPE = "type";
-    public static readonly SAVE_KEY_TOOLTIP = "tooltip";
-    public static readonly SAVE_KEY_WORLDFRAME = "world_frame";
+    public static readonly SAVE_KEY_NAME = 'name'
+    public static readonly SAVE_KEY_CHILDREN = 'children'
+    public static readonly SAVE_KEY_TYPE = 'type'
+    public static readonly SAVE_KEY_TOOLTIP = 'tooltip'
+    public static readonly SAVE_KEY_WORLDFRAME = 'world_frame'
 
     private name: string
     private children: FrameComponent[]
     public type: FrameType
-    private tooltip = false;
+    private tooltip = false
 
-    public world_frame = false;
+    public world_frame = false
 
     public readonly custom: CustomComplex
     public readonly treeElement: HTMLElement
     public parentOption: HTMLOptionElement
     readonly layerDiv: HTMLDivElement
-    // private orderInParent = 0; 
+    // private orderInParent = 0;
 
     public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
@@ -54,22 +53,20 @@ export class FrameComponent implements Saveable {
     }
 
     public setName(newName: string): void {
-
         if (/.*\[[0-9]\]/.test(newName)) {
             const name1 = newName.slice(0, newName.length - 2)
             let name2 = newName.slice(newName.length - 2)
-            name2 = "0" + name2
+            name2 = '0' + name2
             newName = name1 + name2
         }
 
-        this.name = newName;
-        (this.treeElement.firstChild as HTMLElement).innerText = newName
+        this.name = newName
+        ;(this.treeElement.firstChild as HTMLElement).innerText = newName
         if (this.parentOption) this.parentOption.text = newName
     }
 
-    public constructor (frameBuildOptions: FrameBuilder) {
+    public constructor(frameBuildOptions: FrameBuilder) {
         try {
-
             const ul: HTMLElement = document.createElement('ul')
             const li: HTMLElement = document.createElement('li')
 
@@ -80,12 +77,20 @@ export class FrameComponent implements Saveable {
             this.children = []
             this.parentOption = document.createElement('option')
             this.type = frameBuildOptions.type
-            this.layerDiv = document.createElement("div")
-            this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions)
+            this.layerDiv = document.createElement('div')
+            this.custom = new CustomComplex(
+                this,
+                frameBuildOptions.width,
+                frameBuildOptions.height,
+                frameBuildOptions.x,
+                frameBuildOptions.y,
+                frameBuildOptions.z,
+                frameBuildOptions
+            )
 
-            this.setName(frameBuildOptions.name);
+            this.setName(frameBuildOptions.name)
 
-            (ul as any).frameComponent = this
+            ;(ul as any).frameComponent = this
 
             li.onclick = () => {
                 Editor.GetDocumentEditor().projectTree.select(this)
@@ -93,13 +98,13 @@ export class FrameComponent implements Saveable {
 
             this.setupAllowedFields()
 
-            if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px"
-
-        } catch (e) { alert('FrameComp Construc: ' + e) }
+            if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = '0px'
+        } catch (e) {
+            alert('FrameComp Construc: ' + e)
+        }
     }
 
     public save(container: SaveContainer): void {
-
         container.save(FrameComponent.SAVE_KEY_NAME, this.name)
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type)
         container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip)
@@ -109,20 +114,15 @@ export class FrameComponent implements Saveable {
         const childrenSaveArray = []
 
         for (const child of this.children) {
-
             const childSaveContainer = new SaveContainer(null)
             child.save(childSaveContainer)
             childrenSaveArray.push(childSaveContainer)
-
         }
 
-        if (childrenSaveArray.length > 0)
-            container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray)
-
+        if (childrenSaveArray.length > 0) container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray)
     }
 
     private appendFrame(frame: FrameComponent): void {
-
         // if(!this.layerDiv) {
         //     this.layerDiv = document.createElement("div")
         //     this.getParent().layerDiv.appendChild(this.layerDiv)
@@ -134,11 +134,9 @@ export class FrameComponent implements Saveable {
 
         this.children.push(frame)
         this.treeElement.append(frame.treeElement)
-
     }
 
     private removeFrame(whatFrame: FrameComponent): boolean {
-
         const childIndex = this.children.indexOf(whatFrame)
 
         if (childIndex == -1) return false
@@ -146,7 +144,6 @@ export class FrameComponent implements Saveable {
         this.children.splice(childIndex, 1)
 
         return true
-
     }
 
     public createAsChild(newFrame: FrameBuilder): FrameComponent {
@@ -162,7 +159,6 @@ export class FrameComponent implements Saveable {
     }
 
     public destroy(): void {
-
         const parent = this.getParent()
         parent.removeFrame(this)
 
@@ -186,9 +182,7 @@ export class FrameComponent implements Saveable {
         let previousNode: FrameComponent = this
 
         do {
-
             if (traverseNode == newChild) {
-
                 newChild.removeFrame(previousNode)
                 newChild.getParent().appendFrame(previousNode)
 
@@ -197,18 +191,14 @@ export class FrameComponent implements Saveable {
 
             previousNode = traverseNode
             traverseNode = traverseNode.getParent()
-
         } while (traverseNode != null)
 
         newChild.getParent().removeFrame(newChild)
         this.appendFrame(newChild)
-
     }
 
     public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
-
         return (ProjectTreeElement as any).frameComponent
-
     }
 
     public getChildren(): FrameComponent[] {
@@ -222,7 +212,6 @@ export class FrameComponent implements Saveable {
     public changeOrigin(world_frame: boolean): FrameComponent {
         let parent: FrameComponent = this
         while (1) {
-
             if (parent.getParent().type == FrameType.ORIGIN) {
                 if (world_frame) parent.world_frame = true
                 else parent.world_frame = false
@@ -242,8 +231,6 @@ export class FrameComponent implements Saveable {
 
         //reset to default
         Object.assign(this.FieldsAllowed, defaultFieldsAllowed)
-
-
 
         const allowText = () => {
             f.text = true
@@ -334,12 +321,8 @@ export class FrameComponent implements Saveable {
             default:
                 break
         }
-
-
     }
-
 }
-
 
 interface ElementFieldsAllowed {
     text: boolean
@@ -369,5 +352,5 @@ const defaultFieldsAllowed: ElementFieldsAllowed = {
     textures: false,
     backTextures: false,
     trigVar: false,
-    type: false
+    type: false,
 }

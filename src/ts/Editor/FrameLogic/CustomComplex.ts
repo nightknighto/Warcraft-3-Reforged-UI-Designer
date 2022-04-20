@@ -1,51 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { debugText } from "../../Classes & Functions/Mini-Functions"
-import { FrameComponent } from "./FrameComponent"
-import { Editor } from "../Editor"
-import SaveContainer from "../../Persistence/SaveContainer"
-import FrameBaseContent from "./FrameBaseContent"
-import { FrameType } from "./FrameType & FrameRequire"
-import { MouseFunctions } from "../../Classes & Functions/Mouse Functions"
-import { blp_to_png } from "../../image conversion/blp/blp to png"
-import { dds_to_png } from "../../image conversion/dds/dds to png"
-import { extname } from "../../image conversion/shared"
-import { readFile } from "fs"
-import { basename } from "path"
-import { ParameterEditor } from "../ParameterEditor"
-import { ProjectTree } from "../ProjectTree"
+import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { FrameComponent } from './FrameComponent'
+import { Editor } from '../Editor'
+import SaveContainer from '../../Persistence/SaveContainer'
+import FrameBaseContent from './FrameBaseContent'
+import { FrameType } from './FrameType & FrameRequire'
+import { MouseFunctions } from '../../Classes & Functions/Mouse Functions'
+import { blp_to_png } from '../../image conversion/blp/blp to png'
+import { dds_to_png } from '../../image conversion/dds/dds to png'
+import { extname } from '../../image conversion/shared'
+import { readFile } from 'fs'
+import { basename } from 'path'
+import { ParameterEditor } from '../ParameterEditor'
+import { ProjectTree } from '../ProjectTree'
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
+    public static readonly SAVE_KEY_TEXT = 'text'
+    public static readonly SAVE_KEY_SCALE = 'scale'
+    public static readonly SAVE_KEY_COLOR = 'color'
+    public static readonly SAVE_KEY_HorAlign = 'HorAlign'
+    public static readonly SAVE_KEY_VerAlign = 'VerAlign'
+    public static readonly SAVE_KEY_TEXTURE_DISK_PATH = 'textureDiskPath'
+    public static readonly SAVE_KEY_TEXTURE_WC3_PATH = 'textureWc3Path'
+    public static readonly SAVE_KEY_TEXTURE_BACK_DISK_PATH = 'textureBackDiskPath'
+    public static readonly SAVE_KEY_TEXTURE_BACK_WC3_PATH = 'textureBackWc3Path'
+    public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = 'trig_var'
+    public static readonly SAVE_KEY_TRIGGER_IS_RELATIVE = 'isRelative'
 
-    public static readonly SAVE_KEY_TEXT = "text";
-    public static readonly SAVE_KEY_SCALE = "scale";
-    public static readonly SAVE_KEY_COLOR = "color";
-    public static readonly SAVE_KEY_HorAlign = "HorAlign";
-    public static readonly SAVE_KEY_VerAlign = "VerAlign";
-    public static readonly SAVE_KEY_TEXTURE_DISK_PATH = "textureDiskPath";
-    public static readonly SAVE_KEY_TEXTURE_WC3_PATH = "textureWc3Path"
-    public static readonly SAVE_KEY_TEXTURE_BACK_DISK_PATH = "textureBackDiskPath";
-    public static readonly SAVE_KEY_TEXTURE_BACK_WC3_PATH = "textureBackWc3Path"
-    public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = "trig_var";
-    public static readonly SAVE_KEY_TRIGGER_IS_RELATIVE = "isRelative";
-
-
-    text: string = "";
-    scale: number = 1;
-    color: string = '#ffffff';
-    textHorAlign: 'left' | 'center' | 'right' = 'left';
-    textVerAlign: 'start' | 'center' | 'flex-end' = 'start';
-    textureDiskPath: string = '';
-    textureWc3Path: string = '';
-    textureBackDiskPath: string = '';
-    textureBackWc3Path: string = '';
-    trigVar: string = "";
-    isRelative: boolean = false;
+    text: string = ''
+    scale: number = 1
+    color: string = '#ffffff'
+    textHorAlign: 'left' | 'center' | 'right' = 'left'
+    textVerAlign: 'start' | 'center' | 'flex-end' = 'start'
+    textureDiskPath: string = ''
+    textureWc3Path: string = ''
+    textureBackDiskPath: string = ''
+    textureBackWc3Path: string = ''
+    trigVar: string = ''
+    isRelative: boolean = false
 
     private elemTextContainer: HTMLDivElement
     private elemText: HTMLParagraphElement
     private elemImage: HTMLImageElement
     elemImageBack: HTMLImageElement
-
 
     public getElement(): HTMLDivElement {
         return this.element as HTMLDivElement
@@ -62,8 +59,12 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                 return
             }
             this.scale = val
-            if (this.elemText) { this.elemText.style.fontSize = (val) * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width / 100 + "px" };
-        } catch (e) { console.log('e: ' + e) }
+            if (this.elemText) {
+                this.elemText.style.fontSize = (val * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width) / 100 + 'px'
+            }
+        } catch (e) {
+            console.log('e: ' + e)
+        }
     }
 
     public getColor(): string {
@@ -73,7 +74,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     public setColor(val: string): void {
         this.elemText.style.color = val
         this.color = val
-        debugText("Color changed.")
+        debugText('Color changed.')
     }
 
     public getHorAlign(): 'left' | 'center' | 'right' {
@@ -151,32 +152,31 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                     } else {
                         Image.src = Input
                     }
-                } catch (e) { console.log('setDiskTexture-readFILE: ' + e) }
+                } catch (e) {
+                    console.log('setDiskTexture-readFILE: ' + e)
+                }
             })
 
             if (ParameterEditor.inst().checkboxPathFill.checked) {
                 this.setWc3Texture(basename(Input), which, true)
             }
         }
-
     }
 
     /**
-     * 
-     * @param newTexturePath 
-     * @param which 
+     *
+     * @param newTexturePath
+     * @param which
      * @param refresh refresh input field? Default is false
      */
     public setWc3Texture(newTexturePath: string, which: 'normal' | 'back', refresh?: boolean): void {
         if (which == 'normal') {
             this.textureWc3Path = newTexturePath
             if (refresh) ParameterEditor.inst().inputElementWC3Texture.value = newTexturePath
-        }
-        else {
+        } else {
             this.textureBackWc3Path = newTexturePath
             if (refresh) ParameterEditor.inst().inputElementBackWC3Texture.value = newTexturePath
         }
-
     }
 
     public getWc3Texture(which: 'normal' | 'back'): string {
@@ -200,31 +200,27 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         return this.isRelative
     }
 
-
-    public constructor (frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
-
-
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
         super(frameComponent, document.createElement('div'), width, height, x, y, z)
 
         try {
             if (props) this.isRelative = props.isRelative
             this.specialTypesSetup(props)
 
-            this.element.style.wordBreak = "break-word"
-            this.element.style.overflowY = "hidden"
-            this.element.style.userSelect = "none"
-            this.element.style.lineHeight = "1"
+            this.element.style.wordBreak = 'break-word'
+            this.element.style.overflowY = 'hidden'
+            this.element.style.userSelect = 'none'
+            this.element.style.lineHeight = '1'
 
+            MouseFunctions(this)
 
-            MouseFunctions(this);
-
-            (this.element as any).CustomComplex = this
-
-        } catch (e) { alert(e) }
+            ;(this.element as any).CustomComplex = this
+        } catch (e) {
+            alert(e)
+        }
     }
 
     public save(container: SaveContainer): void {
-
         super.save(container)
         container.save(CustomComplex.SAVE_KEY_TEXT, this.text)
         container.save(CustomComplex.SAVE_KEY_SCALE, this.scale)
@@ -238,31 +234,27 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         container.save(CustomComplex.SAVE_KEY_TRIGGER_VARIABLE_NAME, this.trigVar)
         container.save(CustomComplex.SAVE_KEY_TRIGGER_IS_RELATIVE, this.isRelative)
         // container.save(CustomComplex.SAVE_KEY_, this.);
-
     }
 
     public delete(): void {
-
         this.element.remove()
         Editor.GetDocumentEditor().projectTree.select(null)
 
-        debugText("Deleted the element.")
+        debugText('Deleted the element.')
     }
 
     public static GetCustomComplexFromHTMLDivElement(divElement: HTMLDivElement): CustomComplex {
         return (divElement as any).CustomComplex
     }
 
-
     /* ***********************************************  */
     private specialTypesSetup(props: Partial<CustomComplexProps>) {
-
         const ImageSetup = () => {
             this.elemImage = this.element.appendChild(document.createElement('img'))
-            this.elemImage.style.width = "100%"
-            this.elemImage.style.height = "100%"
+            this.elemImage.style.width = '100%'
+            this.elemImage.style.height = '100%'
             this.elemImage.draggable = false
-            this.elemImage.style.pointerEvents = "none"
+            this.elemImage.style.pointerEvents = 'none'
             // this.elemImage.style.position = 'absolute';
             // if(this.elemText) this.elemImage.style.zIndex = '-1';
             if (props) {
@@ -283,8 +275,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemTextContainer.draggable = false
             this.elemText = this.elemTextContainer.appendChild(document.createElement('p'))
             this.elemText.draggable = false
-            this.elemText.style.pointerEvents = "none"
-            this.elemText.style.marginBottom = "0"
+            this.elemText.style.pointerEvents = 'none'
+            this.elemText.style.marginBottom = '0'
             this.elemText.style.width = '100%'
             this.elemText.style.height = 'auto'
             // if(this.elemImage) this.elemImage.style.zIndex = '-1';
@@ -308,8 +300,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemImageBack.style.clipPath = 'polygon(100% 0, 50% 0, 50% 100%, 100% 100%)'
             this.elemImageBack.style.top = '0'
             this.elemImageBack.style.right = '0'
-            this.elemImageBack.style.position = "absolute"
-            this.elemImageBack.style.pointerEvents = "none"
+            this.elemImageBack.style.position = 'absolute'
+            this.elemImageBack.style.pointerEvents = 'none'
             this.elemImageBack.draggable = false
             this.element.style.border = '1px solid black'
             if (props) {
@@ -326,8 +318,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         }
         if (ty == f.SCRIPT_DIALOG_BUTTON || ty == f.BROWSER_BUTTON) {
             TextSetup()
-            this.setVerAlign("center")
-            this.setHorAlign("center")
+            this.setVerAlign('center')
+            this.setHorAlign('center')
             this.setColor('#FCD20D')
         }
         if (ty == f.TEXT_FRAME) TextSetup()
@@ -361,8 +353,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemTextContainer.style.top = '6px'
             this.elemTextContainer.style.bottom = '16px'
             this.elemTextContainer.style.lineHeight = '10px'
-            this.elemTextContainer.style.overflowY = "auto"
-            this.elemTextContainer.className = "scroll_textarea"
+            this.elemTextContainer.style.overflowY = 'auto'
+            this.elemTextContainer.className = 'scroll_textarea'
         }
         if (ty == f.EDITBOX) {
             ImageSetup()
@@ -374,13 +366,10 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.elemTextContainer.style.width = '100vw'
             this.elemTextContainer.style.left = '6px'
             this.elemTextContainer.style.bottom = '16px'
-            this.element.style.overflowX = "hidden"
-        };
+            this.element.style.overflowX = 'hidden'
+        }
     }
     /* ***********************************************  */
-
-
-
 }
 
 export interface CustomComplexProps {

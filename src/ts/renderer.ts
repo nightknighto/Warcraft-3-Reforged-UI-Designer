@@ -7,23 +7,23 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { ipcRenderer, remote } from "electron"
+import { ipcRenderer, remote } from 'electron'
 
-import { GUIEvents } from "./Classes & Functions/GUIEvents"
-import { Editor } from "./Editor/Editor"
-import * as path from "path"
-import { ProjectTree } from "./Editor/ProjectTree"
-import { Modals } from "./modals/modals Init"
-import bootstrap = require("bootstrap")
-import { electron } from "webpack"
-import Undo from "./Commands/Undo"
-import Redo from "./Commands/Redo"
-import RemoveFrame from "./Commands/Implementation/RemoveFrame"
-import { ParameterEditor } from "./Editor/ParameterEditor"
-import CustomComplex from "./Editor/FrameLogic/CustomComplex"
-import { Tooltips } from "./Classes & Functions/Tooltips"
-import SaveDocument from "./Persistence/SaveDocument"
-import { FrameType } from "./Editor/FrameLogic/FrameType & FrameRequire"
+import { GUIEvents } from './Classes & Functions/GUIEvents'
+import { Editor } from './Editor/Editor'
+import * as path from 'path'
+import { ProjectTree } from './Editor/ProjectTree'
+import { Modals } from './modals/modals Init'
+import bootstrap = require('bootstrap')
+import { electron } from 'webpack'
+import Undo from './Commands/Undo'
+import Redo from './Commands/Redo'
+import RemoveFrame from './Commands/Implementation/RemoveFrame'
+import { ParameterEditor } from './Editor/ParameterEditor'
+import CustomComplex from './Editor/FrameLogic/CustomComplex'
+import { Tooltips } from './Classes & Functions/Tooltips'
+import SaveDocument from './Persistence/SaveDocument'
+import { FrameType } from './Editor/FrameLogic/FrameType & FrameRequire'
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage)
@@ -51,19 +51,32 @@ CircArraySubmit.onclick = (e) => {
     try {
         //conditions plz
         e.preventDefault()
-        if (+radius.value < 0 || +radius.value > .4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
-
-            if (+radius.value < 0 || +radius.value > .4) { radius.value = "" }
-            if (+count.value <= 0) { count.value = '' }
-            if (+initAng.value < 0 || +initAng.value > 360) { initAng.value = '' }
+        if (+radius.value < 0 || +radius.value > 0.4 || +count.value <= 0 || +initAng.value < 0 || +initAng.value > 360) {
+            if (+radius.value < 0 || +radius.value > 0.4) {
+                radius.value = ''
+            }
+            if (+count.value <= 0) {
+                count.value = ''
+            }
+            if (+initAng.value < 0 || +initAng.value > 360) {
+                initAng.value = ''
+            }
             return
         }
 
         const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
-        GUIEvents.DuplicateArrayCircular(source.getLeftX(), source.getBotY(), radius.valueAsNumber, count.valueAsNumber, initAng.valueAsNumber, CircParent.checked)
+        GUIEvents.DuplicateArrayCircular(
+            source.getLeftX(),
+            source.getBotY(),
+            radius.valueAsNumber,
+            count.valueAsNumber,
+            initAng.valueAsNumber,
+            CircParent.checked
+        )
         circArray.hide()
-
-    } catch (e) { alert(e) }
+    } catch (e) {
+        alert(e)
+    }
 }
 const tableArray = new bootstrap.Modal(document.getElementById('TableArray'))
 const tableParent = document.getElementById('TableCheckParent') as HTMLInputElement
@@ -89,17 +102,29 @@ TableArraySubmit.onclick = (e) => {
         //conditions plz
         e.preventDefault()
         if (+rows.value <= 0 || +columns.value <= 0) {
-
-            if (+rows.value <= 0) { rows.value = "" }
-            if (+columns.value <= 0) { columns.value = '' }
+            if (+rows.value <= 0) {
+                rows.value = ''
+            }
+            if (+columns.value <= 0) {
+                columns.value = ''
+            }
             return
         }
 
         const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
-        GUIEvents.DuplicateArrayTable(source.getLeftX(), source.getBotY() - source.getHeight(), rows.valueAsNumber, columns.valueAsNumber, gapX.valueAsNumber, gapY.valueAsNumber, tableParent.checked)
+        GUIEvents.DuplicateArrayTable(
+            source.getLeftX(),
+            source.getBotY() - source.getHeight(),
+            rows.valueAsNumber,
+            columns.valueAsNumber,
+            gapX.valueAsNumber,
+            gapY.valueAsNumber,
+            tableParent.checked
+        )
         tableArray.hide()
-
-    } catch (e) { alert(e) }
+    } catch (e) {
+        alert(e)
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -116,7 +141,6 @@ Element.formIMG.addEventListener("submit", e => {
 })
 */
 try {
-
     window.onresize = () => {
         ProjectTree.refreshElements()
     }
@@ -124,7 +148,7 @@ try {
     //keyboard shortcuts
     window.addEventListener('keydown', function (event) {
         let t = event.target as HTMLInputElement
-        if (t.tagName != "BODY") return
+        if (t.tagName != 'BODY') return
 
         if (event.ctrlKey && event.code === 'KeyZ') {
             new Undo().run()
@@ -143,34 +167,38 @@ try {
         }
 
         const par = ParameterEditor.inst()
-        if (event.which === 37) { //left
+        if (event.which === 37) {
+            //left
             if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.001 + ""
-                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.009 + ""
+                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.009 + ''
                 par.inputElementCoordinateX.dispatchEvent(new Event('change'))
             }
         }
 
-        if (event.which === 38) { //up
+        if (event.which === 38) {
+            //up
             if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.001 + ""
-                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.009 + ""
+                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.009 + ''
                 par.inputElementCoordinateY.dispatchEvent(new Event('change'))
             }
         }
 
-        if (event.which === 39) { //right
+        if (event.which === 39) {
+            //right
             if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.001 + ""
-                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.009 + ""
+                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.009 + ''
                 par.inputElementCoordinateX.dispatchEvent(new Event('change'))
             }
         }
 
-        if (event.which === 40) { //down
+        if (event.which === 40) {
+            //down
             if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.001 + ""
-                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.009 + ""
+                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.001 + ''
+                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.009 + ''
                 par.inputElementCoordinateY.dispatchEvent(new Event('change'))
             }
         }
@@ -178,19 +206,20 @@ try {
 
     //general Initializations
     const editor = new Editor(document)
-    editor.parameterEditor.fieldElement.style.display = "none"
-    document.getElementById("panelTree").style.visibility = "visible"
-    document.getElementById("panelParameters").style.visibility = "visible"
+    editor.parameterEditor.fieldElement.style.display = 'none'
+    document.getElementById('panelTree').style.visibility = 'visible'
+    document.getElementById('panelParameters').style.visibility = 'visible'
 
     //general Initializations
-    editor.parameterEditor.fieldElement.style.display = "none"
-    document.getElementById("panelTree").style.visibility = "visible"
-    document.getElementById("panelParameters").style.visibility = "visible"
+    editor.parameterEditor.fieldElement.style.display = 'none'
+    document.getElementById('panelTree').style.visibility = 'visible'
+    document.getElementById('panelParameters').style.visibility = 'visible'
 
     editor.panelButton.onclick = GUIEvents.PanelOpenClose
     editor.treeButton.onclick = GUIEvents.TreeOpenClose
-
-} catch (e) { alert("renderer" + e) }
+} catch (e) {
+    alert('renderer' + e)
+}
 
 new Modals()
 

@@ -1,44 +1,37 @@
-import Stack from "ts-data.stack"
-import { debugText } from "../Classes & Functions/Mini-Functions"
-import Redoable from "../Commands/Redoable"
-import Undoable from "../Commands/Undoable"
+import Stack from 'ts-data.stack'
+import { debugText } from '../Classes & Functions/Mini-Functions'
+import Redoable from '../Commands/Redoable'
+import Undoable from '../Commands/Undoable'
 
 export default class ChangeStack {
-
     private undoStack: Stack<Undoable>
     private redoStack: Stack<Redoable>
 
-    public constructor () {
-
+    public constructor() {
         this.undoStack = new Stack()
         this.redoStack = new Stack()
 
         return this
-
     }
 
     public undo(): void {
-
         if (this.undoStack.isEmpty()) {
-            debugText("Could not undo, nothing to undo.")
+            debugText('Could not undo, nothing to undo.')
             return
         }
 
         const undoCommand = this.undoStack.pop()
         undoCommand.undo()
-
     }
 
     public redo(): void {
-
         if (this.redoStack.isEmpty()) {
-            debugText("Could not redo, nothing to redo.")
+            debugText('Could not redo, nothing to redo.')
             return
         }
 
         const redoCommand = this.redoStack.pop()
         redoCommand.redo()
-
     }
 
     public pushUndoChange(command: Undoable, breakRedo: boolean): void {
@@ -56,5 +49,4 @@ export default class ChangeStack {
         this.undoStack = new Stack()
         this.redoStack = new Stack()
     }
-
 }

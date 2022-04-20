@@ -1,51 +1,67 @@
-import { FrameType } from "./FrameType & FrameRequire"
-import { Editor } from "../Editor"
-import SaveContainer from "../../Persistence/SaveContainer"
-import { FrameComponent } from "./FrameComponent"
-import CustomComplex, { CustomComplexProps } from "./CustomComplex"
-import FrameBaseContent from "./FrameBaseContent"
-import { ProjectTree } from "../ProjectTree"
+import { FrameType } from './FrameType & FrameRequire'
+import { Editor } from '../Editor'
+import SaveContainer from '../../Persistence/SaveContainer'
+import { FrameComponent } from './FrameComponent'
+import CustomComplex, { CustomComplexProps } from './CustomComplex'
+import FrameBaseContent from './FrameBaseContent'
+import { ProjectTree } from '../ProjectTree'
 
 export class FrameBuilder implements CustomComplexProps {
+    public static frameNumber = 1
 
-    public static frameNumber = 1;
+    public width = 0.1
+    public height = 0.1
+    public x = 0.25
+    public y = 0.25
+    public z = 1
+    public name = 'Frame'
+    public type: FrameType = FrameType.BACKDROP
+    public textureDiskPath = ''
+    public textureWc3Path = ''
+    public textureBackDiskPath = ''
+    public textureBackWc3Path = ''
+    public trigVar = ''
+    public isRelative = false
+    public text = 'Text'
+    public scale = 1
+    public color = '#FFCC00'
+    public textHorAlign: 'left' | 'center' | 'right' = 'left'
+    public textVerAlign: 'center' | 'start' | 'flex-end' = 'start'
+    public autoId = false
 
-    public width = 0.10;
-    public height = 0.10;
-    public x = 0.250;
-    public y = 0.250;
-    public z = 1;
-    public name = 'Frame';
-    public type: FrameType = FrameType.BACKDROP;
-    public textureDiskPath = "";
-    public textureWc3Path = "";
-    public textureBackDiskPath = "";
-    public textureBackWc3Path = ""
-    public trigVar = "";
-    public isRelative = false;
-    public text = "Text";
-    public scale = 1;
-    public color = "#FFCC00";
-    public textHorAlign: "left" | "center" | "right" = "left"
-    public textVerAlign: "center" | "start" | "flex-end" = "start"
-    public autoId = false;
-
-    public constructor (autoassignId: boolean) {
+    public constructor(autoassignId: boolean) {
         this.autoId = autoassignId
     }
 
     public load(container: SaveContainer): void {
-
         const projectTree = Editor.GetDocumentEditor().projectTree
         const originallySelectedFrame = projectTree.getSelectedFrame()
 
-        if (!container.hasKey(FrameComponent.SAVE_KEY_NAME)) { console.error("Could not parse JSON."); return }
-        if (!container.hasKey(FrameComponent.SAVE_KEY_TYPE)) { console.error("Could not parse JSON."); return }
+        if (!container.hasKey(FrameComponent.SAVE_KEY_NAME)) {
+            console.error('Could not parse JSON.')
+            return
+        }
+        if (!container.hasKey(FrameComponent.SAVE_KEY_TYPE)) {
+            console.error('Could not parse JSON.')
+            return
+        }
 
-        if (!container.hasKey(FrameBaseContent.SAVE_KEY_LEFTX)) { console.error("Could not parse JSON."); return }
-        if (!container.hasKey(FrameBaseContent.SAVE_KEY_BOTY)) { console.error("Could not parse JSON."); return }
-        if (!container.hasKey(FrameBaseContent.SAVE_KEY_HEIGHT)) { console.error("Could not parse JSON."); return }
-        if (!container.hasKey(FrameBaseContent.SAVE_KEY_WIDTH)) { console.error("Could not parse JSON."); return }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_LEFTX)) {
+            console.error('Could not parse JSON.')
+            return
+        }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_BOTY)) {
+            console.error('Could not parse JSON.')
+            return
+        }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_HEIGHT)) {
+            console.error('Could not parse JSON.')
+            return
+        }
+        if (!container.hasKey(FrameBaseContent.SAVE_KEY_WIDTH)) {
+            console.error('Could not parse JSON.')
+            return
+        }
 
         this.name = container.load(FrameComponent.SAVE_KEY_NAME)
         this.type = container.load(FrameComponent.SAVE_KEY_TYPE)
@@ -71,7 +87,9 @@ export class FrameBuilder implements CustomComplexProps {
             this.isRelative = container.load(CustomComplex.SAVE_KEY_TRIGGER_IS_RELATIVE)
             this.textureBackDiskPath = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_DISK_PATH)
             this.textureBackWc3Path = container.load(CustomComplex.SAVE_KEY_TEXTURE_BACK_WC3_PATH)
-        } catch (e) { console.log('textures error: ' + e) }
+        } catch (e) {
+            console.log('textures error: ' + e)
+        }
         // if (!container.hasKey(CustomComplex.SAVE_KEY_SCALE)) { console.error("Could not parse JSON."); return; }
         // if (!container.hasKey(CustomComplex.SAVE_KEY_COLOR)) { console.error("Could not parse JSON."); return; }
 
@@ -81,33 +99,34 @@ export class FrameBuilder implements CustomComplexProps {
             this.color = container.load(CustomComplex.SAVE_KEY_COLOR)
             this.textHorAlign = container.load(CustomComplex.SAVE_KEY_HorAlign)
             this.textVerAlign = container.load(CustomComplex.SAVE_KEY_VerAlign)
-        } catch (e) { console.log("Loading Error: Text Frame Options Missing.") }
-
+        } catch (e) {
+            console.log('Loading Error: Text Frame Options Missing.')
+        }
 
         const frameComponent = projectTree.appendToSelected(this)
 
         try {
             frameComponent.setTooltip(container.load(FrameComponent.SAVE_KEY_TOOLTIP))
             frameComponent.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected_Tooltip
-        } catch (e) { console.log("Loading Error: Tooltip Info") }
+        } catch (e) {
+            console.log('Loading Error: Tooltip Info')
+        }
 
         try {
             frameComponent.world_frame = container.load(FrameComponent.SAVE_KEY_WORLDFRAME)
-        } catch (e) { console.log("Loading Error: world frame missing") }
+        } catch (e) {
+            console.log('Loading Error: world frame missing')
+        }
 
         projectTree.select(frameComponent)
 
         if (container.hasKey(FrameComponent.SAVE_KEY_CHILDREN))
-            for (const frameData of container.load(FrameComponent.SAVE_KEY_CHILDREN))
-                new FrameBuilder(false).load(frameData)
-
+            for (const frameData of container.load(FrameComponent.SAVE_KEY_CHILDREN)) new FrameBuilder(false).load(frameData)
 
         projectTree.select(originallySelectedFrame)
-
     }
 
     private static copyBuilder(frame: FrameBuilder): FrameBuilder {
-
         const frameBuilder = new FrameBuilder(false)
 
         for (const key in frameBuilder) {
@@ -115,11 +134,9 @@ export class FrameBuilder implements CustomComplexProps {
         }
 
         return frameBuilder
-
     }
 
     private static copyFrame(frame: FrameComponent): FrameBuilder {
-
         const frameBuilder = new FrameBuilder(false)
 
         frameBuilder.name = frame.getName()
@@ -142,14 +159,10 @@ export class FrameBuilder implements CustomComplexProps {
         frameBuilder.textVerAlign = frame.custom.getVerAlign()
 
         return frameBuilder
-
     }
 
     public static copy(frame: FrameComponent | FrameBuilder): FrameBuilder {
-
         if (frame instanceof FrameComponent) return FrameBuilder.copyFrame(frame)
         else return FrameBuilder.copyBuilder(frame)
-
     }
-
 }

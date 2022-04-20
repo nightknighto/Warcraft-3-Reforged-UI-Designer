@@ -1,5 +1,5 @@
-import { app, BrowserWindow, ipcMain, ipcRenderer, shell } from "electron"
-import * as path from "path"
+import { app, BrowserWindow, ipcMain, ipcRenderer, shell } from 'electron'
+import * as path from 'path'
 
 import { ContextMenu } from './Editor/Menus/contextMenu'
 
@@ -10,19 +10,17 @@ const minWindowWidth = 1024
 const minWindowHeight = 640
 
 function initialize() {
-
     //in the future, there should be a settings file that will load previously stored settings, one of which would be initial window size.
 
     mainWindow = createWindow(minWindowWidth, minWindowHeight)
     contextMenu = new ContextMenu(mainWindow)
 
     // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, "./index.html"))
+    mainWindow.loadFile(path.join(__dirname, './index.html'))
     // Open the DevTools.
     //mainWindow.webContents.openDevTools();
 
     setupEvents(mainWindow)
-
 }
 function createWindow(windowWidth: number, windowHeight: number): BrowserWindow {
     // Create the browser window.
@@ -33,7 +31,7 @@ function createWindow(windowWidth: number, windowHeight: number): BrowserWindow 
         minWidth: minWindowWidth,
         minHeight: minWindowHeight,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
             nodeIntegrationInSubFrames: true,
             webviewTag: true,
@@ -42,16 +40,14 @@ function createWindow(windowWidth: number, windowHeight: number): BrowserWindow 
         },
         resizable: true,
         movable: true,
-        titleBarStyle: "hidden",
+        titleBarStyle: 'hidden',
         frame: false,
-
     })
 
     return browserWindow
 }
 
 function setupEvents(mainWindow: BrowserWindow) {
-
     ipcMain.on('show-context-menu', () => {
         contextMenu.showContextMenu()
     })
@@ -63,28 +59,25 @@ function setupEvents(mainWindow: BrowserWindow) {
     })
 
     //following code allows external URLs to be played in iframes
-    mainWindow.webContents.session.webRequest.onHeadersReceived(
-        { urls: ['*://*/*'] },
-        (details, callback) => {
-            Object.keys(details.responseHeaders).filter(x => x.toLowerCase() === 'x-frame-options')
-                .map(x => delete details.responseHeaders[x])
+    mainWindow.webContents.session.webRequest.onHeadersReceived({ urls: ['*://*/*'] }, (details, callback) => {
+        Object.keys(details.responseHeaders)
+            .filter((x) => x.toLowerCase() === 'x-frame-options')
+            .map((x) => delete details.responseHeaders[x])
 
-            callback({
-                cancel: false,
-                responseHeaders: details.responseHeaders,
-            })
-        },
-    )
-
+        callback({
+            cancel: false,
+            responseHeaders: details.responseHeaders,
+        })
+    })
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
+app.on('ready', () => {
     initialize()
 
-    app.on("activate", function () {
+    app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) initialize()
@@ -94,8 +87,8 @@ app.on("ready", () => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on("window-all-closed", () => {
-    if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
         app.quit()
     }
 })

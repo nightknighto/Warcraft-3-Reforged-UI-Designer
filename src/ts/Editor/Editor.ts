@@ -1,27 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FrameBuilder } from "./FrameLogic/FrameBuilder"
-import { FrameType } from "./FrameLogic/FrameType & FrameRequire"
-import { RibbonMenu } from "./Menus/RibbonMenu"
-import { RibbonOption } from "./Menus/RibbonOption"
-import { TabsMenu } from "./Menus/TabsMenu"
-import { ParameterEditor } from "./ParameterEditor"
-import { ProjectTree } from "./ProjectTree"
-import SaveASDocument from "../Persistence/SaveASDocument"
-import LoadDocument from "../Persistence/LoadDocument"
-import ChangeStack from "./ChangeStack"
-import Undo from "../Commands/Undo"
-import Redo from "../Commands/Redo"
-import CreateFrameAtSelected from "../Commands/Implementation/CreateFrameAtSelected"
-import { Export } from "../Classes & Functions/Export"
-import NewDocument from "../Persistence/NewDocument"
-import { BackgroundTexture, CustomBackground } from "./Menus/Backgrounds"
-import { AppInterfaceWoodenTexture, AppInterfaceBrownColors, AppInterfacePurpleColors, AppInterfaceBlueColors, AppInterfaceDarkColors } from "./Menus/App Interface"
+import { FrameBuilder } from './FrameLogic/FrameBuilder'
+import { FrameType } from './FrameLogic/FrameType & FrameRequire'
+import { RibbonMenu } from './Menus/RibbonMenu'
+import { RibbonOption } from './Menus/RibbonOption'
+import { TabsMenu } from './Menus/TabsMenu'
+import { ParameterEditor } from './ParameterEditor'
+import { ProjectTree } from './ProjectTree'
+import SaveASDocument from '../Persistence/SaveASDocument'
+import LoadDocument from '../Persistence/LoadDocument'
+import ChangeStack from './ChangeStack'
+import Undo from '../Commands/Undo'
+import Redo from '../Commands/Redo'
+import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
+import { Export } from '../Classes & Functions/Export'
+import NewDocument from '../Persistence/NewDocument'
+import { BackgroundTexture, CustomBackground } from './Menus/Backgrounds'
+import {
+    AppInterfaceWoodenTexture,
+    AppInterfaceBrownColors,
+    AppInterfacePurpleColors,
+    AppInterfaceBlueColors,
+    AppInterfaceDarkColors,
+} from './Menus/App Interface'
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
-import SaveDocument from "../Persistence/SaveDocument"
+import SaveDocument from '../Persistence/SaveDocument'
 
 export class Editor {
-
-    //Application bars      
+    //Application bars
     public readonly panelDebug: HTMLElement
 
     public readonly btnCloseTreePanel: HTMLButtonElement
@@ -48,7 +53,6 @@ export class Editor {
     public readonly titleBar: Titlebar
 
     private initializeMenus(): TabsMenu {
-
         const tabsMenu = new TabsMenu()
 
         const fileMenu = new RibbonMenu('File')
@@ -82,23 +86,22 @@ export class Editor {
         expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
         expRibAs.addMenuOption('TYPESCRIPT', new Export(true, 'ts'))
 
-
         editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()))
         editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()))
 
         const ribAppInterface = new RibbonOption('App Interface', null)
         viewMenu.addRibbonOption(ribAppInterface)
 
-        ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture)
-        ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors)
-        ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors)
-        ribAppInterface.addMenuOption('Blue Interface', new AppInterfaceBlueColors)
-        ribAppInterface.addMenuOption('Dark Interface', new AppInterfaceDarkColors)
+        ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture())
+        ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors())
+        ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors())
+        ribAppInterface.addMenuOption('Blue Interface', new AppInterfaceBlueColors())
+        ribAppInterface.addMenuOption('Dark Interface', new AppInterfaceDarkColors())
 
         const ribBackground = new RibbonOption('Background/Resolution', null)
         viewMenu.addRibbonOption(ribBackground)
-        ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture("./files/images/backgroundWorkspace.png"))
-        ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture("./files/images/backgroundWorkspace2.png"))
+        ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture('./files/images/backgroundWorkspace.png'))
+        ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture('./files/images/backgroundWorkspace2.png'))
         ribBackground.addMenuOption('Custom Background (Experimental)', new CustomBackground())
 
         infoMenu.addRibbonOption(new RibbonOption('About Us', null))
@@ -120,10 +123,9 @@ export class Editor {
         insertMenu.addRibbonOption(ribBackdrop)
         ribBackdrop.addMenuOption('Custom Backdrop', new CreateFrameAtSelected(newFrameBuilder))
 
-
         newFrameBuilder = new FrameBuilder(true)
         newFrameBuilder.type = FrameType.TEXT_FRAME
-        newFrameBuilder.text = "Text Frame"
+        newFrameBuilder.text = 'Text Frame'
         newFrameBuilder.width = 0.07
         newFrameBuilder.height = 0.07
         const ribText = new RibbonOption('Texts', new CreateFrameAtSelected(newFrameBuilder))
@@ -171,7 +173,6 @@ export class Editor {
         newFrameBuilder.type = FrameType.HORIZONTAL_BAR
         ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(newFrameBuilder))
 
-
         newFrameBuilder = new FrameBuilder(true)
         newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
         newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND
@@ -186,7 +187,6 @@ export class Editor {
         newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
         newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND_TEXT
         ribTemplates.addMenuOption('Horiz. Bar + Background-Text', new CreateFrameAtSelected(newFrameBuilder))
-
 
         newFrameBuilder = new FrameBuilder(true)
         newFrameBuilder.textureDiskPath = './files/images/CheckListBox.png'
@@ -224,12 +224,10 @@ export class Editor {
 
         insertMenu.run()
         return tabsMenu
-
     }
 
-    public constructor (document: HTMLDocument) {
-
-        (document as any).editor = this
+    public constructor(document: HTMLDocument) {
+        ;(document as any).editor = this
 
         this.panelDebug = document.getElementById('panelDebug')
 
@@ -250,12 +248,10 @@ export class Editor {
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
         this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
 
-
         this.titleBar = new Titlebar({
             backgroundColor: new Color(new RGBA(69, 49, 26, 255)),
-            icon: "./files/icon.png",
+            icon: './files/icon.png',
             menu: null,
-
         })
 
         new AppInterfaceDarkColors().run()
@@ -269,7 +265,7 @@ export class Editor {
     public static getInnerMargin(): number {
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
-        return 240 / 1920 * rect.width
+        return (240 / 1920) * rect.width
     }
 
     public static getActualMargin(): number {
@@ -281,11 +277,16 @@ export class Editor {
     }
 
     //gives the max and min numbers for the x-position (edges of the frame-movable area)
-    public static getActualMarginLimits(): { min: number, max: number } {
+    public static getActualMarginLimits(): { min: number; max: number } {
         const workspaceImage = Editor.GetDocumentEditor().workspaceImage
         return {
-            min: Math.floor((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin()) * 800) / 1000
-            , max: Math.floor((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin()) * 800) / 1000
+            min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
+            max:
+                Math.floor(
+                    ((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) /
+                        (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) *
+                        800
+                ) / 1000,
         }
     }
 }

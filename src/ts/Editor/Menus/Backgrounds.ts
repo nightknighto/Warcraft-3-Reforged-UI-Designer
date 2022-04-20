@@ -1,11 +1,11 @@
-import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance"
-import { Editor } from "../Editor"
-import { dialog, remote } from "electron"
+import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { Editor } from '../Editor'
+import { dialog, remote } from 'electron'
 
 export class BackgroundTexture implements ICallableDivInstance {
     private path: string
 
-    constructor (path: string) {
+    constructor(path: string) {
         this.path = path
     }
 
@@ -15,12 +15,12 @@ export class BackgroundTexture implements ICallableDivInstance {
 }
 
 export class CustomBackground implements ICallableDivInstance {
-
     run() {
-        remote.dialog.showOpenDialog({
-            filters: [{ name: 'Image', extensions: ['png', 'jpg', 'jpeg'] }],
-            properties: ['openFile']
-        })
+        remote.dialog
+            .showOpenDialog({
+                filters: [{ name: 'Image', extensions: ['png', 'jpg', 'jpeg'] }],
+                properties: ['openFile'],
+            })
             .then((openData) => {
                 if (openData.canceled) return
                 Editor.GetDocumentEditor().workspaceImage.src = openData.filePaths[0]
@@ -30,6 +30,5 @@ export class CustomBackground implements ICallableDivInstance {
             Other sizes may cause incorrect results.
             `)
             })
-
     }
 }

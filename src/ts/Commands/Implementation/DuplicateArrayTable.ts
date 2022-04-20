@@ -1,14 +1,13 @@
-import { debugText } from "../../Classes & Functions/Mini-Functions"
-import { Editor } from "../../Editor/Editor"
-import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder"
-import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent"
-import Actionable from "../Actionable"
-import SimpleCommand from "../SimpleCommand"
-import ChangeFrameName from "./ChangeFrameName"
-import RemoveFrame from "./RemoveFrame"
+import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { Editor } from '../../Editor/Editor'
+import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
+import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import Actionable from '../Actionable'
+import SimpleCommand from '../SimpleCommand'
+import ChangeFrameName from './ChangeFrameName'
+import RemoveFrame from './RemoveFrame'
 
 export default class DuplicateArrayTable extends SimpleCommand {
-
     private rows: number
     private columns: number
     private leftX: number
@@ -18,16 +17,23 @@ export default class DuplicateArrayTable extends SimpleCommand {
     private target: string
     private ownerArray: boolean
 
-    private undoCommands: Actionable[] = [];
+    private undoCommands: Actionable[] = []
 
-    public constructor (target: FrameComponent | string, rows: number, columns: number, leftX: number, topY: number, gapX: number, gapY: number, ownerArray: boolean) {
-
+    public constructor(
+        target: FrameComponent | string,
+        rows: number,
+        columns: number,
+        leftX: number,
+        topY: number,
+        gapX: number,
+        gapY: number,
+        ownerArray: boolean
+    ) {
         super()
 
-        if (typeof (target) === "string") {
+        if (typeof target === 'string') {
             this.target = target
-        }
-        else {
+        } else {
             this.target = target.getName()
         }
 
@@ -44,7 +50,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
 
     public undo(): void {
         if (this.undoCommands.length == 0) {
-            debugText("No applicable undo actions.")
+            debugText('No applicable undo actions.')
             return
         }
 
@@ -54,20 +60,19 @@ export default class DuplicateArrayTable extends SimpleCommand {
         this.undoCommands = []
 
         super.undo()
-        debugText("Undid frame duplication (table).")
+        debugText('Undid frame duplication (table).')
     }
 
     public redo(): void {
         super.redo()
-        debugText("Redid frame duplication (table).")
+        debugText('Redid frame duplication (table).')
     }
 
     public pureAction(): void {
-
         const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target)
 
-        if (typeof (frame) === "undefined") {
-            debugText("Could not find frame.")
+        if (typeof frame === 'undefined') {
+            debugText('Could not find frame.')
             return
         }
 
@@ -89,12 +94,13 @@ export default class DuplicateArrayTable extends SimpleCommand {
                 builder.y = this.topY + builder.height - (builder.height + this.gapY) * i
                 const newFrame = parent.createAsChild(builder)
 
-                if (this.ownerArray) { //find if parent array has the same index. If yes, change parent
+                if (this.ownerArray) {
+                    //find if parent array has the same index. If yes, change parent
                     for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
                         const checkingName = parent.getName().slice(0, parent.getName().length - 4)
                         // alert('checkingName: '+checkingName)
                         // alert('prod: '+checkingName+"["+ind+"]")
-                        if (el.getName() == checkingName + "[" + index + "]" || el.getName() == checkingName + "[" + "0" + index + "]") {
+                        if (el.getName() == checkingName + '[' + index + ']' || el.getName() == checkingName + '[' + '0' + index + ']') {
                             el.makeAsParentTo(newFrame)
                             if (frame.getTooltip()) newFrame.setTooltip(true)
 
@@ -107,9 +113,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
             }
         }
 
-        frame.setName(frame.getName() + "T[00]")
+        frame.setName(frame.getName() + 'T[00]')
         this.undoCommands.push(new ChangeFrameName(frame, oldName))
-
     }
-
 }

@@ -1,16 +1,15 @@
-import { ipcRenderer } from "electron"
-import Saveable from "../../Persistence/Saveable"
-import SaveContainer from "../../Persistence/SaveContainer"
-import { Editor } from "../Editor"
-import { FrameComponent } from "./FrameComponent"
-import { ProjectTree } from "../ProjectTree"
+import { ipcRenderer } from 'electron'
+import Saveable from '../../Persistence/Saveable'
+import SaveContainer from '../../Persistence/SaveContainer'
+import { Editor } from '../Editor'
+import { FrameComponent } from './FrameComponent'
+import { ProjectTree } from '../ProjectTree'
 
 export default abstract class FrameBaseContent implements Saveable {
-
-    public static readonly SAVE_KEY_HEIGHT = "height";
-    public static readonly SAVE_KEY_WIDTH = "width";
-    public static readonly SAVE_KEY_LEFTX = "leftX";
-    public static readonly SAVE_KEY_BOTY = "botY";
+    public static readonly SAVE_KEY_HEIGHT = 'height'
+    public static readonly SAVE_KEY_WIDTH = 'width'
+    public static readonly SAVE_KEY_LEFTX = 'leftX'
+    public static readonly SAVE_KEY_BOTY = 'botY'
 
     protected readonly frameComponent: FrameComponent
     protected readonly element: HTMLElement
@@ -44,9 +43,8 @@ export default abstract class FrameBaseContent implements Saveable {
         const rect = workspace.getBoundingClientRect()
         const horizontalMargin = Editor.getInnerMargin()
 
-        if (!noChange) this.element.style.width = newWidth / 0.8 * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + "px"
+        if (!noChange) this.element.style.width = (newWidth / 0.8) * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + 'px'
         this.width = newWidth
-
     }
 
     public getHeight(): number {
@@ -54,13 +52,12 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setHeight(newHeight: number, noChange?: boolean): void {
-
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         if (!noChange) {
             //@ts-ignore: element will have height.
-            this.element.style.top = `${this.element.offsetTop + this.element.height - newHeight * rect.height / 0.6}px`
-            this.element.style.height = `${newHeight / 0.6 * workspace.getBoundingClientRect().height}px`
+            this.element.style.top = `${this.element.offsetTop + this.element.height - (newHeight * rect.height) / 0.6}px`
+            this.element.style.height = `${(newHeight / 0.6) * workspace.getBoundingClientRect().height}px`
         }
         this.height = newHeight
     }
@@ -75,8 +72,7 @@ export default abstract class FrameBaseContent implements Saveable {
         const horizontalMargin = Editor.getInnerMargin()
 
         this.leftX = newX
-        if (!noChange) this.element.style.left = `${+newX * (rect.width - 2 * horizontalMargin) / 0.8 + rect.left + horizontalMargin}px`
-
+        if (!noChange) this.element.style.left = `${(+newX * (rect.width - 2 * horizontalMargin)) / 0.8 + rect.left + horizontalMargin}px`
     }
 
     public getBotY(): number {
@@ -87,16 +83,13 @@ export default abstract class FrameBaseContent implements Saveable {
         const rect = Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect()
 
         this.botY = newY
-        if (!noChange) this.element.style.top = `${rect.bottom - newY * rect.height / 0.6 - this.element.offsetHeight - 120}px`
-
+        if (!noChange) this.element.style.top = `${rect.bottom - (newY * rect.height) / 0.6 - this.element.offsetHeight - 120}px`
     }
 
-    protected constructor (frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number, z: number) {
-
+    protected constructor(frameComponent: FrameComponent, element: HTMLElement, width: number, height: number, x: number, y: number, z: number) {
         this.frameComponent = frameComponent
         this.element = element
         frameComponent.layerDiv.appendChild(this.element)
-
 
         this.setWidth(width)
         this.setHeight(height)
@@ -104,21 +97,19 @@ export default abstract class FrameBaseContent implements Saveable {
         this.setBotY(y)
 
         this.element.draggable = false
-        this.element.style.position = "absolute"
-        this.element.style.outlineStyle = "dashed"
+        this.element.style.position = 'absolute'
+        this.element.style.outlineStyle = 'dashed'
         this.element.style.outlineColor = ProjectTree.outlineUnSelected
-        this.element.style.outlineOffset = "-3px";
+        this.element.style.outlineOffset = '-3px'
 
-        (element as any).frameBaseContent = this
+        ;(element as any).frameBaseContent = this
 
         //step 1: event sent to main.ts to display the menu.
         this.element.oncontextmenu = (ev: Event) => {
-
             Editor.GetDocumentEditor().projectTree.select(ev.target as HTMLElement)
 
             ipcRenderer.send('show-context-menu')
         }
-
     }
 
     public static GetFrameBaseContentFromHTMLImageElement(htmlElement: HTMLImageElement): FrameBaseContent {
@@ -131,5 +122,4 @@ export default abstract class FrameBaseContent implements Saveable {
         container.save(FrameBaseContent.SAVE_KEY_LEFTX, this.leftX)
         container.save(FrameBaseContent.SAVE_KEY_BOTY, this.botY)
     }
-
 }

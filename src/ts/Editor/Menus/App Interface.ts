@@ -1,6 +1,6 @@
 import { Color, RGBA } from 'custom-electron-titlebar'
-import { ICallableDivInstance } from "../../Classes & Functions/ICallableDivInstance"
-import { Editor } from "../Editor"
+import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { Editor } from '../Editor'
 import { ProjectTree } from '../ProjectTree'
 
 export enum AppInterfaces {
@@ -17,14 +17,13 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.color = "rgb(248, 224, 197)"
+            elements[i].style.color = 'rgb(248, 224, 197)'
             elements[i].style.backgroundImage = "url('./files/WoodenPanels.png')"
         }
 
-
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.backgroundImage = "url(./files/woodenplankHorBig.png)"
+            elements[i].style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         }
 
         let element = document.getElementById('barTab')
@@ -49,11 +48,10 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.color = "black"
+            elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#ECBD87'
         }
-
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
         for (var i = 0; i < elements.length; i++) {
@@ -75,7 +73,7 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         element.style.backgroundColor = '#28160C'
         element.style.border = '2px solid #B87E59'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
-        element.style.width = "600px"
+        element.style.width = '600px'
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#5B4432'
         element.style.border = '6px solid #3A2718'
@@ -92,11 +90,10 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.color = "black"
+            elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#D39EEC'
         }
-
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
         for (var i = 0; i < elements.length; i++) {
@@ -118,7 +115,7 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         element.style.backgroundColor = '#480B68'
         element.style.border = '2px solid #D29FEE'
         element.style.clipPath = 'polygon(0% 20%, 0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 0% 80%)'
-        element.style.width = "550px"
+        element.style.width = '550px'
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#492D56'
         element.style.border = '6px ridge #11819a'
@@ -135,11 +132,10 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.color = "black"
+            elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#67A2C2'
         }
-
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
         for (var i = 0; i < elements.length; i++) {
@@ -161,7 +157,7 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
         element.style.backgroundColor = '#222B70'
         element.style.border = '2px solid #6EADBE'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
-        element.style.width = "600px"
+        element.style.width = '600px'
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#1B3A4F'
         element.style.border = '6px ridge rgb(78, 114, 140)'
@@ -179,11 +175,10 @@ export class AppInterfaceDarkColors implements ICallableDivInstance {
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (var i = 0; i < elements.length; i++) {
-            elements[i].style.color = "rgb(248, 224, 197)"
+            elements[i].style.color = 'rgb(248, 224, 197)'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#312B2B'
         }
-
 
         var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
         for (var i = 0; i < elements.length; i++) {
@@ -205,7 +200,7 @@ export class AppInterfaceDarkColors implements ICallableDivInstance {
         element.style.backgroundColor = '#312B2B'
         element.style.border = '2px solid #827877'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
-        element.style.width = "600px"
+        element.style.width = '600px'
         element = document.getElementById('originMode')
         element.style.backgroundColor = '#827877'
         element.style.border = '6px ridge rgb(160, 68, 37)'

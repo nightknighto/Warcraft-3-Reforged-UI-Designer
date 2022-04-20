@@ -1,36 +1,33 @@
-import { debugText } from "../../Classes & Functions/Mini-Functions"
-import { Editor } from "../../Editor/Editor"
-import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent"
-import SimpleCommand from "../SimpleCommand"
-import { ParameterEditor } from "../../Editor/ParameterEditor"
-import { ProjectTree } from "../../Editor/ProjectTree"
+import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { Editor } from '../../Editor/Editor'
+import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import SimpleCommand from '../SimpleCommand'
+import { ParameterEditor } from '../../Editor/ParameterEditor'
+import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class ChangeFrameTooltip extends SimpleCommand {
-
     private frame: string
     private tooltip: boolean
     private oldTooltip: boolean
     private childrenTooltipPair: [string, boolean][]
 
-    public constructor (frame: FrameComponent | string, newTooltip: boolean) {
+    public constructor(frame: FrameComponent | string, newTooltip: boolean) {
         super()
 
-        if (typeof (frame) === "string") {
+        if (typeof frame === 'string') {
             this.frame = frame
-        }
-        else {
+        } else {
             this.frame = frame.getName()
         }
 
         this.tooltip = newTooltip
-
     }
 
     public pureAction(): void {
         const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
 
-        if (typeof (frame) === "undefined") {
-            debugText("Could not find frame.")
+        if (typeof frame === 'undefined') {
+            debugText('Could not find frame.')
             return
         }
 
@@ -50,14 +47,14 @@ export default class ChangeFrameTooltip extends SimpleCommand {
         const projectTree = Editor.GetDocumentEditor().projectTree
         const frame = projectTree.findByName(this.frame)
 
-        if (typeof (frame) === "undefined") {
-            debugText("Could not find frame.")
+        if (typeof frame === 'undefined') {
+            debugText('Could not find frame.')
             return
         }
 
         this.childrenTooltipPair.forEach((childTooltipPair: [string, boolean]) => {
             const child = projectTree.findByName(childTooltipPair[0])
-            if (typeof (child) === "undefined") return
+            if (typeof child === 'undefined') return
 
             child.setTooltip(childTooltipPair[1])
             if (ProjectTree.getSelected() != child) {
@@ -68,12 +65,11 @@ export default class ChangeFrameTooltip extends SimpleCommand {
         frame.setTooltip(this.oldTooltip)
 
         super.undo()
-        debugText("Undid frame change tooltip.")
+        debugText('Undid frame change tooltip.')
     }
 
     public redo(): void {
         super.redo()
-        debugText("Redid frame change tooltip.")
+        debugText('Redid frame change tooltip.')
     }
-
 }
