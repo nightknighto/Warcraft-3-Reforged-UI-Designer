@@ -1,42 +1,42 @@
-import { debugText } from "../../Classes & Functions/Mini-Functions";
-import { Editor } from "../../Editor/Editor";
-import SaveContainer from "../../Persistence/SaveContainer";
-import SimpleCommand from "../SimpleCommand";
+import { debugText } from "../../Classes & Functions/Mini-Functions"
+import { Editor } from "../../Editor/Editor"
+import SaveContainer from "../../Persistence/SaveContainer"
+import SimpleCommand from "../SimpleCommand"
 
 export default class Load extends SimpleCommand {
 
-	private dataContainer: SaveContainer;
-	private previousDataContainer: SaveContainer;
+    private dataContainer: SaveContainer
+    private previousDataContainer: SaveContainer
 
-	public constructor (state: SaveContainer) {
-		super();
-		this.dataContainer = state;
-	}
+    public constructor (state: SaveContainer) {
+        super()
+        this.dataContainer = state
+    }
 
-	public pureAction(): void {
+    public pureAction(): void {
 
-		const projectTree = Editor.GetDocumentEditor().projectTree;
+        const projectTree = Editor.GetDocumentEditor().projectTree
 
-		this.previousDataContainer = new SaveContainer(null);
-		projectTree.save(this.previousDataContainer);
+        this.previousDataContainer = new SaveContainer(null)
+        projectTree.save(this.previousDataContainer)
 
-		projectTree.load(this.dataContainer);
+        projectTree.load(this.dataContainer)
 
-	}
+    }
 
-	public undo(): void {
+    public undo(): void {
 
-		const command = new Load(this.previousDataContainer);
-		command.pureAction();
+        const command = new Load(this.previousDataContainer)
+        command.pureAction()
 
-		super.undo();
-		debugText("Undid loading.");
+        super.undo()
+        debugText("Undid loading.")
 
-	}
+    }
 
-	public redo(): void {
-		super.redo();
-		debugText("Redid loading.");
-	}
+    public redo(): void {
+        super.redo()
+        debugText("Redid loading.")
+    }
 
 }

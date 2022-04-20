@@ -1,73 +1,73 @@
-import { debugText } from "../../Classes & Functions/Mini-Functions";
-import { Editor } from "../../Editor/Editor";
-import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder";
-import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
-import SimpleCommand from "../SimpleCommand";
-import RemoveFrame from "./RemoveFrame";
-import { FrameType } from "../../Editor/FrameLogic/FrameType & FrameRequire";
+import { debugText } from "../../Classes & Functions/Mini-Functions"
+import { Editor } from "../../Editor/Editor"
+import { FrameBuilder } from "../../Editor/FrameLogic/FrameBuilder"
+import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent"
+import SimpleCommand from "../SimpleCommand"
+import RemoveFrame from "./RemoveFrame"
+import { FrameType } from "../../Editor/FrameLogic/FrameType & FrameRequire"
 
 export default class CreateFrame extends SimpleCommand {
-	private frameBuilder: FrameBuilder;
-	private parent: string;
-	private resultingFrame: FrameComponent;
+    private frameBuilder: FrameBuilder
+    private parent: string
+    private resultingFrame: FrameComponent
 
-	public constructor (parent: FrameComponent | string, frameBuilder: FrameBuilder) {
+    public constructor (parent: FrameComponent | string, frameBuilder: FrameBuilder) {
 
-		super();
+        super()
 
-		if (typeof (parent) === "string") {
-			this.parent = parent;
-		}
-		else {
-			this.parent = parent.getName();
-		}
+        if (typeof (parent) === "string") {
+            this.parent = parent
+        }
+        else {
+            this.parent = parent.getName()
+        }
 
-		this.frameBuilder = frameBuilder;
+        this.frameBuilder = frameBuilder
 
-		return this;
+        return this
 
-	}
+    }
 
-	public pureAction(): void {
+    public pureAction(): void {
 
-		const projectTree = Editor.GetDocumentEditor().projectTree;
-		const frame = projectTree.findByName(this.parent);
+        const projectTree = Editor.GetDocumentEditor().projectTree
+        const frame = projectTree.findByName(this.parent)
 
-		if (typeof (frame) === "undefined") {
-			debugText("Could not find parent, abort.");
-			return;
-		}
+        if (typeof (frame) === "undefined") {
+            debugText("Could not find parent, abort.")
+            return
+        }
 
-		this.resultingFrame = frame.createAsChild(this.frameBuilder)
-		projectTree.select(this.resultingFrame);
+        this.resultingFrame = frame.createAsChild(this.frameBuilder)
+        projectTree.select(this.resultingFrame)
 
-		if (this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
-			this.resultingFrame.changeOrigin(true)
-		}
+        if (this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
+            this.resultingFrame.changeOrigin(true)
+        }
 
-	}
+    }
 
-	public undo(): void {
+    public undo(): void {
 
-		if (this.resultingFrame == undefined) {
-			debugText("Could not undo, missing object.");
-			return;
-		}
+        if (this.resultingFrame == undefined) {
+            debugText("Could not undo, missing object.")
+            return
+        }
 
-		if (this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
-			this.resultingFrame.changeOrigin(false)
-		}
+        if (this.resultingFrame.type == FrameType.HORIZONTAL_BAR) {
+            this.resultingFrame.changeOrigin(false)
+        }
 
-		super.undo();
+        super.undo()
 
-		const undoCommand = new RemoveFrame(this.resultingFrame);
-		undoCommand.pureAction();
-		debugText("Undid create frame.");
-	}
+        const undoCommand = new RemoveFrame(this.resultingFrame)
+        undoCommand.pureAction()
+        debugText("Undid create frame.")
+    }
 
-	public redo(): void {
-		super.redo();
-		debugText("Redid create frame.");
-	}
+    public redo(): void {
+        super.redo()
+        debugText("Redid create frame.")
+    }
 
 }
