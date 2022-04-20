@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint @typescript-eslint/no-explicit-any: ["off", { "ignoreRestArgs": false }] */
+
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
 import { FrameType } from './FrameLogic/FrameType & FrameRequire'
 import { RibbonMenu } from './Menus/RibbonMenu'
@@ -24,6 +25,7 @@ import {
 } from './Menus/App Interface'
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
+import { CanvasMovement } from '../Events/CanvasMovement'
 
 export class Editor {
     //Application bars
@@ -49,6 +51,7 @@ export class Editor {
     //UI
     public readonly treeButton: HTMLButtonElement
     public readonly panelButton: HTMLButtonElement
+    public canvasMovement: CanvasMovement
 
     public readonly titleBar: Titlebar
 
@@ -80,7 +83,7 @@ export class Editor {
         expRib.addMenuOption('LUA', new Export(false, 'lua'))
         expRib.addMenuOption('TYPESCRIPT', new Export(false, 'ts'))
 
-        const expRibAs = new RibbonOption('Export As', null)
+        const expRibAs = new RibbonOption('Export to File', null)
         fileMenu.addRibbonOption(expRibAs)
         expRibAs.addMenuOption('JASS', new Export(true, 'jass'))
         expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
@@ -247,6 +250,7 @@ export class Editor {
 
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
         this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
+        this.canvasMovement = CanvasMovement.getInstance()
 
         this.titleBar = new Titlebar({
             backgroundColor: new Color(new RGBA(69, 49, 26, 255)),

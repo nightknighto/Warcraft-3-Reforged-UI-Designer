@@ -1,12 +1,11 @@
 import { Queue } from 'queue-typescript'
 import { FrameComponent } from './FrameLogic/FrameComponent'
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
-import { FrameType, FrameRequire } from './FrameLogic/FrameType & FrameRequire'
+import { FrameType } from './FrameLogic/FrameType & FrameRequire'
 import { Editor } from './Editor'
 import Saveable from '../Persistence/Saveable'
 import SaveContainer from '../Persistence/SaveContainer'
 import CustomComplex from './FrameLogic/CustomComplex'
-import { ParameterEditor } from './ParameterEditor'
 import {
     AppInterfaces,
     AppInterfaceWoodenTexture,
@@ -29,9 +28,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static readonly SAVE_KEY_ORIGIN_MODE = 'OriginMode'
     public static readonly SAVE_KEY_APP_INTERFACE = 'AppInterface'
 
-    public static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.5)' //yellow
-    public static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.4)' //green
-    public static readonly outlineSelected = 'rgba(242, 38, 19, 0.4)' //red
+    public static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.8)' //yellow
+    public static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.8)' //green
+    public static readonly outlineSelected = 'rgba(242, 38, 19, 0.8)' //red
 
     public readonly rootFrame: FrameComponent
     public readonly panelTree: HTMLElement
@@ -45,9 +44,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     public static HideButtonBar = false
     public static HidePortrait = false
     public static HideChat = false
-    public static OriginMode: string = 'gameui'
+    public static OriginMode = 'gameui'
 
-    public static ShowBorders: boolean = true
+    public static ShowBorders = true
     public static AppInterface = AppInterfaces.dark
 
     //path of project that was loaded. used for "Save" functionality
@@ -89,7 +88,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         this.OriginMode = value
 
-        var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
+        const radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach((radio) => ((radio as HTMLInputElement).checked = (radio as HTMLInputElement).value === value))
     }
 
@@ -180,7 +179,6 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
 
         if (frame instanceof FrameComponent) this.selectedFrame = frame
-        else if (frame instanceof CustomComplex) this.selectedFrame = frame.getFrameComponent()
         else if (frame instanceof CustomComplex) this.selectedFrame = frame.getFrameComponent()
         else if (frame instanceof HTMLImageElement) this.selectedFrame = CustomComplex.GetCustomComplexFromHTMLDivElement(frame).getFrameComponent()
         else if (frame instanceof HTMLDivElement) this.selectedFrame = CustomComplex.GetCustomComplexFromHTMLDivElement(frame).getFrameComponent()

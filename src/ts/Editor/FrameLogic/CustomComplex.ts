@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint @typescript-eslint/no-explicit-any: ["off", { "ignoreRestArgs": false }]*/
+
 import { debugText } from '../../Classes & Functions/Mini-Functions'
 import { FrameComponent } from './FrameComponent'
 import { Editor } from '../Editor'
@@ -12,7 +13,6 @@ import { extname } from '../../image conversion/shared'
 import { readFile } from 'fs'
 import { basename } from 'path'
 import { ParameterEditor } from '../ParameterEditor'
-import { ProjectTree } from '../ProjectTree'
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     public static readonly SAVE_KEY_TEXT = 'text'
@@ -27,17 +27,17 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     public static readonly SAVE_KEY_TRIGGER_VARIABLE_NAME = 'trig_var'
     public static readonly SAVE_KEY_TRIGGER_IS_RELATIVE = 'isRelative'
 
-    text: string = ''
-    scale: number = 1
-    color: string = '#ffffff'
+    text = ''
+    scale = 1
+    color = '#ffffff'
     textHorAlign: 'left' | 'center' | 'right' = 'left'
     textVerAlign: 'start' | 'center' | 'flex-end' = 'start'
-    textureDiskPath: string = ''
-    textureWc3Path: string = ''
-    textureBackDiskPath: string = ''
-    textureBackWc3Path: string = ''
-    trigVar: string = ''
-    isRelative: boolean = false
+    textureDiskPath = ''
+    textureWc3Path = ''
+    textureBackDiskPath = ''
+    textureBackWc3Path = ''
+    trigVar = ''
+    isRelative = false
 
     private elemTextContainer: HTMLDivElement
     private elemText: HTMLParagraphElement
@@ -114,7 +114,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         else Image = this.elemImageBack
 
         if (typeof Input !== 'string') {
-            let file = Input
+            const file = Input
             if (which == 'normal') this.textureDiskPath = file.path
             else this.textureBackDiskPath = file.path
 
@@ -213,7 +213,6 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             this.element.style.lineHeight = '1'
 
             MouseFunctions(this)
-
             ;(this.element as any).CustomComplex = this
         } catch (e) {
             alert(e)
@@ -311,7 +310,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         }
 
         const ty = this.frameComponent.type
-        let f = FrameType
+        const f = FrameType
 
         if (ty >= f.BACKDROP && ty <= f.INVIS_BUTTON) {
             ImageSetup()

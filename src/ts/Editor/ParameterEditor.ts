@@ -1,6 +1,5 @@
 import { debugText } from '../Classes & Functions/Mini-Functions'
 import { Editor } from './Editor'
-import { InputEdit } from '../Classes & Functions/Mini-Functions'
 import { FrameComponent } from './FrameLogic/FrameComponent'
 import { FrameType } from './FrameLogic/FrameType & FrameRequire'
 import ChangeElementName from '../Commands/Implementation/ChangeFrameName'
@@ -167,15 +166,15 @@ export class ParameterEditor {
         this.selectElementHorAlign.onchange = ParameterEditor.InputHorAlign
         this.selectElementVerAlign.onchange = ParameterEditor.InputVerAlign
 
-        var radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
+        const radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach((radio) => ((radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value)))
     }
 
-    /** checks whether value is smaller than 0.1. True if smaller. */
+    /** checks whether value is smaller than 0.0001. True if smaller. */
     private static CheckInputValue(value: number): boolean {
-        const result = value < 0.01
+        const result = value < 0.0001
         if (result) {
-            debugText('Minimum Value is 0.01.')
+            debugText('Minimum Value is 0.0001.')
         }
 
         return result
@@ -234,7 +233,7 @@ export class ParameterEditor {
 
             let command: Actionable
             if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-                command = new ChangeFrameHeight(focusedFrame, 0.01)
+                command = new ChangeFrameHeight(focusedFrame, 0.0001)
             } else {
                 command = new ChangeFrameHeight(focusedFrame, +inputElement.value)
             }
@@ -380,7 +379,7 @@ export class ParameterEditor {
         try {
             const val = (ev.target as HTMLInputElement).checked
 
-            let typs = FrameType
+            const typs = FrameType
 
             for (const fr of ProjectTree.inst().getIterator()) {
                 if (fr.type !== typs.ORIGIN && fr.type !== typs.HOR_BAR_BACKGROUND && fr.type != typs.HOR_BAR_BACKGROUND_TEXT && fr.type != typs.HOR_BAR_TEXT) {
@@ -583,9 +582,9 @@ export class ParameterEditor {
 
     public updateFields(frame: FrameComponent): void {
         try {
-            const editor = Editor.GetDocumentEditor()
+            // const editor = Editor.GetDocumentEditor() // Not used
 
-            const horizontalMargin = Editor.getInnerMargin()
+            // const horizontalMargin = Editor.getInnerMargin() // Not used
 
             if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
                 // this.disableFields(false)
@@ -597,15 +596,15 @@ export class ParameterEditor {
                 let requireExt = false
 
                 /**In case another native needs to be inserted */
-                let hideNativePart1 = `<strong>Hide/Show:</strong>
+                const hideNativePart1 = `<strong>Hide/Show:</strong>
                 <br><span class="bg-dark text-white">call BlzFrameSetVisible( ElementName, true/false )</span>`
 
-                let hideNativePart2 = `<br> <b>"true"</b> to show it, <b>"false"</b> to hide it.
+                const hideNativePart2 = `<br> <b>"true"</b> to show it, <b>"false"</b> to hide it.
                 <br> Shows or hides the frame. <b>Hiding a parent</b> will hide all its children as well.`
 
-                let hideNativeFull = hideNativePart1 + hideNativePart2
+                const hideNativeFull = hideNativePart1 + hideNativePart2
 
-                let disableNative = `<strong>Enable/Disable:</strong>
+                const disableNative = `<strong>Enable/Disable:</strong>
                 <br><span class="bg-dark text-white">call BlzFrameSetEnable( ElementName, true/false )</span>
                 <br> <b>"true"</b> to enable it, <b>"false"</b> to disable it.
                 <br> Enables or disables the user interaction with the frame. Ex: For buttons, enables or disables the ability to click on them.`
@@ -675,7 +674,7 @@ export class ParameterEditor {
                         <hr><strong>Change Min & Max Values:</strong>
                         <br><span class="bg-dark text-white">BlzFrameSetMinMaxValue( ElementName, minValue, maxValue )</span> 
                         <br>Replace <b>"minValue" & "maxValue"</b> with the names of integer variables, which holds the desired values. <b>Default Value: Min=0, Max=100.</b>.
-                        <br><b>Min & Max Value</b> controls the boundries of the bar's Value, which was explained above.
+                        <br><b>Min & Max Value</b> controls the boundaries of the bar's Value, which was explained above.
                         
                         <hr><strong>Change Texture:</strong>
                         <br><span class="bg-dark text-white">call BlzFrameSetTexture( ElementName, udg_StringVariable, 0, true)</span> 
@@ -863,8 +862,8 @@ export class ParameterEditor {
 
                 this.setupLists(frame)
                 this.inputElementName.value = frame.getName()
-                this.inputElementWidth.value = InputEdit((+frame.custom.getElement().offsetWidth * 800) / (editor.workspaceImage.width - 2 * horizontalMargin))
-                this.inputElementHeight.value = InputEdit((+frame.custom.getElement().offsetHeight * 600) / editor.workspaceImage.height)
+                this.inputElementWidth.value = frame.custom.getWidth().toFixed(5)
+                this.inputElementHeight.value = frame.custom.getHeight().toFixed(5)
 
                 this.inputElementDiskTexture.value = frame.custom.getDiskTexture('normal')
                 this.inputElementWC3Texture.value = frame.custom.getWc3Texture('normal')
@@ -900,16 +899,8 @@ export class ParameterEditor {
                         break
                 }
 
-                this.inputElementCoordinateX.value = `${InputEdit(
-                    ((frame.custom.getElement().offsetLeft - editor.workspaceImage.getBoundingClientRect().x - horizontalMargin) /
-                        (editor.workspaceImage.width - 2 * horizontalMargin)) *
-                        800
-                )}`
-                this.inputElementCoordinateY.value = `${InputEdit(
-                    ((editor.workspaceImage.getBoundingClientRect().bottom - frame.custom.getElement().getBoundingClientRect().bottom) /
-                        editor.workspaceImage.height) *
-                        600
-                )}`
+                this.inputElementCoordinateX.value = frame.custom.getLeftX().toFixed(5)
+                this.inputElementCoordinateY.value = frame.custom.getBotY().toFixed(5)
                 this.checkboxElementTooltip.checked = frame.getTooltip()
 
                 this.fieldElement.style.display = 'initial'

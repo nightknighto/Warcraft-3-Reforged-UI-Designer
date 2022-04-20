@@ -162,7 +162,6 @@ export class FrameBuilder implements CustomComplexProps {
     }
 
     public static copy(frame: FrameComponent | FrameBuilder): FrameBuilder {
-        if (frame instanceof FrameComponent) return FrameBuilder.copyFrame(frame)
-        else return FrameBuilder.copyBuilder(frame)
+        return frame instanceof FrameComponent ? FrameBuilder.copyFrame(frame) : FrameBuilder.copyBuilder(frame)
     }
 }

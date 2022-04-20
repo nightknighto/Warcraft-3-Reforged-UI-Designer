@@ -27,7 +27,7 @@ export class GUIEvents {
         ) {
             const gameX = Math.floor(((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2 * horizontalMargin)) * 800) / 1000
             const gameY = Math.floor(600 - ((ev.y - workspaceRect.top) / workspaceImage.offsetHeight) * 600) / 1000
-            gameCoordsString = `Game X/Y: (${gameX} , ${gameY})`
+            gameCoordsString = `Game X/Y: (${gameX.toFixed(3)}, ${gameY.toFixed(3)})`
             editor.debugGameCoordinates.innerText = gameCoordsString
         }
     }
@@ -44,10 +44,11 @@ export class GUIEvents {
             const builder = FrameBuilder.copy(selected)
 
             builder.x = builder.x + 0.03
-            builder.y = builder.y - 0.03
+            builder.y = builder.y > 0.03 ? builder.y - 0.03 : 0 // Prevents Duplicate from pasting into Negative space
             builder.name = builder.name.replace('[', '').replace(']', '')
             if (projectTree.findByName(builder.name + 'Copy')) {
                 let i = 0
+                // eslint-disable-next-line no-constant-condition
                 while (true) {
                     i++
                     if (!projectTree.findByName(builder.name + 'Copy' + i)) {
