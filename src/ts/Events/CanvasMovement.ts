@@ -56,7 +56,7 @@ export class CanvasMovement {
         posX1 = e.clientX
         posY1 = e.clientY
 
-        debugText('Move Canvas ' + this.workspace.style.top + ' ' + this.workspace.offsetTop.toString())
+        debugText('Move Canvas')
 
         this.workspace.style.left = `${this.workspace.offsetLeft - posX2}px`
         this.workspace.style.top = `${this.workspace.offsetTop - posY2}px`
