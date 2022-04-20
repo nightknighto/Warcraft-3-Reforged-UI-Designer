@@ -12,362 +12,362 @@ import { ParameterEditor } from "../ParameterEditor";
 
 export class FrameComponent implements Saveable {
 
-    public static readonly SAVE_KEY_NAME = "name";
-    public static readonly SAVE_KEY_CHILDREN = "children";
-    public static readonly SAVE_KEY_TYPE = "type";
-    public static readonly SAVE_KEY_TOOLTIP = "tooltip";
-    public static readonly SAVE_KEY_WORLDFRAME = "world_frame";
+	public static readonly SAVE_KEY_NAME = "name";
+	public static readonly SAVE_KEY_CHILDREN = "children";
+	public static readonly SAVE_KEY_TYPE = "type";
+	public static readonly SAVE_KEY_TOOLTIP = "tooltip";
+	public static readonly SAVE_KEY_WORLDFRAME = "world_frame";
 
-    private name: string;
-    private children: FrameComponent[];
-    public type: FrameType;
-    private tooltip = false;
+	private name: string;
+	private children: FrameComponent[];
+	public type: FrameType;
+	private tooltip = false;
 
-    public world_frame = false;
+	public world_frame = false;
 
-    public readonly custom: CustomComplex;
-    public readonly treeElement: HTMLElement;
-    public parentOption: HTMLOptionElement;
-    readonly layerDiv: HTMLDivElement;
-    // private orderInParent = 0; 
+	public readonly custom: CustomComplex;
+	public readonly treeElement: HTMLElement;
+	public parentOption: HTMLOptionElement;
+	readonly layerDiv: HTMLDivElement;
+	// private orderInParent = 0; 
 
-    public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
+	public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
-    public setTooltip(on: boolean): FrameComponent {
-        this.tooltip = on
-        let color = ProjectTree.outlineUnSelected
-        if(on) color = ProjectTree.outlineUnSelected_Tooltip
+	public setTooltip(on: boolean): FrameComponent {
+		this.tooltip = on
+		let color = ProjectTree.outlineUnSelected
+		if (on) color = ProjectTree.outlineUnSelected_Tooltip
 
-        if(ProjectTree.getSelected() != this) {
-            this.custom.getElement().style.outlineColor = color
-        }
-        
-        return this
-    }
+		if (ProjectTree.getSelected() != this) {
+			this.custom.getElement().style.outlineColor = color
+		}
 
-    public getTooltip(): boolean{
-        return this.tooltip;
-    }
+		return this
+	}
 
-    public getName(): string {
-        return this.name;
-    }
+	public getTooltip(): boolean {
+		return this.tooltip;
+	}
 
-    public setName(newName: string): void {
+	public getName(): string {
+		return this.name;
+	}
 
-        if (/.*\[[0-9]\]/.test(newName)) {
-            const name1 = newName.slice(0, newName.length - 2);
-            let name2 = newName.slice(newName.length - 2);
-            name2 = "0" + name2;
-            newName = name1 + name2;
-        }
+	public setName(newName: string): void {
 
-        this.name = newName;
-        (this.treeElement.firstChild as HTMLElement).innerText = newName;
-        if (this.parentOption) this.parentOption.text = newName;
-    }
+		if (/.*\[[0-9]\]/.test(newName)) {
+			const name1 = newName.slice(0, newName.length - 2);
+			let name2 = newName.slice(newName.length - 2);
+			name2 = "0" + name2;
+			newName = name1 + name2;
+		}
 
-    public constructor(frameBuildOptions: FrameBuilder) {
-        try {
+		this.name = newName;
+		(this.treeElement.firstChild as HTMLElement).innerText = newName;
+		if (this.parentOption) this.parentOption.text = newName;
+	}
 
-            const ul: HTMLElement = document.createElement('ul');
-            const li: HTMLElement = document.createElement('li');
+	public constructor (frameBuildOptions: FrameBuilder) {
+		try {
 
-            ul.append(li);
+			const ul: HTMLElement = document.createElement('ul');
+			const li: HTMLElement = document.createElement('li');
 
-            this.treeElement = ul;
-            this.treeElement.setAttribute('style', 'cursor: pointer;')
-            this.children = [];
-            this.parentOption = document.createElement('option');
-            this.type = frameBuildOptions.type;
-            this.layerDiv = document.createElement("div")
-            this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions);
+			ul.append(li);
 
-            this.setName(frameBuildOptions.name);
+			this.treeElement = ul;
+			this.treeElement.setAttribute('style', 'cursor: pointer;')
+			this.children = [];
+			this.parentOption = document.createElement('option');
+			this.type = frameBuildOptions.type;
+			this.layerDiv = document.createElement("div")
+			this.custom = new CustomComplex(this, frameBuildOptions.width, frameBuildOptions.height, frameBuildOptions.x, frameBuildOptions.y, frameBuildOptions.z, frameBuildOptions);
 
-            (ul as any).frameComponent = this;
+			this.setName(frameBuildOptions.name);
 
-            li.onclick = () => {
-                Editor.GetDocumentEditor().projectTree.select(this);
-            }
+			(ul as any).frameComponent = this;
 
-            this.setupAllowedFields()
+			li.onclick = () => {
+				Editor.GetDocumentEditor().projectTree.select(this);
+			}
 
-            if(!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px";
+			this.setupAllowedFields()
 
-        } catch (e) { alert('FrameComp Construc: ' + e) }
-    }
+			if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = "0px";
 
-    public save(container: SaveContainer): void {
+		} catch (e) { alert('FrameComp Construc: ' + e) }
+	}
 
-        container.save(FrameComponent.SAVE_KEY_NAME, this.name);
-        container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
-        container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip);
-        container.save(FrameComponent.SAVE_KEY_WORLDFRAME, this.world_frame);
-        this.custom.save(container);
+	public save(container: SaveContainer): void {
 
-        const childrenSaveArray = [];
+		container.save(FrameComponent.SAVE_KEY_NAME, this.name);
+		container.save(FrameComponent.SAVE_KEY_TYPE, this.type);
+		container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip);
+		container.save(FrameComponent.SAVE_KEY_WORLDFRAME, this.world_frame);
+		this.custom.save(container);
 
-        for (const child of this.children) {
+		const childrenSaveArray = [];
 
-            const childSaveContainer = new SaveContainer(null);
-            child.save(childSaveContainer);
-            childrenSaveArray.push(childSaveContainer);
+		for (const child of this.children) {
 
-        }
+			const childSaveContainer = new SaveContainer(null);
+			child.save(childSaveContainer);
+			childrenSaveArray.push(childSaveContainer);
 
-        if (childrenSaveArray.length > 0)
-            container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray);
+		}
 
-    }
+		if (childrenSaveArray.length > 0)
+			container.save(FrameComponent.SAVE_KEY_CHILDREN, childrenSaveArray);
 
-    private appendFrame(frame: FrameComponent): void {
+	}
 
-        // if(!this.layerDiv) {
-        //     this.layerDiv = document.createElement("div")
-        //     this.getParent().layerDiv.appendChild(this.layerDiv)
-        // }
+	private appendFrame(frame: FrameComponent): void {
 
-        // this.layerDiv.appendChild(frame.custom.getElement())
+		// if(!this.layerDiv) {
+		//     this.layerDiv = document.createElement("div")
+		//     this.getParent().layerDiv.appendChild(this.layerDiv)
+		// }
 
-        this.layerDiv.appendChild(frame.layerDiv)
-        
-        this.children.push(frame);
-        this.treeElement.append(frame.treeElement);
+		// this.layerDiv.appendChild(frame.custom.getElement())
 
-    }
+		this.layerDiv.appendChild(frame.layerDiv)
 
-    private removeFrame(whatFrame: FrameComponent): boolean {
+		this.children.push(frame);
+		this.treeElement.append(frame.treeElement);
 
-        const childIndex = this.children.indexOf(whatFrame);
+	}
 
-        if (childIndex == -1) return false;
+	private removeFrame(whatFrame: FrameComponent): boolean {
 
-        this.children.splice(childIndex, 1);
+		const childIndex = this.children.indexOf(whatFrame);
 
-        return true;
+		if (childIndex == -1) return false;
 
-    }
+		this.children.splice(childIndex, 1);
 
-    public createAsChild(newFrame: FrameBuilder): FrameComponent {
-        const newChild = new FrameComponent(newFrame);
+		return true;
 
-        this.appendFrame(newChild);
-        if(!newChild.FieldsAllowed.parent) {
-            new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
-        }
+	}
 
-        ProjectTree.refreshElements()
-        return newChild;
-    }
+	public createAsChild(newFrame: FrameBuilder): FrameComponent {
+		const newChild = new FrameComponent(newFrame);
 
-    public destroy(): void {
+		this.appendFrame(newChild);
+		if (!newChild.FieldsAllowed.parent) {
+			new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
+		}
 
-        const parent = this.getParent();
-        parent.removeFrame(this);
+		ProjectTree.refreshElements()
+		return newChild;
+	}
 
-        for (const child of this.children) {
-            parent.appendFrame(child);
-        }
+	public destroy(): void {
 
-        this.treeElement.remove();
-        if (this.custom != null) this.custom.delete();
-        if (this.parentOption != null) this.parentOption.remove();
+		const parent = this.getParent();
+		parent.removeFrame(this);
 
-        Editor.GetDocumentEditor().parameterEditor.updateFields(null);
-    }
+		for (const child of this.children) {
+			parent.appendFrame(child);
+		}
 
-    public makeAsParentTo(newChild: FrameComponent): boolean {
-        if (newChild == this) return false;
-        
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let traverseNode: FrameComponent = this;
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let previousNode: FrameComponent = this;
+		this.treeElement.remove();
+		if (this.custom != null) this.custom.delete();
+		if (this.parentOption != null) this.parentOption.remove();
 
-        do {
+		Editor.GetDocumentEditor().parameterEditor.updateFields(null);
+	}
 
-            if (traverseNode == newChild) {
+	public makeAsParentTo(newChild: FrameComponent): boolean {
+		if (newChild == this) return false;
 
-                newChild.removeFrame(previousNode);
-                newChild.getParent().appendFrame(previousNode);
-
-                break;
-            }
-
-            previousNode = traverseNode;
-            traverseNode = traverseNode.getParent();
-
-        } while (traverseNode != null);
-
-        newChild.getParent().removeFrame(newChild);
-        this.appendFrame(newChild);
-
-    }
-
-    public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
-
-        return (ProjectTreeElement as any).frameComponent;
-
-    }
-
-    public getChildren(): FrameComponent[] {
-        return this.children;
-    }
-
-    public getParent(): FrameComponent {
-        return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
-    }
-
-    public changeOrigin(world_frame: boolean): FrameComponent {
-        let parent: FrameComponent = this
-        while(1) {
-            
-            if(parent.getParent().type == FrameType.ORIGIN) {
-                if(world_frame) parent.world_frame = true;
-                else parent.world_frame = false;
-                console.log('world_frame: '+parent.world_frame)
-                break;
-            }
-            parent = parent.getParent()
-        }
-
-        return this
-    }
-
-    setupAllowedFields() {
-        const i = this.type
-        const ft = FrameType
-        const f = this.FieldsAllowed
-
-        //reset to default
-        Object.assign(this.FieldsAllowed, defaultFieldsAllowed)
-
-
-
-        const allowText = () => {
-            f.text = true
-            f.color = true
-            f.scale = true
-        }
-
-        switch (i) {
-            case ft.BROWSER_BUTTON:
-                allowText()
-                f.trigVar = true
-                f.tooltip = false
-                break;
-            case ft.BUTTON:
-                f.trigVar = true
-                f.tooltip = false
-                f.textures = true
-                f.type = true
-                
-                break;
-            case ft.SCRIPT_DIALOG_BUTTON:
-                allowText()
-                f.trigVar = true
-                f.tooltip = false
-                
-                break;
-            case ft.INVIS_BUTTON:
-                f.trigVar = true
-                f.tooltip = false
-                
-                break;
-            case ft.BACKDROP:
-                f.textures = true;
-                f.type = true;
-                
-                break;
-            case ft.CHECKBOX:
-                f.trigVar = true;
-                break;
-            case ft.TEXT_FRAME:
-                allowText()
-                f.text = false
-                f.textBig = true
-                f.textAlign = true;
-                break;
-            case ft.HORIZONTAL_BAR:
-                f.textures = true;
-                f.tooltip = false;
-                break;
-            case ft.HOR_BAR_BACKGROUND:
-                f.textures = true;
-                f.backTextures = true;
-                f.tooltip = false
-                f.parent = false
-                break;
-            case ft.HOR_BAR_TEXT:
-                f.textures = true;
-                allowText()
-                f.textAlign = true
-                f.tooltip = false
-                f.parent = false
-                break;
-            case ft.HOR_BAR_BACKGROUND_TEXT:
-                f.textures = true;
-                f.backTextures = true;
-                allowText()
-                f.textAlign = true
-                f.tooltip = false
-                f.parent = false
-                break;
-            case ft.TEXTAREA:
-                f.color = true;
-                f.textBig = true;
-                break;
-            case ft.EDITBOX:
-                f.text = true;
-                break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
-            // case ft.CHECKBOX:
-            //     f.trigVar = true;
-            //     break;
-        
-            default:
-                break;
-        }
-
-
-    }
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		let traverseNode: FrameComponent = this;
+		// eslint-disable-next-line @typescript-eslint/no-this-alias
+		let previousNode: FrameComponent = this;
+
+		do {
+
+			if (traverseNode == newChild) {
+
+				newChild.removeFrame(previousNode);
+				newChild.getParent().appendFrame(previousNode);
+
+				break;
+			}
+
+			previousNode = traverseNode;
+			traverseNode = traverseNode.getParent();
+
+		} while (traverseNode != null);
+
+		newChild.getParent().removeFrame(newChild);
+		this.appendFrame(newChild);
+
+	}
+
+	public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
+
+		return (ProjectTreeElement as any).frameComponent;
+
+	}
+
+	public getChildren(): FrameComponent[] {
+		return this.children;
+	}
+
+	public getParent(): FrameComponent {
+		return FrameComponent.GetFrameComponent(this.treeElement.parentElement);
+	}
+
+	public changeOrigin(world_frame: boolean): FrameComponent {
+		let parent: FrameComponent = this
+		while (1) {
+
+			if (parent.getParent().type == FrameType.ORIGIN) {
+				if (world_frame) parent.world_frame = true;
+				else parent.world_frame = false;
+				console.log('world_frame: ' + parent.world_frame)
+				break;
+			}
+			parent = parent.getParent()
+		}
+
+		return this
+	}
+
+	setupAllowedFields() {
+		const i = this.type
+		const ft = FrameType
+		const f = this.FieldsAllowed
+
+		//reset to default
+		Object.assign(this.FieldsAllowed, defaultFieldsAllowed)
+
+
+
+		const allowText = () => {
+			f.text = true
+			f.color = true
+			f.scale = true
+		}
+
+		switch (i) {
+			case ft.BROWSER_BUTTON:
+				allowText()
+				f.trigVar = true
+				f.tooltip = false
+				break;
+			case ft.BUTTON:
+				f.trigVar = true
+				f.tooltip = false
+				f.textures = true
+				f.type = true
+
+				break;
+			case ft.SCRIPT_DIALOG_BUTTON:
+				allowText()
+				f.trigVar = true
+				f.tooltip = false
+
+				break;
+			case ft.INVIS_BUTTON:
+				f.trigVar = true
+				f.tooltip = false
+
+				break;
+			case ft.BACKDROP:
+				f.textures = true;
+				f.type = true;
+
+				break;
+			case ft.CHECKBOX:
+				f.trigVar = true;
+				break;
+			case ft.TEXT_FRAME:
+				allowText()
+				f.text = false
+				f.textBig = true
+				f.textAlign = true;
+				break;
+			case ft.HORIZONTAL_BAR:
+				f.textures = true;
+				f.tooltip = false;
+				break;
+			case ft.HOR_BAR_BACKGROUND:
+				f.textures = true;
+				f.backTextures = true;
+				f.tooltip = false
+				f.parent = false
+				break;
+			case ft.HOR_BAR_TEXT:
+				f.textures = true;
+				allowText()
+				f.textAlign = true
+				f.tooltip = false
+				f.parent = false
+				break;
+			case ft.HOR_BAR_BACKGROUND_TEXT:
+				f.textures = true;
+				f.backTextures = true;
+				allowText()
+				f.textAlign = true
+				f.tooltip = false
+				f.parent = false
+				break;
+			case ft.TEXTAREA:
+				f.color = true;
+				f.textBig = true;
+				break;
+			case ft.EDITBOX:
+				f.text = true;
+				break;
+			// case ft.CHECKBOX:
+			//     f.trigVar = true;
+			//     break;
+			// case ft.CHECKBOX:
+			//     f.trigVar = true;
+			//     break;
+			// case ft.CHECKBOX:
+			//     f.trigVar = true;
+			//     break;
+
+			default:
+				break;
+		}
+
+
+	}
 
 }
 
 
 interface ElementFieldsAllowed {
-    text: boolean
-    textBig: boolean
-    type: boolean
-    color: boolean
-    scale: boolean
-    textAlign: boolean
-    textures: boolean;
-    backTextures: boolean;
-    trigVar: boolean;
-    /**Default is true */
-    parent: boolean
-    /**Default is true */
-    tooltip: boolean;
+	text: boolean
+	textBig: boolean
+	type: boolean
+	color: boolean
+	scale: boolean
+	textAlign: boolean
+	textures: boolean;
+	backTextures: boolean;
+	trigVar: boolean;
+	/**Default is true */
+	parent: boolean
+	/**Default is true */
+	tooltip: boolean;
 }
 
 const defaultFieldsAllowed: ElementFieldsAllowed = {
-    parent: true,
-    tooltip: true,
+	parent: true,
+	tooltip: true,
 
-    color: false,
-    scale: false,
-    text: false,
-    textBig: false,
-    textAlign: false,
-    textures: false,
-    backTextures: false,
-    trigVar: false,
-    type: false
+	color: false,
+	scale: false,
+	text: false,
+	textBig: false,
+	textAlign: false,
+	textures: false,
+	backTextures: false,
+	trigVar: false,
+	type: false
 }

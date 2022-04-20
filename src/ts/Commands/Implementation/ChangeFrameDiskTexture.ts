@@ -4,60 +4,60 @@ import CustomComplex from "../../Editor/FrameLogic/CustomComplex";
 import { FrameComponent } from "../../Editor/FrameLogic/FrameComponent";
 import SimpleCommand from "../SimpleCommand";
 
-export default class ChangeFrameDiskTexture extends SimpleCommand{
+export default class ChangeFrameDiskTexture extends SimpleCommand {
 
-    private frame: string;
-    private oldTexture: string;
-    private newTexture: string;
+	private frame: string;
+	private oldTexture: string;
+	private newTexture: string;
 
-    public constructor(frame: FrameComponent| string, texture: string){
-        super();
+	public constructor (frame: FrameComponent | string, texture: string) {
+		super();
 
-        if(typeof(frame) === "string"){
-            this.frame = frame;
-        }
-        else{
-            this.frame = frame.getName();
-        }
+		if (typeof (frame) === "string") {
+			this.frame = frame;
+		}
+		else {
+			this.frame = frame.getName();
+		}
 
-        this.newTexture = texture;
+		this.newTexture = texture;
 
-    }
+	}
 
-    public pureAction(): void {
-        
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame);
+	public pureAction(): void {
 
-        if(typeof(frame) === "undefined"){
-            debugText("Could not find frame.");
-            return;
-        }
+		const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame);
 
-        if(!(frame.custom instanceof CustomComplex)){
-            debugText("Frame not CustomComplex");
-            return;
-        }
+		if (typeof (frame) === "undefined") {
+			debugText("Could not find frame.");
+			return;
+		}
 
-        this.oldTexture = frame.custom.getDiskTexture('normal');
-        frame.custom.setDiskTexture(this.newTexture, 'normal');
+		if (!(frame.custom instanceof CustomComplex)) {
+			debugText("Frame not CustomComplex");
+			return;
+		}
 
-    }
+		this.oldTexture = frame.custom.getDiskTexture('normal');
+		frame.custom.setDiskTexture(this.newTexture, 'normal');
 
-    public undo(): void{
+	}
 
-        const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture);
-        command.pureAction();
+	public undo(): void {
 
-        super.undo();
-        debugText("Undid change frame disk texture");
+		const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture);
+		command.pureAction();
 
-    }
+		super.undo();
+		debugText("Undid change frame disk texture");
 
-    public redo(): void{
+	}
 
-        super.redo();
-        debugText("Redid change frame disk texture");
+	public redo(): void {
 
-    }
+		super.redo();
+		debugText("Redid change frame disk texture");
+
+	}
 
 }

@@ -1,5 +1,5 @@
-export default interface Undoable{
+export default interface Undoable {
 
-    undo() : void;
+	undo(): void;
 
 }

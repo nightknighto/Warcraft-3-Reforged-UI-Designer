@@ -3,16 +3,16 @@ import * as bootstrap from "bootstrap";
 const modal_container = document.getElementById('modal-container')
 export class Modals {
 
-    constructor() {
-        this.AboutUs();
-        this.Hall_of_Fame();
-        this.Changelog();
-        this.Documentation();
-        this.Documentation_online();
-    }
+	constructor () {
+		this.AboutUs();
+		this.Hall_of_Fame();
+		this.Changelog();
+		this.Documentation();
+		this.Documentation_online();
+	}
 
-    AboutUs() {
-        modal_container.innerHTML += `
+	AboutUs() {
+		modal_container.innerHTML += `
             <div class="modal fade" id="AboutUs" tabindex="-1" aria-labelledby="AboutUs" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -129,10 +129,10 @@ export class Modals {
                     </div>
                 </div>
             </div>`
-    }
+	}
 
-    Changelog() {
-        modal_container.innerHTML += `<div class="modal fade" id="ChangeLog" tabindex="-1" aria-labelledby="HallOfFame" aria-hidden="true">
+	Changelog() {
+		modal_container.innerHTML += `<div class="modal fade" id="ChangeLog" tabindex="-1" aria-labelledby="HallOfFame" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-success">
@@ -377,20 +377,20 @@ export class Modals {
                 </div>
             </div>
         </div>`
-    }
+	}
 
-    Hall_of_Fame() {
-        console.log('began')
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML += body
-            console.log(body)
-        })
-    }
+	Hall_of_Fame() {
+		console.log('began')
+		fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
+			.then(res => res.text())
+			.then(body => {
+				modal_container.innerHTML += body
+				console.log(body)
+			})
+	}
 
-    Documentation() {
-        const data = `<div class="modal fade" id="Tutorial" tabindex="-1" aria-labelledby="Tutorial" aria-hidden="true">
+	Documentation() {
+		const data = `<div class="modal fade" id="Tutorial" tabindex="-1" aria-labelledby="Tutorial" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
@@ -673,33 +673,33 @@ export class Modals {
         </div>
     </div>`
 
-        modal_container.innerHTML += data;
+		modal_container.innerHTML += data;
 
-    }
+	}
 
-    Documentation_online() {
-        console.log('began')
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML = ""
-            this.WelcomePage();
-            this.AboutUs();
-            this.Changelog();
-            this.Hall_of_Fame();
-            modal_container.innerHTML += body
-        })
-    }
+	Documentation_online() {
+		console.log('began')
+		fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
+			.then(res => res.text())
+			.then(body => {
+				modal_container.innerHTML = ""
+				this.WelcomePage();
+				this.AboutUs();
+				this.Changelog();
+				this.Hall_of_Fame();
+				modal_container.innerHTML += body
+			})
+	}
 
-    WelcomePage() {
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
-        .then(res => res.text())
-        .then(body => {
-            modal_container.innerHTML += body
-            const modal = new bootstrap.Modal(document.getElementById('Welcome'))
-            modal.show();
-        })
-    }
+	WelcomePage() {
+		fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
+			.then(res => res.text())
+			.then(body => {
+				modal_container.innerHTML += body
+				const modal = new bootstrap.Modal(document.getElementById('Welcome'))
+				modal.show();
+			})
+	}
 }
 
 
