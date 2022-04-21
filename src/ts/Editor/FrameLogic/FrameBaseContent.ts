@@ -39,8 +39,6 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setWidth(newWidth: number, noChange?: boolean): void {
-        const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspace.getBoundingClientRect()
         const horizontalMargin = Editor.getInnerMargin()
 
         if (!noChange) this.element.style.width = (newWidth / 0.8) * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + 'px'
@@ -55,8 +53,7 @@ export default abstract class FrameBaseContent implements Saveable {
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         if (!noChange) {
-            //@ts-ignore: element will have height.
-            this.element.style.top = `${this.element.offsetTop + this.element.height - (newHeight * rect.height) / 0.6}px`
+            this.element.style.top = `${this.element.offsetTop + (this.element.offsetHeight - (newHeight * rect.height) / 0.6)}px`
             this.element.style.height = `${(newHeight / 0.6) * workspace.getBoundingClientRect().height}px`
         }
         this.height = newHeight
@@ -100,8 +97,9 @@ export default abstract class FrameBaseContent implements Saveable {
         this.element.style.position = 'absolute'
         this.element.style.outlineStyle = 'dashed'
         this.element.style.outlineColor = ProjectTree.outlineUnSelected
-        this.element.style.outlineOffset = '-3px'
-
+        this.element.style.outlineOffset = '-1px'
+        this.element.style.outlineWidth = '1px'
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(element as any).frameBaseContent = this
 
         //step 1: event sent to main.ts to display the menu.
@@ -113,6 +111,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public static GetFrameBaseContentFromHTMLImageElement(htmlElement: HTMLImageElement): FrameBaseContent {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (htmlElement as any).frameBaseContent
     }
 

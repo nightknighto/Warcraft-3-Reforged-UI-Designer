@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable @typescript-eslint/no-var-requires */
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // No Node.js APIs are available in this process unless
@@ -7,23 +5,14 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-import { ipcRenderer, remote } from 'electron'
-
+import { ipcRenderer } from 'electron'
 import { GUIEvents } from './Classes & Functions/GUIEvents'
 import { Editor } from './Editor/Editor'
-import * as path from 'path'
 import { ProjectTree } from './Editor/ProjectTree'
 import { Modals } from './modals/modals Init'
 import bootstrap = require('bootstrap')
-import { electron } from 'webpack'
-import Undo from './Commands/Undo'
-import Redo from './Commands/Redo'
-import RemoveFrame from './Commands/Implementation/RemoveFrame'
-import { ParameterEditor } from './Editor/ParameterEditor'
-import CustomComplex from './Editor/FrameLogic/CustomComplex'
-import { Tooltips } from './Classes & Functions/Tooltips'
-import SaveDocument from './Persistence/SaveDocument'
-import { FrameType } from './Editor/FrameLogic/FrameType & FrameRequire'
+import { KeyboardShortcuts } from './Events/keyboardShortcuts'
+import { CanvasMovement } from './Events/CanvasMovement'
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage)
@@ -131,78 +120,23 @@ TableArraySubmit.onclick = (e) => {
 /*const input = document.getElementById('imgFile') as HTMLInputElement
 
 Element.formIMG.addEventListener("submit", e => {
-    e.preventDefault()
-    const frameBuilder = new FrameBuilder();
+  e.preventDefault()
+  const frameBuilder = new FrameBuilder();
 
-    frameBuilder.name = "name";
-    frameBuilder.texture =  URL.createObjectURL(input.files[0]);
+  frameBuilder.name = "name";
+  frameBuilder.texture =  URL.createObjectURL(input.files[0]);
   
-    frameBuilder.Run();
+  frameBuilder.Run();
 })
 */
 try {
     window.onresize = () => {
+        if (document.getElementById('workspaceContainer').offsetWidth > CanvasMovement.getInstance().width) CanvasMovement.getInstance().moveToCenter()
         ProjectTree.refreshElements()
     }
 
     //keyboard shortcuts
-    window.addEventListener('keydown', function (event) {
-        let t = event.target as HTMLInputElement
-        if (t.tagName != 'BODY') return
-
-        if (event.ctrlKey && event.code === 'KeyZ') {
-            new Undo().run()
-        }
-        if (event.ctrlKey && event.code === 'KeyY') {
-            new Redo().run()
-        }
-        if (event.ctrlKey && event.code === 'KeyS') {
-            new SaveDocument().run()
-        }
-        if (event.which === 46) {
-            if (ProjectTree.getSelected()) {
-                const command = new RemoveFrame(ProjectTree.getSelected())
-                command.action()
-            }
-        }
-
-        const par = ParameterEditor.inst()
-        if (event.which === 37) {
-            //left
-            if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.001 + ''
-                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value - 0.009 + ''
-                par.inputElementCoordinateX.dispatchEvent(new Event('change'))
-            }
-        }
-
-        if (event.which === 38) {
-            //up
-            if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.001 + ''
-                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value + 0.009 + ''
-                par.inputElementCoordinateY.dispatchEvent(new Event('change'))
-            }
-        }
-
-        if (event.which === 39) {
-            //right
-            if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.001 + ''
-                if (!event.shiftKey) par.inputElementCoordinateX.value = +par.inputElementCoordinateX.value + 0.009 + ''
-                par.inputElementCoordinateX.dispatchEvent(new Event('change'))
-            }
-        }
-
-        if (event.which === 40) {
-            //down
-            if (ProjectTree.getSelected()) {
-                par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.001 + ''
-                if (!event.shiftKey) par.inputElementCoordinateY.value = +par.inputElementCoordinateY.value - 0.009 + ''
-                par.inputElementCoordinateY.dispatchEvent(new Event('change'))
-            }
-        }
-    })
+    const keyboardShortcuts = KeyboardShortcuts.getInstance()
 
     //general Initializations
     const editor = new Editor(document)
@@ -223,8 +157,8 @@ try {
 
 new Modals()
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 

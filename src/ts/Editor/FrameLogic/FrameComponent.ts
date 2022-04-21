@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Editor } from '../Editor'
 import { FrameBuilder } from './FrameBuilder'
 import { FrameType } from './FrameType & FrameRequire'
 import Saveable from '../../Persistence/Saveable'
 import SaveContainer from '../../Persistence/SaveContainer'
 import CustomComplex from './CustomComplex'
-import FrameBaseContent from './FrameBaseContent'
 import { ProjectTree } from '../ProjectTree'
 import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
-import { ParameterEditor } from '../ParameterEditor'
 
 export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_NAME = 'name'
@@ -89,7 +88,6 @@ export class FrameComponent implements Saveable {
             )
 
             this.setName(frameBuildOptions.name)
-
             ;(ul as any).frameComponent = this
 
             li.onclick = () => {
@@ -100,7 +98,7 @@ export class FrameComponent implements Saveable {
 
             if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = '0px'
         } catch (e) {
-            alert('FrameComp Construc: ' + e)
+            alert('FrameComp Constructor: ' + e)
         }
     }
 
@@ -211,7 +209,8 @@ export class FrameComponent implements Saveable {
 
     public changeOrigin(world_frame: boolean): FrameComponent {
         let parent: FrameComponent = this
-        while (1) {
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
             if (parent.getParent().type == FrameType.ORIGIN) {
                 if (world_frame) parent.world_frame = true
                 else parent.world_frame = false
