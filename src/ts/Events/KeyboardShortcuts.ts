@@ -46,6 +46,8 @@ export class KeyboardShortcuts {
         // Control + Shift Modifier
         this.keydownCtrlShift(event)
 
+        this.keydownCtrlAlt(event)
+
         this.keydownNoMod(event)
     }
 
@@ -95,32 +97,7 @@ export class KeyboardShortcuts {
 
     keydownAlt = (event: KeyboardEvent) => {
         if (event.altKey && !event.shiftKey && !event.ctrlKey && document.body.style.cursor !== 'grabbing') {
-            let newFrameBuilder: FrameBuilder
-
             switch (event.code) {
-                case 'KeyB':
-                    // Custom Button
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BUTTON
-                    new CreateFrameAtSelected(newFrameBuilder).run()
-                    break
-                case 'KeyD':
-                    // Custom Backdrop
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BACKDROP
-                    new CreateFrameAtSelected(newFrameBuilder).run()
-                    break
-                case 'KeyT':
-                    // Text Frame
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.type = FrameType.TEXT_FRAME
-                    newFrameBuilder.text = 'Text Frame'
-                    newFrameBuilder.width = 0.07
-                    newFrameBuilder.height = 0.07
-                    new CreateFrameAtSelected(newFrameBuilder).run()
-                    break
                 case 'Digit1':
                     // Move canvas to center
                     debugText('Canvas to 100% Scale')
@@ -177,6 +154,7 @@ export class KeyboardShortcuts {
                     // Export Lua to File Bypass Alert
                     new Export(true, 'lua', false).run()
                     break
+
                 default:
                     break
             }
@@ -224,11 +202,45 @@ export class KeyboardShortcuts {
         }
     }
 
+    keydownCtrlAlt = (event: KeyboardEvent) => {
+        if (event.ctrlKey && !event.shiftKey && event.altKey && document.body.style.cursor !== 'grabbing') {
+            let newFrameBuilder: FrameBuilder
+
+            switch (event.code) {
+                case 'KeyB':
+                    // Custom Button
+                    newFrameBuilder = new FrameBuilder(true)
+                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+                    newFrameBuilder.type = FrameType.BUTTON
+                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    break
+                case 'KeyD':
+                    // Custom Backdrop
+                    newFrameBuilder = new FrameBuilder(true)
+                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+                    newFrameBuilder.type = FrameType.BACKDROP
+                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    break
+                case 'KeyT':
+                    // Text Frame
+                    newFrameBuilder = new FrameBuilder(true)
+                    newFrameBuilder.type = FrameType.TEXT_FRAME
+                    newFrameBuilder.text = 'Text Frame'
+                    newFrameBuilder.width = 0.07
+                    newFrameBuilder.height = 0.07
+                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    break
+                default:
+                    break
+            }
+        }
+    }
+
     keydownNoMod = (event: KeyboardEvent) => {
         if (document.body.style.cursor !== 'grabbing') {
             const par = ParameterEditor.inst()
-            switch (event.which) {
-                case 46:
+            switch (event.code) {
+                case 'Delete':
                     // Delete Frame
                     if (ProjectTree.getSelected()) {
                         const command = new RemoveFrame(ProjectTree.getSelected())
@@ -236,7 +248,7 @@ export class KeyboardShortcuts {
                     }
                     break
 
-                case 37:
+                case 'ArrowLeft':
                     //left
                     if (ProjectTree.getSelected()) {
                         par.inputElementCoordinateX.value = (+par.inputElementCoordinateX.value - 0.0005).toFixed(5)
@@ -245,7 +257,7 @@ export class KeyboardShortcuts {
                     }
                     break
 
-                case 38:
+                case 'ArrowUp':
                     //up
                     if (ProjectTree.getSelected()) {
                         par.inputElementCoordinateY.value = (+par.inputElementCoordinateY.value + 0.0005).toFixed(5)
@@ -254,7 +266,7 @@ export class KeyboardShortcuts {
                     }
                     break
 
-                case 39:
+                case 'ArrowRight':
                     //right
                     if (ProjectTree.getSelected()) {
                         par.inputElementCoordinateX.value = (+par.inputElementCoordinateX.value + 0.0005).toFixed(5)
@@ -263,7 +275,7 @@ export class KeyboardShortcuts {
                     }
                     break
 
-                case 40:
+                case 'ArrowDown':
                     //down
                     if (ProjectTree.getSelected()) {
                         par.inputElementCoordinateY.value = (+par.inputElementCoordinateY.value - 0.0005).toFixed(5)
