@@ -20,33 +20,51 @@ import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
 import { CanvasMovement } from '../Events/CanvasMovement'
 
+export class EditorInit {
+    private static instance?: EditorInit
+
+    static initInstance(editor: Editor) {
+        if (!EditorInit.instance) EditorInit.instance = new EditorInit(editor)
+        return EditorInit.instance
+    }
+
+    static getInstance() {
+        return EditorInit.instance
+    }
+
+    editor: Editor
+    private constructor(editor: Editor) {
+        this.editor = editor
+    }
+}
+
 export class Editor {
     //Application bars
-    public readonly panelDebug: HTMLElement
+    readonly panelDebug: HTMLElement
 
-    public readonly btnCloseTreePanel: HTMLButtonElement
-    public readonly btnCloseParameterPanel: HTMLButtonElement
+    readonly btnCloseTreePanel: HTMLButtonElement
+    readonly btnCloseParameterPanel: HTMLButtonElement
 
     //Workspace
-    public readonly workspaceImage: HTMLImageElement
-    public readonly workspace: HTMLDivElement
+    readonly workspaceImage: HTMLImageElement
+    readonly workspace: HTMLDivElement
 
     //Debug
-    public readonly debugLine: HTMLElement
-    public readonly debugGameCoordinates: HTMLElement
+    readonly debugLine: HTMLElement
+    readonly debugGameCoordinates: HTMLElement
 
     //functional units
-    public readonly projectTree: ProjectTree
-    public readonly changeStack: ChangeStack
-    public readonly parameterEditor: ParameterEditor
-    public readonly tabsMenu: TabsMenu
+    readonly projectTree: ProjectTree
+    readonly changeStack: ChangeStack
+    readonly parameterEditor: ParameterEditor
+    readonly tabsMenu: TabsMenu
 
     //UI
-    public readonly treeButton: HTMLButtonElement
-    public readonly panelButton: HTMLButtonElement
-    public canvasMovement: CanvasMovement
+    readonly treeButton: HTMLButtonElement
+    readonly panelButton: HTMLButtonElement
+    canvasMovement: CanvasMovement
 
-    public readonly titleBar: Titlebar
+    readonly titleBar: Titlebar
 
     fileMenu: RibbonMenu
     editMenu: RibbonMenu
@@ -155,8 +173,9 @@ export class Editor {
         return tabsMenu
     }
 
-    public constructor(document: HTMLDocument) {
-        ;(document as any).editor = this
+    constructor() {
+        // ;(document as any).editor = this
+        EditorInit.initInstance(this)
 
         this.panelDebug = document.getElementById('panelDebug')
 
@@ -187,18 +206,18 @@ export class Editor {
         AppUIDarkColors.getInstance().run()
     }
 
-    public static GetDocumentEditor(): Editor {
-        return (document as any).editor
+    static GetDocumentEditor(): Editor {
+        return EditorInit.getInstance().editor
     }
 
     /**returns the margin of the 4:3 area. */
-    public static getInnerMargin(): number {
+    static getInnerMargin(): number {
         const workspace = Editor.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         return (240 / 1920) * rect.width
     }
 
-    public static getActualMargin(): number {
+    static getActualMargin(): number {
         if (ProjectTree.OriginMode === 'consoleui') {
             return 0
         } else {
@@ -207,7 +226,7 @@ export class Editor {
     }
 
     //gives the max and min numbers for the x-position (edges of the frame-movable area)
-    public static getActualMarginLimits(): { min: number; max: number } {
+    static getActualMarginLimits(): { min: number; max: number } {
         const workspaceImage = Editor.GetDocumentEditor().workspaceImage
         return {
             min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,

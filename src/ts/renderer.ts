@@ -136,10 +136,10 @@ try {
     }
 
     //keyboard shortcuts
-    const keyboardShortcuts = KeyboardShortcuts.getInstance()
+    KeyboardShortcuts.getInstance()
 
     //general Initializations
-    const editor = new Editor(document)
+    const editor = new Editor()
     editor.parameterEditor.fieldElement.style.display = 'none'
     document.getElementById('panelTree').style.visibility = 'visible'
     document.getElementById('panelParameters').style.visibility = 'visible'
