@@ -16,13 +16,7 @@ import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelec
 import { Export } from '../Classes & Functions/Export'
 import NewDocument from '../Persistence/NewDocument'
 import { BackgroundTexture, CustomBackground } from './Menus/Backgrounds'
-import {
-    AppInterfaceWoodenTexture,
-    AppInterfaceBrownColors,
-    AppInterfacePurpleColors,
-    AppInterfaceBlueColors,
-    AppInterfaceDarkColors,
-} from './Menus/App Interface'
+import { AppUIWoodenTexture, AppUIBrownColors, AppUIPurpleColors, AppUIBlueColors, AppUIDarkColors } from './Menus/App Interface'
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
 import { CanvasMovement } from '../Events/CanvasMovement'
@@ -95,11 +89,11 @@ export class Editor {
         const ribAppInterface = new RibbonOption('App Interface', null)
         viewMenu.addRibbonOption(ribAppInterface)
 
-        ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture())
-        ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors())
-        ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors())
-        ribAppInterface.addMenuOption('Blue Interface', new AppInterfaceBlueColors())
-        ribAppInterface.addMenuOption('Dark Interface', new AppInterfaceDarkColors())
+        ribAppInterface.addMenuOption('Wooden Interface', AppUIWoodenTexture.getInstance())
+        ribAppInterface.addMenuOption('Brownish Interface', AppUIBrownColors.getInstance())
+        ribAppInterface.addMenuOption('Purple Interface', AppUIPurpleColors.getInstance())
+        ribAppInterface.addMenuOption('Blue Interface', AppUIBlueColors.getInstance())
+        ribAppInterface.addMenuOption('Dark Interface', AppUIDarkColors.getInstance())
 
         const ribBackground = new RibbonOption('Background/Resolution', null)
         viewMenu.addRibbonOption(ribBackground)
@@ -258,7 +252,7 @@ export class Editor {
             menu: null,
         })
 
-        new AppInterfaceDarkColors().run()
+        AppUIDarkColors.getInstance().run()
     }
 
     public static GetDocumentEditor(): Editor {

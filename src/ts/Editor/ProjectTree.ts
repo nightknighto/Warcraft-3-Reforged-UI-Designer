@@ -6,14 +6,7 @@ import { Editor } from './Editor'
 import Saveable from '../Persistence/Saveable'
 import SaveContainer from '../Persistence/SaveContainer'
 import CustomComplex from './FrameLogic/CustomComplex'
-import {
-    AppInterfaces,
-    AppInterfaceWoodenTexture,
-    AppInterfaceBrownColors,
-    AppInterfaceBlueColors,
-    AppInterfacePurpleColors,
-    AppInterfaceDarkColors,
-} from './Menus/App Interface'
+import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/App Interface'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     private static instance: ProjectTree
@@ -231,19 +224,19 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 const app = ProjectTree.AppInterface
                 switch (app) {
                     case AppInterfaces.wood:
-                        new AppInterfaceWoodenTexture().run()
+                        AppUIWoodenTexture.getInstance().run()
                         break
                     case AppInterfaces.brown:
-                        new AppInterfaceBrownColors().run()
+                        AppUIBrownColors.getInstance().run()
                         break
                     case AppInterfaces.blue:
-                        new AppInterfaceBlueColors().run()
+                        AppUIBlueColors.getInstance().run()
                         break
                     case AppInterfaces.purple:
-                        new AppInterfacePurpleColors().run()
+                        AppUIPurpleColors.getInstance().run()
                         break
                     case AppInterfaces.dark:
-                        new AppInterfaceDarkColors().run()
+                        AppUIDarkColors.getInstance().run()
                         break
                 }
             }

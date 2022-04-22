@@ -11,7 +11,16 @@ export enum AppInterfaces {
     dark = 4,
 }
 
-export class AppInterfaceWoodenTexture implements ICallableDivInstance {
+export class AppUIWoodenTexture implements ICallableDivInstance {
+    private static instance: AppUIWoodenTexture
+    static getInstance() {
+        if (!AppUIWoodenTexture.instance) AppUIWoodenTexture.instance = new AppUIWoodenTexture()
+        return AppUIWoodenTexture.instance
+    }
+
+    private constructor() {
+        // Empty
+    }
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
@@ -42,7 +51,16 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
         ProjectTree.AppInterface = AppInterfaces.wood
     }
 }
-export class AppInterfaceBrownColors implements ICallableDivInstance {
+export class AppUIBrownColors implements ICallableDivInstance {
+    private static instance: AppUIBrownColors
+    static getInstance() {
+        if (!AppUIBrownColors.instance) AppUIBrownColors.instance = new AppUIBrownColors()
+        return AppUIBrownColors.instance
+    }
+
+    private constructor() {
+        // Empty
+    }
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
@@ -84,7 +102,16 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
         ProjectTree.AppInterface = AppInterfaces.brown
     }
 }
-export class AppInterfacePurpleColors implements ICallableDivInstance {
+export class AppUIPurpleColors implements ICallableDivInstance {
+    private static instance: AppUIPurpleColors
+    static getInstance() {
+        if (!AppUIPurpleColors.instance) AppUIPurpleColors.instance = new AppUIPurpleColors()
+        return AppUIPurpleColors.instance
+    }
+
+    private constructor() {
+        // Empty
+    }
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(119, 45, 160, 255)))
 
@@ -126,7 +153,16 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
         ProjectTree.AppInterface = AppInterfaces.purple
     }
 }
-export class AppInterfaceBlueColors implements ICallableDivInstance {
+export class AppUIBlueColors implements ICallableDivInstance {
+    private static instance: AppUIBlueColors
+    static getInstance() {
+        if (!AppUIBlueColors.instance) AppUIBlueColors.instance = new AppUIBlueColors()
+        return AppUIBlueColors.instance
+    }
+
+    private constructor() {
+        // Empty
+    }
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(75, 90, 193, 255)))
 
@@ -169,7 +205,17 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
     }
 }
 
-export class AppInterfaceDarkColors implements ICallableDivInstance {
+export class AppUIDarkColors implements ICallableDivInstance {
+    private static instance: AppUIDarkColors
+    static getInstance() {
+        if (!AppUIDarkColors.instance) AppUIDarkColors.instance = new AppUIDarkColors()
+        return AppUIDarkColors.instance
+    }
+
+    private constructor() {
+        // Empty
+    }
+
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(0, 0, 0, 255)))
 
