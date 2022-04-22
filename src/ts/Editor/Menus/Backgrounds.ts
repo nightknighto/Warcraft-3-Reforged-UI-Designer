@@ -1,6 +1,6 @@
 import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
 import { Editor } from '../Editor'
-import { dialog, remote } from 'electron'
+import { remote } from 'electron'
 
 export class BackgroundTexture implements ICallableDivInstance {
     private path: string

@@ -15,14 +15,14 @@ export class AppInterfaceWoodenTexture implements ICallableDivInstance {
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panels')
-        for (var i = 0; i < elements.length; i++) {
+        let elements = document.querySelectorAll<HTMLDivElement>('.panels')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.color = 'rgb(248, 224, 197)'
             elements[i].style.backgroundImage = "url('./files/WoodenPanels.png')"
         }
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
-        for (var i = 0; i < elements.length; i++) {
+        elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         }
 
@@ -46,15 +46,15 @@ export class AppInterfaceBrownColors implements ICallableDivInstance {
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panels')
-        for (var i = 0; i < elements.length; i++) {
+        let elements = document.querySelectorAll<HTMLDivElement>('.panels')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#ECBD87'
         }
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
-        for (var i = 0; i < elements.length; i++) {
+        elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#CBB6A1'
         }
@@ -88,15 +88,15 @@ export class AppInterfacePurpleColors implements ICallableDivInstance {
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(119, 45, 160, 255)))
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panels')
-        for (var i = 0; i < elements.length; i++) {
+        let elements = document.querySelectorAll<HTMLDivElement>('.panels')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#D39EEC'
         }
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
-        for (var i = 0; i < elements.length; i++) {
+        elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = 'rgb(115, 49, 146)'
         }
@@ -130,15 +130,15 @@ export class AppInterfaceBlueColors implements ICallableDivInstance {
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(75, 90, 193, 255)))
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panels')
-        for (var i = 0; i < elements.length; i++) {
+        let elements = document.querySelectorAll<HTMLDivElement>('.panels')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.color = 'black'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#67A2C2'
         }
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
-        for (var i = 0; i < elements.length; i++) {
+        elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#4057C7'
         }
@@ -173,15 +173,15 @@ export class AppInterfaceDarkColors implements ICallableDivInstance {
     run() {
         Editor.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(0, 0, 0, 255)))
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panels')
-        for (var i = 0; i < elements.length; i++) {
+        let elements = document.querySelectorAll<HTMLDivElement>('.panels')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.color = 'rgb(248, 224, 197)'
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#312B2B'
         }
 
-        var elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
-        for (var i = 0; i < elements.length; i++) {
+        elements = document.querySelectorAll<HTMLDivElement>('.panelDebugBackground')
+        for (let i = 0; i < elements.length; i++) {
             elements[i].style.backgroundImage = 'none'
             elements[i].style.backgroundColor = '#433D3D'
         }
