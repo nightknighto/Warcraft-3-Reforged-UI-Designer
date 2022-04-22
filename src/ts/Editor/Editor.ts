@@ -244,7 +244,7 @@ export class Editor {
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
 
         this.projectTree = ProjectTree.getInstance()
-        this.changeStack = new ChangeStack()
+        this.changeStack = ChangeStack.getInstance()
         this.parameterEditor = ParameterEditor.getInstance()
         this.tabsMenu = this.initializeMenus()
 

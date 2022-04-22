@@ -4,10 +4,16 @@ import Redoable from '../Commands/Redoable'
 import Undoable from '../Commands/Undoable'
 
 export default class ChangeStack {
+    private static instance: ChangeStack
+
+    static getInstance() {
+        if (!ChangeStack.instance) ChangeStack.instance = new ChangeStack()
+        return ChangeStack.instance
+    }
     private undoStack: Stack<Undoable>
     private redoStack: Stack<Redoable>
 
-    public constructor() {
+    private constructor() {
         this.undoStack = new Stack()
         this.redoStack = new Stack()
 
