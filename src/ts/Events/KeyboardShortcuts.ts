@@ -238,7 +238,7 @@ export class KeyboardShortcuts {
 
     keydownNoMod = (event: KeyboardEvent) => {
         if (document.body.style.cursor !== 'grabbing') {
-            const par = ParameterEditor.inst()
+            const par = ParameterEditor.getInstance()
             switch (event.code) {
                 case 'Delete':
                     // Delete Frame

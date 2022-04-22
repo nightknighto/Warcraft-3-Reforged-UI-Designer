@@ -134,7 +134,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                 Image.src = file.path
             }
 
-            if (ParameterEditor.inst().checkboxPathFill.checked) {
+            if (ParameterEditor.getInstance().checkboxPathFill.checked) {
                 this.setWc3Texture(file.name, which, true)
             }
         } else {
@@ -157,7 +157,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                 }
             })
 
-            if (ParameterEditor.inst().checkboxPathFill.checked) {
+            if (ParameterEditor.getInstance().checkboxPathFill.checked) {
                 this.setWc3Texture(basename(Input), which, true)
             }
         }
@@ -172,10 +172,10 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     public setWc3Texture(newTexturePath: string, which: 'normal' | 'back', refresh?: boolean): void {
         if (which == 'normal') {
             this.textureWc3Path = newTexturePath
-            if (refresh) ParameterEditor.inst().inputElementWC3Texture.value = newTexturePath
+            if (refresh) ParameterEditor.getInstance().inputElementWC3Texture.value = newTexturePath
         } else {
             this.textureBackWc3Path = newTexturePath
-            if (refresh) ParameterEditor.inst().inputElementBackWC3Texture.value = newTexturePath
+            if (refresh) ParameterEditor.getInstance().inputElementBackWC3Texture.value = newTexturePath
         }
     }
 

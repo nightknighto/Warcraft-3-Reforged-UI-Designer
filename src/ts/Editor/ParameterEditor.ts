@@ -16,6 +16,13 @@ import CustomComplex from './FrameLogic/CustomComplex'
 import { Tooltips } from '../Classes & Functions/Tooltips'
 
 export class ParameterEditor {
+    private static instance: ParameterEditor
+    /**gives the instance */
+    static getInstance() {
+        if (!ParameterEditor.instance) ParameterEditor.instance = new ParameterEditor()
+        return ParameterEditor.instance
+    }
+
     public readonly parameterPanel: HTMLElement
     public readonly panelParameters: HTMLElement
     public readonly inputElementName: HTMLInputElement
@@ -72,7 +79,7 @@ export class ParameterEditor {
     public readonly fieldPropertiesOutermost: HTMLDivElement
     public readonly fieldFunctionalityOutermost: HTMLDivElement
 
-    public constructor() {
+    private constructor() {
         this.panelParameters = document.getElementById('panelParameters') as HTMLElement
         this.inputElementName = document.getElementById('elementName') as HTMLInputElement
         this.selectElementType = document.getElementById('elementType') as HTMLSelectElement
@@ -533,11 +540,6 @@ export class ParameterEditor {
         if (el.value == 'start' || el.value == 'center' || el.value == 'flex-end')
             Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setVerAlign(el.value)
         else alert('Critical Error: InputVerAlign input type is wrong!')
-    }
-
-    /**gives the instance */
-    static inst(): ParameterEditor {
-        return Editor.GetDocumentEditor().parameterEditor
     }
 
     static OriginModeChanges(val: string): void {

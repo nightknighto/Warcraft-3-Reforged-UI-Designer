@@ -245,7 +245,7 @@ export class Editor {
 
         this.projectTree = new ProjectTree()
         this.changeStack = new ChangeStack()
-        this.parameterEditor = new ParameterEditor()
+        this.parameterEditor = ParameterEditor.getInstance()
         this.tabsMenu = this.initializeMenus()
 
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement

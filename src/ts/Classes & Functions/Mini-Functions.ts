@@ -7,7 +7,7 @@ export function debugText(stuff: string): void {
 
     if (ProjectTree.getSelected()) {
         //update Element Panel
-        ParameterEditor.inst().updateFields(ProjectTree.getSelected())
+        ParameterEditor.getInstance().updateFields(ProjectTree.getSelected())
     }
 }
 
