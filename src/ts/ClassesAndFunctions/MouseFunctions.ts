@@ -343,6 +343,7 @@ export function MouseFunctions(div: CustomComplex): void {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     div.getElement().onmouseenter = function (e) {
         div.getElement().onmousemove = function (e) {
             if (GUIEvents.isInteracting) return

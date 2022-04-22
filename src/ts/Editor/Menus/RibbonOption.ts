@@ -1,4 +1,3 @@
-import { node } from 'webpack'
 import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
 
 export class RibbonOption {

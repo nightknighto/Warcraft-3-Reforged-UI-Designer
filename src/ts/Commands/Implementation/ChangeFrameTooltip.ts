@@ -2,7 +2,6 @@ import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { Editor } from '../../Editor/Editor'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import SimpleCommand from '../SimpleCommand'
-import { ParameterEditor } from '../../Editor/ParameterEditor'
 import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class ChangeFrameTooltip extends SimpleCommand {
