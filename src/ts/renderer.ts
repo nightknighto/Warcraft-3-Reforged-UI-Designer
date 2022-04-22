@@ -120,11 +120,6 @@ TableArraySubmit.onclick = (e) => {
 }
 
 try {
-    window.onresize = () => {
-        if (document.getElementById('workspaceContainer').offsetWidth > CanvasMovement.getInstance().width) CanvasMovement.getInstance().moveToCenter()
-        ProjectTree.refreshElements()
-    }
-
     //keyboard shortcuts
     KeyboardShortcuts.getInstance()
 
@@ -140,6 +135,10 @@ try {
     document.getElementById('panelParameters').style.visibility = 'visible'
 
     //general Initializations
+    window.onresize = () => {
+        if (document.getElementById('workspaceContainer').offsetWidth > CanvasMovement.getInstance().width) CanvasMovement.getInstance().moveToCenter()
+        ProjectTree.refreshElements()
+    }
 } catch (e) {
     alert('renderer' + e)
 }
