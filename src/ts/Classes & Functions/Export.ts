@@ -46,7 +46,7 @@ export type TLanguage = 'jass' | 'lua' | 'ts'
 function getFDFsList(): string[] {
     const FDFsRequired: string[] = []
     const ft = FrameType
-    for (const el of ProjectTree.inst().getIterator()) {
+    for (const el of ProjectTree.getInstance().getIterator()) {
         let require = ''
         switch (el.type) {
             case ft.TEXTAREA:

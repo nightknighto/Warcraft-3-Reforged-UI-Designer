@@ -222,7 +222,7 @@ export class Editor {
         ribBackdrop.addMenuOption('Default Menus Backdrop', new CreateFrameAtSelected(newFrameBuilder))
 
         OptionsMenu.override = () => {
-            ProjectTree.inst().select(ProjectTree.inst().rootFrame)
+            ProjectTree.getInstance().select(ProjectTree.getInstance().rootFrame)
         }
 
         insertMenu.run()
@@ -243,7 +243,7 @@ export class Editor {
         this.debugLine = document.getElementById('debugLine')
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
 
-        this.projectTree = new ProjectTree()
+        this.projectTree = ProjectTree.getInstance()
         this.changeStack = new ChangeStack()
         this.parameterEditor = ParameterEditor.getInstance()
         this.tabsMenu = this.initializeMenus()

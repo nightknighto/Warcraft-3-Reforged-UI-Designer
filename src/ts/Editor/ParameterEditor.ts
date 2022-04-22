@@ -388,7 +388,7 @@ export class ParameterEditor {
 
             const typs = FrameType
 
-            for (const fr of ProjectTree.inst().getIterator()) {
+            for (const fr of ProjectTree.getInstance().getIterator()) {
                 if (fr.type !== typs.ORIGIN && fr.type !== typs.HOR_BAR_BACKGROUND && fr.type != typs.HOR_BAR_BACKGROUND_TEXT && fr.type != typs.HOR_BAR_TEXT) {
                     if (val) {
                         fr.custom.getElement().style.outlineWidth = '3px'

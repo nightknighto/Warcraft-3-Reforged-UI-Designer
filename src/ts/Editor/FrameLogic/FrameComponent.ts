@@ -149,7 +149,7 @@ export class FrameComponent implements Saveable {
 
         this.appendFrame(newChild)
         if (!newChild.FieldsAllowed.parent) {
-            new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
+            new ChangeFrameParent(newChild, ProjectTree.getInstance().rootFrame).pureAction()
         }
 
         ProjectTree.refreshElements()

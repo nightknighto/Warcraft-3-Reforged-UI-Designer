@@ -16,48 +16,49 @@ import {
 } from './Menus/App Interface'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
-    public static readonly SAVE_KEY_ORIGIN_CHILDREN = 'frames'
-    public static readonly SAVE_KEY_LIBRARY_NAME = 'LibraryName'
-    public static readonly SAVE_KEY_HIDE_GAMEUI = 'GameUI'
-    public static readonly SAVE_KEY_HIDE_HEROBAR = 'HeroBar'
-    public static readonly SAVE_KEY_HIDE_MINIMAP = 'MiniMap'
-    public static readonly SAVE_KEY_HIDE_RESOURCES = 'Resources'
-    public static readonly SAVE_KEY_HIDE_BUTTONBAR = 'ButtonBar'
-    public static readonly SAVE_KEY_HIDE_PORTRAIT = 'Portrait'
-    public static readonly SAVE_KEY_HIDE_CHAT = 'Chat'
-    public static readonly SAVE_KEY_ORIGIN_MODE = 'OriginMode'
-    public static readonly SAVE_KEY_APP_INTERFACE = 'AppInterface'
+    private static instance: ProjectTree
+    static getInstance() {
+        if (!ProjectTree.instance) ProjectTree.instance = new ProjectTree()
+        return ProjectTree.instance
+    }
+    static readonly SAVE_KEY_ORIGIN_CHILDREN = 'frames'
+    static readonly SAVE_KEY_LIBRARY_NAME = 'LibraryName'
+    static readonly SAVE_KEY_HIDE_GAMEUI = 'GameUI'
+    static readonly SAVE_KEY_HIDE_HEROBAR = 'HeroBar'
+    static readonly SAVE_KEY_HIDE_MINIMAP = 'MiniMap'
+    static readonly SAVE_KEY_HIDE_RESOURCES = 'Resources'
+    static readonly SAVE_KEY_HIDE_BUTTONBAR = 'ButtonBar'
+    static readonly SAVE_KEY_HIDE_PORTRAIT = 'Portrait'
+    static readonly SAVE_KEY_HIDE_CHAT = 'Chat'
+    static readonly SAVE_KEY_ORIGIN_MODE = 'OriginMode'
+    static readonly SAVE_KEY_APP_INTERFACE = 'AppInterface'
 
-    public static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.8)' //yellow
-    public static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.8)' //green
-    public static readonly outlineSelected = 'rgba(242, 38, 19, 0.8)' //red
+    static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.8)' //yellow
+    static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.8)' //green
+    static readonly outlineSelected = 'rgba(242, 38, 19, 0.8)' //red
 
-    public readonly rootFrame: FrameComponent
-    public readonly panelTree: HTMLElement
+    readonly rootFrame: FrameComponent
+    readonly panelTree: HTMLElement
     private selectedFrame: FrameComponent
 
-    public static LibraryName = 'REFORGEDUIMAKER'
-    public static HideGameUI = false
-    public static HideHeroBar = false
-    public static HideMiniMap = false
-    public static HideResources = false
-    public static HideButtonBar = false
-    public static HidePortrait = false
-    public static HideChat = false
-    public static OriginMode = 'gameui'
+    static LibraryName = 'REFORGEDUIMAKER'
+    static HideGameUI = false
+    static HideHeroBar = false
+    static HideMiniMap = false
+    static HideResources = false
+    static HideButtonBar = false
+    static HidePortrait = false
+    static HideChat = false
+    static OriginMode = 'gameui'
 
-    public static ShowBorders = true
-    public static AppInterface = AppInterfaces.dark
+    static ShowBorders = true
+    static AppInterface = AppInterfaces.dark
 
     //path of project that was loaded. used for "Save" functionality
-    public static fileSavePath: string | null = null
+    static fileSavePath: string | null = null
 
-    public static inst() {
-        return Editor.GetDocumentEditor().projectTree
-    }
-
-    public static refreshElements() {
-        for (const el of ProjectTree.inst().getIterator()) {
+    static refreshElements() {
+        for (const el of ProjectTree.getInstance().getIterator()) {
             if (el.type === FrameType.ORIGIN) {
                 //base
                 continue
@@ -83,7 +84,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
     }
 
-    public static setOriginMode(value: string) {
+    static setOriginMode(value: string) {
         if (value != 'gameui' && value != 'worldframe' && value != 'consoleui') value = 'gameui'
 
         this.OriginMode = value
@@ -92,11 +93,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         radios.forEach((radio) => ((radio as HTMLInputElement).checked = (radio as HTMLInputElement).value === value))
     }
 
-    public static getSelected(): FrameComponent {
+    static getSelected(): FrameComponent {
         return Editor.GetDocumentEditor().projectTree.getSelectedFrame()
     }
 
-    public static saveGeneralOptions(): void {
+    static saveGeneralOptions(): void {
         const par = Editor.GetDocumentEditor().parameterEditor
         ProjectTree.LibraryName = par.inputLibraryName.value
         ProjectTree.HideGameUI = par.checkboxGameUI.checked
@@ -108,7 +109,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         ProjectTree.HideChat = par.checkboxChat.checked
     }
 
-    public constructor() {
+    private constructor() {
         const originBuilder: FrameBuilder = new FrameBuilder(false)
 
         originBuilder.name = 'Origin'
@@ -134,7 +135,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.panelTree.appendChild(this.rootFrame.treeElement)
     }
 
-    public save(container: SaveContainer): void {
+    save(container: SaveContainer): void {
         const originChildrenArray = []
 
         for (const frame of this.rootFrame.getChildren()) {
@@ -156,7 +157,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_APP_INTERFACE, ProjectTree.AppInterface)
     }
 
-    public appendToSelected(newFrame: FrameBuilder): FrameComponent {
+    appendToSelected(newFrame: FrameBuilder): FrameComponent {
         if (this.selectedFrame == null) {
             newFrame.z = this.rootFrame.custom.getZIndex() + this.rootFrame.getChildren().length + 1
             return this.rootFrame.createAsChild(newFrame)
@@ -166,11 +167,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
     }
 
-    public getSelectedFrame(): FrameComponent {
+    getSelectedFrame(): FrameComponent {
         return this.selectedFrame
     }
 
-    public select(frame: FrameComponent | CustomComplex | CustomComplex | HTMLImageElement | HTMLDivElement | HTMLElement): void {
+    select(frame: FrameComponent | CustomComplex | CustomComplex | HTMLImageElement | HTMLDivElement | HTMLElement): void {
         //should go to workspace class?
         if (this.selectedFrame != null) {
             let color = ProjectTree.outlineUnSelected
@@ -193,7 +194,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         Editor.GetDocumentEditor().parameterEditor.updateFields(this.selectedFrame)
     }
 
-    public load(container: SaveContainer): void {
+    load(container: SaveContainer): void {
         if (container.hasKey(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN)) {
             //Clear the entire project tree first.
             for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
@@ -267,7 +268,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     //Iterator
     private iteratorQueue: Queue<FrameComponent>
 
-    public getIterator(): IterableIterator<FrameComponent> {
+    getIterator(): IterableIterator<FrameComponent> {
         this.iteratorQueue = new Queue<FrameComponent>()
         const tempQueue = new Queue<FrameComponent>()
         let currentNode: FrameComponent
@@ -291,7 +292,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         return this
     }
 
-    public next(): { done: boolean; value: FrameComponent } {
+    next(): { done: boolean; value: FrameComponent } {
         const returnValue = this.iteratorQueue.dequeue()
 
         return {
@@ -300,7 +301,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
     }
 
-    public findByName(name: string): FrameComponent | void {
+    findByName(name: string): FrameComponent | void {
         const iterator = Editor.GetDocumentEditor().projectTree.getIterator()
         for (const currentFrame of iterator) {
             if (currentFrame.getName() === name) {
