@@ -1,6 +1,6 @@
 import { Color, RGBA } from 'custom-electron-titlebar'
 import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
-import { EditorController } from '../EditorController'
+import { Editor } from '../Editor'
 import { ProjectTree } from '../ProjectTree'
 
 export enum AppInterfaces {
@@ -22,7 +22,7 @@ export class AppUIWoodenTexture implements ICallableDivInstance {
         // Empty
     }
     run() {
-        EditorController.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
+        Editor.getInstance().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
         let elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (let i = 0; i < elements.length; i++) {
@@ -62,7 +62,7 @@ export class AppUIBrownColors implements ICallableDivInstance {
         // Empty
     }
     run() {
-        EditorController.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
+        Editor.getInstance().titleBar.updateBackground(new Color(new RGBA(69, 49, 26, 255)))
 
         let elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (let i = 0; i < elements.length; i++) {
@@ -113,7 +113,7 @@ export class AppUIPurpleColors implements ICallableDivInstance {
         // Empty
     }
     run() {
-        EditorController.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(119, 45, 160, 255)))
+        Editor.getInstance().titleBar.updateBackground(new Color(new RGBA(119, 45, 160, 255)))
 
         let elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (let i = 0; i < elements.length; i++) {
@@ -164,7 +164,7 @@ export class AppUIBlueColors implements ICallableDivInstance {
         // Empty
     }
     run() {
-        EditorController.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(75, 90, 193, 255)))
+        Editor.getInstance().titleBar.updateBackground(new Color(new RGBA(75, 90, 193, 255)))
 
         let elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (let i = 0; i < elements.length; i++) {
@@ -217,7 +217,7 @@ export class AppUIDarkColors implements ICallableDivInstance {
     }
 
     run() {
-        EditorController.GetDocumentEditor().titleBar.updateBackground(new Color(new RGBA(0, 0, 0, 255)))
+        Editor.getInstance().titleBar.updateBackground(new Color(new RGBA(0, 0, 0, 255)))
 
         let elements = document.querySelectorAll<HTMLDivElement>('.panels')
         for (let i = 0; i < elements.length; i++) {

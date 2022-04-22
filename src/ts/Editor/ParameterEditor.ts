@@ -14,6 +14,7 @@ import ChangeFrameY from '../Commands/Implementation/ChangeFrameY'
 import { ProjectTree } from './ProjectTree'
 import CustomComplex from './FrameLogic/CustomComplex'
 import { Tooltips } from '../ClassesAndFunctions/Tooltips'
+import { Editor } from './Editor'
 
 export class ParameterEditor {
     private static instance: ParameterEditor
@@ -194,7 +195,7 @@ export class ParameterEditor {
         const inputElement = ev.target as HTMLInputElement
         const focusedFrame = ProjectTree.getInstance().getSelectedFrame()
         const focusedCustom = focusedFrame.custom
-        const workspace = EditorController.GetDocumentEditor().workspaceImage
+        const workspace = Editor.getInstance().workspaceImage
         const horizontalMargin = EditorController.getInnerMargin()
         const actualMargin = EditorController.getActualMargin()
 
@@ -226,7 +227,7 @@ export class ParameterEditor {
             const inputElement = ev.target as HTMLInputElement
             const focusedFrame = ProjectTree.getInstance().getSelectedFrame()
             const focusedCustom = focusedFrame.custom
-            const workspace = EditorController.GetDocumentEditor().workspaceImage
+            const workspace = Editor.getInstance().workspaceImage
 
             if (+inputElement.value > 0.6 || +inputElement.value < 0) {
                 debugText(`Input refused. Height is limited to 0 and 0.6.`)
@@ -423,7 +424,7 @@ export class ParameterEditor {
 
     static InputCoordinateX(ev: Event): void {
         const loc = (ev.target as HTMLInputElement).value
-        const editor = EditorController.GetDocumentEditor()
+        const editor = Editor.getInstance()
         const rect = editor.workspaceImage.getBoundingClientRect()
         const image = ProjectTree.getInstance().getSelectedFrame().custom.getElement()
         const horizontalMargin = EditorController.getInnerMargin()
@@ -446,7 +447,7 @@ export class ParameterEditor {
     static InputCoordinateY(ev: Event): void {
         try {
             const loc = (ev.target as HTMLInputElement).value
-            const editor = EditorController.GetDocumentEditor()
+            const editor = Editor.getInstance()
             const rect = editor.workspaceImage.getBoundingClientRect()
             const image = ProjectTree.getInstance().getSelectedFrame().custom.getElement()
 

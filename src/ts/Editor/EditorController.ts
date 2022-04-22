@@ -1,15 +1,15 @@
 import { ProjectTree } from './ProjectTree'
-import { EditorInit } from './Editor'
+import { Editor } from './Editor'
 
 export class EditorController {
     //Application bars
-    static GetDocumentEditor() {
-        return EditorInit.getInstance().editor
-    }
+    // static GetDocumentEditor() {
+    //     return EditorInit.getInstance().editor
+    // }
 
     /**returns the margin of the 4:3 area. */
     static getInnerMargin(): number {
-        const workspace = EditorController.GetDocumentEditor().workspaceImage
+        const workspace = Editor.getInstance().workspaceImage
         const rect = workspace.getBoundingClientRect()
         return (240 / 1920) * rect.width
     }
@@ -24,7 +24,7 @@ export class EditorController {
 
     //gives the max and min numbers for the x-position (edges of the frame-movable area)
     static getActualMarginLimits(): { min: number; max: number } {
-        const workspaceImage = EditorController.GetDocumentEditor().workspaceImage
+        const workspaceImage = Editor.getInstance().workspaceImage
         return {
             min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
             max:

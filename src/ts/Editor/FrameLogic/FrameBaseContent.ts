@@ -4,6 +4,7 @@ import SaveContainer from '../../Persistence/SaveContainer'
 import { EditorController } from '../EditorController'
 import { FrameComponent } from './FrameComponent'
 import { ProjectTree } from '../ProjectTree'
+import { Editor } from '../Editor'
 
 export default abstract class FrameBaseContent implements Saveable {
     public static readonly SAVE_KEY_HEIGHT = 'height'
@@ -41,7 +42,7 @@ export default abstract class FrameBaseContent implements Saveable {
     public setWidth(newWidth: number, noChange?: boolean): void {
         const horizontalMargin = EditorController.getInnerMargin()
 
-        if (!noChange) this.element.style.width = (newWidth / 0.8) * (EditorController.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + 'px'
+        if (!noChange) this.element.style.width = (newWidth / 0.8) * (Editor.getInstance().workspaceImage.width - 2 * horizontalMargin) + 'px'
         this.width = newWidth
     }
 
@@ -50,7 +51,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setHeight(newHeight: number, noChange?: boolean): void {
-        const workspace = EditorController.GetDocumentEditor().workspaceImage
+        const workspace = Editor.getInstance().workspaceImage
         const rect = workspace.getBoundingClientRect()
         if (!noChange) {
             this.element.style.top = `${this.element.offsetTop + (this.element.offsetHeight - (newHeight * rect.height) / 0.6)}px`
@@ -64,7 +65,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setLeftX(newX: number, noChange?: boolean): void {
-        const editor = EditorController.GetDocumentEditor()
+        const editor = Editor.getInstance()
         const rect = editor.workspaceImage.getBoundingClientRect()
         const horizontalMargin = EditorController.getInnerMargin()
 
@@ -77,7 +78,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setBotY(newY: number, noChange?: boolean): void {
-        const rect = EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect()
+        const rect = Editor.getInstance().workspaceImage.getBoundingClientRect()
 
         this.botY = newY
         if (!noChange) this.element.style.top = `${rect.bottom - (newY * rect.height) / 0.6 - this.element.offsetHeight - 120}px`

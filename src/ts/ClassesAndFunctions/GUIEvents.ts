@@ -7,12 +7,13 @@ import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCir
 import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable'
 import { ProjectTree } from '../Editor/ProjectTree'
 import { ParameterEditor } from '../Editor/ParameterEditor'
+import { Editor } from '../Editor/Editor'
 
 export class GUIEvents {
     static isInteracting = false
 
     static DisplayGameCoords(ev: MouseEvent): void {
-        const editor = EditorController.GetDocumentEditor()
+        const editor = Editor.getInstance()
         const workspaceImage = editor.workspaceImage
 
         const horizontalMargin = EditorController.getInnerMargin()
@@ -101,7 +102,7 @@ export class GUIEvents {
 
     static PanelOpenClose(): void {
         const panel = ParameterEditor.getInstance().panelParameters
-        const panelButton = EditorController.GetDocumentEditor().panelButton
+        const panelButton = Editor.getInstance().panelButton
 
         if (panel.style.visibility == 'visible') {
             // panel.style.minWidth = "0";
@@ -121,7 +122,7 @@ export class GUIEvents {
 
     static TreeOpenClose(): void {
         const panel = document.getElementById('panelTree')
-        const treeButton = EditorController.GetDocumentEditor().treeButton
+        const treeButton = Editor.getInstance().treeButton
         if (panel.style.visibility == 'visible') {
             panel.style.visibility = 'hidden'
             treeButton.style.visibility = 'visible'

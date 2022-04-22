@@ -1,9 +1,9 @@
-import { EditorController } from '../Editor/EditorController'
+import { Editor } from '../Editor/Editor'
 import { ParameterEditor } from '../Editor/ParameterEditor'
 import { ProjectTree } from '../Editor/ProjectTree'
 
 export function debugText(stuff: string): void {
-    EditorController.GetDocumentEditor().debugLine.innerText = stuff
+    Editor.getInstance().debugLine.innerText = stuff
 
     if (ProjectTree.getSelected()) {
         //update Element Panel

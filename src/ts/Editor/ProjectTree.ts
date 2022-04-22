@@ -8,6 +8,7 @@ import SaveContainer from '../Persistence/SaveContainer'
 import CustomComplex from './FrameLogic/CustomComplex'
 import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/AppInterface'
 import { ParameterEditor } from './ParameterEditor'
+import { Editor } from './Editor'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     private static instance: ProjectTree
@@ -59,8 +60,8 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             }
 
             const image = el.custom.getElement()
-            const rect = EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect()
-            const workspace = EditorController.GetDocumentEditor().workspaceImage
+            const rect = Editor.getInstance().workspaceImage.getBoundingClientRect()
+            const workspace = Editor.getInstance().workspaceImage
             const horizontalMargin = EditorController.getInnerMargin()
 
             const x = el.custom.getLeftX()
@@ -118,7 +119,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame
         this.rootFrame.treeElement.style.fontWeight = '600'
-        EditorController.GetDocumentEditor().workspace.appendChild(this.rootFrame.layerDiv)
+        Editor.getInstance().workspace.appendChild(this.rootFrame.layerDiv)
 
         this.panelTree = document.getElementById('panelTreeView')
 

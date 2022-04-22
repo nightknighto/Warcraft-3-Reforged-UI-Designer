@@ -15,6 +15,7 @@ import { KeyboardShortcuts } from './Events/keyboardShortcuts'
 import { CanvasMovement } from './Events/CanvasMovement'
 import ChangeStack from './Editor/ChangeStack'
 import { ParameterEditor } from './Editor/ParameterEditor'
+import { AppUIDarkColors } from './Editor/Menus/AppInterface'
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage)
@@ -128,7 +129,8 @@ try {
     KeyboardShortcuts.getInstance()
 
     //general Initializations
-    new Editor()
+    Editor.getInstance()
+    AppUIDarkColors.getInstance().run()
     ProjectTree.getInstance()
     ChangeStack.getInstance()
     ParameterEditor.getInstance()

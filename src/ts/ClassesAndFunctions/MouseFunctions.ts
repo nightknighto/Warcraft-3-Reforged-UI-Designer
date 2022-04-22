@@ -7,9 +7,10 @@ import { GUIEvents } from './GUIEvents'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
 import { ProjectTree } from '../Editor/ProjectTree'
 import { ParameterEditor } from '../Editor/ParameterEditor'
+import { Editor } from '../Editor/Editor'
 
 export function MouseFunctions(div: CustomComplex): void {
-    const workspaceImage = EditorController.GetDocumentEditor().workspaceImage
+    const workspaceImage = Editor.getInstance().workspaceImage
 
     div.getElement().onmousedown = function (e) {
         if (e.altKey) return
@@ -429,7 +430,7 @@ export function MouseFunctions(div: CustomComplex): void {
 }
 
 function inputElementsUpdate(div: CustomComplex, updateOnly?: { x?: boolean; y?: boolean; width?: boolean; height?: boolean }) {
-    const editor = EditorController.GetDocumentEditor()
+    const editor = Editor.getInstance()
     const workspaceImage = editor.workspaceImage
     const parameterEditor = ParameterEditor.getInstance()
     const horizontalMargin = EditorController.getInnerMargin()

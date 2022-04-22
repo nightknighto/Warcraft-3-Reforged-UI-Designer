@@ -18,25 +18,14 @@ import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
 import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
 
-export class EditorInit {
-    private static instance?: EditorInit
-
-    static initInstance(editor: Editor) {
-        if (!EditorInit.instance) EditorInit.instance = new EditorInit(editor)
-        return EditorInit.instance
-    }
+export class Editor {
+    private static instance?: Editor
 
     static getInstance() {
-        return EditorInit.instance
+        if (!Editor.instance) Editor.instance = new Editor()
+        return Editor.instance
     }
 
-    editor: Editor
-    private constructor(editor: Editor) {
-        this.editor = editor
-    }
-}
-
-export class Editor {
     readonly panelDebug: HTMLElement
 
     readonly btnCloseTreePanel: HTMLButtonElement
@@ -50,10 +39,6 @@ export class Editor {
     readonly debugLine: HTMLElement
     readonly debugGameCoordinates: HTMLElement
 
-    //functional units
-    // readonly projectTree: ProjectTree
-    // readonly changeStack: ChangeStack
-    // readonly parameterEditor: ParameterEditor
     readonly tabsMenu: TabsMenu
 
     //UI
@@ -69,6 +54,34 @@ export class Editor {
     insertMenu: RibbonMenu
     infoMenu: RibbonMenu
     OptionsMenu: RibbonMenu
+
+    constructor() {
+        this.panelDebug = document.getElementById('panelDebug')
+
+        this.btnCloseTreePanel = document.getElementById('treeClose') as HTMLButtonElement
+        this.btnCloseParameterPanel = document.getElementById('panelClose') as HTMLButtonElement
+
+        this.workspaceImage = document.getElementById('workspace') as HTMLImageElement
+        this.workspace = document.getElementById('workspaceContainer') as HTMLDivElement
+
+        this.debugLine = document.getElementById('debugLine')
+        this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
+
+        this.tabsMenu = this.initializeMenus()
+
+        this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
+        this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
+        // this.canvasMovement = CanvasMovement.getInstance()
+
+        this.titleBar = new Titlebar({
+            backgroundColor: new Color(new RGBA(69, 49, 26, 255)),
+            icon: './files/icon.png',
+            menu: null,
+        })
+
+        this.panelButton.onclick = GUIEvents.PanelOpenClose
+        this.treeButton.onclick = GUIEvents.TreeOpenClose
+    }
 
     private initializeMenus(): TabsMenu {
         const tabsMenu = new TabsMenu()
@@ -163,44 +176,11 @@ export class Editor {
         this.insertMenu.addRibbonOption(ribTemplates)
 
         this.OptionsMenu.override = () => {
-            ProjectTree.getInstance().select(ProjectTree.getInstance().rootFrame)
+            const projectTree = ProjectTree.getInstance()
+            projectTree.select(projectTree.rootFrame)
         }
 
         this.insertMenu.run()
         return tabsMenu
-    }
-
-    constructor() {
-        // ;(document as any).editor = this
-        EditorInit.initInstance(this)
-        this.panelDebug = document.getElementById('panelDebug')
-
-        this.btnCloseTreePanel = document.getElementById('treeClose') as HTMLButtonElement
-        this.btnCloseParameterPanel = document.getElementById('panelClose') as HTMLButtonElement
-
-        this.workspaceImage = document.getElementById('workspace') as HTMLImageElement
-        this.workspace = document.getElementById('workspaceContainer') as HTMLDivElement
-
-        this.debugLine = document.getElementById('debugLine')
-        this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
-
-        // this.projectTree = ProjectTree.getInstance()
-        // this.changeStack = ChangeStack.getInstance()
-        // this.parameterEditor = ParameterEditor.getInstance()
-        this.tabsMenu = this.initializeMenus()
-
-        this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
-        this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
-        // this.canvasMovement = CanvasMovement.getInstance()
-
-        this.titleBar = new Titlebar({
-            backgroundColor: new Color(new RGBA(69, 49, 26, 255)),
-            icon: './files/icon.png',
-            menu: null,
-        })
-
-        AppUIDarkColors.getInstance().run()
-        this.panelButton.onclick = GUIEvents.PanelOpenClose
-        this.treeButton.onclick = GUIEvents.TreeOpenClose
     }
 }

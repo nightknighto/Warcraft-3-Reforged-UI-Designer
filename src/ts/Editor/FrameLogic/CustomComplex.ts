@@ -2,7 +2,6 @@
 
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from './FrameComponent'
-import { EditorController } from '../EditorController'
 import SaveContainer from '../../Persistence/SaveContainer'
 import FrameBaseContent from './FrameBaseContent'
 import { FrameType } from './FrameType'
@@ -14,6 +13,7 @@ import { readFile } from 'fs'
 import { basename } from 'path'
 import { ParameterEditor } from '../ParameterEditor'
 import { ProjectTree } from '../ProjectTree'
+import { Editor } from '../Editor'
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     public static readonly SAVE_KEY_TEXT = 'text'
@@ -61,7 +61,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             }
             this.scale = val
             if (this.elemText) {
-                this.elemText.style.fontSize = (val * EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect().width) / 100 + 'px'
+                this.elemText.style.fontSize = (val * Editor.getInstance().workspaceImage.getBoundingClientRect().width) / 100 + 'px'
             }
         } catch (e) {
             console.log('e: ' + e)
