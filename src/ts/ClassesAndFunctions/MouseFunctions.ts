@@ -1,6 +1,6 @@
 /** @format */
 
-import { debugText, InputEdit } from './Mini-Functions'
+import { debugText, InputEdit } from './MiniFunctions'
 import { Editor } from '../Editor/Editor'
 import MoveFrame from '../Commands/Implementation/MoveFrame'
 import { GUIEvents } from './GUIEvents'

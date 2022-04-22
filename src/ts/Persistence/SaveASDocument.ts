@@ -1,10 +1,10 @@
 import { remote, SaveDialogReturnValue } from 'electron'
 import { writeFile } from 'original-fs'
-import { ICallableDivInstance } from '../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../ClassesAndFunctions/ICallableDivInstance'
 import { Editor } from '../Editor/Editor'
 import SaveContainer from './SaveContainer'
 import { ProjectTree } from '../Editor/ProjectTree'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 
 export default class SaveASDocument implements ICallableDivInstance {
     public save(filepath: string): void {

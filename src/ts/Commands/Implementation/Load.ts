@@ -1,4 +1,4 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { Editor } from '../../Editor/Editor'
 import SaveContainer from '../../Persistence/SaveContainer'
 import SimpleCommand from '../SimpleCommand'

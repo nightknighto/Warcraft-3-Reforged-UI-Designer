@@ -1,6 +1,6 @@
 /** @format */
 
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import { ProjectTree } from '../Editor/ProjectTree'
 
 export class CanvasMovement {

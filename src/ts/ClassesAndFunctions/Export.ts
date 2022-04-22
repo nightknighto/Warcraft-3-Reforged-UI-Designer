@@ -1,12 +1,13 @@
 import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
 import { writeFileSync } from 'fs'
-import { FrameType, FrameRequire } from '../Editor/FrameLogic/FrameType & FrameRequire'
+import { FrameType } from '../Editor/FrameLogic/FrameType'
+import { FrameRequire } from '../Editor/FrameLogic/FrameRequire'
 import { Editor } from '../Editor/Editor'
 import { SaveDialogReturnValue, remote, clipboard } from 'electron'
 import { ProjectTree } from '../Editor/ProjectTree'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
-import { debugText } from './Mini-Functions'
+import { debugText } from './MiniFunctions'
 
 // writes data into file and copies text to clipboard
 async function finalizeExport(data: string, filepath: string | null, FDFs: string[], sendMessage = true) {

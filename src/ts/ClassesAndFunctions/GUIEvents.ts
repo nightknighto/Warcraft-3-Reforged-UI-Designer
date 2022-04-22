@@ -1,6 +1,6 @@
 import { Editor } from '../Editor/Editor'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from './MiniFunctions'
 import CreateFrame from '../Commands/Implementation/CreateFrame'
 import RemoveFrame from '../Commands/Implementation/RemoveFrame'
 import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular'

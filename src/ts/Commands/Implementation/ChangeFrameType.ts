@@ -1,7 +1,7 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { Editor } from '../../Editor/Editor'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
-import { FrameType } from '../../Editor/FrameLogic/FrameType & FrameRequire'
+import { FrameType } from '../../Editor/FrameLogic/FrameType'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameType extends SimpleCommand {

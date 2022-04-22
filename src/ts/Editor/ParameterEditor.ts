@@ -1,7 +1,7 @@
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import { Editor } from './Editor'
 import { FrameComponent } from './FrameLogic/FrameComponent'
-import { FrameType } from './FrameLogic/FrameType & FrameRequire'
+import { FrameType } from './FrameLogic/FrameType'
 import ChangeElementName from '../Commands/Implementation/ChangeFrameName'
 import ChangeFrameWidth from '../Commands/Implementation/ChangeFrameWidth'
 import Actionable from '../Commands/Actionable'
@@ -13,7 +13,7 @@ import ChangeFrameX from '../Commands/Implementation/ChangeFrameX'
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY'
 import { ProjectTree } from './ProjectTree'
 import CustomComplex from './FrameLogic/CustomComplex'
-import { Tooltips } from '../Classes & Functions/Tooltips'
+import { Tooltips } from '../ClassesAndFunctions/Tooltips'
 
 export class ParameterEditor {
     private static instance: ParameterEditor
@@ -391,7 +391,7 @@ export class ParameterEditor {
             for (const fr of ProjectTree.getInstance().getIterator()) {
                 if (fr.type !== typs.ORIGIN && fr.type !== typs.HOR_BAR_BACKGROUND && fr.type != typs.HOR_BAR_BACKGROUND_TEXT && fr.type != typs.HOR_BAR_TEXT) {
                     if (val) {
-                        fr.custom.getElement().style.outlineWidth = '3px'
+                        fr.custom.getElement().style.outlineWidth = '1px'
                         console.log(fr.custom.getElement().style.outlineWidth)
                     } else {
                         fr.custom.getElement().style.outlineWidth = '0px'

@@ -1,12 +1,12 @@
 import { Queue } from 'queue-typescript'
 import { FrameComponent } from './FrameLogic/FrameComponent'
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
-import { FrameType } from './FrameLogic/FrameType & FrameRequire'
+import { FrameType } from './FrameLogic/FrameType'
 import { Editor } from './Editor'
 import Saveable from '../Persistence/Saveable'
 import SaveContainer from '../Persistence/SaveContainer'
 import CustomComplex from './FrameLogic/CustomComplex'
-import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/App Interface'
+import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/AppInterface'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     private static instance: ProjectTree

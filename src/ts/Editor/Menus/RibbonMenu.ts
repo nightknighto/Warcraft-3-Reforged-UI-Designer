@@ -1,5 +1,5 @@
 import { RibbonOption } from './RibbonOption'
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
 
 export class RibbonMenu implements ICallableDivInstance {
     public readonly tabName: string

@@ -1,5 +1,5 @@
 import Stack from 'ts-data.stack'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import Redoable from '../Commands/Redoable'
 import Undoable from '../Commands/Undoable'
 

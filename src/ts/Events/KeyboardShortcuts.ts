@@ -1,14 +1,14 @@
 /** @format */
 
-import { Export } from '../Classes & Functions/Export'
-import { GUIEvents } from '../Classes & Functions/GUIEvents'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { Export } from '../ClassesAndFunctions/Export'
+import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
 import RemoveFrame from '../Commands/Implementation/RemoveFrame'
 import Redo from '../Commands/Redo'
 import Undo from '../Commands/Undo'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
-import { FrameType } from '../Editor/FrameLogic/FrameType & FrameRequire'
+import { FrameType } from '../Editor/FrameLogic/FrameType'
 import { BackgroundTexture, CustomBackground } from '../Editor/Menus/Backgrounds'
 import { ParameterEditor } from '../Editor/ParameterEditor'
 import { ProjectTree } from '../Editor/ProjectTree'

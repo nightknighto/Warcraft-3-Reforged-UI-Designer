@@ -1,11 +1,11 @@
 import { OpenDialogReturnValue, remote } from 'electron'
 import { readFile, promises } from 'original-fs'
-import { ICallableDivInstance } from '../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../ClassesAndFunctions/ICallableDivInstance'
 import Load from '../Commands/Implementation/Load'
 import { Editor } from '../Editor/Editor'
 import SaveContainer from './SaveContainer'
 import { ProjectTree } from '../Editor/ProjectTree'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 
 export default class LoadDocument implements ICallableDivInstance {
     public load(filepath: string): void {

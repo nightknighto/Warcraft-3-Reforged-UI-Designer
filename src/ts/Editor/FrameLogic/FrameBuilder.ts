@@ -1,4 +1,4 @@
-import { FrameType } from './FrameType & FrameRequire'
+import { FrameType } from './FrameType'
 import { Editor } from '../Editor'
 import SaveContainer from '../../Persistence/SaveContainer'
 import { FrameComponent } from './FrameComponent'
@@ -7,33 +7,33 @@ import FrameBaseContent from './FrameBaseContent'
 import { ProjectTree } from '../ProjectTree'
 
 export class FrameBuilder implements CustomComplexProps {
-    public static frameNumber = 1
+    static frameNumber = 1
 
-    public width = 0.1
-    public height = 0.1
-    public x = 0.25
-    public y = 0.25
-    public z = 1
-    public name = 'Frame'
-    public type: FrameType = FrameType.BACKDROP
-    public textureDiskPath = ''
-    public textureWc3Path = ''
-    public textureBackDiskPath = ''
-    public textureBackWc3Path = ''
-    public trigVar = ''
-    public isRelative = false
-    public text = 'Text'
-    public scale = 1
-    public color = '#FFCC00'
-    public textHorAlign: 'left' | 'center' | 'right' = 'left'
-    public textVerAlign: 'center' | 'start' | 'flex-end' = 'start'
-    public autoId = false
+    width = 0.1
+    height = 0.1
+    x = 0.25
+    y = 0.25
+    z = 1
+    name = 'Frame'
+    type: FrameType = FrameType.BACKDROP
+    textureDiskPath = ''
+    textureWc3Path = ''
+    textureBackDiskPath = ''
+    textureBackWc3Path = ''
+    trigVar = ''
+    isRelative = false
+    text = 'Text'
+    scale = 1
+    color = '#FFCC00'
+    textHorAlign: 'left' | 'center' | 'right' = 'left'
+    textVerAlign: 'center' | 'start' | 'flex-end' = 'start'
+    autoId = false
 
-    public constructor(autoassignId: boolean) {
+    constructor(autoassignId: boolean) {
         this.autoId = autoassignId
     }
 
-    public load(container: SaveContainer): void {
+    load(container: SaveContainer): void {
         const projectTree = Editor.GetDocumentEditor().projectTree
         const originallySelectedFrame = projectTree.getSelectedFrame()
 
@@ -161,7 +161,152 @@ export class FrameBuilder implements CustomComplexProps {
         return frameBuilder
     }
 
-    public static copy(frame: FrameComponent | FrameBuilder): FrameBuilder {
+    static copy(frame: FrameComponent | FrameBuilder): FrameBuilder {
         return frame instanceof FrameComponent ? FrameBuilder.copyFrame(frame) : FrameBuilder.copyBuilder(frame)
+    }
+
+    // Buttons
+    static newButton = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        frameBuilder.type = FrameType.BUTTON
+        frameBuilder.name = 'Button'
+        return frameBuilder
+    }
+    static newButtonBlackText = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.textureDiskPath = './files/images/ScriptDialogButton.png'
+        frameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON
+        frameBuilder.name = 'Black Text Button'
+        return frameBuilder
+    }
+    static newButtonBlueText = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/BrowserButton.png'
+        newFrameBuilder.type = FrameType.BROWSER_BUTTON
+        newFrameBuilder.name = 'Blue Text Button'
+        return newFrameBuilder
+    }
+    static newButtonInvis = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/InvisButton.png'
+        newFrameBuilder.type = FrameType.INVIS_BUTTON
+        newFrameBuilder.name = 'Invis Button'
+        return newFrameBuilder
+    }
+
+    // Backdrops
+    static newBackdrop = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        frameBuilder.type = FrameType.BACKDROP
+        frameBuilder.name = 'Backdrop'
+        return frameBuilder
+    }
+    static newBackdropSemiTransWithBorder = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/CheckListBox.png'
+        newFrameBuilder.type = FrameType.CHECKLIST_BOX
+        newFrameBuilder.name = 'Backdrop Semi Trans'
+        return newFrameBuilder
+    }
+    static newBackdropBlackBoxWithArrow = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/OptionsPopupMenuBackdropTemplate.png'
+        newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE
+        newFrameBuilder.name = 'Backdrop Black Box Arrow'
+        return newFrameBuilder
+    }
+    static newBackdropBlack = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/QuestButtonBaseTemplate.png'
+        newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE
+        newFrameBuilder.name = 'Backdrop Black'
+        return newFrameBuilder
+    }
+    static newBackdropGrey = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/QuestButtonPushedBackdropTemplate.png'
+        newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE
+        newFrameBuilder.name = 'Backdrop Grey'
+        return newFrameBuilder
+    }
+    static newBackdropVeryBlack = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/QuestButtonDisabledBackdropTemplate.png'
+        newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE
+        newFrameBuilder.name = 'Backdrop Very Black'
+        return newFrameBuilder
+    }
+    static newBackdropDefaultMenus = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/EscMenuBackdrop.png'
+        newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP
+        newFrameBuilder.name = 'Default Menus'
+        return newFrameBuilder
+    }
+
+    // Text
+    static newText = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.type = FrameType.TEXT_FRAME
+        frameBuilder.text = 'Text Frame'
+        frameBuilder.name = 'Text'
+        frameBuilder.width = 0.07
+        frameBuilder.height = 0.07
+        return frameBuilder
+    }
+    static newTextArea = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.textureDiskPath = './files/images/TextArea.png'
+        frameBuilder.type = FrameType.TEXTAREA
+        frameBuilder.name = 'Text Area'
+        return frameBuilder
+    }
+    static newEditBox = () => {
+        const frameBuilder = new FrameBuilder(true)
+        frameBuilder.textureDiskPath = './files/images/EditBox.png'
+        frameBuilder.type = FrameType.EDITBOX
+        frameBuilder.name = 'Edit Box'
+        return frameBuilder
+    }
+
+    // Others
+    static newCheckbox = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/QuestCheckBox.png'
+        newFrameBuilder.type = FrameType.CHECKBOX
+        newFrameBuilder.name = 'Checkbox'
+        return newFrameBuilder
+    }
+    static newHorizontalBar = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        newFrameBuilder.type = FrameType.HORIZONTAL_BAR
+        newFrameBuilder.name = 'Horizontal Bar'
+        return newFrameBuilder
+    }
+
+    // Templates
+    static newHorizBarWithBG = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND
+        newFrameBuilder.name = 'Horiz Bar With BG'
+        return newFrameBuilder
+    }
+    static newHorizBarWithText = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        newFrameBuilder.type = FrameType.HOR_BAR_TEXT
+        newFrameBuilder.name = 'Horiz Bar with Text'
+        return newFrameBuilder
+    }
+    static newHorizBarWithTextBG = () => {
+        const newFrameBuilder = new FrameBuilder(true)
+        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
+        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND_TEXT
+        newFrameBuilder.name = 'Horiz Bar with Text BG'
+        return newFrameBuilder
     }
 }

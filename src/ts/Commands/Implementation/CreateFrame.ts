@@ -1,10 +1,10 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import SimpleCommand from '../SimpleCommand'
 import RemoveFrame from './RemoveFrame'
-import { FrameType } from '../../Editor/FrameLogic/FrameType & FrameRequire'
+import { FrameType } from '../../Editor/FrameLogic/FrameType'
 
 export default class CreateFrame extends SimpleCommand {
     private frameBuilder: FrameBuilder

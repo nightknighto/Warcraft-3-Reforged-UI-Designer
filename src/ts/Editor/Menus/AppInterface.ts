@@ -1,5 +1,5 @@
 import { Color, RGBA } from 'custom-electron-titlebar'
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
 import { Editor } from '../Editor'
 import { ProjectTree } from '../ProjectTree'
 

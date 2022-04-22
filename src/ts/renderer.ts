@@ -6,10 +6,10 @@
 // needed in the renderer process.
 
 import { ipcRenderer } from 'electron'
-import { GUIEvents } from './Classes & Functions/GUIEvents'
+import { GUIEvents } from './ClassesAndFunctions/GUIEvents'
 import { Editor } from './Editor/Editor'
 import { ProjectTree } from './Editor/ProjectTree'
-import { Modals } from './modals/modals Init'
+import { Modals } from './modals/ModalsInit'
 import bootstrap = require('bootstrap')
 import { KeyboardShortcuts } from './Events/keyboardShortcuts'
 import { CanvasMovement } from './Events/CanvasMovement'

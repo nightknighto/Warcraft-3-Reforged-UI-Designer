@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Editor } from '../Editor'
 import { FrameBuilder } from './FrameBuilder'
-import { FrameType } from './FrameType & FrameRequire'
+import { FrameType } from './FrameType'
 import Saveable from '../../Persistence/Saveable'
 import SaveContainer from '../../Persistence/SaveContainer'
 import CustomComplex from './CustomComplex'

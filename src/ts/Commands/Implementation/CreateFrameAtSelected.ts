@@ -1,5 +1,5 @@
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
-import { debugText } from '../../Classes & Functions/Mini-Functions'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import CreateFrame from './CreateFrame'
