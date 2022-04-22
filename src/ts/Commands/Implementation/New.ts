@@ -1,7 +1,7 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameType } from '../../Editor/FrameLogic/FrameType'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SaveContainer from '../../Persistence/SaveContainer'
 import SimpleCommand from '../SimpleCommand'
 import Load from './Load'
@@ -10,7 +10,7 @@ export default class New extends SimpleCommand {
     private saveContainer: SaveContainer
 
     public pureAction(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
 
         this.saveContainer = new SaveContainer(null)
         projectTree.save(this.saveContainer)

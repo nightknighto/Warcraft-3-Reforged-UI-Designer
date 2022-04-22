@@ -2,7 +2,7 @@
 
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from './FrameComponent'
-import { Editor } from '../Editor'
+import { EditorController } from '../EditorController'
 import SaveContainer from '../../Persistence/SaveContainer'
 import FrameBaseContent from './FrameBaseContent'
 import { FrameType } from './FrameType'
@@ -13,6 +13,7 @@ import { extname } from '../../ImageConversion/shared'
 import { readFile } from 'fs'
 import { basename } from 'path'
 import { ParameterEditor } from '../ParameterEditor'
+import { ProjectTree } from '../ProjectTree'
 
 export default class CustomComplex extends FrameBaseContent implements CustomComplexProps {
     public static readonly SAVE_KEY_TEXT = 'text'
@@ -60,7 +61,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             }
             this.scale = val
             if (this.elemText) {
-                this.elemText.style.fontSize = (val * Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect().width) / 100 + 'px'
+                this.elemText.style.fontSize = (val * EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect().width) / 100 + 'px'
             }
         } catch (e) {
             console.log('e: ' + e)
@@ -237,7 +238,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
 
     public delete(): void {
         this.element.remove()
-        Editor.GetDocumentEditor().projectTree.select(null)
+        ProjectTree.getInstance().select(null)
 
         debugText('Deleted the element.')
     }

@@ -4,11 +4,9 @@ import { FrameBuilder } from './FrameLogic/FrameBuilder'
 import { RibbonMenu } from './Menus/RibbonMenu'
 import { RibbonOption } from './Menus/RibbonOption'
 import { TabsMenu } from './Menus/TabsMenu'
-import { ParameterEditor } from './ParameterEditor'
 import { ProjectTree } from './ProjectTree'
 import SaveASDocument from '../Persistence/SaveASDocument'
 import LoadDocument from '../Persistence/LoadDocument'
-import ChangeStack from './ChangeStack'
 import Undo from '../Commands/Undo'
 import Redo from '../Commands/Redo'
 import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
@@ -18,7 +16,7 @@ import { BackgroundTexture, CustomBackground } from './Menus/Backgrounds'
 import { AppUIWoodenTexture, AppUIBrownColors, AppUIPurpleColors, AppUIBlueColors, AppUIDarkColors } from './Menus/AppInterface'
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
-import { CanvasMovement } from '../Events/CanvasMovement'
+import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
 
 export class EditorInit {
     private static instance?: EditorInit
@@ -39,7 +37,6 @@ export class EditorInit {
 }
 
 export class Editor {
-    //Application bars
     readonly panelDebug: HTMLElement
 
     readonly btnCloseTreePanel: HTMLButtonElement
@@ -54,15 +51,15 @@ export class Editor {
     readonly debugGameCoordinates: HTMLElement
 
     //functional units
-    readonly projectTree: ProjectTree
-    readonly changeStack: ChangeStack
-    readonly parameterEditor: ParameterEditor
+    // readonly projectTree: ProjectTree
+    // readonly changeStack: ChangeStack
+    // readonly parameterEditor: ParameterEditor
     readonly tabsMenu: TabsMenu
 
     //UI
     readonly treeButton: HTMLButtonElement
     readonly panelButton: HTMLButtonElement
-    canvasMovement: CanvasMovement
+    // canvasMovement: CanvasMovement
 
     readonly titleBar: Titlebar
 
@@ -176,7 +173,6 @@ export class Editor {
     constructor() {
         // ;(document as any).editor = this
         EditorInit.initInstance(this)
-
         this.panelDebug = document.getElementById('panelDebug')
 
         this.btnCloseTreePanel = document.getElementById('treeClose') as HTMLButtonElement
@@ -188,14 +184,14 @@ export class Editor {
         this.debugLine = document.getElementById('debugLine')
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
 
-        this.projectTree = ProjectTree.getInstance()
-        this.changeStack = ChangeStack.getInstance()
-        this.parameterEditor = ParameterEditor.getInstance()
+        // this.projectTree = ProjectTree.getInstance()
+        // this.changeStack = ChangeStack.getInstance()
+        // this.parameterEditor = ParameterEditor.getInstance()
         this.tabsMenu = this.initializeMenus()
 
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
         this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
-        this.canvasMovement = CanvasMovement.getInstance()
+        // this.canvasMovement = CanvasMovement.getInstance()
 
         this.titleBar = new Titlebar({
             backgroundColor: new Color(new RGBA(69, 49, 26, 255)),
@@ -204,38 +200,7 @@ export class Editor {
         })
 
         AppUIDarkColors.getInstance().run()
-    }
-
-    static GetDocumentEditor(): Editor {
-        return EditorInit.getInstance().editor
-    }
-
-    /**returns the margin of the 4:3 area. */
-    static getInnerMargin(): number {
-        const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspace.getBoundingClientRect()
-        return (240 / 1920) * rect.width
-    }
-
-    static getActualMargin(): number {
-        if (ProjectTree.OriginMode === 'consoleui') {
-            return 0
-        } else {
-            return this.getInnerMargin()
-        }
-    }
-
-    //gives the max and min numbers for the x-position (edges of the frame-movable area)
-    static getActualMarginLimits(): { min: number; max: number } {
-        const workspaceImage = Editor.GetDocumentEditor().workspaceImage
-        return {
-            min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
-            max:
-                Math.floor(
-                    ((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) /
-                        (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) *
-                        800
-                ) / 1000,
-        }
+        this.panelButton.onclick = GUIEvents.PanelOpenClose
+        this.treeButton.onclick = GUIEvents.TreeOpenClose
     }
 }

@@ -1,10 +1,10 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import SimpleCommand from '../SimpleCommand'
 import RemoveFrame from './RemoveFrame'
 import { FrameType } from '../../Editor/FrameLogic/FrameType'
+import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class CreateFrame extends SimpleCommand {
     private frameBuilder: FrameBuilder
@@ -26,7 +26,7 @@ export default class CreateFrame extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const frame = projectTree.findByName(this.parent)
 
         if (typeof frame === 'undefined') {

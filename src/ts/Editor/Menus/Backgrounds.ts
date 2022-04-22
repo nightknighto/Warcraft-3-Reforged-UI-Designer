@@ -1,5 +1,5 @@
 import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
-import { Editor } from '../Editor'
+import { EditorController } from '../EditorController'
 import { remote } from 'electron'
 
 export class BackgroundTexture implements ICallableDivInstance {
@@ -10,7 +10,7 @@ export class BackgroundTexture implements ICallableDivInstance {
     }
 
     run() {
-        Editor.GetDocumentEditor().workspaceImage.src = this.path
+        EditorController.GetDocumentEditor().workspaceImage.src = this.path
     }
 }
 
@@ -23,7 +23,7 @@ export class CustomBackground implements ICallableDivInstance {
             })
             .then((openData) => {
                 if (openData.canceled) return
-                Editor.GetDocumentEditor().workspaceImage.src = openData.filePaths[0]
+                EditorController.GetDocumentEditor().workspaceImage.src = openData.filePaths[0]
                 alert(`
             Image loaded.
             Note that the functionality of the app is built on an image of 1920x1080.

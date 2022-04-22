@@ -1,7 +1,7 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import CustomComplex from '../../Editor/FrameLogic/CustomComplex'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameDiskTexture extends SimpleCommand {
@@ -22,7 +22,7 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')

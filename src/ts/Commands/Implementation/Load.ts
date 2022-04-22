@@ -1,5 +1,5 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SaveContainer from '../../Persistence/SaveContainer'
 import SimpleCommand from '../SimpleCommand'
 
@@ -13,7 +13,7 @@ export default class Load extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
 
         this.previousDataContainer = new SaveContainer(null)
         projectTree.save(this.previousDataContainer)

@@ -1,20 +1,22 @@
-import { Editor } from '../Editor/Editor'
+import { EditorController } from '../Editor/EditorController'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
 import { debugText } from './MiniFunctions'
 import CreateFrame from '../Commands/Implementation/CreateFrame'
 import RemoveFrame from '../Commands/Implementation/RemoveFrame'
 import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular'
 import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable'
+import { ProjectTree } from '../Editor/ProjectTree'
+import { ParameterEditor } from '../Editor/ParameterEditor'
 
 export class GUIEvents {
     static isInteracting = false
 
     static DisplayGameCoords(ev: MouseEvent): void {
-        const editor = Editor.GetDocumentEditor()
+        const editor = EditorController.GetDocumentEditor()
         const workspaceImage = editor.workspaceImage
 
-        const horizontalMargin = Editor.getInnerMargin()
-        const actualMargin = Editor.getActualMargin()
+        const horizontalMargin = EditorController.getInnerMargin()
+        const actualMargin = EditorController.getActualMargin()
 
         let gameCoordsString: string
         const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect()
@@ -33,13 +35,13 @@ export class GUIEvents {
     }
 
     static DeleteSelectedImage(): void {
-        const command = new RemoveFrame(Editor.GetDocumentEditor().projectTree.getSelectedFrame())
+        const command = new RemoveFrame(ProjectTree.getInstance().getSelectedFrame())
         command.action()
     }
 
     static DuplicateSelectedImage(): void {
         try {
-            const projectTree = Editor.GetDocumentEditor().projectTree
+            const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
             const builder = FrameBuilder.copy(selected)
 
@@ -71,7 +73,7 @@ export class GUIEvents {
 
     static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number, ownerArray: boolean): void {
         try {
-            const projectTree = Editor.GetDocumentEditor().projectTree
+            const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
 
             const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng, ownerArray)
@@ -85,7 +87,7 @@ export class GUIEvents {
 
     static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean): void {
         try {
-            const projectTree = Editor.GetDocumentEditor().projectTree
+            const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
 
             const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray)
@@ -98,8 +100,8 @@ export class GUIEvents {
     }
 
     static PanelOpenClose(): void {
-        const panel = Editor.GetDocumentEditor().parameterEditor.panelParameters
-        const panelButton = Editor.GetDocumentEditor().panelButton
+        const panel = ParameterEditor.getInstance().panelParameters
+        const panelButton = EditorController.GetDocumentEditor().panelButton
 
         if (panel.style.visibility == 'visible') {
             // panel.style.minWidth = "0";
@@ -119,7 +121,7 @@ export class GUIEvents {
 
     static TreeOpenClose(): void {
         const panel = document.getElementById('panelTree')
-        const treeButton = Editor.GetDocumentEditor().treeButton
+        const treeButton = EditorController.GetDocumentEditor().treeButton
         if (panel.style.visibility == 'visible') {
             panel.style.visibility = 'hidden'
             treeButton.style.visibility = 'visible'

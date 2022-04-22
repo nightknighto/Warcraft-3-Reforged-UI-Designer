@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { Editor } from '../Editor'
 import { FrameBuilder } from './FrameBuilder'
 import { FrameType } from './FrameType'
 import Saveable from '../../Persistence/Saveable'
@@ -8,6 +7,7 @@ import SaveContainer from '../../Persistence/SaveContainer'
 import CustomComplex from './CustomComplex'
 import { ProjectTree } from '../ProjectTree'
 import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
+import { ParameterEditor } from '../ParameterEditor'
 
 export class FrameComponent implements Saveable {
     public static readonly SAVE_KEY_NAME = 'name'
@@ -91,7 +91,7 @@ export class FrameComponent implements Saveable {
             ;(ul as any).frameComponent = this
 
             li.onclick = () => {
-                Editor.GetDocumentEditor().projectTree.select(this)
+                ProjectTree.getInstance().select(this)
             }
 
             this.setupAllowedFields()
@@ -168,7 +168,7 @@ export class FrameComponent implements Saveable {
         if (this.custom != null) this.custom.delete()
         if (this.parentOption != null) this.parentOption.remove()
 
-        Editor.GetDocumentEditor().parameterEditor.updateFields(null)
+        ParameterEditor.getInstance().updateFields(null)
     }
 
     public makeAsParentTo(newChild: FrameComponent): boolean {

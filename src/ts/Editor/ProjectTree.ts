@@ -2,11 +2,12 @@ import { Queue } from 'queue-typescript'
 import { FrameComponent } from './FrameLogic/FrameComponent'
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
 import { FrameType } from './FrameLogic/FrameType'
-import { Editor } from './Editor'
+import { EditorController } from './EditorController'
 import Saveable from '../Persistence/Saveable'
 import SaveContainer from '../Persistence/SaveContainer'
 import CustomComplex from './FrameLogic/CustomComplex'
 import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/AppInterface'
+import { ParameterEditor } from './ParameterEditor'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     private static instance: ProjectTree
@@ -58,9 +59,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             }
 
             const image = el.custom.getElement()
-            const rect = Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect()
-            const workspace = Editor.GetDocumentEditor().workspaceImage
-            const horizontalMargin = Editor.getInnerMargin()
+            const rect = EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect()
+            const workspace = EditorController.GetDocumentEditor().workspaceImage
+            const horizontalMargin = EditorController.getInnerMargin()
 
             const x = el.custom.getLeftX()
             const y = el.custom.getBotY()
@@ -87,11 +88,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     }
 
     static getSelected(): FrameComponent {
-        return Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+        return ProjectTree.getInstance().getSelectedFrame()
     }
 
     static saveGeneralOptions(): void {
-        const par = Editor.GetDocumentEditor().parameterEditor
+        const par = ParameterEditor.getInstance()
         ProjectTree.LibraryName = par.inputLibraryName.value
         ProjectTree.HideGameUI = par.checkboxGameUI.checked
         ProjectTree.HideHeroBar = par.checkboxHeroBar.checked
@@ -117,7 +118,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.rootFrame.setName('Origin')
         this.selectedFrame = this.rootFrame
         this.rootFrame.treeElement.style.fontWeight = '600'
-        Editor.GetDocumentEditor().workspace.appendChild(this.rootFrame.layerDiv)
+        EditorController.GetDocumentEditor().workspace.appendChild(this.rootFrame.layerDiv)
 
         this.panelTree = document.getElementById('panelTreeView')
 
@@ -184,13 +185,13 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
         this.selectedFrame.custom.getElement().style.outlineColor = ProjectTree.outlineSelected
 
-        Editor.GetDocumentEditor().parameterEditor.updateFields(this.selectedFrame)
+        ParameterEditor.getInstance().updateFields(this.selectedFrame)
     }
 
     load(container: SaveContainer): void {
         if (container.hasKey(ProjectTree.SAVE_KEY_ORIGIN_CHILDREN)) {
             //Clear the entire project tree first.
-            for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+            for (const el of ProjectTree.getInstance().getIterator()) {
                 if (el.type == 0) {
                     //Origin
                     continue
@@ -242,7 +243,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
             }
 
             //this should happen after those values are loaded
-            const par = Editor.GetDocumentEditor().parameterEditor
+            const par = ParameterEditor.getInstance()
             par.inputLibraryName.value = ProjectTree.LibraryName
             par.checkboxGameUI.checked = ProjectTree.HideGameUI
             par.checkboxHeroBar.checked = ProjectTree.HideHeroBar
@@ -295,7 +296,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     }
 
     findByName(name: string): FrameComponent | void {
-        const iterator = Editor.GetDocumentEditor().projectTree.getIterator()
+        const iterator = ProjectTree.getInstance().getIterator()
         for (const currentFrame of iterator) {
             if (currentFrame.getName() === name) {
                 return currentFrame

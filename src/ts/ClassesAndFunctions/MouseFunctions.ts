@@ -1,20 +1,22 @@
 /** @format */
 
 import { debugText, InputEdit } from './MiniFunctions'
-import { Editor } from '../Editor/Editor'
+import { EditorController } from '../Editor/EditorController'
 import MoveFrame from '../Commands/Implementation/MoveFrame'
 import { GUIEvents } from './GUIEvents'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
+import { ProjectTree } from '../Editor/ProjectTree'
+import { ParameterEditor } from '../Editor/ParameterEditor'
 
 export function MouseFunctions(div: CustomComplex): void {
-    const workspaceImage = Editor.GetDocumentEditor().workspaceImage
+    const workspaceImage = EditorController.GetDocumentEditor().workspaceImage
 
     div.getElement().onmousedown = function (e) {
         if (e.altKey) return
 
         // const horizontalMargin = Editor.getInnerMargin()  // Value Never used.  Commented it out because it doesn't seem necessary
-        const actualMargin = Editor.getActualMargin()
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const actualMargin = EditorController.getActualMargin()
+        const projectTree = ProjectTree.getInstance()
         const frame = div.getFrameComponent()
 
         const startingX = div.getLeftX()
@@ -427,10 +429,10 @@ export function MouseFunctions(div: CustomComplex): void {
 }
 
 function inputElementsUpdate(div: CustomComplex, updateOnly?: { x?: boolean; y?: boolean; width?: boolean; height?: boolean }) {
-    const editor = Editor.GetDocumentEditor()
+    const editor = EditorController.GetDocumentEditor()
     const workspaceImage = editor.workspaceImage
-    const parameterEditor = editor.parameterEditor
-    const horizontalMargin = Editor.getInnerMargin()
+    const parameterEditor = ParameterEditor.getInstance()
+    const horizontalMargin = EditorController.getInnerMargin()
 
     if (!updateOnly || updateOnly.width) {
         parameterEditor.inputElementWidth.value = InputEdit((div.getElement().offsetWidth * 800) / (workspaceImage.width - 2 * horizontalMargin))

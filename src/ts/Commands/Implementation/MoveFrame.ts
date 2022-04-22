@@ -1,6 +1,7 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
+import ChangeStack from '../../Editor/ChangeStack'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class MoveFrame extends SimpleCommand {
@@ -53,12 +54,12 @@ export default class MoveFrame extends SimpleCommand {
     }
 
     public action(DontMoveFrame?: boolean): void {
-        Editor.GetDocumentEditor().changeStack.pushUndoChange(this, true)
+        ChangeStack.getInstance().pushUndoChange(this, true)
         this.pureAction(DontMoveFrame)
     }
 
     public pureAction(DontMoveFrame?: boolean): void {
-        const target = Editor.GetDocumentEditor().projectTree.findByName(this.target)
+        const target = ProjectTree.getInstance().findByName(this.target)
 
         if (typeof target === 'undefined') {
             debugText('Could not find frame.')

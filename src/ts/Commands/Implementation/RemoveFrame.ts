@@ -1,10 +1,10 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import SimpleCommand from '../SimpleCommand'
 import CreateFrame from './CreateFrame'
 import { FrameType } from '../../Editor/FrameLogic/FrameType'
+import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class RemoveFrame extends SimpleCommand {
     private frame: string
@@ -22,7 +22,7 @@ export default class RemoveFrame extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find parent, abort.')
@@ -46,7 +46,7 @@ export default class RemoveFrame extends SimpleCommand {
 
         this.undoCommand.pureAction()
 
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const parent = projectTree.findByName(this.frame)
         if (typeof parent === 'undefined') {
             debugText('Could not find newly regenerated frame.')

@@ -1,8 +1,8 @@
 import { ICallableDivInstance } from '../ClassesAndFunctions/ICallableDivInstance'
-import { Editor } from '../Editor/Editor'
+import ChangeStack from '../Editor/ChangeStack'
 
 export default class Undo implements ICallableDivInstance {
     public run(): void {
-        Editor.GetDocumentEditor().changeStack.undo()
+        ChangeStack.getInstance().undo()
     }
 }

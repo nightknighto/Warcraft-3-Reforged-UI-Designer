@@ -1,5 +1,4 @@
 import { FrameType } from './FrameType'
-import { Editor } from '../Editor'
 import SaveContainer from '../../Persistence/SaveContainer'
 import { FrameComponent } from './FrameComponent'
 import CustomComplex, { CustomComplexProps } from './CustomComplex'
@@ -34,7 +33,7 @@ export class FrameBuilder implements CustomComplexProps {
     }
 
     load(container: SaveContainer): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const originallySelectedFrame = projectTree.getSelectedFrame()
 
         if (!container.hasKey(FrameComponent.SAVE_KEY_NAME)) {

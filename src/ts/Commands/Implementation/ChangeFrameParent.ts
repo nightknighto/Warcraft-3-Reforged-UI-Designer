@@ -1,6 +1,6 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameParent extends SimpleCommand {
@@ -26,7 +26,7 @@ export default class ChangeFrameParent extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const frame = projectTree.findByName(this.frame)
 
         if (typeof frame === 'undefined') {
@@ -49,7 +49,7 @@ export default class ChangeFrameParent extends SimpleCommand {
         const command = new ChangeFrameParent(this.frame, this.oldParent)
         command.pureAction()
 
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const parent = projectTree.findByName(this.frame)
         if (typeof parent === 'undefined') {
             debugText('Could not find newly regenerated frame.')

@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import Saveable from '../../Persistence/Saveable'
 import SaveContainer from '../../Persistence/SaveContainer'
-import { Editor } from '../Editor'
+import { EditorController } from '../EditorController'
 import { FrameComponent } from './FrameComponent'
 import { ProjectTree } from '../ProjectTree'
 
@@ -39,9 +39,9 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setWidth(newWidth: number, noChange?: boolean): void {
-        const horizontalMargin = Editor.getInnerMargin()
+        const horizontalMargin = EditorController.getInnerMargin()
 
-        if (!noChange) this.element.style.width = (newWidth / 0.8) * (Editor.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + 'px'
+        if (!noChange) this.element.style.width = (newWidth / 0.8) * (EditorController.GetDocumentEditor().workspaceImage.width - 2 * horizontalMargin) + 'px'
         this.width = newWidth
     }
 
@@ -50,7 +50,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setHeight(newHeight: number, noChange?: boolean): void {
-        const workspace = Editor.GetDocumentEditor().workspaceImage
+        const workspace = EditorController.GetDocumentEditor().workspaceImage
         const rect = workspace.getBoundingClientRect()
         if (!noChange) {
             this.element.style.top = `${this.element.offsetTop + (this.element.offsetHeight - (newHeight * rect.height) / 0.6)}px`
@@ -64,9 +64,9 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setLeftX(newX: number, noChange?: boolean): void {
-        const editor = Editor.GetDocumentEditor()
+        const editor = EditorController.GetDocumentEditor()
         const rect = editor.workspaceImage.getBoundingClientRect()
-        const horizontalMargin = Editor.getInnerMargin()
+        const horizontalMargin = EditorController.getInnerMargin()
 
         this.leftX = newX
         if (!noChange) this.element.style.left = `${(+newX * (rect.width - 2 * horizontalMargin)) / 0.8 + rect.left + horizontalMargin}px`
@@ -77,7 +77,7 @@ export default abstract class FrameBaseContent implements Saveable {
     }
 
     public setBotY(newY: number, noChange?: boolean): void {
-        const rect = Editor.GetDocumentEditor().workspaceImage.getBoundingClientRect()
+        const rect = EditorController.GetDocumentEditor().workspaceImage.getBoundingClientRect()
 
         this.botY = newY
         if (!noChange) this.element.style.top = `${rect.bottom - (newY * rect.height) / 0.6 - this.element.offsetHeight - 120}px`
@@ -104,7 +104,7 @@ export default abstract class FrameBaseContent implements Saveable {
 
         //step 1: event sent to main.ts to display the menu.
         this.element.oncontextmenu = (ev: Event) => {
-            Editor.GetDocumentEditor().projectTree.select(ev.target as HTMLElement)
+            ProjectTree.getInstance().select(ev.target as HTMLElement)
 
             ipcRenderer.send('show-context-menu')
         }

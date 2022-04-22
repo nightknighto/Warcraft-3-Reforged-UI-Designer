@@ -3,7 +3,6 @@ import { ICallableDivInstance } from './ICallableDivInstance'
 import { writeFileSync } from 'fs'
 import { FrameType } from '../Editor/FrameLogic/FrameType'
 import { FrameRequire } from '../Editor/FrameLogic/FrameRequire'
-import { Editor } from '../Editor/Editor'
 import { SaveDialogReturnValue, remote, clipboard } from 'electron'
 import { ProjectTree } from '../Editor/ProjectTree'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
@@ -234,7 +233,7 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
 
         let text: string
         let sumText = ''
-        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+        for (const el of ProjectTree.getInstance().getIterator()) {
             if (el.type == 0) {
                 //Origin
                 continue

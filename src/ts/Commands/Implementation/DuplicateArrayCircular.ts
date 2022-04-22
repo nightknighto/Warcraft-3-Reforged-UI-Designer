@@ -1,5 +1,4 @@
 import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
-import { Editor } from '../../Editor/Editor'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import Actionable from '../Actionable'
@@ -7,6 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 import ChangeFrameName from './ChangeFrameName'
 import RemoveFrame from './RemoveFrame'
 import CreateFrame from './CreateFrame'
+import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class DuplicateArrayCircular extends SimpleCommand {
     private centerX: number
@@ -47,7 +47,7 @@ export default class DuplicateArrayCircular extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target)
+        const frame = ProjectTree.getInstance().findByName(this.target)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -74,7 +74,7 @@ export default class DuplicateArrayCircular extends SimpleCommand {
             if (this.ownerArray) {
                 try {
                     //find if parent array has the same index. If yes, change parent
-                    for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                    for (const el of ProjectTree.getInstance().getIterator()) {
                         const checkingName = parent.getName().slice(0, parent.getName().length - 4)
                         // alert('checkingName: '+checkingName)
                         // alert('prod: '+checkingName+"["+ind+"]")

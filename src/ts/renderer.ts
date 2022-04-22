@@ -13,6 +13,8 @@ import { Modals } from './modals/ModalsInit'
 import bootstrap = require('bootstrap')
 import { KeyboardShortcuts } from './Events/keyboardShortcuts'
 import { CanvasMovement } from './Events/CanvasMovement'
+import ChangeStack from './Editor/ChangeStack'
+import { ParameterEditor } from './Editor/ParameterEditor'
 
 window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
 ipcRenderer.on('Delete', GUIEvents.DeleteSelectedImage)
@@ -53,7 +55,7 @@ CircArraySubmit.onclick = (e) => {
             return
         }
 
-        const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        const source = ProjectTree.getInstance().getSelectedFrame().custom
         GUIEvents.DuplicateArrayCircular(
             source.getLeftX(),
             source.getBotY(),
@@ -100,7 +102,7 @@ TableArraySubmit.onclick = (e) => {
             return
         }
 
-        const source = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        const source = ProjectTree.getInstance().getSelectedFrame().custom
         GUIEvents.DuplicateArrayTable(
             source.getLeftX(),
             source.getBotY() - source.getHeight(),
@@ -116,19 +118,6 @@ TableArraySubmit.onclick = (e) => {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-/*const input = document.getElementById('imgFile') as HTMLInputElement
-
-Element.formIMG.addEventListener("submit", e => {
-  e.preventDefault()
-  const frameBuilder = new FrameBuilder();
-
-  frameBuilder.name = "name";
-  frameBuilder.texture =  URL.createObjectURL(input.files[0]);
-  
-  frameBuilder.Run();
-})
-*/
 try {
     window.onresize = () => {
         if (document.getElementById('workspaceContainer').offsetWidth > CanvasMovement.getInstance().width) CanvasMovement.getInstance().moveToCenter()
@@ -139,18 +128,16 @@ try {
     KeyboardShortcuts.getInstance()
 
     //general Initializations
-    const editor = new Editor()
-    editor.parameterEditor.fieldElement.style.display = 'none'
+    new Editor()
+    ProjectTree.getInstance()
+    ChangeStack.getInstance()
+    ParameterEditor.getInstance()
+    CanvasMovement.getInstance()
+
     document.getElementById('panelTree').style.visibility = 'visible'
     document.getElementById('panelParameters').style.visibility = 'visible'
 
     //general Initializations
-    editor.parameterEditor.fieldElement.style.display = 'none'
-    document.getElementById('panelTree').style.visibility = 'visible'
-    document.getElementById('panelParameters').style.visibility = 'visible'
-
-    editor.panelButton.onclick = GUIEvents.PanelOpenClose
-    editor.treeButton.onclick = GUIEvents.TreeOpenClose
 } catch (e) {
     alert('renderer' + e)
 }
