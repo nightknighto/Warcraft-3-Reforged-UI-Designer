@@ -204,31 +204,18 @@ export class KeyboardShortcuts {
 
     keydownCtrlAlt = (event: KeyboardEvent) => {
         if (event.ctrlKey && !event.shiftKey && event.altKey && document.body.style.cursor !== 'grabbing') {
-            let newFrameBuilder: FrameBuilder
-
             switch (event.code) {
                 case 'KeyB':
                     // Custom Button
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BUTTON
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newButton()).run()
                     break
                 case 'KeyD':
                     // Custom Backdrop
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BACKDROP
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newBackdrop()).run()
                     break
                 case 'KeyT':
                     // Text Frame
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.type = FrameType.TEXT_FRAME
-                    newFrameBuilder.text = 'Text Frame'
-                    newFrameBuilder.width = 0.07
-                    newFrameBuilder.height = 0.07
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newText()).run()
                     break
                 default:
                     break
