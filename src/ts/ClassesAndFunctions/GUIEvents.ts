@@ -12,7 +12,7 @@ import { Editor } from '../Editor/Editor'
 export class GUIEvents {
     static isInteracting = false
 
-    static DisplayGameCoords(ev: MouseEvent): void {
+    static DisplayGameCoords(ev: MouseEvent) {
         const editor = Editor.getInstance()
         const workspaceImage = editor.workspaceImage
 
@@ -31,19 +31,24 @@ export class GUIEvents {
             const gameX = Math.floor(((ev.x - workspaceRect.left - horizontalMargin) / (workspaceImage.width - 2 * horizontalMargin)) * 800) / 1000
             const gameY = Math.floor(600 - ((ev.y - workspaceRect.top) / workspaceImage.offsetHeight) * 600) / 1000
             gameCoordsString = `Game X/Y: (${gameX.toFixed(3)}, ${gameY.toFixed(3)})`
-            editor.debugGameCoordinates.innerText = gameCoordsString
+            if (editor.debugGameCoordinates) editor.debugGameCoordinates.innerText = gameCoordsString
         }
     }
 
-    static DeleteSelectedImage(): void {
-        const command = new RemoveFrame(ProjectTree.getInstance().getSelectedFrame())
-        command.action()
+    static DeleteSelectedFrame() {
+        const selectedFrame = ProjectTree.getInstance().getSelectedFrame()
+        if (selectedFrame !== null) {
+            const command = new RemoveFrame(selectedFrame)
+            command.action()
+        }
     }
 
-    static DuplicateSelectedImage(): void {
+    static DuplicateSelectedFrame() {
         try {
             const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
+            if (!selected) return
+
             const builder = FrameBuilder.copy(selected)
 
             builder.x = builder.x + 0.03
@@ -63,8 +68,11 @@ export class GUIEvents {
                 builder.name += 'Copy'
             }
 
-            const command = new CreateFrame(selected.getParent(), builder)
-            command.action()
+            const parent = selected.getParent()
+            if (parent) {
+                const command = new CreateFrame(parent, builder)
+                command.action()
+            }
 
             debugText('Duplicated.')
         } catch (e) {
@@ -72,10 +80,11 @@ export class GUIEvents {
         }
     }
 
-    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number, ownerArray: boolean): void {
+    static DuplicateArrayCircular(centerX: number, centerY: number, radius: number, count: number, initAng: number, ownerArray: boolean) {
         try {
             const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
+            if (!selected) return
 
             const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng, ownerArray)
             command.action()
@@ -86,10 +95,11 @@ export class GUIEvents {
         }
     }
 
-    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean): void {
+    static DuplicateArrayTable(leftX: number, topY: number, rows: number, columns: number, gapX: number, gapY: number, ownerArray: boolean) {
         try {
             const projectTree = ProjectTree.getInstance()
             const selected = projectTree.getSelectedFrame()
+            if (!selected) return
 
             const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray)
             command.action()
@@ -100,7 +110,7 @@ export class GUIEvents {
         }
     }
 
-    static PanelOpenClose(): void {
+    static PanelOpenClose() {
         const panel = ParameterEditor.getInstance().panelParameters
         const panelButton = Editor.getInstance().panelButton
 
@@ -109,25 +119,29 @@ export class GUIEvents {
             // panel.style.width = "0";
             panel.style.visibility = 'hidden'
             panelButton.style.visibility = 'visible'
-            document.getElementById('img').style.display = 'none'
-            document.getElementById('imgBUTTON').style.display = 'none'
+            const img = document.getElementById('img')
+            if (img) img.style.display = 'none'
+            const imgButton = document.getElementById('imgBUTTON')
+            if (imgButton) imgButton.style.display = 'none'
         } else {
             // panel.style.minWidth = panelDefaultminSize;
             // panel.style.width = panelDefaultSize;
             panel.style.visibility = 'visible'
-            document.getElementById('img').style.display = 'initial'
-            document.getElementById('imgBUTTON').style.display = 'initial'
+            const img = document.getElementById('img')
+            if (img) img.style.display = 'initial'
+            const imgButton = document.getElementById('imgBUTTON')
+            if (imgButton) imgButton.style.display = 'initial'
         }
     }
 
-    static TreeOpenClose(): void {
+    static TreeOpenClose() {
         const panel = document.getElementById('panelTree')
         const treeButton = Editor.getInstance().treeButton
-        if (panel.style.visibility == 'visible') {
+        if (panel?.style.visibility == 'visible') {
             panel.style.visibility = 'hidden'
             treeButton.style.visibility = 'visible'
         } else {
-            panel.style.visibility = 'visible'
+            if (panel) panel.style.visibility = 'visible'
         }
     }
 }

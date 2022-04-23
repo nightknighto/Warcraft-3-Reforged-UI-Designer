@@ -8,8 +8,8 @@ import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class RemoveFrame extends SimpleCommand {
     private frame: string
-    private undoCommand: CreateFrame
-    private frameChildren: string[]
+    private undoCommand?: CreateFrame
+    private frameChildren: string[] = []
 
     public constructor(frame: FrameComponent | string) {
         super()

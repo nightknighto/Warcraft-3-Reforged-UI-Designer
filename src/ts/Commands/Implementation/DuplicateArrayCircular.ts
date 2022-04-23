@@ -46,11 +46,17 @@ export default class DuplicateArrayCircular extends SimpleCommand {
         return this
     }
 
-    public pureAction(): void {
+    public pureAction() {
         const frame = ProjectTree.getInstance().findByName(this.target)
 
-        if (typeof frame === 'undefined') {
+        if (!frame) {
             debugText('Could not find frame.')
+            return
+        }
+
+        const parent = frame.getParent()
+        debugText('Could not find Parent.')
+        if (!parent) {
             return
         }
 
@@ -59,7 +65,6 @@ export default class DuplicateArrayCircular extends SimpleCommand {
         const tooltip = frame.getTooltip()
 
         const angDisp = (Math.PI * 2) / this.count
-        const parent = frame.getParent()
 
         const oldName = frame.getName()
         frame.setName(frame.getName().replace('[', '').replace(']', ''))
@@ -98,7 +103,7 @@ export default class DuplicateArrayCircular extends SimpleCommand {
             this.undoCommands.push(new RemoveFrame(newFrame))
         }
 
-        this.undoCommands.push(new CreateFrame(frame.getParent(), FrameBuilder.copy(frame)))
+        this.undoCommands.push(new CreateFrame(parent, FrameBuilder.copy(frame)))
         new RemoveFrame(frame).pureAction()
 
         this.undoCommands.push(new ChangeFrameName(frame, oldName))

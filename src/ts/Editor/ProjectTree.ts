@@ -34,7 +34,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     readonly rootFrame: FrameComponent
     readonly panelTree: HTMLElement
-    private selectedFrame: FrameComponent
+    private selectedFrame: FrameComponent | null
 
     static LibraryName = 'REFORGEDUIMAKER'
     static HideGameUI = false
@@ -88,7 +88,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         radios.forEach((radio) => ((radio as HTMLInputElement).checked = (radio as HTMLInputElement).value === value))
     }
 
-    static getSelected(): FrameComponent {
+    static getSelected() {
         return ProjectTree.getInstance().getSelectedFrame()
     }
 
@@ -121,7 +121,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         this.rootFrame.treeElement.style.fontWeight = '600'
         Editor.getInstance().workspace.appendChild(this.rootFrame.layerDiv)
 
-        this.panelTree = document.getElementById('panelTreeView')
+        this.panelTree = document.getElementById('panelTreeView') as HTMLElement
 
         for (let i = this.panelTree.children.length - 1; i >= 0; i--) {
             this.panelTree.removeChild(this.panelTree.children[i])
@@ -131,7 +131,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     }
 
     save(container: SaveContainer): void {
-        const originChildrenArray = []
+        const originChildrenArray: SaveContainer[] = []
 
         for (const frame of this.rootFrame.getChildren()) {
             const frameSaveContainer = new SaveContainer(null)
@@ -152,7 +152,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_APP_INTERFACE, ProjectTree.AppInterface)
     }
 
-    appendToSelected(newFrame: FrameBuilder): FrameComponent {
+    appendToSelected(newFrame: FrameBuilder) {
         if (this.selectedFrame == null) {
             newFrame.z = this.rootFrame.custom.getZIndex() + this.rootFrame.getChildren().length + 1
             return this.rootFrame.createAsChild(newFrame)
@@ -162,11 +162,11 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
     }
 
-    getSelectedFrame(): FrameComponent {
+    getSelectedFrame() {
         return this.selectedFrame
     }
 
-    select(frame: FrameComponent | CustomComplex | CustomComplex | HTMLImageElement | HTMLDivElement | HTMLElement): void {
+    select(frame: FrameComponent | CustomComplex | CustomComplex | HTMLImageElement | HTMLDivElement | HTMLElement | null): void {
         //should go to workspace class?
         if (this.selectedFrame != null) {
             let color = ProjectTree.outlineUnSelected
@@ -261,7 +261,7 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     }
 
     //Iterator
-    private iteratorQueue: Queue<FrameComponent>
+    private iteratorQueue: Queue<FrameComponent> = new Queue<FrameComponent>()
 
     getIterator(): IterableIterator<FrameComponent> {
         this.iteratorQueue = new Queue<FrameComponent>()

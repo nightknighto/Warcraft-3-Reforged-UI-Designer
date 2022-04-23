@@ -6,7 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameHeight extends SimpleCommand {
     private frame: string
     private height: number
-    private oldHeight: number
+    private oldHeight?: number
 
     public constructor(frame: FrameComponent | string, newHeight: number) {
         super()
@@ -21,8 +21,10 @@ export default class ChangeFrameHeight extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameHeight(this.frame, this.oldHeight)
-        command.pureAction()
+        if (this.oldHeight) {
+            const command = new ChangeFrameHeight(this.frame, this.oldHeight)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid frame change height.')

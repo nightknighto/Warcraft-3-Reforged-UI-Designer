@@ -4,7 +4,6 @@ import { Export } from '../ClassesAndFunctions/Export'
 import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
 import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
-import RemoveFrame from '../Commands/Implementation/RemoveFrame'
 import Redo from '../Commands/Redo'
 import Undo from '../Commands/Undo'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
@@ -86,7 +85,7 @@ export class KeyboardShortcuts {
                     new Export(false, 'lua', false).run()
                     break
                 case 'KeyD':
-                    GUIEvents.DuplicateSelectedImage()
+                    GUIEvents.DuplicateSelectedFrame()
                     break
                 default:
                     break
@@ -225,13 +224,11 @@ export class KeyboardShortcuts {
     keydownNoMod = (event: KeyboardEvent) => {
         if (document.body.style.cursor !== 'grabbing') {
             const par = ParameterEditor.getInstance()
+
             switch (event.code) {
                 case 'Delete':
                     // Delete Frame
-                    if (ProjectTree.getSelected()) {
-                        const command = new RemoveFrame(ProjectTree.getSelected())
-                        command.action()
-                    }
+                    GUIEvents.DeleteSelectedFrame()
                     break
 
                 case 'ArrowLeft':

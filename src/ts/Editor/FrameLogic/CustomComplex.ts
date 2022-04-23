@@ -40,10 +40,31 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     trigVar = ''
     isRelative = false
 
-    private elemTextContainer: HTMLDivElement
-    private elemText: HTMLParagraphElement
-    private elemImage: HTMLImageElement
-    elemImageBack: HTMLImageElement
+    private elemTextContainer?: HTMLDivElement
+    private elemText?: HTMLParagraphElement
+    private elemImage?: HTMLImageElement
+    elemImageBack?: HTMLImageElement
+
+    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
+        super(frameComponent, document.createElement('div'), width, height, x, y, z)
+
+        try {
+            if (props) {
+                this.isRelative = props.isRelative
+                this.specialTypesSetup(props)
+            }
+
+            this.element.style.wordBreak = 'break-word'
+            this.element.style.overflowY = 'hidden'
+            this.element.style.userSelect = 'none'
+            this.element.style.lineHeight = '1'
+
+            MouseFunctions(this)
+            ;(this.element as any).CustomComplex = this
+        } catch (e) {
+            alert(e)
+        }
+    }
 
     public getElement(): HTMLDivElement {
         return this.element as HTMLDivElement
@@ -73,7 +94,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     }
 
     public setColor(val: string): void {
-        this.elemText.style.color = val
+        if (this.elemText) this.elemText.style.color = val
         this.color = val
         debugText('Color changed.')
     }
@@ -83,7 +104,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     }
 
     public setHorAlign(align: 'left' | 'center' | 'right') {
-        this.elemText.style.textAlign = align
+        if (this.elemText) this.elemText.style.textAlign = align
         this.textHorAlign = align
     }
 
@@ -92,7 +113,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     }
 
     public setVerAlign(align: 'start' | 'center' | 'flex-end') {
-        this.elemTextContainer.style.alignItems = align
+        if (this.elemTextContainer) this.elemTextContainer.style.alignItems = align
         this.textVerAlign = align
     }
 
@@ -102,7 +123,7 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
 
     public setText(Text: string): void {
         this.text = Text
-        this.elemText.innerText = Text
+        if (this.elemText) this.elemText.innerText = Text
     }
     public getDiskTexture(which: 'normal' | 'back'): string {
         if (which == 'normal') return this.textureDiskPath
@@ -110,9 +131,12 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
     }
 
     public setDiskTexture(Input: File | string, which: 'normal' | 'back'): void {
-        let Image: HTMLImageElement
-        if (which == 'normal') Image = this.elemImage
-        else Image = this.elemImageBack
+        let Image: HTMLImageElement | undefined
+        if (which == 'normal') {
+            Image = this.elemImage
+        } else {
+            Image = this.elemImageBack
+        }
 
         if (typeof Input !== 'string') {
             const file = Input
@@ -124,15 +148,15 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             if (ext === '.dds') {
                 const buf = file.arrayBuffer()
                 buf.then((buffer) => {
-                    Image.src = dds_to_png(buffer)
+                    if (Image) Image.src = dds_to_png(buffer) ?? ''
                 })
             } else if (ext === '.blp') {
                 const buf = file.arrayBuffer()
                 buf.then((buffer) => {
-                    Image.src = blp_to_png(buffer)
+                    if (Image) Image.src = blp_to_png(buffer) ?? ''
                 })
             } else {
-                Image.src = file.path
+                if (Image) Image.src = file.path
             }
 
             if (ParameterEditor.getInstance().checkboxPathFill.checked) {
@@ -147,11 +171,11 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
                 try {
                     if (e) console.log('setDiskTexture: ' + e)
                     if (ext === '.dds') {
-                        Image.src = dds_to_png(buffer)
+                        if (Image) Image.src = dds_to_png(buffer) ?? ''
                     } else if (ext === '.blp') {
-                        Image.src = blp_to_png(buffer)
+                        if (Image) Image.src = blp_to_png(buffer) ?? ''
                     } else {
-                        Image.src = Input
+                        if (Image) Image.src = Input
                     }
                 } catch (e) {
                     console.log('setDiskTexture-readFILE: ' + e)
@@ -199,25 +223,6 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
 
     public getIsRelative(): boolean {
         return this.isRelative
-    }
-
-    public constructor(frameComponent: FrameComponent, width: number, height: number, x: number, y: number, z: number, props?: CustomComplexProps) {
-        super(frameComponent, document.createElement('div'), width, height, x, y, z)
-
-        try {
-            if (props) this.isRelative = props.isRelative
-            this.specialTypesSetup(props)
-
-            this.element.style.wordBreak = 'break-word'
-            this.element.style.overflowY = 'hidden'
-            this.element.style.userSelect = 'none'
-            this.element.style.lineHeight = '1'
-
-            MouseFunctions(this)
-            ;(this.element as any).CustomComplex = this
-        } catch (e) {
-            alert(e)
-        }
     }
 
     public save(container: SaveContainer): void {
@@ -293,8 +298,8 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
 
         const ImageBackSetup = () => {
             this.elemImageBack = this.element.appendChild(document.createElement('img'))
-            this.elemImage.style.width = '100%'
-            this.elemImage.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0% 100%)'
+            if (this.elemImage) this.elemImage.style.width = '100%'
+            if (this.elemImage) this.elemImage.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0% 100%)'
             this.elemImageBack.style.width = '100%'
             this.elemImageBack.style.height = '100%'
             this.elemImageBack.style.clipPath = 'polygon(100% 0, 50% 0, 50% 100%, 100% 100%)'
@@ -326,12 +331,12 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
         if (ty == f.HORIZONTAL_BAR) {
             ImageSetup()
             ImageBackSetup()
-            this.elemImageBack.src = './files/images/InvisButton.png'
+            if (this.elemImageBack) this.elemImageBack.src = './files/images/InvisButton.png'
         }
         if (ty == f.HOR_BAR_BACKGROUND) {
             ImageSetup()
             ImageBackSetup()
-            this.elemImageBack.src = './files/images/CustomFrame2.png'
+            if (this.elemImageBack) this.elemImageBack.src = './files/images/CustomFrame2.png'
         }
         if (ty == f.HOR_BAR_TEXT) {
             ImageSetup()
@@ -341,31 +346,31 @@ export default class CustomComplex extends FrameBaseContent implements CustomCom
             ImageSetup()
             ImageBackSetup()
             TextSetup()
-            this.elemImageBack.src = './files/images/CustomFrame2.png'
+            if (this.elemImageBack) this.elemImageBack.src = './files/images/CustomFrame2.png'
         }
         if (ty == f.TEXTAREA) {
             ImageSetup()
             TextSetup()
-            this.elemTextContainer.style.width = ''
-            this.elemTextContainer.style.height = ''
-            this.elemTextContainer.style.left = '10px'
-            this.elemTextContainer.style.right = '6px'
-            this.elemTextContainer.style.top = '6px'
-            this.elemTextContainer.style.bottom = '16px'
-            this.elemTextContainer.style.lineHeight = '10px'
-            this.elemTextContainer.style.overflowY = 'auto'
-            this.elemTextContainer.className = 'scroll_textarea'
+            if (this.elemTextContainer) this.elemTextContainer.style.width = ''
+            if (this.elemTextContainer) this.elemTextContainer.style.height = ''
+            if (this.elemTextContainer) this.elemTextContainer.style.left = '10px'
+            if (this.elemTextContainer) this.elemTextContainer.style.right = '6px'
+            if (this.elemTextContainer) this.elemTextContainer.style.top = '6px'
+            if (this.elemTextContainer) this.elemTextContainer.style.bottom = '16px'
+            if (this.elemTextContainer) this.elemTextContainer.style.lineHeight = '10px'
+            if (this.elemTextContainer) this.elemTextContainer.style.overflowY = 'auto'
+            if (this.elemTextContainer) this.elemTextContainer.className = 'scroll_textarea'
         }
         if (ty == f.EDITBOX) {
             ImageSetup()
             TextSetup()
             this.setColor('#ffffff')
-            this.elemTextContainer.style.height = ''
-            this.elemTextContainer.style.top = '45%'
-            // this.elemTextContainer.style.right = '6px'
-            this.elemTextContainer.style.width = '100vw'
-            this.elemTextContainer.style.left = '6px'
-            this.elemTextContainer.style.bottom = '16px'
+            if (this.elemTextContainer) this.elemTextContainer.style.height = ''
+            if (this.elemTextContainer) this.elemTextContainer.style.top = '45%'
+            // if (this.elemTextContainer) this.elemTextContainer.style.right = '6px'
+            if (this.elemTextContainer) this.elemTextContainer.style.width = '100vw'
+            if (this.elemTextContainer) this.elemTextContainer.style.left = '6px'
+            if (this.elemTextContainer) this.elemTextContainer.style.bottom = '16px'
             this.element.style.overflowX = 'hidden'
         }
     }

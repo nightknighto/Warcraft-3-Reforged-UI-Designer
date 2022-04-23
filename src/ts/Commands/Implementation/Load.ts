@@ -5,7 +5,7 @@ import SimpleCommand from '../SimpleCommand'
 
 export default class Load extends SimpleCommand {
     private dataContainer: SaveContainer
-    private previousDataContainer: SaveContainer
+    private previousDataContainer?: SaveContainer
 
     public constructor(state: SaveContainer) {
         super()
@@ -22,8 +22,10 @@ export default class Load extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new Load(this.previousDataContainer)
-        command.pureAction()
+        if (this.previousDataContainer) {
+            const command = new Load(this.previousDataContainer)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid loading.')

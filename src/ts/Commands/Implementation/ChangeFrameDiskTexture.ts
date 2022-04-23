@@ -6,7 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameDiskTexture extends SimpleCommand {
     private frame: string
-    private oldTexture: string
+    private oldTexture?: string
     private newTexture: string
 
     public constructor(frame: FrameComponent | string, texture: string) {
@@ -39,8 +39,10 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
-        command.pureAction()
+        if (this.oldTexture) {
+            const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame disk texture')

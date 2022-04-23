@@ -6,7 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameX extends SimpleCommand {
     private frame: string
     private newX: number
-    private oldX: number
+    private oldX?: number
 
     public constructor(frame: FrameComponent | string, x: number) {
         super()
@@ -33,8 +33,10 @@ export default class ChangeFrameX extends SimpleCommand {
     }
 
     public undo(): void {
-        const undoCommand = new ChangeFrameX(this.frame, this.oldX)
-        undoCommand.pureAction()
+        if (this.oldX) {
+            const undoCommand = new ChangeFrameX(this.frame, this.oldX)
+            undoCommand.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame X')

@@ -15,7 +15,7 @@ export function blp_to_png(buffer: ArrayBuffer) {
         const ctx = canvas.getContext('2d')
         canvas.width = imagedata.width
         canvas.height = imagedata.height
-        ctx.putImageData(imagedata, 0, 0)
+        if (ctx) ctx.putImageData(imagedata, 0, 0)
 
         const imageString = canvas.toDataURL()
         canvas.remove()

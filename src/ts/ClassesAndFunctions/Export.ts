@@ -29,7 +29,7 @@ async function finalizeExport(data: string, filepath: string | null, FDFs: strin
                 }${
                     FDFs.length > 0
                         ? `
-    TOC file created at ${filepath.split('.')[0]}TOC.toc ... Put it in your map and delete the "war3mapImported\\" prefix.`
+    TOC file created at ${filepath?.split('.')[0]}TOC.toc ... Put it in your map and delete the "war3mapImported\\" prefix.`
                         : ''
                 }`
             )
@@ -94,7 +94,7 @@ export class Export implements ICallableDivInstance {
         let tocName = ''
         if (filepath !== null) {
             createTOCfile(filepath, FDFs)
-            tocName = filepath.split('\\').pop()
+            tocName = filepath.split('\\').pop() ?? ''
             tocName = tocName.split('.')[0]
             tocName = tocName + 'TOC'
         }
@@ -169,10 +169,10 @@ export class Export implements ICallableDivInstance {
             }
 
             saveParams.then((saveData: SaveDialogReturnValue) => {
-                const filepathsections = saveData.filePath.split('.')
+                const filepathsections = saveData.filePath?.split('.') ?? ''
                 const fileExtension = filepathsections[filepathsections.length - 1]
 
-                if (saveData.canceled) return
+                if (saveData.canceled || !saveData.filePath) return
 
                 if (this.lang == 'jass')
                     switch (fileExtension) {
@@ -216,7 +216,7 @@ export class Export implements ICallableDivInstance {
 }
 
 /** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
-export function TemplateReplace(lang: TLanguage, kind: number): string {
+export function TemplateReplace(lang: TLanguage, kind: number) {
     try {
         let temp
         switch (lang) {
@@ -231,9 +231,10 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
                 break
         }
 
-        let text: string
+        let text = ''
         let sumText = ''
         for (const el of ProjectTree.getInstance().getIterator()) {
+            const parent = el.getParent()
             if (el.type == 0) {
                 //Origin
                 continue
@@ -327,7 +328,7 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
                 }
 
                 if (el.getTooltip()) {
-                    const t = el.getParent().type
+                    const t = parent?.type
                     if (t == FrameType.BUTTON || t == FrameType.INVIS_BUTTON || t == FrameType.BROWSER_BUTTON || t == FrameType.SCRIPT_DIALOG_BUTTON) {
                         text += temp.TooltipOwnerButton
                     } else {
@@ -364,7 +365,7 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
                 continue
             }
 
-            if (el.custom.getIsRelative() && el.getParent().type !== FrameType.ORIGIN) {
+            if (el.custom.getIsRelative() && parent && parent?.type !== FrameType.ORIGIN) {
                 if (lang === 'jass' || lang === 'lua') {
                     textEdit = textEdit.replace(
                         /BlzFrameSetAbsPoint\(([\w|\d|\[|\]]*), (\w*), (\w*), (\w*)\)/gi,
@@ -373,7 +374,7 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
                 } else if (lang === 'ts') {
                     textEdit = textEdit.replace(/setAbsPoint\((\w*), (\w*), (\w*)\)/gi, `setPoint($1, OWNERvar, $1, $2, $3)`)
                 }
-                const par = el.getParent().custom
+                const par = parent.custom
                 textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX() - par.getLeftX()).toPrecision(5)}`)
                 textEdit = textEdit.replace(
                     /TOPLEFTYvar/gi,
@@ -387,33 +388,29 @@ export function TemplateReplace(lang: TLanguage, kind: number): string {
             }
 
             if (el) {
-                if (el.getParent()) {
+                if (parent) {
                     if (lang == 'jass' || lang == 'lua') {
-                        if (el.getParent().getName().indexOf('[0') >= 0) {
+                        if (parent.getName().indexOf('[0') >= 0) {
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin'
-                                    ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)'
-                                    : el.getParent().getName().replace('[0', '[')
+                                parent.getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : parent.getName().replace('[0', '[')
                             )
                         } else {
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName()
+                                parent.getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : parent.getName()
                             )
                         }
                     } else if (lang == 'ts') {
-                        if (el.getParent().getName().indexOf('[0') >= 0)
+                        if (parent.getName().indexOf('[0') >= 0)
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin'
-                                    ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)'
-                                    : 'this.' + el.getParent().getName().replace('[0', '[')
+                                parent.getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + parent.getName().replace('[0', '[')
                             )
                         else
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + el.getParent().getName()
+                                parent.getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + parent.getName()
                             )
                     }
                 }

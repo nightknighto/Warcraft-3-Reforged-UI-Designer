@@ -35,17 +35,17 @@ export class AppUIWoodenTexture implements ICallableDivInstance {
             elements[i].style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         }
 
-        let element = document.getElementById('barTab')
+        let element = document.getElementById('barTab') as HTMLElement
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        element = document.getElementById('barRibbon')
+        element = document.getElementById('barRibbon') as HTMLElement
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        element = document.getElementById('panelDebug')
+        element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner')
+        element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = 'unset'
         element.style.border = 'unset'
-        element = document.getElementById('barTabImg')
+        element = document.getElementById('barTabImg') as HTMLElement
         element.style.visibility = 'hidden'
 
         ProjectTree.AppInterface = AppInterfaces.wood
@@ -77,26 +77,26 @@ export class AppUIBrownColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#CBB6A1'
         }
 
-        let element = document.getElementById('barTab')
+        let element = document.getElementById('barTab') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#B87E59'
-        element = document.getElementById('barRibbon')
+        element = document.getElementById('barRibbon') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#94471B'
-        element = document.getElementById('panelDebug')
+        element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#904619'
         element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner')
+        element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = '#28160C'
         element.style.border = '2px solid #B87E59'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
         element.style.width = '600px'
-        element = document.getElementById('originMode')
+        element = document.getElementById('originMode') as HTMLElement
         element.style.backgroundColor = '#5B4432'
         element.style.border = '6px solid #3A2718'
         element.style.color = 'rgb(248, 224, 197)'
-        element = document.getElementById('barTabImg')
+        element = document.getElementById('barTabImg') as HTMLElement
         element.style.visibility = 'hidden'
 
         ProjectTree.AppInterface = AppInterfaces.brown
@@ -128,26 +128,26 @@ export class AppUIPurpleColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = 'rgb(115, 49, 146)'
         }
 
-        let element = document.getElementById('barTab')
+        let element = document.getElementById('barTab') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#D29FEE'
-        element = document.getElementById('barRibbon')
+        element = document.getElementById('barRibbon') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#733192'
-        element = document.getElementById('panelDebug')
+        element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#5A3E64'
         element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner')
+        element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = '#480B68'
         element.style.border = '2px solid #D29FEE'
         element.style.clipPath = 'polygon(0% 20%, 0 0, 90% 0, 100% 50%, 90% 100%, 0 100%, 0% 80%)'
         element.style.width = '550px'
-        element = document.getElementById('originMode')
+        element = document.getElementById('originMode') as HTMLElement
         element.style.backgroundColor = '#492D56'
         element.style.border = '6px ridge #11819a'
         element.style.color = 'rgb(248, 224, 197)'
-        element = document.getElementById('barTabImg')
+        element = document.getElementById('barTabImg') as HTMLElement
         element.style.visibility = 'visible'
 
         ProjectTree.AppInterface = AppInterfaces.purple
@@ -179,26 +179,26 @@ export class AppUIBlueColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#4057C7'
         }
 
-        let element = document.getElementById('barTab')
+        let element = document.getElementById('barTab') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#6EADBE'
-        element = document.getElementById('barRibbon')
+        element = document.getElementById('barRibbon') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#4057C7'
-        element = document.getElementById('panelDebug')
+        element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#49539B'
         element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner')
+        element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = '#222B70'
         element.style.border = '2px solid #6EADBE'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
         element.style.width = '600px'
-        element = document.getElementById('originMode')
+        element = document.getElementById('originMode') as HTMLElement
         element.style.backgroundColor = '#1B3A4F'
         element.style.border = '6px ridge rgb(78, 114, 140)'
         element.style.color = 'rgb(248, 224, 197)'
-        element = document.getElementById('barTabImg')
+        element = document.getElementById('barTabImg') as HTMLElement
         element.style.visibility = 'hidden'
 
         ProjectTree.AppInterface = AppInterfaces.blue
@@ -232,26 +232,26 @@ export class AppUIDarkColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#433D3D'
         }
 
-        let element = document.getElementById('barTab')
+        let element = document.getElementById('barTab') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#827877'
-        element = document.getElementById('barRibbon')
+        element = document.getElementById('barRibbon') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#454140'
-        element = document.getElementById('panelDebug')
+        element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundImage = 'none'
         element.style.backgroundColor = '#24130B'
         element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner')
+        element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = '#312B2B'
         element.style.border = '2px solid #827877'
         element.style.clipPath = 'polygon(0 0, 100% 0, 81% 100%, 0% 100%)'
         element.style.width = '600px'
-        element = document.getElementById('originMode')
+        element = document.getElementById('originMode') as HTMLElement
         element.style.backgroundColor = '#827877'
         element.style.border = '6px ridge rgb(160, 68, 37)'
         element.style.color = 'rgb(248, 224, 197)'
-        element = document.getElementById('barTabImg')
+        element = document.getElementById('barTabImg') as HTMLElement
         element.style.visibility = 'hidden'
 
         ProjectTree.AppInterface = AppInterfaces.dark

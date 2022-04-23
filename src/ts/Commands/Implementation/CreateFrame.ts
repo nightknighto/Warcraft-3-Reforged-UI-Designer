@@ -9,7 +9,7 @@ import { ProjectTree } from '../../Editor/ProjectTree'
 export default class CreateFrame extends SimpleCommand {
     private frameBuilder: FrameBuilder
     private parent: string
-    private resultingFrame: FrameComponent
+    private resultingFrame?: FrameComponent
 
     public constructor(parent: FrameComponent | string, frameBuilder: FrameBuilder) {
         super()

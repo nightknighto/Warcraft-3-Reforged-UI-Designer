@@ -6,8 +6,8 @@ import { ProjectTree } from '../../Editor/ProjectTree'
 export default class ChangeFrameTooltip extends SimpleCommand {
     private frame: string
     private tooltip: boolean
-    private oldTooltip: boolean
-    private childrenTooltipPair: [string, boolean][]
+    private oldTooltip?: boolean
+    private childrenTooltipPair: [string, boolean][] = []
 
     public constructor(frame: FrameComponent | string, newTooltip: boolean) {
         super()
@@ -60,7 +60,7 @@ export default class ChangeFrameTooltip extends SimpleCommand {
                 else child.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected
             }
         })
-        frame.setTooltip(this.oldTooltip)
+        if (this.oldTooltip) frame.setTooltip(this.oldTooltip)
 
         super.undo()
         debugText('Undid frame change tooltip.')

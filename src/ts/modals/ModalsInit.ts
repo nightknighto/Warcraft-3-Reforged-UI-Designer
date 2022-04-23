@@ -1,8 +1,11 @@
 import * as bootstrap from 'bootstrap'
+import html = require('plain-tag')
 
-const modal_container = document.getElementById('modal-container')
 export class Modals {
+    modal_container: HTMLElement
     constructor() {
+        this.modal_container = document.getElementById('modal-container')!
+
         this.AboutUs()
         this.Hall_of_Fame()
         this.Changelog()
@@ -11,7 +14,7 @@ export class Modals {
     }
 
     AboutUs() {
-        modal_container.innerHTML += `
+        this.modal_container.innerHTML += html`
             <div class="modal fade" id="AboutUs" tabindex="-1" aria-labelledby="AboutUs" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -131,7 +134,7 @@ export class Modals {
     }
 
     Changelog() {
-        modal_container.innerHTML += `<div class="modal fade" id="ChangeLog" tabindex="-1" aria-labelledby="HallOfFame" aria-hidden="true">
+        this.modal_container.innerHTML += html`<div class="modal fade" id="ChangeLog" tabindex="-1" aria-labelledby="HallOfFame" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header bg-success">
@@ -146,10 +149,7 @@ export class Modals {
                                         <h2 class="card-header text-white">v 2.5.3</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
-                                                <div class="col-10 card-text p-4">
-                                                    Fixed Horizontal Bars in Typescript Exports.
-                                                    Version Credits: Kick King
-                                                </div>
+                                                <div class="col-10 card-text p-4">Fixed Horizontal Bars in Typescript Exports. Version Credits: Kick King</div>
                                             </div>
                                         </div>
                                     </div>
@@ -160,8 +160,8 @@ export class Modals {
                                         <div class="card-body">
                                             <div class="row justify-content-center">
                                                 <div class="col-10 card-text p-4">
-                                                    Fixed an issue causing elements to be wrongly positioned when created or duplicated. Also fixed
-                                                    an issue causing relative position to not work with arrays.
+                                                    Fixed an issue causing elements to be wrongly positioned when created or duplicated. Also fixed an issue
+                                                    causing relative position to not work with arrays.
                                                 </div>
                                             </div>
                                         </div>
@@ -177,9 +177,13 @@ export class Modals {
                                                     <ul class="list-group border border-danger border-2">
                                                         <li class="list-group-item list-group-item-primary">New: EditBox (heavily requested)</li>
                                                         <li class="list-group-item list-group-item-primary">New: Text Box (heavily requested)</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Custom Background Option (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: Custom Background Option (heavily requested)
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">New: Option to hide or show element Borders</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Relative Positioning Option on elements (heavily requested)</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: Relative Positioning Option on elements (heavily requested)
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">Update: Element Layering Display finally fixed</li>
                                                     </ul>
                                                 </div>
@@ -189,7 +193,9 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">New: Save As & Export As. New Shortcut: CTRL+S</li>
                                                         <li class="list-group-item list-group-item-primary">Update: Panels are now expandable</li>
                                                         <li class="list-group-item list-group-item-primary">Default Text color is now wc3's gold color</li>
-                                                        <li class="list-group-item list-group-item-primary">Project File now saves the app interface as well</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Project File now saves the app interface as well
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">Bug fixes & experience improvements</li>
                                                     </ul>
                                                 </div>
@@ -210,16 +216,24 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">New: Support for .dds & .blp images</li>
                                                         <li class="list-group-item list-group-item-primary">New: Disk Texture field now saves path to file</li>
                                                         <li class="list-group-item list-group-item-primary">New: Automatic Path Fill option</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Extensive functionality documentation for each element</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: Extensive functionality documentation for each element
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">Table Array window improved</li>
                                                     </ul>
                                                 </div>
 
                                                 <div class="offset-1 col-5 card-text p-4">
                                                     <ul class=" list-group border border-danger border-2">
-                                                        <li class="list-group-item list-group-item-primary">Export: Automatically copies the code to clipboard</li>
-                                                        <li class="list-group-item list-group-item-primary">Table Array: gapX & gapY can accept negative values</li>
-                                                        <li class="list-group-item list-group-item-primary">Arrow Movement no longer work if a field is focused</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Export: Automatically copies the code to clipboard
+                                                        </li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Table Array: gapX & gapY can accept negative values
+                                                        </li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Arrow Movement no longer work if a field is focused
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">Bug fixes & experience improvements</li>
                                                     </ul>
                                                 </div>
@@ -235,7 +249,6 @@ export class Modals {
                                         <div class="card-body">
                                             <div class="row justify-content-center">
                                                 <p class="text-white">Fixed a bug with WC3 textures and exporting Origin Mode.</p>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -251,7 +264,9 @@ export class Modals {
                                                 <div class="col-5 card-text p-4">
                                                     <ul class="list-group border border-danger border-2">
                                                         <li class="list-group-item list-group-item-primary">New: Origin Modes</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Bypass green borders with ConsoleUI Origin Mode</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: Bypass green borders with ConsoleUI Origin Mode
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">New: Templates tab, Horizontal bar templates</li>
                                                         <li class="list-group-item list-group-item-primary">New: Text Alignment Options</li>
                                                     </ul>
@@ -259,12 +274,13 @@ export class Modals {
 
                                                 <div class="offset-1 col-5 card-text p-4">
                                                     <ul class=" list-group border border-danger border-2">
-                                                        <li class="list-group-item list-group-item-primary">New: View tab: App's Interface & Background/Resolution Menus</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: View tab: App's Interface & Background/Resolution Menus
+                                                        </li>
                                                         <li class="list-group-item list-group-item-primary">New: Selected Element's Name & Brief Info</li>
                                                         <li class="list-group-item list-group-item-primary">Rework: ScriptDialogButton/BrowserButton</li>
                                                     </ul>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +308,6 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">Improved input in Texture, TrigVar fields</li>
                                                     </ul>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -311,7 +326,9 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">New: Tutorial Tab</li>
                                                         <li class="list-group-item list-group-item-primary">New: Keyboard Shortcuts</li>
                                                         <li class="list-group-item list-group-item-primary">New: Array Parent on Circular Array</li>
-                                                        <li class="list-group-item list-group-item-primary">New: Better Mouse feedback on elements in Tree Panel</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            New: Better Mouse feedback on elements in Tree Panel
+                                                        </li>
                                                     </ul>
                                                 </div>
 
@@ -324,7 +341,6 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">Alot of other fixes and experience improvements</li>
                                                     </ul>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -364,15 +380,13 @@ export class Modals {
                                                         <li class="list-group-item list-group-item-primary">Width/Height Limit: decreased to 0.01</li>
                                                     </ul>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>`
@@ -383,13 +397,13 @@ export class Modals {
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
             .then((res) => res.text())
             .then((body) => {
-                modal_container.innerHTML += body
+                this.modal_container.innerHTML += body
                 console.log(body)
             })
     }
 
     Documentation() {
-        const data = `<div class="modal fade" id="Tutorial" tabindex="-1" aria-labelledby="Tutorial" aria-hidden="true">
+        const data = html`<div class="modal fade" id="Tutorial" tabindex="-1" aria-labelledby="Tutorial" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
@@ -672,7 +686,7 @@ export class Modals {
         </div>
     </div>`
 
-        modal_container.innerHTML += data
+        this.modal_container.innerHTML += data
     }
 
     Documentation_online() {
@@ -680,12 +694,12 @@ export class Modals {
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
             .then((res) => res.text())
             .then((body) => {
-                modal_container.innerHTML = ''
+                this.modal_container.innerHTML = ''
                 this.WelcomePage()
                 this.AboutUs()
                 this.Changelog()
                 this.Hall_of_Fame()
-                modal_container.innerHTML += body
+                this.modal_container.innerHTML += body
             })
     }
 
@@ -693,8 +707,8 @@ export class Modals {
         fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
             .then((res) => res.text())
             .then((body) => {
-                modal_container.innerHTML += body
-                const modal = new bootstrap.Modal(document.getElementById('Welcome'))
+                this.modal_container.innerHTML += body
+                const modal = new bootstrap.Modal(document.getElementById('Welcome')!)
                 modal.show()
             })
     }

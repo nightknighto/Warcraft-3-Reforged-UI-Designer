@@ -6,7 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameY extends SimpleCommand {
     private frame: string
     private newY: number
-    private oldY: number
+    private oldY?: number
 
     public constructor(frame: FrameComponent | string, y: number) {
         super()
@@ -33,8 +33,10 @@ export default class ChangeFrameY extends SimpleCommand {
     }
 
     public undo(): void {
-        const undoCommand = new ChangeFrameY(this.frame, this.oldY)
-        undoCommand.pureAction()
+        if (this.oldY) {
+            const undoCommand = new ChangeFrameY(this.frame, this.oldY)
+            undoCommand.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame Y')

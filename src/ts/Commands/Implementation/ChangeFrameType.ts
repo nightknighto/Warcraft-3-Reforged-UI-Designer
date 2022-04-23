@@ -7,7 +7,7 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameType extends SimpleCommand {
     private frame: string
     private newType: FrameType
-    private oldType: FrameType
+    private oldType?: FrameType
 
     public constructor(frame: FrameComponent | string, newType: FrameType) {
         super()
@@ -35,8 +35,10 @@ export default class ChangeFrameType extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameType(this.frame, this.oldType)
-        command.pureAction()
+        if (this.oldType) {
+            const command = new ChangeFrameType(this.frame, this.oldType)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid frame change type.')

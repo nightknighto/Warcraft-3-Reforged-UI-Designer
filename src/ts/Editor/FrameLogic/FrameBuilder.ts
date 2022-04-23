@@ -249,7 +249,7 @@ export class FrameBuilder implements CustomComplexProps {
     static newText = () => {
         const frameBuilder = new FrameBuilder(true)
         frameBuilder.type = FrameType.TEXT_FRAME
-        frameBuilder.text = 'Text Frame'
+        frameBuilder.text = 'Text Frame testing'
         frameBuilder.name = 'Text'
         frameBuilder.width = 0.07
         frameBuilder.height = 0.07

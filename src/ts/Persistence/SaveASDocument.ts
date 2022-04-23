@@ -32,7 +32,7 @@ export default class SaveASDocument implements ICallableDivInstance {
         })
 
         saveParams.then((saveData: SaveDialogReturnValue) => {
-            if (saveData.canceled) return
+            if (saveData.canceled || !saveData.filePath) return
             this.save(saveData.filePath)
             ProjectTree.fileSavePath = saveData.filePath
             debugText('Project saved in ' + saveData.filePath)

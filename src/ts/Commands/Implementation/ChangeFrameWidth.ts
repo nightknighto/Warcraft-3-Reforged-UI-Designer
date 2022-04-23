@@ -6,7 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameWidth extends SimpleCommand {
     private frame: string
     private width: number
-    private oldWidth: number
+    private oldWidth?: number
 
     public constructor(frame: FrameComponent | string, newWidth: number) {
         super()
@@ -21,8 +21,10 @@ export default class ChangeFrameWidth extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameWidth(this.frame, this.oldWidth)
-        command.pureAction()
+        if (this.oldWidth) {
+            const command = new ChangeFrameWidth(this.frame, this.oldWidth)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid frame change width.')

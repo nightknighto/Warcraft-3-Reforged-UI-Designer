@@ -6,8 +6,8 @@ import SimpleCommand from '../SimpleCommand'
 export default class ChangeFrameParent extends SimpleCommand {
     private frame: string
     private newParent: string
-    private oldParent: string
-    private frameChildren: string[]
+    private oldParent?: string
+    private frameChildren: string[] = []
 
     public constructor(frame: FrameComponent | string, newParent: FrameComponent | string) {
         super()
@@ -40,14 +40,16 @@ export default class ChangeFrameParent extends SimpleCommand {
             return
         }
 
-        this.oldParent = frame.getParent().getName()
+        this.oldParent = frame.getParent()?.getName()
         this.frameChildren = frame.getChildren().map((it: FrameComponent) => it.getName())
         parent.makeAsParentTo(frame)
     }
 
     public undo(): void {
-        const command = new ChangeFrameParent(this.frame, this.oldParent)
-        command.pureAction()
+        if (this.oldParent) {
+            const command = new ChangeFrameParent(this.frame, this.oldParent)
+            command.pureAction()
+        }
 
         const projectTree = ProjectTree.getInstance()
         const parent = projectTree.findByName(this.frame)

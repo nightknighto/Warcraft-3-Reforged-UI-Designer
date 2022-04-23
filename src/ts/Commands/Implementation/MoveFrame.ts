@@ -5,7 +5,7 @@ import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class MoveFrame extends SimpleCommand {
-    private oldData: { oldX: number; oldY: number; oldWidth: number; oldHeight: number }
+    private oldData?: { oldX: number; oldY: number; oldWidth: number; oldHeight: number }
     private newX: number
     private newY: number
     private newWidth: number

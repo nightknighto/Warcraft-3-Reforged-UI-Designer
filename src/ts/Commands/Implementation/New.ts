@@ -7,7 +7,7 @@ import SimpleCommand from '../SimpleCommand'
 import Load from './Load'
 
 export default class New extends SimpleCommand {
-    private saveContainer: SaveContainer
+    private saveContainer: SaveContainer | undefined
 
     public pureAction(): void {
         const projectTree = ProjectTree.getInstance()
@@ -26,10 +26,12 @@ export default class New extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new Load(this.saveContainer)
-        command.pureAction()
-        super.undo()
-        debugText('Undid new project.')
+        if (this.saveContainer) {
+            const command = new Load(this.saveContainer)
+            command.pureAction()
+            super.undo()
+            debugText('Undid new project.')
+        }
     }
 
     public redo(): void {
