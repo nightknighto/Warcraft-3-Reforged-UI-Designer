@@ -1,53 +1,23 @@
-# electron-quick-start-typescript
+# Reforged UI Maker (RUID)
 
-**Clone and run for a quick way to see Electron in action.**
+**A cross-platform desktop application made to create User Interface designs and systems for Warcraft 3 Maps without code.**
 
-This is a [TypeScript](https://www.typescriptlang.org) port of the [Electron Quick Start repo](https://github.com/electron/electron-quick-start) -- a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start) within the Electron documentation.
+The application terminates the need for coding in favor of creating draggable graphical elements to express the design. Its easy-to-learn mechanics and concepts make it easy and usable for non-coders or GUI users to create fully-fledged UI systems, and its precision, speed and saved templates make it viable for Professionals and Veterans to make their systems in minutes, instead of typically hours or days.
 
-**Use this app along with the [Electron API Demos](http://electron.atom.io/#get-started) app for API code examples to help you get started.**
+It produces code in a file that can be opened by a text editor, then copied and pasted into a World Editor trigger or Custom Script. It works on Warcraft III version 1.31+
 
-A basic Electron application needs just these files:
+The main goal of the application is to take WC3 UI modding to the next level, by facilitating UI creation and allowing anyone to design their own unique UI, without any prerequisite coding knowledge. This application is made to be used by GUI coders, Jass coders, LUA coders and Typescript coders. For Typescript, it is specifically made to work with TriggerHappy's TSTL template.
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.ts` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
 
-You can learn more about each of these components within the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
+## Main Application Distribution Source [Hive Workshop](https://www.hiveworkshop.com/threads/warcraft-3-reforged-ui-designer-ruid.334868/).
 
-## To Use
+The linked page also includes video showcases, tutorials, features and much more.
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+## Expectations
+This application and UI Modding together have unlimited potential. As it gets more and more known and used, it will gradually revolutionize the whole modding scene, and become a core part of making any map. This is the future of Map Development.
 
-```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start-typescript
-# Go into the repository
-cd electron-quick-start-typescript
-# Install dependencies
-npm install
-# Run the app
-npm start
-```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Re-compile automatically
-
-To recompile automatically and to allow using [electron-reload](https://github.com/yan-foto/electron-reload), run this in a separate terminal:
-
-```bash
-npm run watch
-```
-
-## Resources for Learning Electron
-
-- [electron.atom.io/docs](http://electron.atom.io/docs) - all of Electron's documentation
-- [electron.atom.io/community/#boilerplates](http://electron.atom.io/community/#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
-
-## License
-
-[CC0 1.0 (Public Domain)](LICENSE.md)
+## Technology Used
+- Electron Framework
+- HTML & CSS
+- Bootstrap
+- Typescript
