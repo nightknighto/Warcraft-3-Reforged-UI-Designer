@@ -1,7 +1,7 @@
-import { debugText } from '../Classes & Functions/Mini-Functions'
-import { Editor } from './Editor'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
+import { EditorController } from './EditorController'
 import { FrameComponent } from './FrameLogic/FrameComponent'
-import { FrameType } from './FrameLogic/FrameType & FrameRequire'
+import { FrameType } from './FrameLogic/FrameType'
 import ChangeElementName from '../Commands/Implementation/ChangeFrameName'
 import ChangeFrameWidth from '../Commands/Implementation/ChangeFrameWidth'
 import Actionable from '../Commands/Actionable'
@@ -13,10 +13,17 @@ import ChangeFrameX from '../Commands/Implementation/ChangeFrameX'
 import ChangeFrameY from '../Commands/Implementation/ChangeFrameY'
 import { ProjectTree } from './ProjectTree'
 import CustomComplex from './FrameLogic/CustomComplex'
-import { Tooltips } from '../Classes & Functions/Tooltips'
+import { Tooltips } from '../ClassesAndFunctions/Tooltips'
+import { Editor } from './Editor'
 
 export class ParameterEditor {
-    public readonly parameterPanel: HTMLElement
+    private static instance: ParameterEditor
+    /**gives the instance */
+    static getInstance() {
+        if (!ParameterEditor.instance) ParameterEditor.instance = new ParameterEditor()
+        return ParameterEditor.instance
+    }
+
     public readonly panelParameters: HTMLElement
     public readonly inputElementName: HTMLInputElement
     public readonly selectElementType: HTMLSelectElement
@@ -72,7 +79,7 @@ export class ParameterEditor {
     public readonly fieldPropertiesOutermost: HTMLDivElement
     public readonly fieldFunctionalityOutermost: HTMLDivElement
 
-    public constructor() {
+    private constructor() {
         this.panelParameters = document.getElementById('panelParameters') as HTMLElement
         this.inputElementName = document.getElementById('elementName') as HTMLInputElement
         this.selectElementType = document.getElementById('elementType') as HTMLSelectElement
@@ -168,6 +175,9 @@ export class ParameterEditor {
 
         const radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach((radio) => ((radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value)))
+
+        this.fieldElement.style.display = 'none'
+        this.fieldElement.style.display = 'none'
     }
 
     /** checks whether value is smaller than 0.0001. True if smaller. */
@@ -182,62 +192,68 @@ export class ParameterEditor {
 
     static InputWidth(ev: Event): void {
         const inputElement = ev.target as HTMLInputElement
-        const focusedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
-        const focusedCustom = focusedFrame.custom
-        const workspace = Editor.GetDocumentEditor().workspaceImage
-        const horizontalMargin = Editor.getInnerMargin()
-        const actualMargin = Editor.getActualMargin()
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const selectedCustom = selected.custom
+            const workspace = Editor.getInstance().workspaceImage
+            const horizontalMargin = EditorController.getInnerMargin()
+            const actualMargin = EditorController.getActualMargin()
 
-        if (+inputElement.value > Editor.getActualMarginLimits().max || +inputElement.value < Editor.getActualMarginLimits().min) {
-            debugText(`Input refused. Width is limited to ${Editor.getActualMarginLimits().min} and ${Editor.getActualMarginLimits().max}.`)
-            return
+            if (+inputElement.value > EditorController.getActualMarginLimits().max || +inputElement.value < EditorController.getActualMarginLimits().min) {
+                debugText(
+                    `Input refused. Width is limited to ${EditorController.getActualMarginLimits().min} and ${EditorController.getActualMarginLimits().max}.`
+                )
+                return
+            }
+
+            if (
+                selectedCustom.getElement().getBoundingClientRect().left + (+inputElement.value / 0.8) * (workspace.width - 2 * horizontalMargin) >
+                workspace.getBoundingClientRect().right - actualMargin
+            ) {
+                debugText(`Input refused. Image right edge will be out of screen.`)
+                return
+            }
+
+            let command: Actionable
+
+            if (ParameterEditor.CheckInputValue(+inputElement.value)) {
+                command = new ChangeFrameWidth(selected, 0.01)
+            } else {
+                command = new ChangeFrameWidth(selected, +inputElement.value)
+            }
+            command.action()
         }
-
-        if (
-            focusedCustom.getElement().getBoundingClientRect().left + (+inputElement.value / 0.8) * (workspace.width - 2 * horizontalMargin) >
-            workspace.getBoundingClientRect().right - actualMargin
-        ) {
-            debugText(`Input refused. Image right edge will be out of screen.`)
-            return
-        }
-
-        let command: Actionable
-
-        if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-            command = new ChangeFrameWidth(focusedFrame, 0.01)
-        } else {
-            command = new ChangeFrameWidth(focusedFrame, +inputElement.value)
-        }
-        command.action()
     }
 
     static InputHeight(ev: Event): void {
         try {
             const inputElement = ev.target as HTMLInputElement
-            const focusedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
-            const focusedCustom = focusedFrame.custom
-            const workspace = Editor.GetDocumentEditor().workspaceImage
+            const selected = ProjectTree.getSelected()
+            if (selected) {
+                const selectedCustom = selected.custom
+                const workspace = Editor.getInstance().workspaceImage
 
-            if (+inputElement.value > 0.6 || +inputElement.value < 0) {
-                debugText(`Input refused. Height is limited to 0 and 0.6.`)
-                return
-            }
+                if (+inputElement.value > 0.6 || +inputElement.value < 0) {
+                    debugText(`Input refused. Height is limited to 0 and 0.6.`)
+                    return
+                }
 
-            if (
-                focusedCustom.getElement().getBoundingClientRect().bottom - (+inputElement.value / 0.6) * workspace.height <
-                workspace.getBoundingClientRect().top
-            ) {
-                debugText(`Input refused. Image top edge will be out of screen.`)
-                return
-            }
+                if (
+                    selectedCustom.getElement().getBoundingClientRect().bottom - (+inputElement.value / 0.6) * workspace.height <
+                    workspace.getBoundingClientRect().top
+                ) {
+                    debugText(`Input refused. Image top edge will be out of screen.`)
+                    return
+                }
 
-            let command: Actionable
-            if (ParameterEditor.CheckInputValue(+inputElement.value)) {
-                command = new ChangeFrameHeight(focusedFrame, 0.0001)
-            } else {
-                command = new ChangeFrameHeight(focusedFrame, +inputElement.value)
+                let command: Actionable
+                if (ParameterEditor.CheckInputValue(+inputElement.value)) {
+                    command = new ChangeFrameHeight(selected, 0.0001)
+                } else {
+                    command = new ChangeFrameHeight(selected, +inputElement.value)
+                }
+                command.action()
             }
-            command.action()
         } catch (e) {
             alert(e)
         }
@@ -264,7 +280,7 @@ export class ParameterEditor {
         try {
             const inputElement = ev.target as HTMLInputElement
             let text = inputElement.value
-            const projectTree = Editor.GetDocumentEditor().projectTree
+            const projectTree = ProjectTree.getInstance()
             let nulIndexFound = false
 
             if (/.*\[[0-9]\]/.test(text)) {
@@ -318,9 +334,11 @@ export class ParameterEditor {
                 debugText('Cannot have a frame array without a 0 indexed frame')
                 return
             }
-
-            const command = new ChangeElementName(projectTree.getSelectedFrame(), text)
-            command.action()
+            const selected = ProjectTree.getSelected()
+            if (selected) {
+                const command = new ChangeElementName(selected, text)
+                command.action()
+            }
 
             debugText('Name changed to "' + text + '"')
         } catch (e) {
@@ -331,34 +349,36 @@ export class ParameterEditor {
     static ChangeType(ev: Event): void {
         const selectElement = ev.target as HTMLSelectElement
 
-        const selected = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const command = new ChangeFrameType(selected, +selectElement.selectedOptions[0].value)
+            command.action()
 
-        const command = new ChangeFrameType(selected, +selectElement.selectedOptions[0].value)
-        command.action()
+            let typeText = ''
+            if (selected.type == 1) typeText = 'Backdrop'
+            if (selected.type == 2) typeText = 'Button'
+            debugText('Type changed to ' + typeText)
 
-        let typeText = ''
-        if (selected.type == 1) typeText = 'Backdrop'
-        if (selected.type == 2) typeText = 'Button'
-        debugText('Type changed to ' + typeText)
-
-        Editor.GetDocumentEditor().parameterEditor.updateFields(selected)
+            ParameterEditor.getInstance().updateFields(selected)
+        }
     }
 
     static ChangeParent(ev: Event): void {
         try {
             const selectElement = ev.target as HTMLSelectElement
-            const selectedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+            const selected = ProjectTree.getSelected()
+            if (selected) {
+                for (const el of ProjectTree.getInstance().getIterator()) {
+                    if (!el.parentOption) continue
 
-            for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-                if (!el.parentOption) continue
-
-                if (el.parentOption == selectElement.selectedOptions[0]) {
-                    const command = new ChangeFrameParent(selectedFrame, el)
-                    command.action()
-                    break
+                    if (el.parentOption == selectElement.selectedOptions[0]) {
+                        const command = new ChangeFrameParent(selected, el)
+                        command.action()
+                        break
+                    }
                 }
+                debugText('Parent changed to ' + selected.getParent().getName())
             }
-            debugText('Parent changed to ' + selectedFrame.getParent().getName())
         } catch (e) {
             alert(e)
         }
@@ -366,13 +386,14 @@ export class ParameterEditor {
 
     static ChangeTooltip(ev: Event): void {
         const val = (ev.target as HTMLInputElement).checked
-        const selectedFrame = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const command = new ChangeFrameTooltip(selected, val)
+            command.action()
 
-        const command = new ChangeFrameTooltip(selectedFrame, val)
-        command.action()
-
-        if (val) debugText('Is now a Tooltip')
-        else debugText('No longer a Tooltip')
+            if (val) debugText('Is now a Tooltip')
+            else debugText('No longer a Tooltip')
+        }
     }
 
     static HideBorders(ev: Event): void {
@@ -381,10 +402,10 @@ export class ParameterEditor {
 
             const typs = FrameType
 
-            for (const fr of ProjectTree.inst().getIterator()) {
+            for (const fr of ProjectTree.getInstance().getIterator()) {
                 if (fr.type !== typs.ORIGIN && fr.type !== typs.HOR_BAR_BACKGROUND && fr.type != typs.HOR_BAR_BACKGROUND_TEXT && fr.type != typs.HOR_BAR_TEXT) {
                     if (val) {
-                        fr.custom.getElement().style.outlineWidth = '3px'
+                        fr.custom.getElement().style.outlineWidth = '1px'
                         console.log(fr.custom.getElement().style.outlineWidth)
                     } else {
                         fr.custom.getElement().style.outlineWidth = '0px'
@@ -401,11 +422,12 @@ export class ParameterEditor {
     static InputIsRelative(ev: Event): void {
         try {
             const val = (ev.target as HTMLInputElement).checked
-            const sel = ProjectTree.getSelected()
+            const selected = ProjectTree.getSelected()
 
-            sel.custom.setIsRelative(val)
-
-            debugText(`Relative Positioning has been ${val ? 'enabled' : 'disabled'} for this element.`)
+            if (selected) {
+                selected.custom.setIsRelative(val)
+                debugText(`Relative Positioning has been ${val ? 'enabled' : 'disabled'} for this element.`)
+            }
         } catch (e) {
             console.log('EnableRelativePosition: ' + e)
         }
@@ -413,42 +435,53 @@ export class ParameterEditor {
 
     static InputCoordinateX(ev: Event): void {
         const loc = (ev.target as HTMLInputElement).value
-        const editor = Editor.GetDocumentEditor()
+        const editor = Editor.getInstance()
         const rect = editor.workspaceImage.getBoundingClientRect()
-        const image = editor.projectTree.getSelectedFrame().custom.getElement()
-        const horizontalMargin = Editor.getInnerMargin()
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const image = selected.custom.getElement()
 
-        if (+loc > Editor.getActualMarginLimits().max || +loc < Editor.getActualMarginLimits().min) {
-            debugText(`Input refused. X coordinate is limited to ${Editor.getActualMarginLimits().min} and ${Editor.getActualMarginLimits().max}`)
-            return
-        }
-        if (+loc + (image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin)) * 0.8 > Editor.getActualMarginLimits().max) {
-            debugText('Input refused. Image right edge will be out of screen.')
-            return
-        }
+            const horizontalMargin = EditorController.getInnerMargin()
 
-        const command = new ChangeFrameX(Editor.GetDocumentEditor().projectTree.getSelectedFrame(), +loc)
-        command.action()
+            if (+loc > EditorController.getActualMarginLimits().max || +loc < EditorController.getActualMarginLimits().min) {
+                debugText(
+                    `Input refused. X coordinate is limited to ${EditorController.getActualMarginLimits().min} and ${
+                        EditorController.getActualMarginLimits().max
+                    }`
+                )
+                return
+            }
+            if (+loc + (image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin)) * 0.8 > EditorController.getActualMarginLimits().max) {
+                debugText('Input refused. Image right edge will be out of screen.')
+                return
+            }
+
+            const command = new ChangeFrameX(selected, +loc)
+            command.action()
+        }
     }
 
     static InputCoordinateY(ev: Event): void {
         try {
             const loc = (ev.target as HTMLInputElement).value
-            const editor = Editor.GetDocumentEditor()
+            const editor = Editor.getInstance()
             const rect = editor.workspaceImage.getBoundingClientRect()
-            const image = editor.projectTree.getSelectedFrame().custom.getElement()
+            const selected = ProjectTree.getSelected()
+            if (selected) {
+                const image = selected.custom.getElement()
 
-            if (+loc > 0.6 || +loc < 0) {
-                debugText(`Input refused. Y coordinate is limited to 0 and 0.6.`)
-                return
-            }
-            if (+loc + (image.getBoundingClientRect().height / rect.height) * 0.6 > 0.6) {
-                debugText('Input refused. Image top edge will be out of screen.')
-                return
-            }
+                if (+loc > 0.6 || +loc < 0) {
+                    debugText(`Input refused. Y coordinate is limited to 0 and 0.6.`)
+                    return
+                }
+                if (+loc + (image.getBoundingClientRect().height / rect.height) * 0.6 > 0.6) {
+                    debugText('Input refused. Image top edge will be out of screen.')
+                    return
+                }
 
-            const command = new ChangeFrameY(Editor.GetDocumentEditor().projectTree.getSelectedFrame(), +loc)
-            command.action()
+                const command = new ChangeFrameY(selected, +loc)
+                command.action()
+            }
         } catch (e) {
             alert(e)
         }
@@ -457,16 +490,21 @@ export class ParameterEditor {
     static TextInputDiskTexture(ev: Event, which: 'normal' | 'back'): void {
         const inputElement = ev.target as HTMLInputElement
 
-        Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setDiskTexture(inputElement.value, which)
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            selected.custom.setDiskTexture(inputElement.value, which)
+        }
         debugText('Disk Texture changed.')
     }
 
     static async ButtonInputDiskTexture(ev: Event, which: 'normal' | 'back'): Promise<void> {
         try {
             const inputElement = ev.target as HTMLInputElement
-            const editor = Editor.GetDocumentEditor()
-            const file = inputElement.files[0]
-            editor.projectTree.getSelectedFrame().custom.setDiskTexture(file, which)
+            const file = inputElement.files ? inputElement.files[0] : undefined
+            const selected = ProjectTree.getSelected()
+            if (selected && file) {
+                selected.custom.setDiskTexture(file, which)
+            }
 
             inputElement.value = ''
             debugText('Disk Texture changed.')
@@ -481,63 +519,75 @@ export class ParameterEditor {
         text = text.replace(/(?<!\\)\\(?!\\)/g, '\\\\')
         inputElement.value = text
 
-        Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setWc3Texture(text, which)
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            selected.custom.setWc3Texture(text, which)
+        }
         debugText('WC3 Texture changed.')
     }
 
     static InputText(ev: Event): void {
         const inputElement = ev.target as HTMLInputElement
-        const frameContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const frameContent = selected.custom
 
-        frameContent.setText(inputElement.value)
-        debugText('Text changed.')
+            frameContent.setText(inputElement.value)
+            debugText('Text changed.')
+        }
     }
 
     static InputTrigVar(ev: Event): void {
         const inputElement = ev.target as HTMLInputElement
 
-        const frameBaseContent = Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            const frameBaseContent = selected.custom
 
-        let text = inputElement.value
-        if (text.indexOf('udg_') != 0 && text.length > 0) {
-            text = 'udg_' + text
-            console.log(text)
-        }
+            let text = inputElement.value
+            if (text.indexOf('udg_') != 0 && text.length > 0) {
+                text = 'udg_' + text
+                console.log(text)
+            }
 
-        if (frameBaseContent instanceof CustomComplex) {
-            frameBaseContent.setTrigVar(text)
-            debugText('Triggered Variable changed.')
+            if (frameBaseContent instanceof CustomComplex) {
+                frameBaseContent.setTrigVar(text)
+                debugText('Triggered Variable changed.')
+            }
         }
     }
 
     static InputTextScale(ev: Event): void {
         const inputElement = ev.target as HTMLInputElement
-        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setScale(+inputElement.value)
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            ;(selected.custom as CustomComplex).setScale(+inputElement.value)
+        }
         debugText('Scale changed.')
     }
 
     static InputTextColor(ev: Event): void {
         const inputElement = ev.target as HTMLInputElement
-        ;(Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom as CustomComplex).setColor(inputElement.value)
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            ;(selected.custom as CustomComplex).setColor(inputElement.value)
+        }
     }
 
     static InputHorAlign(ev: Event): void {
         const el = ev.target as HTMLSelectElement
-        if (el.value == 'left' || el.value == 'center' || el.value == 'right')
-            Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setHorAlign(el.value)
-        else alert('Critical Error: InputHorAlign input type is wrong!')
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            if (el.value == 'left' || el.value == 'center' || el.value == 'right') selected.custom.setHorAlign(el.value)
+        } else alert('Critical Error: InputHorAlign input type is wrong!')
     }
 
     static InputVerAlign(ev: Event): void {
         const el = ev.target as HTMLSelectElement
-        if (el.value == 'start' || el.value == 'center' || el.value == 'flex-end')
-            Editor.GetDocumentEditor().projectTree.getSelectedFrame().custom.setVerAlign(el.value)
-        else alert('Critical Error: InputVerAlign input type is wrong!')
-    }
-
-    /**gives the instance */
-    static inst(): ParameterEditor {
-        return Editor.GetDocumentEditor().parameterEditor
+        const selected = ProjectTree.getSelected()
+        if (selected) {
+            if (el.value == 'start' || el.value == 'center' || el.value == 'flex-end') selected.custom.setVerAlign(el.value)
+        } else alert('Critical Error: InputVerAlign input type is wrong!')
     }
 
     static OriginModeChanges(val: string): void {
@@ -580,13 +630,13 @@ export class ParameterEditor {
         this.inputElementTrigVar.disabled = disable
     }
 
-    public updateFields(frame: FrameComponent): void {
+    public updateFields(frame: FrameComponent | null): void {
         try {
             // const editor = Editor.GetDocumentEditor() // Not used
 
             // const horizontalMargin = Editor.getInnerMargin() // Not used
 
-            if (frame && frame != Editor.GetDocumentEditor().projectTree.rootFrame) {
+            if (frame && frame != ProjectTree.getInstance().rootFrame) {
                 // this.disableFields(false)
 
                 // change title and desc info
@@ -858,7 +908,7 @@ export class ParameterEditor {
                 // this.fieldElementInfoDesc.setAttribute('title', dsc)
                 Tooltips.TooltipDesc[0].setContent(dsc)
                 Tooltips.TooltipFunc[0].setContent(func)
-                document.getElementById('ElementInfoExtFile').style.display = requireExt ? 'initial' : 'none'
+                document.getElementById('ElementInfoExtFile')!.style.display = requireExt ? 'initial' : 'none'
 
                 this.setupLists(frame)
                 this.inputElementName.value = frame.getName()
@@ -950,7 +1000,7 @@ export class ParameterEditor {
                     this.selectElementType.selectedIndex = frame.type - 1
                 }
 
-                if (frame.getParent() == Editor.GetDocumentEditor().projectTree.rootFrame) {
+                if (frame.getParent() == ProjectTree.getInstance().rootFrame) {
                     this.checkboxElementTooltip.disabled = true
                     frame.setTooltip(false)
                 }
@@ -973,14 +1023,14 @@ export class ParameterEditor {
                     options.remove(0)
                 }
 
-                let selected: HTMLOptionElement
-                for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                let option: HTMLOptionElement | undefined
+                for (const el of ProjectTree.getInstance().getIterator()) {
                     if (el == frame) continue
                     options.add(el.parentOption)
                     el.parentOption.selected = false
-                    if (frame.getParent() == el) selected = el.parentOption
+                    if (frame.getParent() == el) option = el.parentOption
                 }
-                selected.selected = true
+                if (option) option.selected = true
             } else {
                 // this.disableFields(true)
                 this.emptyFields()
@@ -997,7 +1047,7 @@ export class ParameterEditor {
 
     setupLists(frame: FrameComponent) {
         const listEl = document.getElementById('WC3TextureList')
-        listEl.innerHTML = ''
+        if (listEl) listEl.innerHTML = ''
 
         if (
             frame.type == FrameType.HORIZONTAL_BAR ||
@@ -1009,7 +1059,7 @@ export class ParameterEditor {
                 const op = document.createElement('option')
                 op.value = 'Replaceabletextures\\Teamcolor\\Teamcolor' + (i < 10 ? '0' + i : i) + '.blp'
                 op.innerText = this.list[i]
-                listEl.append(op)
+                if (listEl) listEl.append(op)
             }
         }
     }

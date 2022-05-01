@@ -3,7 +3,7 @@ export default class SaveContainer {
 
     private static JSONPostProcess(instance: SaveContainer, JSONObject: any): any {
         if (Array.isArray(JSONObject)) {
-            const array = []
+            const array: SaveContainer[] = []
             for (const object of JSONObject) {
                 const newInstance = new SaveContainer(null)
                 SaveContainer.JSONPostProcess(newInstance, object)
@@ -62,7 +62,7 @@ export default class SaveContainer {
     public hasKey(key: string): boolean {
         if (key == 'dataContainer') {
             console.error('Cannot use dataContainer as key.')
-            return
+            return false
         }
         return this.dataContainer[key] != undefined
     }

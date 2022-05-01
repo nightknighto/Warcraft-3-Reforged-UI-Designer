@@ -1,7 +1,7 @@
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import CreateFrame from './CreateFrame'
 
 export default class CreateFrameAtSelected implements ICallableDivInstance {
@@ -23,9 +23,9 @@ export default class CreateFrameAtSelected implements ICallableDivInstance {
             }
         }
 
-        let target = Editor.GetDocumentEditor().projectTree.getSelectedFrame()
+        let target = ProjectTree.getInstance().getSelectedFrame()
         if (target == null) {
-            target = Editor.GetDocumentEditor().projectTree.rootFrame
+            target = ProjectTree.getInstance().rootFrame
         }
 
         const command = new CreateFrame(target, FrameBuilder.copy(this.builder))

@@ -3,11 +3,16 @@ import { ParameterEditor } from '../Editor/ParameterEditor'
 import { ProjectTree } from '../Editor/ProjectTree'
 
 export function debugText(stuff: string): void {
-    Editor.GetDocumentEditor().debugLine.innerText = stuff
+    try {
+        Editor.getInstance().debugLine.innerText = stuff
+        const selected = ProjectTree.getSelected()
 
-    if (ProjectTree.getSelected()) {
-        //update Element Panel
-        ParameterEditor.inst().updateFields(ProjectTree.getSelected())
+        if (selected) {
+            //update Element Panel
+            ParameterEditor.getInstance().updateFields(selected)
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 

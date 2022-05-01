@@ -1,6 +1,6 @@
 /** @format */
 
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import { ProjectTree } from '../Editor/ProjectTree'
 
 export class CanvasMovement {
@@ -14,11 +14,13 @@ export class CanvasMovement {
     windowNumber: number
     windowSizes: number[]
     workspace: HTMLElement
+    workspaceContainer: HTMLElement
 
     private constructor() {
         this.windowNumber = 5
         this.windowSizes = [5, 10, 25, 33.3, 50, 66.6, 75, 100, 125, 150, 175, 200, 250, 300, 400, 600, 800, 1200, 1600]
-        this.workspace = document.getElementById('workspace')
+        this.workspace = document.getElementById('workspace') as HTMLElement
+        this.workspaceContainer = document.getElementById('workspaceContainer') as HTMLElement
 
         // Handle Zoom and Wheel movement up/down and left/right
         window.addEventListener('wheel', this.onWheel)
@@ -153,9 +155,8 @@ export class CanvasMovement {
     }
 
     moveToCenter() {
-        const workspaceContainer = document.getElementById('workspaceContainer')
-        const windowWidth = workspaceContainer.offsetWidth
-        const windowHeight = workspaceContainer.offsetHeight
+        const windowWidth = this.workspaceContainer.offsetWidth
+        const windowHeight = this.workspaceContainer.offsetHeight
 
         this.left = (windowWidth - this.width) / 2
         this.top = (windowHeight - this.height) / 2

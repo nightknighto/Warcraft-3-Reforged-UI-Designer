@@ -1,22 +1,24 @@
 import { RibbonOption } from './RibbonOption'
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
 
 export class RibbonMenu implements ICallableDivInstance {
     public readonly tabName: string
-    public readonly ribbonBar: HTMLElement
+    public readonly ribbonBar: HTMLElement | null
     private ribbonOptions: RibbonOption[] = []
 
     /**Overrides the default behavior with custom behavior. If it is used, default behavior of
      * removing and re-filling the bar below will not happen.
      */
-    public override: () => void = null
+    override?: () => void
 
     public constructor(name: string) {
         this.tabName = name
         this.ribbonBar = document.getElementById('barRibbon')
 
-        this.ribbonBar.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        this.ribbonBar.style.backgroundAttachment = 'fixed'
+        if (this.ribbonBar) {
+            this.ribbonBar.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
+            this.ribbonBar.style.backgroundAttachment = 'fixed'
+        }
     }
 
     public addRibbonOption(option: RibbonOption): void {
@@ -30,13 +32,13 @@ export class RibbonMenu implements ICallableDivInstance {
         }
 
         //Remove everything from div.
-        for (let i = this.ribbonBar.children.length - 1; i >= 0; i--) {
-            this.ribbonBar.removeChild(this.ribbonBar.children[i])
+        for (let i = (this.ribbonBar?.children.length ?? 1) - 1; i >= 0; i--) {
+            this.ribbonBar?.removeChild(this.ribbonBar.children[i])
         }
 
         //Fill it back up
         for (const option of this.ribbonOptions) {
-            this.ribbonBar.append(option.createHTMLElement())
+            this.ribbonBar?.append(option.createHTMLElement())
         }
     }
 

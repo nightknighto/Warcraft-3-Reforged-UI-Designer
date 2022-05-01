@@ -1,12 +1,12 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import CustomComplex from '../../Editor/FrameLogic/CustomComplex'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameDiskTexture extends SimpleCommand {
     private frame: string
-    private oldTexture: string
+    private oldTexture?: string
     private newTexture: string
 
     public constructor(frame: FrameComponent | string, texture: string) {
@@ -22,7 +22,7 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -39,8 +39,10 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
-        command.pureAction()
+        if (this.oldTexture) {
+            const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame disk texture')

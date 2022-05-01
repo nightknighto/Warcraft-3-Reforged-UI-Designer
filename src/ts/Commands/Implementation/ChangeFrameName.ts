@@ -1,6 +1,6 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameName extends SimpleCommand {
@@ -32,7 +32,7 @@ export default class ChangeFrameName extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.oldName)
+        const frame = ProjectTree.getInstance().findByName(this.oldName)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')

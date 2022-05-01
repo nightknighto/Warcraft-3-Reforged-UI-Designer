@@ -1,5 +1,5 @@
-import { ICallableDivInstance } from '../Classes & Functions/ICallableDivInstance'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { ICallableDivInstance } from '../ClassesAndFunctions/ICallableDivInstance'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import New from '../Commands/Implementation/New'
 import { ProjectTree } from '../Editor/ProjectTree'
 

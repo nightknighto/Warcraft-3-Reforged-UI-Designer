@@ -1,7 +1,7 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import Actionable from '../Actionable'
 import SimpleCommand from '../SimpleCommand'
 import ChangeFrameName from './ChangeFrameName'
@@ -69,7 +69,7 @@ export default class DuplicateArrayTable extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target)
+        const frame = ProjectTree.getInstance().findByName(this.target)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -92,24 +92,26 @@ export default class DuplicateArrayTable extends SimpleCommand {
                 builder.name = frame.getName() + 'T[' + index + ']'
                 builder.x = this.leftX + (builder.width + this.gapX) * j
                 builder.y = this.topY + builder.height - (builder.height + this.gapY) * i
-                const newFrame = parent.createAsChild(builder)
+                const newFrame = parent?.createAsChild(builder)
 
-                if (this.ownerArray) {
-                    //find if parent array has the same index. If yes, change parent
-                    for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
-                        const checkingName = parent.getName().slice(0, parent.getName().length - 4)
-                        // alert('checkingName: '+checkingName)
-                        // alert('prod: '+checkingName+"["+ind+"]")
-                        if (el.getName() == checkingName + '[' + index + ']' || el.getName() == checkingName + '[' + '0' + index + ']') {
-                            el.makeAsParentTo(newFrame)
-                            if (frame.getTooltip()) newFrame.setTooltip(true)
+                if (newFrame) {
+                    if (this.ownerArray) {
+                        //find if parent array has the same index. If yes, change parent
+                        for (const el of ProjectTree.getInstance().getIterator()) {
+                            const checkingName = parent?.getName().slice(0, parent.getName().length - 4)
+                            // alert('checkingName: '+checkingName)
+                            // alert('prod: '+checkingName+"["+ind+"]")
+                            if (el.getName() == checkingName + '[' + index + ']' || el.getName() == checkingName + '[' + '0' + index + ']') {
+                                el.makeAsParentTo(newFrame)
+                                if (frame.getTooltip()) newFrame.setTooltip(true)
 
-                            break
+                                break
+                            }
                         }
                     }
-                }
 
-                this.undoCommands.push(new RemoveFrame(newFrame))
+                    this.undoCommands.push(new RemoveFrame(newFrame))
+                }
             }
         }
 

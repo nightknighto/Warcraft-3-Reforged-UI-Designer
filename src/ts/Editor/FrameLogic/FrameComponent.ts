@@ -1,37 +1,73 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { Editor } from '../Editor'
 import { FrameBuilder } from './FrameBuilder'
-import { FrameType } from './FrameType & FrameRequire'
+import { FrameType } from './FrameType'
 import Saveable from '../../Persistence/Saveable'
 import SaveContainer from '../../Persistence/SaveContainer'
 import CustomComplex from './CustomComplex'
 import { ProjectTree } from '../ProjectTree'
 import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
+import { ParameterEditor } from '../ParameterEditor'
+import { FrameMap } from './ComponentMap'
 
 export class FrameComponent implements Saveable {
-    public static readonly SAVE_KEY_NAME = 'name'
-    public static readonly SAVE_KEY_CHILDREN = 'children'
-    public static readonly SAVE_KEY_TYPE = 'type'
-    public static readonly SAVE_KEY_TOOLTIP = 'tooltip'
-    public static readonly SAVE_KEY_WORLDFRAME = 'world_frame'
+    static readonly SAVE_KEY_NAME = 'name'
+    static readonly SAVE_KEY_CHILDREN = 'children'
+    static readonly SAVE_KEY_TYPE = 'type'
+    static readonly SAVE_KEY_TOOLTIP = 'tooltip'
+    static readonly SAVE_KEY_WORLDFRAME = 'world_frame'
 
     private name: string
     private children: FrameComponent[]
-    public type: FrameType
+    type: FrameType
     private tooltip = false
 
-    public world_frame = false
+    world_frame = false
 
-    public readonly custom: CustomComplex
-    public readonly treeElement: HTMLElement
-    public parentOption: HTMLOptionElement
+    readonly custom: CustomComplex
+    readonly treeElement: HTMLElement
+    parentOption: HTMLOptionElement
     readonly layerDiv: HTMLDivElement
     // private orderInParent = 0;
 
-    public FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
+    FieldsAllowed: ElementFieldsAllowed = JSON.parse(JSON.stringify(defaultFieldsAllowed))
 
-    public setTooltip(on: boolean): FrameComponent {
+    constructor(frameBuildOptions: FrameBuilder) {
+        const ul: HTMLElement = document.createElement('ul')
+        const li: HTMLElement = document.createElement('li')
+        this.name = ''
+        ul.append(li)
+
+        this.treeElement = ul
+        this.treeElement.setAttribute('style', 'cursor: pointer;')
+        this.children = []
+        this.parentOption = document.createElement('option')
+        this.type = frameBuildOptions.type
+        this.layerDiv = document.createElement('div')
+        this.custom = new CustomComplex(
+            this,
+            frameBuildOptions.width,
+            frameBuildOptions.height,
+            frameBuildOptions.x,
+            frameBuildOptions.y,
+            frameBuildOptions.z,
+            frameBuildOptions
+        )
+
+        this.setName(frameBuildOptions.name)
+        // ;(ul as any).frameComponent = this
+        FrameMap.getInstance().frameComponent.set(ul, this)
+
+        li.onclick = () => {
+            ProjectTree.getInstance().select(this)
+        }
+
+        this.setupAllowedFields()
+
+        if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = '0px'
+    }
+
+    setTooltip(on: boolean): FrameComponent {
         this.tooltip = on
         let color = ProjectTree.outlineUnSelected
         if (on) color = ProjectTree.outlineUnSelected_Tooltip
@@ -43,15 +79,15 @@ export class FrameComponent implements Saveable {
         return this
     }
 
-    public getTooltip(): boolean {
+    getTooltip(): boolean {
         return this.tooltip
     }
 
-    public getName(): string {
+    getName(): string {
         return this.name
     }
 
-    public setName(newName: string): void {
+    setName(newName: string): void {
         if (/.*\[[0-9]\]/.test(newName)) {
             const name1 = newName.slice(0, newName.length - 2)
             let name2 = newName.slice(newName.length - 2)
@@ -60,56 +96,23 @@ export class FrameComponent implements Saveable {
         }
 
         this.name = newName
-        ;(this.treeElement.firstChild as HTMLElement).innerText = newName
+        try {
+            ;(this.treeElement.firstChild as HTMLElement).innerText = newName
+        } catch (error) {
+            console.log(error)
+        }
+
         if (this.parentOption) this.parentOption.text = newName
     }
 
-    public constructor(frameBuildOptions: FrameBuilder) {
-        try {
-            const ul: HTMLElement = document.createElement('ul')
-            const li: HTMLElement = document.createElement('li')
-
-            ul.append(li)
-
-            this.treeElement = ul
-            this.treeElement.setAttribute('style', 'cursor: pointer;')
-            this.children = []
-            this.parentOption = document.createElement('option')
-            this.type = frameBuildOptions.type
-            this.layerDiv = document.createElement('div')
-            this.custom = new CustomComplex(
-                this,
-                frameBuildOptions.width,
-                frameBuildOptions.height,
-                frameBuildOptions.x,
-                frameBuildOptions.y,
-                frameBuildOptions.z,
-                frameBuildOptions
-            )
-
-            this.setName(frameBuildOptions.name)
-            ;(ul as any).frameComponent = this
-
-            li.onclick = () => {
-                Editor.GetDocumentEditor().projectTree.select(this)
-            }
-
-            this.setupAllowedFields()
-
-            if (!ProjectTree.ShowBorders) this.custom.getElement().style.outlineWidth = '0px'
-        } catch (e) {
-            alert('FrameComp Constructor: ' + e)
-        }
-    }
-
-    public save(container: SaveContainer): void {
+    save(container: SaveContainer): void {
         container.save(FrameComponent.SAVE_KEY_NAME, this.name)
         container.save(FrameComponent.SAVE_KEY_TYPE, this.type)
         container.save(FrameComponent.SAVE_KEY_TOOLTIP, this.tooltip)
         container.save(FrameComponent.SAVE_KEY_WORLDFRAME, this.world_frame)
         this.custom.save(container)
 
-        const childrenSaveArray = []
+        const childrenSaveArray: SaveContainer[] = []
 
         for (const child of this.children) {
             const childSaveContainer = new SaveContainer(null)
@@ -144,20 +147,21 @@ export class FrameComponent implements Saveable {
         return true
     }
 
-    public createAsChild(newFrame: FrameBuilder): FrameComponent {
+    createAsChild(newFrame: FrameBuilder): FrameComponent {
         const newChild = new FrameComponent(newFrame)
 
         this.appendFrame(newChild)
         if (!newChild.FieldsAllowed.parent) {
-            new ChangeFrameParent(newChild, ProjectTree.inst().rootFrame).pureAction()
+            new ChangeFrameParent(newChild, ProjectTree.getInstance().rootFrame).pureAction()
         }
 
         ProjectTree.refreshElements()
         return newChild
     }
 
-    public destroy(): void {
+    destroy() {
         const parent = this.getParent()
+        if (!parent) return
         parent.removeFrame(this)
 
         for (const child of this.children) {
@@ -168,56 +172,65 @@ export class FrameComponent implements Saveable {
         if (this.custom != null) this.custom.delete()
         if (this.parentOption != null) this.parentOption.remove()
 
-        Editor.GetDocumentEditor().parameterEditor.updateFields(null)
+        ParameterEditor.getInstance().updateFields(null)
     }
 
-    public makeAsParentTo(newChild: FrameComponent): boolean {
+    makeAsParentTo(newChild: FrameComponent) {
         if (newChild == this) return false
 
         // eslint-disable-next-line @typescript-eslint/no-this-alias
-        let traverseNode: FrameComponent = this
+        let traverseNode: FrameComponent | undefined = this
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         let previousNode: FrameComponent = this
 
         do {
             if (traverseNode == newChild) {
                 newChild.removeFrame(previousNode)
-                newChild.getParent().appendFrame(previousNode)
+                newChild.getParent()?.appendFrame(previousNode)
 
                 break
             }
 
             previousNode = traverseNode
             traverseNode = traverseNode.getParent()
-        } while (traverseNode != null)
+        } while (traverseNode)
 
-        newChild.getParent().removeFrame(newChild)
+        newChild.getParent()?.removeFrame(newChild)
         this.appendFrame(newChild)
+
+        return true
     }
 
-    public static GetFrameComponent(ProjectTreeElement: HTMLElement): FrameComponent {
-        return (ProjectTreeElement as any).frameComponent
+    static GetFrameComponent(projectTreeElement: HTMLElement) {
+        return FrameMap.getInstance().frameComponent.get(projectTreeElement)
     }
 
-    public getChildren(): FrameComponent[] {
+    getChildren(): FrameComponent[] {
         return this.children
     }
 
-    public getParent(): FrameComponent {
-        return FrameComponent.GetFrameComponent(this.treeElement.parentElement)
+    getParent() {
+        return this.treeElement?.parentElement ? FrameComponent.GetFrameComponent(this.treeElement.parentElement) : undefined
     }
 
-    public changeOrigin(world_frame: boolean): FrameComponent {
+    changeOrigin(world_frame: boolean): FrameComponent {
         let parent: FrameComponent = this
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-            if (parent.getParent().type == FrameType.ORIGIN) {
-                if (world_frame) parent.world_frame = true
-                else parent.world_frame = false
+
+        let foundOrigin = false
+        while (foundOrigin == false) {
+            if (!parent.getParent()) foundOrigin = true
+
+            if (parent.getParent()?.type == FrameType.ORIGIN) {
+                if (world_frame) {
+                    parent.world_frame = true
+                } else {
+                    parent.world_frame = false
+                }
                 console.log('world_frame: ' + parent.world_frame)
+                foundOrigin = true
                 break
             }
-            parent = parent.getParent()
+            parent = parent.getParent() ?? parent
         }
 
         return this

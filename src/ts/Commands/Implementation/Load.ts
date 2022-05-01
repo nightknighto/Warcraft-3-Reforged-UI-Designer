@@ -1,11 +1,11 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SaveContainer from '../../Persistence/SaveContainer'
 import SimpleCommand from '../SimpleCommand'
 
 export default class Load extends SimpleCommand {
     private dataContainer: SaveContainer
-    private previousDataContainer: SaveContainer
+    private previousDataContainer?: SaveContainer
 
     public constructor(state: SaveContainer) {
         super()
@@ -13,7 +13,7 @@ export default class Load extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
 
         this.previousDataContainer = new SaveContainer(null)
         projectTree.save(this.previousDataContainer)
@@ -22,8 +22,10 @@ export default class Load extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new Load(this.previousDataContainer)
-        command.pureAction()
+        if (this.previousDataContainer) {
+            const command = new Load(this.previousDataContainer)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid loading.')
