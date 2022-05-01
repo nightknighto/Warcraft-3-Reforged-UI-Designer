@@ -1,14 +1,12 @@
 /** @format */
 
-import { Export } from '../Classes & Functions/Export'
-import { GUIEvents } from '../Classes & Functions/GUIEvents'
-import { debugText } from '../Classes & Functions/Mini-Functions'
+import { Export } from '../ClassesAndFunctions/Export'
+import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
+import { debugText } from '../ClassesAndFunctions/MiniFunctions'
 import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
-import RemoveFrame from '../Commands/Implementation/RemoveFrame'
 import Redo from '../Commands/Redo'
 import Undo from '../Commands/Undo'
 import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
-import { FrameType } from '../Editor/FrameLogic/FrameType & FrameRequire'
 import { BackgroundTexture, CustomBackground } from '../Editor/Menus/Backgrounds'
 import { ParameterEditor } from '../Editor/ParameterEditor'
 import { ProjectTree } from '../Editor/ProjectTree'
@@ -87,7 +85,7 @@ export class KeyboardShortcuts {
                     new Export(false, 'lua', false).run()
                     break
                 case 'KeyD':
-                    GUIEvents.DuplicateSelectedImage()
+                    GUIEvents.DuplicateSelectedFrame()
                     break
                 default:
                     break
@@ -204,31 +202,18 @@ export class KeyboardShortcuts {
 
     keydownCtrlAlt = (event: KeyboardEvent) => {
         if (event.ctrlKey && !event.shiftKey && event.altKey && document.body.style.cursor !== 'grabbing') {
-            let newFrameBuilder: FrameBuilder
-
             switch (event.code) {
                 case 'KeyB':
                     // Custom Button
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BUTTON
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newButton()).run()
                     break
                 case 'KeyD':
                     // Custom Backdrop
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-                    newFrameBuilder.type = FrameType.BACKDROP
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newBackdrop()).run()
                     break
                 case 'KeyT':
                     // Text Frame
-                    newFrameBuilder = new FrameBuilder(true)
-                    newFrameBuilder.type = FrameType.TEXT_FRAME
-                    newFrameBuilder.text = 'Text Frame'
-                    newFrameBuilder.width = 0.07
-                    newFrameBuilder.height = 0.07
-                    new CreateFrameAtSelected(newFrameBuilder).run()
+                    new CreateFrameAtSelected(FrameBuilder.newText()).run()
                     break
                 default:
                     break
@@ -238,14 +223,12 @@ export class KeyboardShortcuts {
 
     keydownNoMod = (event: KeyboardEvent) => {
         if (document.body.style.cursor !== 'grabbing') {
-            const par = ParameterEditor.inst()
+            const par = ParameterEditor.getInstance()
+
             switch (event.code) {
                 case 'Delete':
                     // Delete Frame
-                    if (ProjectTree.getSelected()) {
-                        const command = new RemoveFrame(ProjectTree.getSelected())
-                        command.action()
-                    }
+                    GUIEvents.DeleteSelectedFrame()
                     break
 
                 case 'ArrowLeft':

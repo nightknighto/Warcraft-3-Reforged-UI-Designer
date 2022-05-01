@@ -1,5 +1,4 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameBuilder } from '../../Editor/FrameLogic/FrameBuilder'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import Actionable from '../Actionable'
@@ -7,6 +6,7 @@ import SimpleCommand from '../SimpleCommand'
 import ChangeFrameName from './ChangeFrameName'
 import RemoveFrame from './RemoveFrame'
 import CreateFrame from './CreateFrame'
+import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class DuplicateArrayCircular extends SimpleCommand {
     private centerX: number
@@ -46,11 +46,17 @@ export default class DuplicateArrayCircular extends SimpleCommand {
         return this
     }
 
-    public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.target)
+    public pureAction() {
+        const frame = ProjectTree.getInstance().findByName(this.target)
 
-        if (typeof frame === 'undefined') {
+        if (!frame) {
             debugText('Could not find frame.')
+            return
+        }
+
+        const parent = frame.getParent()
+        debugText('Could not find Parent.')
+        if (!parent) {
             return
         }
 
@@ -59,7 +65,6 @@ export default class DuplicateArrayCircular extends SimpleCommand {
         const tooltip = frame.getTooltip()
 
         const angDisp = (Math.PI * 2) / this.count
-        const parent = frame.getParent()
 
         const oldName = frame.getName()
         frame.setName(frame.getName().replace('[', '').replace(']', ''))
@@ -74,7 +79,7 @@ export default class DuplicateArrayCircular extends SimpleCommand {
             if (this.ownerArray) {
                 try {
                     //find if parent array has the same index. If yes, change parent
-                    for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+                    for (const el of ProjectTree.getInstance().getIterator()) {
                         const checkingName = parent.getName().slice(0, parent.getName().length - 4)
                         // alert('checkingName: '+checkingName)
                         // alert('prod: '+checkingName+"["+ind+"]")
@@ -98,7 +103,7 @@ export default class DuplicateArrayCircular extends SimpleCommand {
             this.undoCommands.push(new RemoveFrame(newFrame))
         }
 
-        this.undoCommands.push(new CreateFrame(frame.getParent(), FrameBuilder.copy(frame)))
+        this.undoCommands.push(new CreateFrame(parent, FrameBuilder.copy(frame)))
         new RemoveFrame(frame).pureAction()
 
         this.undoCommands.push(new ChangeFrameName(frame, oldName))

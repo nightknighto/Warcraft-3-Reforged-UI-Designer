@@ -16,8 +16,6 @@ export function convertBitRange(fromBits: number, toBits: number) {
     return ((1 << toBits) - 1) / ((1 << fromBits) - 1)
 }
 
-
-
 const encoder = new TextEncoder()
 
 export function encodeUtf8(utf8: string) {
@@ -35,7 +33,7 @@ export function bytesOf(buffer: ArrayBuffer | Uint8Array | string | number[]) {
 }
 
 export function base256ToString(number: number) {
-    const array = []
+    const array: string[] = []
 
     while (number > 0) {
         array.push(String.fromCharCode(number % 256))

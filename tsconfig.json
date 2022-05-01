@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
+        "strict": false,
         "moduleResolution": "node",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
@@ -8,9 +9,14 @@
         "removeComments": false,
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
-        "outDir": "build",
+        "outDir": "app",
         "downlevelIteration": true,
-        "target": "es6"
+        "target": "es6",
+        "plugins": [
+            {
+                "name": "typescript-lit-html-plugin"
+            }
+        ]
     },
     "exclude": ["node_modules"]
 }

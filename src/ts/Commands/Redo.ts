@@ -1,8 +1,8 @@
-import { ICallableDivInstance } from '../Classes & Functions/ICallableDivInstance'
-import { Editor } from '../Editor/Editor'
+import { ICallableDivInstance } from '../ClassesAndFunctions/ICallableDivInstance'
+import ChangeStack from '../Editor/ChangeStack'
 
 export default class Redo implements ICallableDivInstance {
     public run(): void {
-        Editor.GetDocumentEditor().changeStack.redo()
+        ChangeStack.getInstance().redo()
     }
 }
