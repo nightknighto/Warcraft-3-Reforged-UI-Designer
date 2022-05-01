@@ -209,10 +209,10 @@ export class FrameMLText {
             name: name,
         })
         frameText.output.jass.push(
-            `set ${frameText.var.jass} = BlzCreateFrame("${frameText.name}", ${typeof owner === 'string' ? owner : owner.var.jass}, ${createContext})`
+            `set ${frameText.var.jass} = BlzCreateFrame("${frameText.name}", ${typeof owner === 'string' ? owner : owner.var.jass}, ${priority}, ${createContext})`
         )
         frameText.output.lua.push(
-            `${frameText.var.lua} = BlzCreateFrame("${frameText.name}", ${typeof owner === 'string' ? owner : owner.var.lua}, ${createContext})`
+            `${frameText.var.lua} = BlzCreateFrame("${frameText.name}", ${typeof owner === 'string' ? owner : owner.var.lua}, ${priority}, ${createContext})`
         )
         frameText.output.ts.push(
             `${frameText.var.ts} = new Frame("${frameText.name}", ${typeof owner === 'string' ? owner : owner.var.ts}, ${priority}, ${createContext})`
