@@ -31,7 +31,7 @@ const BackdropMLT = FrameMLText.newFrameByType('FRvar', 'BACKDROP', 'OWNERvar', 
     .setTexture('PATHvar', 0, true)
 
 // Button + Backdrop
-const Button1MLT = FrameMLText.newFrame('FRvar', 'ScriptDialogButton', 'OWNERvar', 0, 0)
+const Button1MLT = FrameMLText.newFrame('FRvar', 'IconButtonTemplate', 'OWNERvar', 0, 0)
     .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
     .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
 const Button2MLT = FrameMLText.newFrameByType('BackdropFRvar', 'BackdropFRvar', Button1MLT, 0, 0, 'BACKDROP', '')
@@ -88,7 +88,7 @@ const QuestCheckBoxMLT = FrameMLText.newFrame('FRvar', 'QuestCheckBox', 'OWNERva
     .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
 
 // Invisible Button
-const InvisButtonMLT = FrameMLText.newFrameByType('FRvar', 'name', 'OWNERvar', 0, 0, 'GLUEBUTTON', '')
+const InvisButtonMLT = FrameMLText.newFrame('FRvar', 'IconButtonTemplate', 'OWNERvar', 0, 0)
     .setAbsPoint('FRAMEPOINT_TOPLEFT', 'TOPLEFTXvar', 'TOPLEFTYvar')
     .setAbsPoint('FRAMEPOINT_BOTTOMRIGHT', 'BOTRIGHTXvar', 'BOTRIGHTYvar')
 
