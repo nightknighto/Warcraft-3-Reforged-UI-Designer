@@ -332,7 +332,7 @@ export class LUA implements I_Templates {
 
 export class Typescript implements I_Templates {
     static classDeclare =
-        'export class FRlib {\n  protected static instance: FRlib\n\n  static getInstance() {\n    if (!FRlib.instance) FRlib.instance = new FRlib()\n    return FRlib.instance\n  }\n'
+        'export class FRlib {\n \n'
 
     static globals = '\n'
 
@@ -346,7 +346,7 @@ export class Typescript implements I_Templates {
 
     static endglobals = '\n'
 
-    static constructorInit = '  private constructor() {\n      let t: Trigger;\n\n'
+    static constructorInit = '  constructor() {\n      let t: Trigger;\n\n'
 
     static backdrop = BackdropMLT.ts('  ')
     static button = Button1MLT.ts('  ') + Button2MLT.ts('  ')
