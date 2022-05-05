@@ -331,8 +331,7 @@ export class LUA implements I_Templates {
 }
 
 export class Typescript implements I_Templates {
-    static classDeclare =
-        'export class FRlib {\n \n'
+    static classDeclare = 'export class FRlib {\n \n'
 
     static globals = '\n'
 
@@ -379,4 +378,53 @@ export class Typescript implements I_Templates {
         't = new Trigger() \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_CHECKED) \nt.triggerRegisterFrameEvent(this.FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED) \nt.addAction( () => {\nif(BlzGetTriggerFrameEvent() === FRAMEEVENT_CHECKBOX_CHECKED) {\n// Actions\n} else {\n// Actions\n}\n})\n'
 
     static endconstructor_library = '}\n\n}\n'
+}
+
+export class Wurst implements I_Templates {
+    static classDeclare = 'package FRlib \n\ninit'
+
+    static globals = ''
+
+    static declares = '  '
+    // static declaresArray = "   FRvar: Frame[] = []\n"
+    static declaresBUTTON = ''
+    // static declaresBUTTONArray = "   FRvar: Frame[] = []\n   BackdropFRvar: Frame[] = [] \n"
+    static declaresHorBarBack = ''
+    static declaresHorBarText = ''
+    static declaresHorBarBack_Text = ''
+
+    static endglobals = ''
+
+    static constructorInit = ''
+
+    static backdrop = BackdropMLT.wurst('	')
+    static button = Button1MLT.wurst('	') + Button2MLT.wurst('	')
+
+    static ScriptDialogButton = ScriptDialogButtonMLT.wurst('	')
+    static BrowserButton = BrowserButtonMLT.wurst('	')
+    static CheckListBox = CheckListBoxMLT.wurst('	')
+    static EscMenuBackdrop = EscMenuBackdropMLT.wurst('	')
+    static OptionsPopupMenuBackdropTemplate = OptionsPopupMenuBackdropTemplateMLT.wurst('	')
+    static QuestButtonBaseTemplate = QuestButtonBaseTemplateMLT.wurst('	')
+    static QuestButtonDisabledBackdropTemplate = QuestButtonDisabledBackdropTemplateMLT.wurst('	')
+    static QuestButtonPushedBackdropTemplate = QuestButtonPushedBackdropTemplateMLT.wurst('	')
+    static QuestCheckBox = QuestCheckBoxMLT.wurst('	')
+    static InvisButton = InvisButtonMLT.wurst('	')
+    static TextFrame = TextFrameMLT.wurst('	')
+    static HorizontalBar = HorizontalBarMLT.wurst('	')
+    static HorizontalBarWiBackground = HorizontalBarWiBackground1MLT.wurst('	') + HorizontalBarWiBackground2MLT.wurst('	')
+    static HorizontalBarWiText = HorizontalBarWiText1MLT.wurst('	') + HorizontalBarWiText2MLT.wurst('	')
+    static HorizontalBarWiBackground_Text =
+        HorizontalBarWiBackground_Text1MLT.wurst('	') + HorizontalBarWiBackground_Text2MLT.wurst('	') + HorizontalBarWiBackground_Text3MLT.wurst('	')
+    static TextArea = TextAreaMLT.wurst('	')
+    static EditBox = EditBoxMLT.wurst('	')
+
+    static TooltipOwnerButton = TooltipOwnerButtonMLT.wurst('	')
+    static TooltipOwnerOther = TooltipOwnerOtherMLT.wurst('	')
+
+    static ButtonTriggerSetup = '\n	t = CreateTrigger()\n		..registerFrameEvent(FRvar, FRAMEEVENT_CONTROL_CLICK)\n		..addAction(() -> begin\n			// Code Here\n'
+    static TriggerVariableCheckbox =
+        '\n	t = CreateTrigger()\n		..registerFrameEvent(FRvar, FRAMEEVENT_CHECKBOX_CHECKED)\n		..registerFrameEvent(FRvar, FRAMEEVENT_CHECKBOX_UNCHECKED)\n		..addAction(() -> begin\n			if BlzGetTriggerFrameEvent() == FRAMEEVENT_CHECKBOX_CHECKED\n				// Actions\n			else\n				// Actions\n'
+
+    static endconstructor_library = ''
 }

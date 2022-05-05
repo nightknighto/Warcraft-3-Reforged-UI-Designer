@@ -110,12 +110,14 @@ export class Editor {
         expRib.addMenuOption('JASS', new Export(false, 'jass'))
         expRib.addMenuOption('LUA', new Export(false, 'lua'))
         expRib.addMenuOption('TYPESCRIPT', new Export(false, 'ts'))
+        expRib.addMenuOption('WURST', new Export(false, 'wurst'))
 
         const expRibAs = new RibbonOption('Export to File', null)
         this.fileMenu.addRibbonOption(expRibAs)
         expRibAs.addMenuOption('JASS', new Export(true, 'jass'))
         expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
         expRibAs.addMenuOption('TYPESCRIPT', new Export(true, 'ts'))
+        expRibAs.addMenuOption('WURST', new Export(true, 'wurst'))
 
         this.editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()))
         this.editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()))

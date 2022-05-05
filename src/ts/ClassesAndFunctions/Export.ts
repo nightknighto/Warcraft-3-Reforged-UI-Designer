@@ -1,4 +1,4 @@
-import { JASS, LUA, Typescript } from '../Templates/Templates'
+import { JASS, LUA, Typescript, Wurst } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
 import { writeFileSync } from 'fs'
 import { FrameType } from '../Editor/FrameLogic/FrameType'
@@ -41,7 +41,7 @@ async function finalizeExport(data: string, filepath: string | null, FDFs: strin
     }
 }
 
-export type TLanguage = 'jass' | 'lua' | 'ts'
+export type TLanguage = 'jass' | 'lua' | 'ts' | 'wurst'
 
 function getFDFsList(): string[] {
     const FDFsRequired: string[] = []
@@ -138,6 +138,18 @@ export class Export implements ICallableDivInstance {
             data += Typescript.endconstructor_library
         }
 
+        if (this.lang == 'wurst') {
+            data = Wurst.classDeclare.replace(/FRlib/gi, ProjectTree.LibraryName)
+            data += Wurst.globals
+            data += TemplateReplace('wurst', 0)
+            data += Wurst.endglobals
+            data += Wurst.constructorInit
+            data += generalOptions('wurst')
+            if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocName)
+            data += TemplateReplace('wurst', 2)
+            data += Wurst.endconstructor_library
+        }
+
         finalizeExport(data, filepath, FDFs, this.sendMessage)
     }
 
@@ -164,6 +176,13 @@ export class Export implements ICallableDivInstance {
             if (this.lang == 'ts') {
                 saveParams = remote.dialog.showSaveDialog({
                     filters: [{ name: 'Typescript file', extensions: ['ts'] }],
+                    properties: ['createDirectory'],
+                })
+            }
+
+            if (this.lang == 'wurst') {
+                saveParams = remote.dialog.showSaveDialog({
+                    filters: [{ name: 'Wurst file', extensions: ['wurst'] }],
                     properties: ['createDirectory'],
                 })
             }
@@ -203,6 +222,16 @@ export class Export implements ICallableDivInstance {
                             remote.dialog.showErrorBox('Invalid file extension', 'You have selected an invalid file extension.')
                             break
                     }
+
+                if (this.lang == 'wurst')
+                    switch (fileExtension) {
+                        case 'wurst':
+                            this.Save(saveData.filePath)
+                            break
+                        default:
+                            remote.dialog.showErrorBox('Invalid file extension', 'You have selected an invalid file extension.')
+                            break
+                    }
             })
         } else {
             const FDFs = getFDFsList()
@@ -228,6 +257,9 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
                 break
             case 'ts':
                 temp = Typescript
+                break
+            case 'wurst':
+                temp = Wurst
                 break
         }
 
@@ -281,10 +313,7 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
                 if (isArray) {
                     if (temp == LUA) text = text.replace(/nil/gi, '{}')
                     if (temp == Typescript) text = text.replace(/Frame/gi, 'Frame[] = []')
-                    if (temp == JASS) {
-                        text = text.replace(/(\w*)FRvar = null/gi, ` array \$1FRvar`)
-                        // text = text.replace(/trigger (.)*Frvar = null/gi, `trigger array ${RegExp.$1}FRvar`)
-                    }
+                    if (temp == JASS) text = text.replace(/(\w*)FRvar = null/gi, ` array \$1FRvar`)
                 }
             } else if (kind == 1 && lang != 'ts') {
                 text = ''
@@ -324,6 +353,9 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
                         break
                     case 'ts':
                         text = TypescriptGetTypeText(el.type, true)
+                        break
+                    case 'wurst':
+                        text = WurstGetTypeText(el.type, true)
                         break //always true. maybe give option for users to make it false
                 }
 
@@ -375,16 +407,10 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
                     textEdit = textEdit.replace(/setAbsPoint\((\w*), (\w*), (\w*)\)/gi, `setPoint($1, OWNERvar, $1, $2, $3)`)
                 }
                 const par = parent.custom
-                textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX() - par.getLeftX()).toPrecision(5)}`)
-                textEdit = textEdit.replace(
-                    /TOPLEFTYvar/gi,
-                    `${(el.custom.getBotY() + el.custom.getHeight() - (par.getBotY() + par.getHeight())).toPrecision(5)}`
-                )
-                textEdit = textEdit.replace(
-                    /BOTRIGHTXvar/gi,
-                    `${(el.custom.getLeftX() + el.custom.getWidth() - (par.getLeftX() + par.getWidth())).toPrecision(5)}`
-                )
-                textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY() - par.getBotY()).toPrecision(5)}`)
+                textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX() - par.getLeftX()).toFixed(5)}`)
+                textEdit = textEdit.replace(/TOPLEFTYvar/gi, `${(el.custom.getBotY() + el.custom.getHeight() - (par.getBotY() + par.getHeight())).toFixed(5)}`)
+                textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth() - (par.getLeftX() + par.getWidth())).toFixed(5)}`)
+                textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${(el.custom.getBotY() - par.getBotY()).toFixed(5)}`)
             }
 
             if (el) {
@@ -412,31 +438,46 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
                                 /OWNERvar/gi,
                                 parent.getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + parent.getName()
                             )
+                    } else if (lang == 'wurst') {
+                        if (parent.getName().indexOf('[0') >= 0)
+                            textEdit = textEdit.replace(/OWNERvar/gi, parent.getName() == 'Origin' ? 'GAME_UI' : parent.getName().replace('[0', '['))
+                        else textEdit = textEdit.replace(/OWNERvar/gi, parent.getName() == 'Origin' ? 'GAME_UI' : parent.getName())
                     }
                 }
             }
-            if (el.world_frame) textEdit = textEdit.replace('ORIGIN_FRAME_GAME_UI', 'ORIGIN_FRAME_WORLD_FRAME')
+            if (el.world_frame) {
+                textEdit = textEdit.replace('ORIGIN_FRAME_GAME_UI', 'ORIGIN_FRAME_WORLD_FRAME')
+                textEdit = textEdit.replace('GAME_UI', 'WORLD_UI')
+            }
 
-            if (ProjectTree.OriginMode == 'worldframe') textEdit = textEdit.replace(/ORIGIN_FRAME_GAME_UI/gi, 'ORIGIN_FRAME_WORLD_FRAME')
-            else if (ProjectTree.OriginMode == 'consoleui') {
+            if (ProjectTree.OriginMode == 'worldframe') {
+                textEdit = textEdit.replace(/ORIGIN_FRAME_GAME_UI/gi, 'ORIGIN_FRAME_WORLD_FRAME')
+                textEdit = textEdit.replace(/GAME_UI/gi, 'WORLD_UI')
+            } else if (ProjectTree.OriginMode == 'consoleui') {
+                // Lua + Jass
                 textEdit = textEdit.replace(/BlzGetOriginFrame\(ORIGIN_FRAME_GAME_UI, 0\)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)')
                 textEdit = textEdit.replace(/BlzGetOriginFrame\(ORIGIN_FRAME_WORLD_FRAME, 0\)/gi, 'BlzGetFrameByName("ConsoleUIBackdrop", 0)')
 
+                // Typescript
                 textEdit = textEdit.replace(/Frame.fromOrigin\(ORIGIN_FRAME_GAME_UI, 0\)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)')
                 textEdit = textEdit.replace(/Frame.fromOrigin\(ORIGIN_FRAME_WORLD_FRAME, 0\)/gi, 'Frame.fromName("ConsoleUIBackdrop",0)')
+
+                // Wurst
+                textEdit = textEdit.replace(/GAME_UI/gi, 'getFrame("ConsoleUIBackdrop",0)')
+                textEdit = textEdit.replace(/WORLD_UI/gi, 'getFrame("ConsoleUIBackdrop",0)')
             }
 
-            textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${el.custom.getLeftX().toPrecision(6)}`)
-            textEdit = textEdit.replace(/TOPLEFTYvar/gi, `${(el.custom.getBotY() + el.custom.getHeight()).toPrecision(6)}`)
-            textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth()).toPrecision(6)}`)
-            textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${el.custom.getBotY().toPrecision(6)}`)
+            textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${el.custom.getLeftX().toFixed(6)}`)
+            textEdit = textEdit.replace(/TOPLEFTYvar/gi, `${(el.custom.getBotY() + el.custom.getHeight()).toFixed(6)}`)
+            textEdit = textEdit.replace(/BOTRIGHTXvar/gi, `${(el.custom.getLeftX() + el.custom.getWidth()).toFixed(6)}`)
+            textEdit = textEdit.replace(/BOTRIGHTYvar/gi, `${el.custom.getBotY().toFixed(6)}`)
 
             textEdit = textEdit.replace(/PATHvar/gi, '"' + el.custom.getWc3Texture('normal') + '"')
             textEdit = textEdit.replace(/BACKvar/gi, '"' + el.custom.getWc3Texture('back') + '"')
             if (el.custom.getTrigVar() != '') textEdit = textEdit.replace('TRIGvar', '"' + el.custom.getTrigVar() + '"')
             // textEdit = textEdit.replace("TEXTvar",  '"' + el.custom.getText().replace(/\n/gi, "\\n") + '"');
             textEdit = textEdit.replace(/TEXTvar/gi, '"|cff' + el.custom.getColor().slice(1) + el.custom.getText().replace(/\n/gi, '\\n') + '|r"')
-            textEdit = textEdit.replace(/FRscale/gi, `${((1 / 0.7) * el.custom.getScale() - 0.428).toPrecision(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
+            textEdit = textEdit.replace(/FRscale/gi, `${((1 / 0.7) * el.custom.getScale() - 0.428).toFixed(3)}`) //y = 1/0.7 x - 0.428, where x is (app scale);
 
             let align_ver = 'TEXT_JUSTIFY_TOP'
             switch (el.custom.getVerAlign()) {
@@ -474,7 +515,7 @@ export function TemplateReplace(lang: TLanguage, kind: number) {
     }
 }
 
-function generalOptions(type: 'lua' | 'jass' | 'typescript') {
+function generalOptions(type: 'lua' | 'jass' | 'typescript' | 'wurst') {
     let sumText = ''
     if (type == 'jass') {
         if (ProjectTree.HideGameUI) sumText += JASS.HideGameUI
@@ -484,7 +525,7 @@ function generalOptions(type: 'lua' | 'jass' | 'typescript') {
         if (ProjectTree.HideButtonBar) sumText += JASS.HideButtonBar
         if (ProjectTree.HidePortrait) sumText += JASS.HidePortrait
         if (ProjectTree.HideChat) sumText += JASS.HideChat
-    } else if (type == 'lua' || type == 'typescript') {
+    } else if (type == 'lua' || type == 'typescript' || type == 'wurst') {
         if (ProjectTree.HideGameUI) sumText += LUA.HideGameUI
         if (ProjectTree.HideHeroBar) sumText += LUA.HideHeroBar
         if (ProjectTree.HideMiniMap) sumText += LUA.HideMiniMap
@@ -694,6 +735,73 @@ function TypescriptGetTypeText(type: FrameType, functionality: boolean): string 
 
         case FrameType.EDITBOX:
             return Typescript.EditBox
+    }
+    return ''
+}
+
+function WurstGetTypeText(type: FrameType, functionality: boolean): string {
+    switch (type) {
+        case FrameType.BACKDROP:
+            return Wurst.backdrop
+
+        case FrameType.BUTTON:
+            if (functionality) return Wurst.button + Wurst.ButtonTriggerSetup
+            return Wurst.button
+
+        case FrameType.SCRIPT_DIALOG_BUTTON:
+            if (functionality) return Wurst.ScriptDialogButton + Wurst.ButtonTriggerSetup
+            return Wurst.ScriptDialogButton
+
+        case FrameType.BROWSER_BUTTON:
+            if (functionality) return Wurst.BrowserButton + Wurst.ButtonTriggerSetup
+            return Wurst.BrowserButton
+
+        case FrameType.CHECKLIST_BOX:
+            return Wurst.CheckListBox
+
+        case FrameType.ESC_MENU_BACKDROP:
+            return Wurst.EscMenuBackdrop
+
+        case FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE:
+            return Wurst.OptionsPopupMenuBackdropTemplate
+
+        case FrameType.QUEST_BUTTON_BASE_TEMPLATE:
+            return Wurst.QuestButtonBaseTemplate
+
+        case FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE:
+            return Wurst.QuestButtonDisabledBackdropTemplate
+
+        case FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE:
+            return Wurst.QuestButtonPushedBackdropTemplate
+
+        case FrameType.CHECKBOX:
+            if (functionality) return Wurst.QuestCheckBox + Wurst.TriggerVariableCheckbox
+            return Wurst.QuestCheckBox
+
+        case FrameType.INVIS_BUTTON:
+            if (functionality) return Wurst.InvisButton + Wurst.ButtonTriggerSetup
+            return Wurst.InvisButton
+
+        case FrameType.TEXT_FRAME:
+            return Wurst.TextFrame
+
+        case FrameType.HORIZONTAL_BAR:
+            return Wurst.HorizontalBar
+
+        case FrameType.HOR_BAR_BACKGROUND:
+            return Wurst.HorizontalBarWiBackground
+
+        case FrameType.HOR_BAR_TEXT:
+            return Wurst.HorizontalBarWiText
+
+        case FrameType.HOR_BAR_BACKGROUND_TEXT:
+            return Wurst.HorizontalBarWiBackground_Text
+
+        case FrameType.TEXTAREA:
+            return Wurst.TextArea
+
+        case FrameType.EDITBOX:
+            return Wurst.EditBox
     }
     return ''
 }
