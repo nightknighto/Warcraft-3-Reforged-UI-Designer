@@ -1,4 +1,8 @@
 import { BrowserWindow, ipcMain, shell } from 'electron'
+import fetch from 'electron-fetch'
+import * as dotenv from 'dotenv'
+import config from './configMain'
+dotenv.config();
 
 import { ContextMenu } from './Editor/Menus/contextMenu'
 
@@ -62,6 +66,7 @@ export default class Main {
     }
 
     private onReady() {
+        const env = process.env.ENV;
         // and load the index.html of the app.
         // this.mainWindow.loadFile(path.join(__dirname, './index.html'))
         // Open the DevTools.
@@ -86,8 +91,44 @@ export default class Main {
         })
 
         this.mainWindow.loadURL('file://' + __dirname + '/index.html')
-        if (this.devTools) this.mainWindow.webContents.openDevTools()
+        if (this.devTools && env != 'DEV') this.mainWindow.webContents.openDevTools()
+
         // this.mainWindow.on('closed', this.onClose)
+        try{
+            const {namespace, key} = config
+
+            if (env != 'DEV') {
+                fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+            }
+        }catch(e){
+            console.log('configMain.ts is probably missing.', e)
+        }
+
+        /* This next section was supposed to pass the namespace and key secretly through dotenv,
+        but I couldn't pass env variables to electron-builder.*/
+        /*
+        const namespace = process.env.NAMESPACE
+        const key = process.env.KEY
+        if(!key || !namespace) {
+            console.error('Environment variables not set')
+        } else {
+            // if(env!="DEV") {
+                fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
+                .then( result =>
+                    fetch(`https://api.countapi.xyz/get/${namespace}/${key}`)
+                )
+                .then( result => 
+                    result.json()
+                )
+                .then (result => {
+                    console.log("final result", result)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+            // }
+        }
+        */
 
         this.contextMenu = new ContextMenu(this.mainWindow)
 
