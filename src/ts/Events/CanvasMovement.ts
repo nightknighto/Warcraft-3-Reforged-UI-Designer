@@ -1,6 +1,7 @@
 /** @format */
 
 import { debugText } from '../ClassesAndFunctions/MiniFunctions'
+import { Editor } from '../Editor/Editor'
 import { ProjectTree } from '../Editor/ProjectTree'
 
 export class CanvasMovement {
@@ -26,7 +27,10 @@ export class CanvasMovement {
         window.addEventListener('wheel', this.onWheel)
 
         // Handle Canvas Dragging
-        window.onmousedown = this.onDrag
+        window.onmousedown = (ev) => {
+            if(ev.altKey || Editor.getInstance().selectionMode == 'drag') this.dragCanvas(ev)
+            else if(Editor.getInstance().selectionMode == 'zoom') this.zoomCanvasViaMouseMove(ev)
+        }
 
         this.scale = 50
         this.moveToCenter()
@@ -87,16 +91,18 @@ export class CanvasMovement {
 
     onWheel = (event: WheelEvent) => {
         if (event.altKey) {
-            this.zoomCanvas(event)
-            // } else if (!event.altKey && !event.shiftKey && !event.ctrlKey) {
-            //     this.moveCanvasVertical(event)
-            // } else if (!event.altKey && event.shiftKey && !event.ctrlKey) {
-            //     this.moveCanvasHorizontal(event)
+            event.preventDefault()
+            this.zoomCanvas(-event.deltaY * 0.01)
+            } else if (!event.altKey && !event.shiftKey && !event.ctrlKey) {
+                this.moveCanvasVertical(event)
+            } else if (!event.altKey && event.shiftKey && !event.ctrlKey) {
+                this.moveCanvasHorizontal(event)
         }
     }
 
-    onDrag = (event: MouseEvent) => {
-        if (event.altKey) {
+    dragCanvas = (event: MouseEvent) => {
+        if (event.altKey || Editor.getInstance().selectionMode == 'drag') {
+            let prevCursor = document.body.style.cursor
             document.body.style.cursor = 'grabbing'
             let posX1 = event.clientX
             let posY1 = event.clientY
@@ -119,21 +125,40 @@ export class CanvasMovement {
 
             document.addEventListener('mousemove', onMouseMove)
             window.onmouseup = () => {
-                document.body.style.cursor = 'default'
+                document.body.style.cursor = prevCursor
                 document.removeEventListener('mousemove', onMouseMove)
                 window.onmouseup = null
             }
         }
     }
 
-    zoomCanvas = (event: WheelEvent) => {
-        event.preventDefault()
-
-        const changeAmount = -event.deltaY * 0.01
+    zoomCanvas = (changeAmount: number) => {
+        
         if (this.windowNumber + changeAmount > 0 && this.windowNumber + changeAmount < this.windowSizes.length - 1) {
             this.windowNumber += changeAmount
 
             this.scale = this.windowSizes[this.windowNumber]
+        }
+    }
+
+    zoomCanvasViaMouseMove = (event: MouseEvent) => {
+        // drag up for zoom in, drag down for zoom out
+        let posY1 = event.clientY
+        let posY2 = 0
+
+        const onMouseMove = (e) => {
+            posY2 = posY1 - e.clientY
+
+            posY1 = e.clientY
+
+            debugText('Zooming In/Out')
+            this.zoomCanvas(posY2 / 2)
+        }
+
+        document.addEventListener('mousemove', onMouseMove)
+        window.onmouseup = () => {
+            document.removeEventListener('mousemove', onMouseMove)
+            window.onmouseup = null
         }
     }
 

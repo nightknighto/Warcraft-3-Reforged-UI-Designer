@@ -54,6 +54,7 @@ export class Editor {
     insertMenu: RibbonMenu
     infoMenu: RibbonMenu
     OptionsMenu: RibbonMenu
+    selectionMode: 'normal' | 'zoom' | 'drag' = 'normal'
 
     constructor() {
         this.panelDebug = document.getElementById('panelDebug')

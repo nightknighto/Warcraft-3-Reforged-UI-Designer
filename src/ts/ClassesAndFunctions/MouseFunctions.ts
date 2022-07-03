@@ -13,7 +13,7 @@ export function MouseFunctions(div: CustomComplex): void {
     const workspaceImage = Editor.getInstance().workspaceImage
 
     div.getElement().onmousedown = function (e) {
-        if (e.altKey) return
+        if (e.altKey || Editor.getInstance().selectionMode != 'normal') return
 
         // const horizontalMargin = Editor.getInnerMargin()  // Value Never used.  Commented it out because it doesn't seem necessary
         const actualMargin = EditorController.getActualMargin()
@@ -349,7 +349,7 @@ export function MouseFunctions(div: CustomComplex): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     div.getElement().onmouseenter = function (e) {
         div.getElement().onmousemove = function (e) {
-            if (GUIEvents.isInteracting) return
+            if (GUIEvents.isInteracting || Editor.getInstance().selectionMode != 'normal') return
             if (e.altKey) return // If Canvas is being resized, don't move anything else
             // if(ProjectTree.getSelected() != div.getFrameComponent()) return
 

@@ -18,6 +18,13 @@ export class AppUIWoodenTexture implements ICallableDivInstance {
         return AppUIWoodenTexture.instance
     }
 
+    static texturedComponents = [
+        document.getElementById('barTab') as HTMLElement,
+        document.getElementById('barRibbon') as HTMLElement,
+        document.getElementById('barTools') as HTMLElement,
+        document.getElementById('panelDebug') as HTMLElement
+    ]
+
     private constructor() {
         // Empty
     }
@@ -35,14 +42,13 @@ export class AppUIWoodenTexture implements ICallableDivInstance {
             elements[i].style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
         }
 
-        let element = document.getElementById('barTab') as HTMLElement
-        element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        element = document.getElementById('barRibbon') as HTMLElement
-        element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        element = document.getElementById('panelDebug') as HTMLElement
-        element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
-        element.style.color = 'rgb(248,224,197)'
-        element = document.getElementById('barTabInner') as HTMLElement
+        for(let element of AppUIWoodenTexture.texturedComponents) {
+            element.style.backgroundImage = 'url(./files/woodenplankHorBig.png)'
+        }
+        
+        document.getElementById('panelDebug').style.color = 'rgb(248,224,197)'
+
+        let element = document.getElementById('barTabInner') as HTMLElement
         element.style.backgroundColor = 'unset'
         element.style.border = 'unset'
         element = document.getElementById('barTabImg') as HTMLElement
@@ -77,14 +83,15 @@ export class AppUIBrownColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#CBB6A1'
         }
 
-        let element = document.getElementById('barTab') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#B87E59'
-        element = document.getElementById('barRibbon') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#94471B'
-        element = document.getElementById('panelDebug') as HTMLElement
-        element.style.backgroundImage = 'none'
+        for(let element of AppUIWoodenTexture.texturedComponents) {
+            element.style.backgroundImage = 'none'
+        }
+
+        document.getElementById('barTab').style.backgroundColor = '#B87E59'
+        document.getElementById('barTools').style.backgroundColor = '#B87E59'
+        document.getElementById('barRibbon').style.backgroundColor = '#94471B'
+
+        let element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundColor = '#904619'
         element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner') as HTMLElement
@@ -128,14 +135,15 @@ export class AppUIPurpleColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = 'rgb(115, 49, 146)'
         }
 
-        let element = document.getElementById('barTab') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#D29FEE'
-        element = document.getElementById('barRibbon') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#733192'
-        element = document.getElementById('panelDebug') as HTMLElement
-        element.style.backgroundImage = 'none'
+        for(let element of AppUIWoodenTexture.texturedComponents) {
+            element.style.backgroundImage = 'none'
+        }
+
+        document.getElementById('barTab').style.backgroundColor = '#D29FEE'
+        document.getElementById('barRibbon').style.backgroundColor = '#733192'
+        document.getElementById('barTools').style.backgroundColor = '#733192'
+
+        let element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundColor = '#5A3E64'
         element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner') as HTMLElement
@@ -179,14 +187,15 @@ export class AppUIBlueColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#4057C7'
         }
 
-        let element = document.getElementById('barTab') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#6EADBE'
-        element = document.getElementById('barRibbon') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#4057C7'
-        element = document.getElementById('panelDebug') as HTMLElement
-        element.style.backgroundImage = 'none'
+        for(let element of AppUIWoodenTexture.texturedComponents) {
+            element.style.backgroundImage = 'none'
+        }
+
+        document.getElementById('barTab').style.backgroundColor = '#6EADBE'
+        document.getElementById('barRibbon').style.backgroundColor = '#4057C7'
+        document.getElementById('barTools').style.backgroundColor = '#4057C7'
+
+        let element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundColor = '#49539B'
         element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner') as HTMLElement
@@ -232,14 +241,15 @@ export class AppUIDarkColors implements ICallableDivInstance {
             elements[i].style.backgroundColor = '#433D3D'
         }
 
-        let element = document.getElementById('barTab') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#827877'
-        element = document.getElementById('barRibbon') as HTMLElement
-        element.style.backgroundImage = 'none'
-        element.style.backgroundColor = '#454140'
-        element = document.getElementById('panelDebug') as HTMLElement
-        element.style.backgroundImage = 'none'
+        for(let element of AppUIWoodenTexture.texturedComponents) {
+            element.style.backgroundImage = 'none'
+        }
+
+        document.getElementById('barTab').style.backgroundColor = '#827877'
+        document.getElementById('barRibbon').style.backgroundColor = '#454140'
+        document.getElementById('barTools').style.backgroundColor = '#454140'
+
+        let element = document.getElementById('panelDebug') as HTMLElement
         element.style.backgroundColor = '#24130B'
         element.style.color = 'rgb(248,224,197)'
         element = document.getElementById('barTabInner') as HTMLElement

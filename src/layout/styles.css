@@ -72,13 +72,42 @@ body {
 #barRibbon {
     position: fixed;
     top: 70px;
-    height: 50px;
+    height: 55px;
+    padding-bottom: 2px;
+    padding-top: 2px;
     width: 100vw;
     background-color: #94471b;
 
     display: flex;
     overflow-x: inherit;
     z-index: 1;
+}
+
+#barTools {
+    position: fixed;
+    top: 125px;
+    height: 30px;
+    width: 100vw;
+    background-color: #cc6c34;
+    display: flex;
+    overflow-x: inherit;
+    z-index: 1;
+    padding: 1px;
+    background-image: url("./files/woodenplankHorBig.png");
+    background-color: rgb(130, 120, 119);
+}
+
+#barTools button {
+    margin-right: 10px;
+}
+
+#barTools button i {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+#barTools :first-child {
+    margin-left: 10px;
 }
 
 .ribbonOption {
@@ -109,7 +138,7 @@ body {
 #panelParameters {
     resize: horizontal;
     position: fixed;
-    top: 120px;
+    top: 155px;
     max-width: 50%;
     min-width: 80px;
     left: 0;
@@ -165,7 +194,7 @@ body {
     position: fixed;
     left: 0;
     right: 0;
-    top: 120px;
+    top: 140px;
     bottom: 0;
     background-color: black;
 }
@@ -189,7 +218,7 @@ body {
     resize: horizontal;
 
     right: 0;
-    top: 120px;
+    top: 155px;
 
     padding-right: 0.5%;
 }

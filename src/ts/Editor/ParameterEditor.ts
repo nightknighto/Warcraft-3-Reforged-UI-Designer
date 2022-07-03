@@ -24,129 +24,66 @@ export class ParameterEditor {
         return ParameterEditor.instance
     }
 
-    public readonly panelParameters: HTMLElement
-    public readonly inputElementName: HTMLInputElement
-    public readonly selectElementType: HTMLSelectElement
-    public readonly selectElementParent: HTMLSelectElement
-    public readonly checkboxElementTooltip: HTMLInputElement
-    public readonly checkboxElementBorders: HTMLInputElement
-    public readonly checkboxElementRelative: HTMLInputElement
-    public readonly inputElementWidth: HTMLInputElement
-    public readonly inputElementHeight: HTMLInputElement
-    public readonly inputElementCoordinateX: HTMLInputElement
-    public readonly inputElementCoordinateY: HTMLInputElement
-    public readonly inputElementDiskTexture: HTMLInputElement
-    public readonly fileElementTextureBrowse: HTMLInputElement
-    public readonly inputElementWC3Texture: HTMLInputElement
-    public readonly inputElementBackDiskTexture: HTMLInputElement
-    public readonly fileElementBackTextureBrowse: HTMLInputElement
-    public readonly inputElementBackWC3Texture: HTMLInputElement
-    public readonly inputElementText: HTMLInputElement
-    public readonly inputElementTrigVar: HTMLInputElement
-    public readonly inputElementTextBig: HTMLInputElement
-    public readonly inputElementTextScale: HTMLInputElement
-    public readonly inputElementTextColor: HTMLInputElement
-    public readonly buttonElementTextureBrowse: HTMLButtonElement
-    public readonly inputLibraryName: HTMLInputElement
-    public readonly checkboxGameUI: HTMLInputElement
-    public readonly checkboxHeroBar: HTMLInputElement
-    public readonly checkboxMiniMap: HTMLInputElement
-    public readonly checkboxResources: HTMLInputElement
-    public readonly checkboxButtonBar: HTMLInputElement
-    public readonly checkboxPortrait: HTMLInputElement
-    public readonly checkboxChat: HTMLInputElement
-    public readonly checkboxPathFill: HTMLInputElement
-    public readonly selectElementHorAlign: HTMLSelectElement
-    public readonly selectElementVerAlign: HTMLSelectElement
+    public readonly panelParameters = document.getElementById('panelParameters') as HTMLElement
+    public readonly inputElementName = document.getElementById('elementName') as HTMLInputElement
+    public readonly selectElementType = document.getElementById('elementType') as HTMLSelectElement
+    public readonly selectElementParent = document.getElementById('elementParent') as HTMLSelectElement
+    public readonly checkboxElementTooltip = document.getElementById('elementTooltip') as HTMLInputElement
+    public readonly checkboxElementBorders = document.getElementById('CheckboxElementBorders') as HTMLInputElement
+    public readonly checkboxElementRelative = document.getElementById('relativeCheckbox') as HTMLInputElement
+    public readonly inputElementWidth = document.getElementById('elementWidth') as HTMLInputElement
+    public readonly inputElementHeight = document.getElementById('elementHeight') as HTMLInputElement
+    public readonly inputElementCoordinateX = document.getElementById('elementCoordinateX') as HTMLInputElement
+    public readonly inputElementCoordinateY = document.getElementById('elementCoordinateY') as HTMLInputElement
+    public readonly inputElementDiskTexture = document.getElementById('elementDiskTexture') as HTMLInputElement
+    public readonly fileElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLInputElement
+    public readonly inputElementWC3Texture = document.getElementById('elementWC3Texture') as HTMLInputElement
+    public readonly inputElementBackDiskTexture = document.getElementById('elementBackDiskTexture') as HTMLInputElement
+    public readonly fileElementBackTextureBrowse = document.getElementById('buttonBackBrowseTexture') as HTMLInputElement
+    public readonly inputElementBackWC3Texture = document.getElementById('elementBackWC3Texture') as HTMLInputElement
+    public readonly inputElementText = document.getElementById('elementText') as HTMLInputElement
+    public readonly inputElementTrigVar = document.getElementById('elementTrigVar') as HTMLInputElement
+    public readonly inputElementTextBig = document.getElementById('elementTextBig') as HTMLInputElement
+    public readonly inputElementTextScale = document.getElementById('elementTextScale') as HTMLInputElement
+    public readonly inputElementTextColor = document.getElementById('elementTextColor') as HTMLInputElement
+    public readonly buttonElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLButtonElement
+    public readonly inputLibraryName = document.getElementById('generalLibName') as HTMLInputElement
+    public readonly checkboxGameUI = document.getElementById('generalGameUI') as HTMLInputElement
+    public readonly checkboxHeroBar = document.getElementById('generalHeroBar') as HTMLInputElement
+    public readonly checkboxMiniMap = document.getElementById('generalMiniMap') as HTMLInputElement
+    public readonly checkboxResources = document.getElementById('generalResources') as HTMLInputElement
+    public readonly checkboxButtonBar = document.getElementById('generalButtonBar') as HTMLInputElement
+    public readonly checkboxPortrait = document.getElementById('generalPortrait') as HTMLInputElement
+    public readonly checkboxChat = document.getElementById('generalChat') as HTMLInputElement
+    public readonly checkboxPathFill = document.getElementById('generalPathFill') as HTMLInputElement
+    public readonly selectElementHorAlign = document.getElementById('elementTextHorAlign') as HTMLSelectElement
+    public readonly selectElementVerAlign = document.getElementById('elementTextVerAlign') as HTMLSelectElement
 
-    public readonly fieldTexture: HTMLDivElement
-    public readonly fieldBackgroundTexture: HTMLDivElement
-    public readonly fieldType: HTMLDivElement
-    public readonly FieldPropertiesFull: HTMLDivElement
-    public readonly fieldFunctionalityText: HTMLDivElement
-    public readonly fieldFunctionalityTextBig: HTMLDivElement
-    public readonly fieldFunctionalityTextScale: HTMLDivElement
-    public readonly fieldFunctionalityTextColor: HTMLDivElement
-    public readonly fieldFunctionalityTextAlign: HTMLDivElement
-    public readonly fieldFunctionalityVar: HTMLDivElement
-    public readonly fieldGeneral: HTMLDivElement
-    public readonly fieldElement: HTMLDivElement
-    public readonly fieldTooltip: HTMLDivElement
-    public readonly fieldParent: HTMLDivElement
-    public readonly fieldElementInfo: HTMLDivElement
-    public readonly fieldElementInfoTitle: HTMLElement
-    public readonly fieldElementInfoDesc: HTMLSpanElement
-    public readonly fieldPropertiesOutermost: HTMLDivElement
-    public readonly fieldFunctionalityOutermost: HTMLDivElement
+    public readonly fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement
+    public readonly fieldBackgroundTexture = document.getElementById('FieldBackgroundTexture') as HTMLDivElement
+    public readonly fieldType = document.getElementById('FieldType') as HTMLDivElement
+    public readonly FieldPropertiesFull = document.getElementById('FieldPropertiesFull') as HTMLDivElement
+    public readonly fieldFunctionalityText = document.getElementById('FieldFunctionalityText') as HTMLDivElement
+    public readonly fieldFunctionalityTextBig = document.getElementById('FieldFunctionalityTextBig') as HTMLDivElement
+    public readonly fieldFunctionalityTextScale = document.getElementById('FieldFunctionalityScale') as HTMLDivElement
+    public readonly fieldFunctionalityTextColor = document.getElementById('FieldFunctionalityColor') as HTMLDivElement
+    public readonly fieldFunctionalityTextAlign = document.getElementById('FieldFunctionalityAlign') as HTMLDivElement
+    public readonly fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement
+    public readonly fieldGeneral = document.getElementById('FieldGeneral') as HTMLDivElement
+    public readonly fieldElement = document.getElementById('FieldElement') as HTMLDivElement
+    public readonly fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement
+    public readonly fieldParent = document.getElementById('FieldParent') as HTMLDivElement
+    public readonly fieldElementInfo = document.getElementById('ElementInfo') as HTMLDivElement
+    public readonly fieldElementInfoTitle = document.getElementById('ElementInfoTitle') as HTMLElement
+    public readonly fieldElementInfoDesc = document.getElementById('ElementInfoDesc') as HTMLSpanElement
+    public readonly fieldPropertiesOutermost = document.getElementById('PropertiesOutermostLevel') as HTMLDivElement
+    public readonly fieldFunctionalityOutermost = document.getElementById('FunctionalityOutermostLevel') as HTMLDivElement
+    public readonly buttonNormalSelectorMode = document.getElementById('normalSelectorMode') as HTMLButtonElement
+    public readonly buttonZoomSelectorMode = document.getElementById('zoomSelectorMode') as HTMLButtonElement
+    public readonly buttonDragSelectorMode = document.getElementById('dragSelectorMode') as HTMLButtonElement
+
 
     private constructor() {
-        this.panelParameters = document.getElementById('panelParameters') as HTMLElement
-        this.inputElementName = document.getElementById('elementName') as HTMLInputElement
-        this.selectElementType = document.getElementById('elementType') as HTMLSelectElement
-        this.selectElementParent = document.getElementById('elementParent') as HTMLSelectElement
-        this.checkboxElementTooltip = document.getElementById('elementTooltip') as HTMLInputElement
-        this.checkboxElementBorders = document.getElementById('CheckboxElementBorders') as HTMLInputElement
-        this.checkboxElementRelative = document.getElementById('relativeCheckbox') as HTMLInputElement
-        this.inputElementWidth = document.getElementById('elementWidth') as HTMLInputElement
-        this.inputElementHeight = document.getElementById('elementHeight') as HTMLInputElement
-        this.inputElementCoordinateX = document.getElementById('elementCoordinateX') as HTMLInputElement
-        this.inputElementCoordinateY = document.getElementById('elementCoordinateY') as HTMLInputElement
-        this.inputElementDiskTexture = document.getElementById('elementDiskTexture') as HTMLInputElement
-        this.fileElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLInputElement
-        this.inputElementWC3Texture = document.getElementById('elementWC3Texture') as HTMLInputElement
-        this.inputElementBackDiskTexture = document.getElementById('elementBackDiskTexture') as HTMLInputElement
-        this.fileElementBackTextureBrowse = document.getElementById('buttonBackBrowseTexture') as HTMLInputElement
-        this.inputElementBackWC3Texture = document.getElementById('elementBackWC3Texture') as HTMLInputElement
-        this.inputElementText = document.getElementById('elementText') as HTMLInputElement
-        this.inputElementTextBig = document.getElementById('elementTextBig') as HTMLInputElement
-        this.inputElementTextScale = document.getElementById('elementTextScale') as HTMLInputElement
-        this.inputElementTextColor = document.getElementById('elementTextColor') as HTMLInputElement
-        this.inputElementTrigVar = document.getElementById('elementTrigVar') as HTMLInputElement
-        this.buttonElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLButtonElement
-        this.inputLibraryName = document.getElementById('generalLibName') as HTMLInputElement
-        this.checkboxGameUI = document.getElementById('generalGameUI') as HTMLInputElement
-        this.checkboxHeroBar = document.getElementById('generalHeroBar') as HTMLInputElement
-        this.checkboxMiniMap = document.getElementById('generalMiniMap') as HTMLInputElement
-        this.checkboxResources = document.getElementById('generalResources') as HTMLInputElement
-        this.checkboxButtonBar = document.getElementById('generalButtonBar') as HTMLInputElement
-        this.checkboxPortrait = document.getElementById('generalPortrait') as HTMLInputElement
-        this.checkboxChat = document.getElementById('generalChat') as HTMLInputElement
-        this.checkboxPathFill = document.getElementById('generalPathFill') as HTMLInputElement
-        this.selectElementHorAlign = document.getElementById('elementTextHorAlign') as HTMLSelectElement
-        this.selectElementVerAlign = document.getElementById('elementTextVerAlign') as HTMLSelectElement
-
-        this.fieldTexture = document.getElementById('FieldTexture') as HTMLDivElement
-        this.fieldBackgroundTexture = document.getElementById('FieldBackgroundTexture') as HTMLDivElement
-        this.fieldType = document.getElementById('FieldType') as HTMLDivElement
-        this.fieldTooltip = document.getElementById('FieldTooltip') as HTMLDivElement
-        this.fieldParent = document.getElementById('FieldParent') as HTMLDivElement
-        this.FieldPropertiesFull = document.getElementById('FieldPropertiesFull') as HTMLDivElement
-        this.fieldFunctionalityText = document.getElementById('FieldFunctionalityText') as HTMLDivElement
-        this.fieldFunctionalityTextBig = document.getElementById('FieldFunctionalityTextBig') as HTMLDivElement
-        this.fieldFunctionalityTextScale = document.getElementById('FieldFunctionalityScale') as HTMLDivElement
-        this.fieldFunctionalityTextColor = document.getElementById('FieldFunctionalityColor') as HTMLDivElement
-        this.fieldFunctionalityTextAlign = document.getElementById('FieldFunctionalityAlign') as HTMLDivElement
-        this.fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement
-        this.fieldGeneral = document.getElementById('FieldGeneral') as HTMLDivElement
-        this.fieldElement = document.getElementById('FieldElement') as HTMLDivElement
-        this.fieldElementInfo = document.getElementById('ElementInfo') as HTMLDivElement
-        this.fieldElementInfoTitle = document.getElementById('ElementInfoTitle') as HTMLElement
-        this.fieldElementInfoDesc = document.getElementById('ElementInfoDesc') as HTMLSpanElement
-        this.fieldPropertiesOutermost = document.getElementById('PropertiesOutermostLevel') as HTMLDivElement
-        this.fieldFunctionalityOutermost = document.getElementById('FunctionalityOutermostLevel') as HTMLDivElement
-
-        // this.inputElementWidth.disabled = true
-        // this.inputElementHeight.disabled = true
-        // this.inputElementName.disabled = true
-        // this.selectElementType.disabled = true
-        // this.selectElementParent.disabled = true
-        // this.inputElementCoordinateX.disabled = true
-        // this.inputElementCoordinateY.disabled = true
-        // this.inputElementDiskTexture.disabled = true
-        // this.fileElementTextureBrowse.disabled = true
-        // this.inputElementWC3Texture.disabled = true
-        // this.inputElementText.disabled = true
-        // this.inputElementTrigVar.disabled = true
 
         this.inputElementWidth.onchange = ParameterEditor.InputWidth
         this.inputElementHeight.onchange = ParameterEditor.InputHeight
@@ -172,11 +109,13 @@ export class ParameterEditor {
         this.inputElementTrigVar.oninput = ParameterEditor.InputTrigVar
         this.selectElementHorAlign.onchange = ParameterEditor.InputHorAlign
         this.selectElementVerAlign.onchange = ParameterEditor.InputVerAlign
+        this.buttonNormalSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('normal')
+        this.buttonZoomSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('zoom')
+        this.buttonDragSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('drag')
 
         const radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach((radio) => ((radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value)))
 
-        this.fieldElement.style.display = 'none'
         this.fieldElement.style.display = 'none'
     }
 
@@ -588,6 +527,22 @@ export class ParameterEditor {
         if (selected) {
             if (el.value == 'start' || el.value == 'center' || el.value == 'flex-end') selected.custom.setVerAlign(el.value)
         } else alert('Critical Error: InputVerAlign input type is wrong!')
+    }
+
+    static ChangeSelectionMode(mode: 'normal' | 'zoom' | 'drag'): void {
+        const editor = Editor.getInstance()
+        editor.selectionMode = mode
+        switch (mode) {
+            case 'normal':
+                document.body.style.cursor = 'default'
+                break
+            case 'zoom':
+                document.body.style.cursor = 'zoom-in'
+                break
+            case 'drag':
+                document.body.style.cursor = 'grab'
+                break
+        }
     }
 
     static OriginModeChanges(val: string): void {

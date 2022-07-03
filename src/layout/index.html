@@ -670,8 +670,8 @@
 
         <div id="panelTree" class="panels scroll_enabled">
             <div id="panelTreeInnerDiv">
-                <div class="row justify-content-end">
-                    <button class="col-3 btn btn-warning" id="treeClose">Tree</button>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-warning" id="treeClose">Tree</button>
                 </div>
                 <div id="panelTreeView"></div>
             </div>
@@ -696,8 +696,31 @@
 
             <div id="barTabImg"></div>
 
+            <div id="barTools" style="color: rgb(248, 224, 197)">
+                <button class="btn btn-outline-light p-0" id="normalSelectorMode">
+                    <i 
+                        class="fas fa-mouse-pointer"
+                        data-bs-toggle="tooltip"
+                        title="Return to normal mode. Interact with elements.">
+                    </i>
+                </button>
+                <button class="btn btn-outline-light p-0" id="zoomSelectorMode">
+                    <i 
+                        class="fas fa-search-plus"
+                        data-bs-toggle="tooltip"
+                        title="Zooms in or out. Shortcut: alt + mouse wheel">
+                    </i>
+                </button>
+                <button class="btn btn-outline-light p-0" id="dragSelectorMode">
+                    <i class="fas fa-hand-paper"
+                        data-bs-toggle="tooltip"
+                        title="Drags the workspace. Shortcut: alt + mouse drag. Additional: mouse wheel / shift + mouse wheel">
+                    </i>
+                </button>
+            </div>
+
             <div id="barRibbon" style="color: rgb(248, 224, 197)">
-                <div class="ribbonOption">New</div>
+                <i class="fas fa-expand" aria-hidden="true"></i>
                 <div class="ribbonOption">Open</div>
                 <div class="ribbonOption">Save</div>
                 <div class="ribbonOption">Export</div>
