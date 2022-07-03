@@ -2,8 +2,9 @@ import { BrowserWindow, ipcMain, shell } from 'electron'
 import fetch from 'electron-fetch'
 import * as dotenv from 'dotenv'
 import config from './configMain'
+require('electron-reload')(__dirname)
 dotenv.config();
-
+//wdwdwdw
 import { ContextMenu } from './Editor/Menus/contextMenu'
 
 export interface WindowProps {
