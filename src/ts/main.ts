@@ -90,9 +90,9 @@ export default class Main {
             titleBarStyle: 'hidden',
             frame: false,
         })
-
+        
         this.mainWindow.loadURL('file://' + __dirname + '/index.html')
-        if (this.devTools && env != 'DEV') this.mainWindow.webContents.openDevTools()
+        if (this.devTools && env == 'DEV') this.mainWindow.webContents.openDevTools()
 
         // this.mainWindow.on('closed', this.onClose)
         try{
