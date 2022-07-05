@@ -136,11 +136,11 @@ export class ParameterEditor {
             const selectedCustom = selected.custom
             const workspace = Editor.getInstance().workspaceImage
             const horizontalMargin = EditorController.getInnerMargin()
-            const actualMargin = EditorController.getActualMargin()
+            const actualMargin = EditorController.getMargin()
 
-            if (+inputElement.value > EditorController.getActualMarginLimits().max || +inputElement.value < EditorController.getActualMarginLimits().min) {
+            if (+inputElement.value > EditorController.getMarginLimits().max || +inputElement.value < EditorController.getMarginLimits().min) {
                 debugText(
-                    `Input refused. Width is limited to ${EditorController.getActualMarginLimits().min} and ${EditorController.getActualMarginLimits().max}.`
+                    `Input refused. Width is limited to ${EditorController.getMarginLimits().min} and ${EditorController.getMarginLimits().max}.`
                 )
                 return
             }
@@ -382,18 +382,18 @@ export class ParameterEditor {
 
             const horizontalMargin = EditorController.getInnerMargin()
 
-            if (+loc > EditorController.getActualMarginLimits().max || +loc < EditorController.getActualMarginLimits().min) {
+            if ((+loc + selected.custom.getWidth()) > EditorController.getMarginLimits().max || +loc < EditorController.getMarginLimits().min) {
                 debugText(
-                    `Input refused. X coordinate is limited to ${EditorController.getActualMarginLimits().min} and ${
-                        EditorController.getActualMarginLimits().max
+                    `Input refused. X coordinate is limited to ${EditorController.getMarginLimits().min} and ${
+                        EditorController.getMarginLimits().max
                     }`
                 )
                 return
             }
-            if (+loc + (image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin)) * 0.8 > EditorController.getActualMarginLimits().max) {
-                debugText('Input refused. Image right edge will be out of screen.')
-                return
-            }
+            // if (+loc + (image.getBoundingClientRect().width / (rect.width - 2 * horizontalMargin)) * 0.8 > EditorController.getActualMarginLimits().max) {
+            //     debugText('Input refused. Image right edge will be out of screen.')
+            //     return
+            // }
 
             const command = new ChangeFrameX(selected, +loc)
             command.action()

@@ -16,7 +16,7 @@ export function MouseFunctions(div: CustomComplex): void {
         if (e.altKey || Editor.getInstance().selectionMode != 'normal') return
 
         // const horizontalMargin = Editor.getInnerMargin()  // Value Never used.  Commented it out because it doesn't seem necessary
-        const actualMargin = EditorController.getActualMargin()
+        const actualMargin = EditorController.getMargin()
         const projectTree = ProjectTree.getInstance()
         const frame = div.getFrameComponent()
 

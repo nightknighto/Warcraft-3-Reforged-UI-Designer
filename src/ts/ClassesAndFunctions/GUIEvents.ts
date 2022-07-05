@@ -17,7 +17,7 @@ export class GUIEvents {
         const workspaceImage = editor.workspaceImage
 
         const horizontalMargin = EditorController.getInnerMargin()
-        const actualMargin = EditorController.getActualMargin()
+        const actualMargin = EditorController.getMargin()
 
         let gameCoordsString: string
         const workspaceRect: DOMRect = workspaceImage.getBoundingClientRect()

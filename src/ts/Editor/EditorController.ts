@@ -14,7 +14,8 @@ export class EditorController {
         return (240 / 1920) * rect.width
     }
 
-    static getActualMargin(): number {
+    /**returns the margin of the movable area depending on origin mode */
+    static getMargin(): number {
         if (ProjectTree.OriginMode === 'consoleui') {
             return 0
         } else {
@@ -22,17 +23,25 @@ export class EditorController {
         }
     }
 
-    //gives the max and min numbers for the x-position (edges of the frame-movable area)
-    static getActualMarginLimits(): { min: number; max: number } {
+    /** gives the max and min numbers for the x-position depending on origin mode*/
+    static getMarginLimits(): { min: number; max: number } {
         const workspaceImage = Editor.getInstance().workspaceImage
-        return {
-            min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
-            max:
-                Math.floor(
-                    ((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) /
-                        (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) *
-                        800
-                ) / 1000,
+        if (ProjectTree.OriginMode === 'consoleui') {
+            return {
+                min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
+                max:
+                    Math.floor(
+                        ((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) /
+                            (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) *
+                            800
+                    ) / 1000,
+            }
+        } else {
+            return {
+                min: 0,
+                max: 0.8
+            }
+            
         }
     }
 }
