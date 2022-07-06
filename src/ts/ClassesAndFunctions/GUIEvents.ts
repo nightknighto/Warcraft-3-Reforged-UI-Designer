@@ -3,11 +3,13 @@ import { FrameBuilder } from '../Editor/FrameLogic/FrameBuilder'
 import { debugText } from './MiniFunctions'
 import CreateFrame from '../Commands/Implementation/CreateFrame'
 import RemoveFrame from '../Commands/Implementation/RemoveFrame'
-import DuplicateArrayCircular from '../Commands/Implementation/DuplicateArrayCircular'
-import DuplicateArrayTable from '../Commands/Implementation/DuplicateArrayTable'
+import DuplicateArrayCircular from '../Commands/Implementation/Arrays/DuplicateArrayCircular'
+import DuplicateArrayTable from '../Commands/Implementation/Arrays/DuplicateArrayTable'
 import { ProjectTree } from '../Editor/ProjectTree'
 import { ParameterEditor } from '../Editor/ParameterEditor'
 import { Editor } from '../Editor/Editor'
+import TableArray from '../Editor/FrameLogic/Arrays/TableArray'
+import CircleArray from '../Editor/FrameLogic/Arrays/CircleArray'
 
 export class GUIEvents {
     static isInteracting = false
@@ -86,7 +88,8 @@ export class GUIEvents {
             const selected = projectTree.getSelectedFrame()
             if (!selected) return
 
-            const command = new DuplicateArrayCircular(selected, centerX, centerY, radius, count, initAng, ownerArray)
+            const array = new CircleArray(selected, centerX, centerY, radius, count, initAng, ownerArray)
+            const command = new DuplicateArrayCircular(array, selected)
             command.action()
 
             debugText('Duplicated Circular.')
@@ -101,7 +104,8 @@ export class GUIEvents {
             const selected = projectTree.getSelectedFrame()
             if (!selected) return
 
-            const command = new DuplicateArrayTable(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray)
+            let array = new TableArray(selected, rows, columns, leftX, topY, gapX, gapY, ownerArray)
+            const command = new DuplicateArrayTable(array)
             command.action()
 
             debugText('Duplicated Table form.')

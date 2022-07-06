@@ -15,6 +15,16 @@ import { ProjectTree } from './ProjectTree'
 import CustomComplex from './FrameLogic/CustomComplex'
 import { Tooltips } from '../ClassesAndFunctions/Tooltips'
 import { Editor } from './Editor'
+import ChangeTableXGap from '../Commands/Implementation/Arrays/ChangeTableXGap'
+import ChangeTableYGap from '../Commands/Implementation/Arrays/ChangeTableYGap'
+import ChangeTableRows from '../Commands/Implementation/Arrays/ChangeTableRows'
+import ChangeTableCols from '../Commands/Implementation/Arrays/ChangeTableCols'
+import TableArray from './FrameLogic/Arrays/TableArray'
+import CircleArray from './FrameLogic/Arrays/CircleArray'
+import ChangeCircleRadius from '../Commands/Implementation/Arrays/ChangeCircleRadius'
+import ChangeCircleCount from '../Commands/Implementation/Arrays/ChangeCircleCount'
+import RenameArray from '../Commands/Implementation/Arrays/RenameArray'
+import CloneElementToArrayArray from '../Commands/Implementation/Arrays/CloneElementToArray'
 
 export class ParameterEditor {
     private static instance: ParameterEditor
@@ -46,7 +56,15 @@ export class ParameterEditor {
     public readonly inputElementTextBig = document.getElementById('elementTextBig') as HTMLInputElement
     public readonly inputElementTextScale = document.getElementById('elementTextScale') as HTMLInputElement
     public readonly inputElementTextColor = document.getElementById('elementTextColor') as HTMLInputElement
+    public readonly inputElementArrayName = document.getElementById('elementArrayName') as HTMLInputElement
+    public readonly inputElementArrayRows = document.getElementById('elementArrayRows') as HTMLInputElement
+    public readonly inputElementArrayCols = document.getElementById('elementArrayCols') as HTMLInputElement
+    public readonly inputElementArrayXGap = document.getElementById('elementArrayXGap') as HTMLInputElement
+    public readonly inputElementArrayYGap = document.getElementById('elementArrayYGap') as HTMLInputElement
+    public readonly inputElementArrayRadius = document.getElementById('elementArrayRadius') as HTMLInputElement
+    public readonly inputElementArrayCount = document.getElementById('elementArrayCount') as HTMLInputElement
     public readonly buttonElementTextureBrowse = document.getElementById('buttonBrowseTexture') as HTMLButtonElement
+    public readonly buttonElementArrayClone = document.getElementById('buttonCloneArrayProps') as HTMLButtonElement
     public readonly inputLibraryName = document.getElementById('generalLibName') as HTMLInputElement
     public readonly checkboxGameUI = document.getElementById('generalGameUI') as HTMLInputElement
     public readonly checkboxHeroBar = document.getElementById('generalHeroBar') as HTMLInputElement
@@ -68,6 +86,8 @@ export class ParameterEditor {
     public readonly fieldFunctionalityTextScale = document.getElementById('FieldFunctionalityScale') as HTMLDivElement
     public readonly fieldFunctionalityTextColor = document.getElementById('FieldFunctionalityColor') as HTMLDivElement
     public readonly fieldFunctionalityTextAlign = document.getElementById('FieldFunctionalityAlign') as HTMLDivElement
+    public readonly fieldArrayTable = document.getElementById('FieldArrayTable') as HTMLDivElement
+    public readonly fieldArrayCircle = document.getElementById('FieldArrayCircle') as HTMLDivElement
     public readonly fieldFunctionalityVar = document.getElementById('FieldFunctionalityVar') as HTMLDivElement
     public readonly fieldGeneral = document.getElementById('FieldGeneral') as HTMLDivElement
     public readonly fieldElement = document.getElementById('FieldElement') as HTMLDivElement
@@ -78,6 +98,7 @@ export class ParameterEditor {
     public readonly fieldElementInfoDesc = document.getElementById('ElementInfoDesc') as HTMLSpanElement
     public readonly fieldPropertiesOutermost = document.getElementById('PropertiesOutermostLevel') as HTMLDivElement
     public readonly fieldFunctionalityOutermost = document.getElementById('FunctionalityOutermostLevel') as HTMLDivElement
+    public readonly fieldArrayConfigOutermost = document.getElementById('ArrayConfigurationOutermost') as HTMLDivElement
     public readonly buttonNormalSelectorMode = document.getElementById('normalSelectorMode') as HTMLButtonElement
     public readonly buttonZoomSelectorMode = document.getElementById('zoomSelectorMode') as HTMLButtonElement
     public readonly buttonDragSelectorMode = document.getElementById('dragSelectorMode') as HTMLButtonElement
@@ -107,11 +128,19 @@ export class ParameterEditor {
         this.inputElementTextScale.onchange = ParameterEditor.InputTextScale
         this.inputElementTextColor.onchange = ParameterEditor.InputTextColor
         this.inputElementTrigVar.oninput = ParameterEditor.InputTrigVar
+        this.inputElementArrayName.onchange = ParameterEditor.InputArrayName
+        this.inputElementArrayXGap.onchange = ParameterEditor.InputArrayXGap
+        this.inputElementArrayYGap.onchange = ParameterEditor.InputArrayYGap
+        this.inputElementArrayRows.onchange = ParameterEditor.InputArrayRows
+        this.inputElementArrayCols.onchange = ParameterEditor.InputArrayCols
+        this.inputElementArrayRadius.onchange = ParameterEditor.InputArrayRadius
+        this.inputElementArrayCount.onchange = ParameterEditor.InputArrayCount
         this.selectElementHorAlign.onchange = ParameterEditor.InputHorAlign
         this.selectElementVerAlign.onchange = ParameterEditor.InputVerAlign
         this.buttonNormalSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('normal')
         this.buttonZoomSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('zoom')
         this.buttonDragSelectorMode.onclick = () => ParameterEditor.ChangeSelectionMode('drag')
+        this.buttonElementArrayClone.onclick = ParameterEditor.ButtonArrayClone
 
         const radios = document.querySelectorAll('input[type=radio][name="OriginMode"]')
         radios.forEach((radio) => ((radio as HTMLInputElement).onchange = () => ParameterEditor.OriginModeChanges((radio as HTMLInputElement).value)))
@@ -529,6 +558,83 @@ export class ParameterEditor {
         } else alert('Critical Error: InputVerAlign input type is wrong!')
     }
 
+    static InputArrayName(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            new RenameArray(selected.array, inputElement.value).action()
+        }
+        debugText('Array Name Changed.')
+    }
+
+    static InputArrayXGap(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof TableArray)
+                new ChangeTableXGap(selected.array, +inputElement.value).action()
+        }
+        debugText('Array X-Gap changed.')
+    }
+
+    static InputArrayYGap(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof TableArray)
+                new ChangeTableYGap(selected.array, +inputElement.value).action()
+        }
+        debugText('Array Y-Gap changed.')
+    }
+
+    static InputArrayRows(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof TableArray)
+                new ChangeTableRows(selected.array, +inputElement.value).action()
+        }
+        debugText('Array Rows changed.')
+    }
+
+    static InputArrayCols(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof TableArray)
+                new ChangeTableCols(selected.array, +inputElement.value).action()
+        }
+        debugText('Array Cols changed.')
+    }
+
+    static InputArrayRadius(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof CircleArray)
+                new ChangeCircleRadius(selected.array, +inputElement.value).action()
+        }
+        debugText('Array Radius changed.')
+    }
+
+    static InputArrayCount(ev: Event): void {
+        const inputElement = ev.target as HTMLInputElement
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            if(selected.array instanceof CircleArray)
+                new ChangeCircleCount(selected.array, +inputElement.value).action()
+        }
+        debugText('Array Count changed.')
+    }
+
+    static ButtonArrayClone(ev: Event): void {
+        const selected = ProjectTree.getSelected()
+        if (selected && selected.array) {
+            new CloneElementToArrayArray(selected.array, selected).action()
+        }
+        debugText('Element cloned to all other elements in the array.')
+    }
+
     static ChangeSelectionMode(mode: 'normal' | 'zoom' | 'drag'): void {
         const editor = Editor.getInstance()
         editor.selectionMode = mode
@@ -881,6 +987,21 @@ export class ParameterEditor {
                 this.inputElementTextScale.value = frame.custom.getScale() + ''
                 this.inputElementTextColor.value = frame.custom.getColor()
                 this.inputElementTextBig.value = frame.custom.getText()
+
+                if(frame.array) {
+                    let ar = frame.array
+                    this.inputElementArrayName.value = ar.getArrayName()
+                    if(ar instanceof TableArray) {
+                        this.inputElementArrayRows.value = ar.getRows() + ''
+                        this.inputElementArrayCols.value = ar.getCols() + ''
+                        this.inputElementArrayXGap.value = ar.getXGap() + ''
+                        this.inputElementArrayYGap.value = ar.getYGap() + ''
+                    } else if(ar instanceof CircleArray) {
+                        this.inputElementArrayRadius.value = ar.getRadius() + ''
+                        this.inputElementArrayCount.value = ar.getCount() + ''
+                    }
+                }
+
                 switch (frame.custom.getHorAlign()) {
                     case 'left':
                         this.selectElementHorAlign.selectedIndex = 0
@@ -924,6 +1045,9 @@ export class ParameterEditor {
                 this.fieldFunctionalityVar.style.display = 'none'
                 this.fieldPropertiesOutermost.style.display = 'none'
                 this.fieldFunctionalityOutermost.style.display = 'none'
+                this.fieldArrayConfigOutermost.style.display = 'none'
+                this.fieldArrayTable.style.display = 'none'
+                this.fieldArrayCircle.style.display = 'none'
 
                 if (frame.FieldsAllowed.parent) this.fieldParent.style.display = 'initial'
                 if (frame.FieldsAllowed.type) this.fieldType.style.display = 'initial'
@@ -986,6 +1110,16 @@ export class ParameterEditor {
                     if (frame.getParent() == el) option = el.parentOption
                 }
                 if (option) option.selected = true
+
+                if(frame.array) {
+                    this.fieldArrayConfigOutermost.style.display = 'initial'
+                    if(frame.array instanceof TableArray) {
+                        this.fieldArrayTable.style.display = 'initial'
+                    } else {
+                        this.fieldArrayCircle.style.display = 'initial'
+                    }
+                }
+
             } else {
                 // this.disableFields(true)
                 this.emptyFields()

@@ -9,6 +9,8 @@ import CustomComplex from './FrameLogic/CustomComplex'
 import { AppInterfaces, AppUIWoodenTexture, AppUIBrownColors, AppUIBlueColors, AppUIPurpleColors, AppUIDarkColors } from './Menus/AppInterface'
 import { ParameterEditor } from './ParameterEditor'
 import { Editor } from './Editor'
+import TableArray from './FrameLogic/Arrays/TableArray'
+import CircleArray from './FrameLogic/Arrays/CircleArray'
 
 export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     private static instance: ProjectTree
@@ -27,6 +29,8 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
     static readonly SAVE_KEY_HIDE_CHAT = 'Chat'
     static readonly SAVE_KEY_ORIGIN_MODE = 'OriginMode'
     static readonly SAVE_KEY_APP_INTERFACE = 'AppInterface'
+    static readonly SAVE_KEY_TABLE_ARRAYS = 'TableArrays'
+    static readonly SAVE_KEY_CIRCLE_ARRAYS = 'CircularArrays'
 
     static readonly outlineUnSelected_Tooltip = 'rgba(220, 242, 19, 0.8)' //yellow
     static readonly outlineUnSelected = 'rgba(0, 230, 64, 0.8)' //green
@@ -48,6 +52,9 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
 
     static ShowBorders = true
     static AppInterface = AppInterfaces.dark
+
+    static TableArrays: TableArray[] = []
+    static CircleArrays: CircleArray[] = []
 
     //path of project that was loaded. used for "Save" functionality
     static fileSavePath: string | null = null
@@ -150,6 +157,22 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         container.save(ProjectTree.SAVE_KEY_HIDE_CHAT, ProjectTree.HideChat)
         container.save(ProjectTree.SAVE_KEY_ORIGIN_MODE, ProjectTree.OriginMode)
         container.save(ProjectTree.SAVE_KEY_APP_INTERFACE, ProjectTree.AppInterface)
+        
+        const tableArrays: SaveContainer[] = []
+        for(const array of ProjectTree.TableArrays) {
+            const tableArraySaveContainer = new SaveContainer(null)
+            array.save(tableArraySaveContainer)
+            tableArrays.push(tableArraySaveContainer)
+        }
+        container.save(ProjectTree.SAVE_KEY_TABLE_ARRAYS, tableArrays)
+
+        const circleArrays: SaveContainer[] = []
+        for(const array of ProjectTree.CircleArrays) {
+            const circleArraySaveContainer = new SaveContainer(null)
+            array.save(circleArraySaveContainer)
+            circleArrays.push(circleArraySaveContainer)
+        }
+        container.save(ProjectTree.SAVE_KEY_CIRCLE_ARRAYS, circleArrays)
     }
 
     appendToSelected(newFrame: FrameBuilder) {
@@ -219,6 +242,18 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
                 ProjectTree.setOriginMode(container.load(ProjectTree.SAVE_KEY_ORIGIN_MODE))
             } catch (e) {
                 alert('Loading Error: General Options Missing.')
+            }
+
+            try {     
+                container.load(ProjectTree.SAVE_KEY_TABLE_ARRAYS).forEach(tableArrayContainer => {
+                    TableArray.load(tableArrayContainer)
+                })
+                container.load(ProjectTree.SAVE_KEY_CIRCLE_ARRAYS).forEach(circleArrayContainer => {
+                    CircleArray.load(circleArrayContainer)
+                })
+
+            } catch (e) {
+                console.error('Loading Error: Issue with loading arrays.', e)
             }
 
             if (container.load(ProjectTree.SAVE_KEY_APP_INTERFACE) !== undefined) {
@@ -296,12 +331,13 @@ export class ProjectTree implements IterableIterator<FrameComponent>, Saveable {
         }
     }
 
-    findByName(name: string): FrameComponent | void {
+    findByName(name: string): FrameComponent | undefined {
         const iterator = ProjectTree.getInstance().getIterator()
         for (const currentFrame of iterator) {
             if (currentFrame.getName() === name) {
                 return currentFrame
             }
         }
+        return undefined
     }
 }

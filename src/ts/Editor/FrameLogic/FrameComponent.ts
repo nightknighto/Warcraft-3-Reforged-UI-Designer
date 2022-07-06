@@ -9,18 +9,22 @@ import { ProjectTree } from '../ProjectTree'
 import ChangeFrameParent from '../../Commands/Implementation/ChangeFrameParent'
 import { ParameterEditor } from '../ParameterEditor'
 import { FrameMap } from './ComponentMap'
+import TableArray from './Arrays/TableArray'
+import BaseArray from './Arrays/BaseArray'
 
 export class FrameComponent implements Saveable {
     static readonly SAVE_KEY_NAME = 'name'
     static readonly SAVE_KEY_CHILDREN = 'children'
     static readonly SAVE_KEY_TYPE = 'type'
     static readonly SAVE_KEY_TOOLTIP = 'tooltip'
+    static readonly SAVE_KEY_ARRAY = 'array'
     static readonly SAVE_KEY_WORLDFRAME = 'world_frame'
 
     private name: string
     private children: FrameComponent[]
     type: FrameType
     private tooltip = false
+    public array?: BaseArray
 
     world_frame = false
 

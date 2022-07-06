@@ -539,167 +539,168 @@
                         <hr />
                     </div>
 
-                    <div id="ArrayConfiguration">
-                        <div class="p-1">
-                            <div class="border border-3 border-primary">
-                                <button
-                                    class="accordion-button collapsed"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#CollapseArrayConfiguration"
+                    <div id="ArrayConfigurationOutermost">
+                        <div id="ArrayConfiguration">
+                            <div class="p-1">
+                                <div class="border border-3 border-primary">
+                                    <button
+                                        class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#CollapseArrayConfiguration"
+                                    >
+                                        <b>Array Options</b>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="CollapseArrayConfiguration" class="collapse" style="overflow: auto;">
+                                <div
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    title="Changes the name of the array, so changes the name of all its elements.<hr>Press Enter to record the change."
                                 >
-                                    <b>Array Options</b>
-                                </button>
+                                    <div class="form-floating mb-3 mt-2">
+                                        <input type="text" name="elementArrayName" id="elementArrayName" class="form-control" placeholder="name" />
+                                        <label class="text-black" for="elementArrayName">Array Name</label>
+                                    </div>
+                                </div>
+
+                                <div id="FieldArrayTable">
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipRows"
+                                            data-bs-toggle="tooltip"
+                                            title="Rows of the Table Array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="100"
+                                                step="1"
+                                                name="elementArrayRows"
+                                                id="elementArrayRows"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayRows">Rows</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipCols"
+                                            data-bs-toggle="tooltip"
+                                            title="Columns of the Table Array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="100"
+                                                step="1"
+                                                name="elementArrayCols"
+                                                id="elementArrayCols"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayCols">Cols</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipXGap"
+                                            data-bs-toggle="tooltip"
+                                            title="The horizontal gap between each column in the array."
+                                        >
+                                            <input
+                                                type="number"           
+                                                min="0"
+                                                max="0.8"
+                                                step="0.005"
+                                                name="elementArrayXGap"
+                                                id="elementArrayXGap"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayXGap">X-Gap</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipY"
+                                            data-bs-toggle="tooltip"
+                                            title="The vertical gap between each row in the array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="0.8"
+                                                step="0.005"
+                                                name="elementArrayYGap"
+                                                id="elementArrayYGap"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayYGap">Y-Gap</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="FieldArrayCircle">
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipRadius"
+                                            data-bs-toggle="tooltip"
+                                            title="The radius of the circular array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="0.5"
+                                                step="0.01"
+                                                name="elementArrayRadius"
+                                                id="elementArrayRadius"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayRadius">Radius</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipCount"
+                                            data-bs-toggle="tooltip"
+                                            title="The number of elements in the circular array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="40"
+                                                step="1"
+                                                name="elementArrayCount"
+                                                id="elementArrayCount"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayCount">Count</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button 
+                                    class="col-12 btn btn-primary mb-2" type="button" id="buttonCloneArrayProps"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    title="Clones all the props on this element to all other elements in this array.<hr>All elements of the array will have identical properties like this one.">
+                                        Clone Props to All Elements
+                                    </button>
+                                </div>
+
                             </div>
+                            <hr />
                         </div>
-
-                        <div id="CollapseArrayConfiguration" class="collapse">
-                            <div
-                                data-bs-toggle="tooltip"
-                                data-bs-html="true"
-                                title="Changes the name of the array, so changes the name of all its elements.<hr>Press Enter to record the change."
-                            >
-                                <div class="form-floating mb-3 mt-2">
-                                    <input type="text" name="elementArrayName" id="elementArrayName" class="form-control" placeholder="name" />
-                                    <label class="text-black" for="elementArrayName">Array Name</label>
-                                </div>
-                            </div>
-
-                            <div id="FieldArrayTable">
-                                <div class="row gx-1 justify-content-evenly">
-                                    <div
-                                        class="col-6 form-floating mb-1"
-                                        id="tooltipRows"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayRows"
-                                            id="elementArrayRows"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayRows">Rows</label>
-                                    </div>
-                                    <div
-                                        class="col form-floating mb-2"
-                                        id="tooltipCols"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayCols"
-                                            id="elementArrayCols"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayCols">Cols</label>
-                                    </div>
-                                </div>
-
-                                <div class="row gx-1 justify-content-evenly">
-                                    <div
-                                        class="col-6 form-floating mb-1"
-                                        id="tooltipXGap"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayXGap"
-                                            id="elementArrayXGap"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayXGap">X-Gap</label>
-                                    </div>
-                                    <div
-                                        class="col form-floating mb-2"
-                                        id="tooltipY"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayYGap"
-                                            id="elementArrayYGap"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayYGap">Y-Gap</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div id="FieldArrayCircle">
-                                <div class="row gx-1 justify-content-evenly">
-                                    <div
-                                        class="col-6 form-floating mb-1"
-                                        id="tooltipRadius"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayRadius"
-                                            id="elementArrayRadius"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayRadius">Radius</label>
-                                    </div>
-                                    <div
-                                        class="col form-floating mb-2"
-                                        id="tooltipCount"
-                                        data-bs-toggle="tooltip"
-                                        title="arrow keys move elements. Hold shift for smaller movement"
-                                    >
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max="0.8"
-                                            step="0.01"
-                                            name="elementArrayCount"
-                                            id="elementArrayCount"
-                                            class="form-control"
-                                            placeholder="name"
-                                        />
-                                        <label class="text-black" for="elementArrayCount">Count</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <button 
-                                class="col-12 btn btn-primary" type="button" id="buttonCloneArrayProps"
-                                data-bs-toggle="tooltip"
-                                data-bs-html="true"
-                                title="Clones all the props on this element to all other elements in this array.<hr>All elements of the array will have identical properties like this one.">
-                                    Clone Props to All Elements
-                                </button>
-                            </div>
-
-                        </div>
-                        <hr />
                     </div>
-
                 </div>
 
                 <div id="FieldGeneral">
