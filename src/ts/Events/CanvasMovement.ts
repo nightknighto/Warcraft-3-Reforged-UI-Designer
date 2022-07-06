@@ -24,10 +24,10 @@ export class CanvasMovement {
         this.workspaceContainer = document.getElementById('workspaceContainer') as HTMLElement
 
         // Handle Zoom and Wheel movement up/down and left/right
-        window.addEventListener('wheel', this.onWheel)
+        this.workspaceContainer.addEventListener('wheel', this.onWheel)
 
         // Handle Canvas Dragging
-        window.onmousedown = (ev) => {
+        this.workspaceContainer.onmousedown = (ev) => {
             if(ev.altKey || Editor.getInstance().selectionMode == 'drag') this.dragCanvas(ev)
             else if(Editor.getInstance().selectionMode == 'zoom') this.zoomCanvasViaMouseMove(ev)
         }
