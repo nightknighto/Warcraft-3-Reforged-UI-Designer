@@ -8,8 +8,9 @@ export default class ChangeFrameWc3Texture extends SimpleCommand {
     private frame: string
     private oldTexture?: string
     private newTexture: string
+    private which: 'normal' | 'back'
 
-    public constructor(frame: FrameComponent | string, texture: string) {
+    public constructor(frame: FrameComponent | string, texture: string, which: 'normal' | 'back') {
         super()
 
         if (typeof frame === 'string') {
@@ -19,6 +20,7 @@ export default class ChangeFrameWc3Texture extends SimpleCommand {
         }
 
         this.newTexture = texture
+        this.which = which
     }
 
     public pureAction(): void {
@@ -34,13 +36,13 @@ export default class ChangeFrameWc3Texture extends SimpleCommand {
             return
         }
 
-        this.oldTexture = frame.custom.getDiskTexture('normal')
-        frame.custom.setDiskTexture(this.newTexture, 'normal')
+        this.oldTexture = frame.custom.getWc3Texture(this.which)
+        frame.custom.setWc3Texture(this.newTexture, this.which)
     }
 
     public undo(): void {
         if (this.oldTexture) {
-            const command = new ChangeFrameWc3Texture(this.frame, this.oldTexture)
+            const command = new ChangeFrameWc3Texture(this.frame, this.oldTexture, this.which)
             command.pureAction()
         }
 

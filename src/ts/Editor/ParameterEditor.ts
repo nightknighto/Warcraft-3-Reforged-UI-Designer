@@ -25,6 +25,7 @@ import ChangeCircleRadius from '../Commands/Implementation/Arrays/ChangeCircleRa
 import ChangeCircleCount from '../Commands/Implementation/Arrays/ChangeCircleCount'
 import RenameArray from '../Commands/Implementation/Arrays/RenameArray'
 import CloneElementToArrayArray from '../Commands/Implementation/Arrays/CloneElementToArray'
+import ChangeFrameDiskTexture from '../Commands/Implementation/ChangeFrameDiskTexture'
 
 export class ParameterEditor {
     private static instance: ParameterEditor
@@ -460,7 +461,8 @@ export class ParameterEditor {
 
         const selected = ProjectTree.getSelected()
         if (selected) {
-            selected.custom.setDiskTexture(inputElement.value, which)
+            // selected.custom.setDiskTexture(inputElement.value, which)
+            new ChangeFrameDiskTexture(selected, inputElement.value, which).action()
         }
         debugText('Disk Texture changed.')
     }
@@ -471,7 +473,8 @@ export class ParameterEditor {
             const file = inputElement.files ? inputElement.files[0] : undefined
             const selected = ProjectTree.getSelected()
             if (selected && file) {
-                selected.custom.setDiskTexture(file, which)
+                // selected.custom.setDiskTexture(file, which)
+                new ChangeFrameDiskTexture(selected, file, which).action()
             }
 
             inputElement.value = ''
