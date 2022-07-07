@@ -26,6 +26,7 @@ import ChangeCircleCount from '../Commands/Implementation/Arrays/ChangeCircleCou
 import RenameArray from '../Commands/Implementation/Arrays/RenameArray'
 import CloneElementToArrayArray from '../Commands/Implementation/Arrays/CloneElementToArray'
 import ChangeFrameDiskTexture from '../Commands/Implementation/ChangeFrameDiskTexture'
+import ChangeFrameTextColor from '../Commands/Implementation/ChangeFrameTextColor'
 
 export class ParameterEditor {
     private static instance: ParameterEditor
@@ -473,7 +474,6 @@ export class ParameterEditor {
             const file = inputElement.files ? inputElement.files[0] : undefined
             const selected = ProjectTree.getSelected()
             if (selected && file) {
-                // selected.custom.setDiskTexture(file, which)
                 new ChangeFrameDiskTexture(selected, file, which).action()
             }
 
@@ -541,7 +541,8 @@ export class ParameterEditor {
         const inputElement = ev.target as HTMLInputElement
         const selected = ProjectTree.getSelected()
         if (selected) {
-            ;(selected.custom as CustomComplex).setColor(inputElement.value)
+            // ;(selected.custom as CustomComplex).setColor(inputElement.value)
+            new ChangeFrameTextColor(selected, inputElement.value).action()
         }
     }
 

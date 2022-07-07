@@ -47,11 +47,11 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
         }
 
         super.undo()
-        debugText('Undid change frame wc3 texture')
+        debugText('Undid change frame disk texture')
     }
 
     public redo(): void {
         super.redo()
-        debugText('Redid change frame wc3 texture')
+        debugText('Redid change frame disk texture')
     }
 }

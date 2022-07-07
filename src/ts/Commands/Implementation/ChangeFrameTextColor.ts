@@ -20,12 +20,12 @@ export default class ChangeFrameTextColor extends SimpleCommand {
 
         const undoCommand = new ChangeFrameTextColor(this.frame, this.oldColor)
         undoCommand.pureAction()
-        debugText('Undid frame change textColor.')
+        debugText('Undid frame change text color.')
     }
 
     public redo(): void {
         super.redo()
-        debugText('Redid frame change textColor.')
+        debugText('Redid frame change text color.')
     }
 
     public pureAction(): void {
