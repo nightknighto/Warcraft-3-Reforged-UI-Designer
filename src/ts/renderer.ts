@@ -15,6 +15,7 @@ import { CanvasMovement } from './Events/CanvasMovement'
 import ChangeStack from './Editor/ChangeStack'
 import { ParameterEditor } from './Editor/ParameterEditor'
 import { AppUIDarkColors } from './Editor/Menus/AppInterface'
+import { Modals } from './modals/ModalsInit'
 
 const renderer = () => {
     window.addEventListener('mousemove', GUIEvents.DisplayGameCoords)
@@ -152,7 +153,7 @@ const renderer = () => {
         alert('renderer' + e)
     }
 
-    // new Modals()
+    new Modals()
 
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

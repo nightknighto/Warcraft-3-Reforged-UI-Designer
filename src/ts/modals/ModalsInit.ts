@@ -146,6 +146,39 @@ export class Modals {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.6.0</h2>
+                                        <div class="card-body">
+                                            <h3 class="text-white">Version Collaborator: KickKing</h3>
+                                            <h4 class="text-white">Other Credits: Tasyen</h3>
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 card-text p-4">
+                                                    <ul class="list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">New: Zoom in/out.</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Drag Canvas.</li>
+                                                        <li class="list-group-item list-group-item-primary">New: Array Controls. (Note: Only for arrays created in v2.6.0+)</li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Update: Custom Button improved. Now has no base texture. No need for Invis Button workarounds anymore.
+                                                        </li>
+                                                        <li class="list-group-item list-group-item-primary">
+                                                            Update: Invis Button improved. Now has glow and sound effects. No need for Custom Button workarounds anymore.
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="offset-1 col-5 card-text p-4">
+                                                    <ul class=" list-group border border-danger border-2">
+                                                        <li class="list-group-item list-group-item-primary">Fixed the floating coordinates.</li>
+                                                        <li class="list-group-item list-group-item-primary">Reduced the minimum value for input fields to be 0.0001</li>
+                                                        <li class="list-group-item list-group-item-primary">Disk Texture can now be undo-ed.</li>
+                                                        <li class="list-group-item list-group-item-primary">Text Color can now be undo-ed.</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.5.3</h2>
                                         <div class="card-body">
                                             <div class="row justify-content-center">
