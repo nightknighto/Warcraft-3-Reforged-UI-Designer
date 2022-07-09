@@ -6,10 +6,11 @@ import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameDiskTexture extends SimpleCommand {
     private frame: string
-    private oldTexture?: string
-    private newTexture: string
+    private oldTexture: File | string
+    private newTexture: File | string
+    private which: 'normal' | 'back'
 
-    public constructor(frame: FrameComponent | string, texture: string) {
+    public constructor(frame: FrameComponent | string, texture: File | string, which: 'normal' | 'back') {
         super()
 
         if (typeof frame === 'string') {
@@ -19,6 +20,7 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
         }
 
         this.newTexture = texture
+        this.which = which
     }
 
     public pureAction(): void {
@@ -34,13 +36,13 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
             return
         }
 
-        this.oldTexture = frame.custom.getDiskTexture('normal')
-        frame.custom.setDiskTexture(this.newTexture, 'normal')
+        this.oldTexture = frame.custom.getDiskTexture(this.which)
+        frame.custom.setDiskTexture(this.newTexture, this.which)
     }
 
     public undo(): void {
         if (this.oldTexture) {
-            const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
+            const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture, this.which)
             command.pureAction()
         }
 
