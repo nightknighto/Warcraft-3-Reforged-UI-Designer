@@ -21,3 +21,26 @@ This application and UI Modding together have unlimited potential. As it gets mo
 - HTML & CSS
 - Bootstrap
 - Typescript
+
+## Contributions
+
+Everyone is encouraged to contribute to this project. Simply fork the repo, pick an issue, make a PR, then contact me to discuss it!
+
+## Getting Started
+
+### Prerequisites
+Need to have Node & NPM installed. (Google them)
+
+### Clone & Install Project
+Clone the repo into the desired location, then in terminal at the root of the project, run `npm install` to install the dependencies.
+
+### Starting the Development Project
+To build and run the project, run `npm run start`. This will also refresh the application on src code changes. (This applies to the *renderer* process code only. The *main* process will need to re-run this command.)
+
+### If you already have the project built, you can just run it without re-building
+By running `npm run run`.
+
+### Packing the Project
+To pack the project to be distributed, run `npm run pack`. This will create a packed installation file (to install the application), and an portable (unpacked) folder, which can run without installation.
+
+Third, run `
