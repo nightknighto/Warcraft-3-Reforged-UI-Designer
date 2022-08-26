@@ -1,12 +1,12 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameHeight extends SimpleCommand {
     private frame: string
     private height: number
-    private oldHeight: number
+    private oldHeight?: number
 
     public constructor(frame: FrameComponent | string, newHeight: number) {
         super()
@@ -21,8 +21,10 @@ export default class ChangeFrameHeight extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameHeight(this.frame, this.oldHeight)
-        command.pureAction()
+        if (this.oldHeight) {
+            const command = new ChangeFrameHeight(this.frame, this.oldHeight)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid frame change height.')
@@ -34,7 +36,7 @@ export default class ChangeFrameHeight extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')

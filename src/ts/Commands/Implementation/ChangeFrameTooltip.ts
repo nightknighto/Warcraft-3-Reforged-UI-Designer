@@ -1,15 +1,13 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
 import SimpleCommand from '../SimpleCommand'
-import { ParameterEditor } from '../../Editor/ParameterEditor'
 import { ProjectTree } from '../../Editor/ProjectTree'
 
 export default class ChangeFrameTooltip extends SimpleCommand {
     private frame: string
     private tooltip: boolean
-    private oldTooltip: boolean
-    private childrenTooltipPair: [string, boolean][]
+    private oldTooltip?: boolean
+    private childrenTooltipPair: [string, boolean][] = []
 
     public constructor(frame: FrameComponent | string, newTooltip: boolean) {
         super()
@@ -24,7 +22,7 @@ export default class ChangeFrameTooltip extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -44,7 +42,7 @@ export default class ChangeFrameTooltip extends SimpleCommand {
     }
 
     public undo(): void {
-        const projectTree = Editor.GetDocumentEditor().projectTree
+        const projectTree = ProjectTree.getInstance()
         const frame = projectTree.findByName(this.frame)
 
         if (typeof frame === 'undefined') {
@@ -62,7 +60,7 @@ export default class ChangeFrameTooltip extends SimpleCommand {
                 else child.custom.getElement().style.outlineColor = ProjectTree.outlineUnSelected
             }
         })
-        frame.setTooltip(this.oldTooltip)
+        if (this.oldTooltip) frame.setTooltip(this.oldTooltip)
 
         super.undo()
         debugText('Undid frame change tooltip.')

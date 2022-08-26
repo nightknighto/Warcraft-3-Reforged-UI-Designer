@@ -1,234 +1,62 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint @typescript-eslint/no-explicit-any: ["off", { "ignoreRestArgs": false }] */
+
 import { FrameBuilder } from './FrameLogic/FrameBuilder'
-import { FrameType } from './FrameLogic/FrameType & FrameRequire'
 import { RibbonMenu } from './Menus/RibbonMenu'
 import { RibbonOption } from './Menus/RibbonOption'
 import { TabsMenu } from './Menus/TabsMenu'
-import { ParameterEditor } from './ParameterEditor'
 import { ProjectTree } from './ProjectTree'
 import SaveASDocument from '../Persistence/SaveASDocument'
 import LoadDocument from '../Persistence/LoadDocument'
-import ChangeStack from './ChangeStack'
 import Undo from '../Commands/Undo'
 import Redo from '../Commands/Redo'
 import CreateFrameAtSelected from '../Commands/Implementation/CreateFrameAtSelected'
-import { Export } from '../Classes & Functions/Export'
+import { Export } from '../ClassesAndFunctions/Export'
 import NewDocument from '../Persistence/NewDocument'
 import { BackgroundTexture, CustomBackground } from './Menus/Backgrounds'
-import {
-    AppInterfaceWoodenTexture,
-    AppInterfaceBrownColors,
-    AppInterfacePurpleColors,
-    AppInterfaceBlueColors,
-    AppInterfaceDarkColors,
-} from './Menus/App Interface'
+import { AppUIWoodenTexture, AppUIBrownColors, AppUIPurpleColors, AppUIBlueColors, AppUIDarkColors } from './Menus/AppInterface'
 import { Titlebar, Color, RGBA } from 'custom-electron-titlebar'
 import SaveDocument from '../Persistence/SaveDocument'
+import { GUIEvents } from '../ClassesAndFunctions/GUIEvents'
 
 export class Editor {
-    //Application bars
-    public readonly panelDebug: HTMLElement
+    private static instance?: Editor
 
-    public readonly btnCloseTreePanel: HTMLButtonElement
-    public readonly btnCloseParameterPanel: HTMLButtonElement
-
-    //Workspace
-    public readonly workspaceImage: HTMLImageElement
-    public readonly workspace: HTMLDivElement
-
-    //Debug
-    public readonly debugLine: HTMLElement
-    public readonly debugGameCoordinates: HTMLElement
-
-    //functional units
-    public readonly projectTree: ProjectTree
-    public readonly changeStack: ChangeStack
-    public readonly parameterEditor: ParameterEditor
-    public readonly tabsMenu: TabsMenu
-
-    //UI
-    public readonly treeButton: HTMLButtonElement
-    public readonly panelButton: HTMLButtonElement
-
-    public readonly titleBar: Titlebar
-
-    private initializeMenus(): TabsMenu {
-        const tabsMenu = new TabsMenu()
-
-        const fileMenu = new RibbonMenu('File')
-        const editMenu = new RibbonMenu('Edit')
-        const viewMenu = new RibbonMenu('View')
-        const insertMenu = new RibbonMenu('Insert')
-        const infoMenu = new RibbonMenu('Info')
-        const OptionsMenu = new RibbonMenu('Options')
-
-        tabsMenu.addTab(fileMenu)
-        tabsMenu.addTab(editMenu)
-        tabsMenu.addTab(viewMenu)
-        tabsMenu.addTab(insertMenu)
-        tabsMenu.addTab(infoMenu)
-        tabsMenu.addTab(OptionsMenu)
-
-        fileMenu.addRibbonOption(new RibbonOption('New', new NewDocument()))
-        fileMenu.addRibbonOption(new RibbonOption('Open', new LoadDocument()))
-        fileMenu.addRibbonOption(new RibbonOption('Save', new SaveDocument()))
-        fileMenu.addRibbonOption(new RibbonOption('Save As', new SaveASDocument()))
-
-        const expRib = new RibbonOption('Export', null)
-        fileMenu.addRibbonOption(expRib)
-        expRib.addMenuOption('JASS', new Export(false, 'jass'))
-        expRib.addMenuOption('LUA', new Export(false, 'lua'))
-        expRib.addMenuOption('TYPESCRIPT', new Export(false, 'ts'))
-
-        const expRibAs = new RibbonOption('Export As', null)
-        fileMenu.addRibbonOption(expRibAs)
-        expRibAs.addMenuOption('JASS', new Export(true, 'jass'))
-        expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
-        expRibAs.addMenuOption('TYPESCRIPT', new Export(true, 'ts'))
-
-        editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()))
-        editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()))
-
-        const ribAppInterface = new RibbonOption('App Interface', null)
-        viewMenu.addRibbonOption(ribAppInterface)
-
-        ribAppInterface.addMenuOption('Wooden Interface', new AppInterfaceWoodenTexture())
-        ribAppInterface.addMenuOption('Brownish Interface', new AppInterfaceBrownColors())
-        ribAppInterface.addMenuOption('Purple Interface', new AppInterfacePurpleColors())
-        ribAppInterface.addMenuOption('Blue Interface', new AppInterfaceBlueColors())
-        ribAppInterface.addMenuOption('Dark Interface', new AppInterfaceDarkColors())
-
-        const ribBackground = new RibbonOption('Background/Resolution', null)
-        viewMenu.addRibbonOption(ribBackground)
-        ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture('./files/images/backgroundWorkspace.png'))
-        ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture('./files/images/backgroundWorkspace2.png'))
-        ribBackground.addMenuOption('Custom Background (Experimental)', new CustomBackground())
-
-        infoMenu.addRibbonOption(new RibbonOption('About Us', null))
-        infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null))
-        infoMenu.addRibbonOption(new RibbonOption('Tutorials', null))
-        infoMenu.addRibbonOption(new RibbonOption('Change Log', null))
-
-        let newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.BUTTON
-        const ribButton = new RibbonOption('Buttons', new CreateFrameAtSelected(newFrameBuilder))
-        insertMenu.addRibbonOption(ribButton)
-        ribButton.addMenuOption('Custom Button', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.BACKDROP
-        const ribBackdrop = new RibbonOption('Backdrops', new CreateFrameAtSelected(newFrameBuilder))
-        insertMenu.addRibbonOption(ribBackdrop)
-        ribBackdrop.addMenuOption('Custom Backdrop', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.type = FrameType.TEXT_FRAME
-        newFrameBuilder.text = 'Text Frame'
-        newFrameBuilder.width = 0.07
-        newFrameBuilder.height = 0.07
-        const ribText = new RibbonOption('Texts', new CreateFrameAtSelected(newFrameBuilder))
-        insertMenu.addRibbonOption(ribText)
-        ribText.addMenuOption('Text Frame', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/TextArea.png'
-        newFrameBuilder.type = FrameType.TEXTAREA
-        ribText.addMenuOption('Text Area', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/EditBox.png'
-        newFrameBuilder.type = FrameType.EDITBOX
-        ribText.addMenuOption('Edit Box', new CreateFrameAtSelected(newFrameBuilder))
-
-        const ribOthers = new RibbonOption('Others', null)
-        insertMenu.addRibbonOption(ribOthers)
-
-        const ribTemplates = new RibbonOption('Templates', null)
-        insertMenu.addRibbonOption(ribTemplates)
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/ScriptDialogButton.png'
-        newFrameBuilder.type = FrameType.SCRIPT_DIALOG_BUTTON
-        ribButton.addMenuOption('Black Text Button', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/BrowserButton.png'
-        newFrameBuilder.type = FrameType.BROWSER_BUTTON
-        ribButton.addMenuOption('Blue Text Button', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/InvisButton.png'
-        newFrameBuilder.type = FrameType.INVIS_BUTTON
-        ribButton.addMenuOption('Invisible Button', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/QuestCheckBox.png'
-        newFrameBuilder.type = FrameType.CHECKBOX
-        ribOthers.addMenuOption('Check Box', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.HORIZONTAL_BAR
-        ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND
-        ribTemplates.addMenuOption('Horiz. Bar + Background', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.HOR_BAR_TEXT
-        ribTemplates.addMenuOption('Horiz. Bar + Text', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CustomFrame.png'
-        newFrameBuilder.type = FrameType.HOR_BAR_BACKGROUND_TEXT
-        ribTemplates.addMenuOption('Horiz. Bar + Background-Text', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/CheckListBox.png'
-        newFrameBuilder.type = FrameType.CHECKLIST_BOX
-        ribBackdrop.addMenuOption('Semi-transparent w border', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/OptionsPopupMenuBackdropTemplate.png'
-        newFrameBuilder.type = FrameType.OPTIONS_POPUP_MENU_BACKDROP_TEMPLATE
-        ribBackdrop.addMenuOption('Black Box with arrow', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/QuestButtonBaseTemplate.png'
-        newFrameBuilder.type = FrameType.QUEST_BUTTON_BASE_TEMPLATE
-        ribBackdrop.addMenuOption('Black Backdrop', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/QuestButtonPushedBackdropTemplate.png'
-        newFrameBuilder.type = FrameType.QUEST_BUTTON_PUSHED_BACKDROP_TEMPLATE
-        ribBackdrop.addMenuOption('Grey Backdrop', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/QuestButtonDisabledBackdropTemplate.png'
-        newFrameBuilder.type = FrameType.QUEST_BUTTON_DISABLED_BACKDROP_TEMPLATE
-        ribBackdrop.addMenuOption('Very Black Backdrop', new CreateFrameAtSelected(newFrameBuilder))
-
-        newFrameBuilder = new FrameBuilder(true)
-        newFrameBuilder.textureDiskPath = './files/images/EscMenuBackdrop.png'
-        newFrameBuilder.type = FrameType.ESC_MENU_BACKDROP
-        ribBackdrop.addMenuOption('Default Menus Backdrop', new CreateFrameAtSelected(newFrameBuilder))
-
-        OptionsMenu.override = () => {
-            ProjectTree.inst().select(ProjectTree.inst().rootFrame)
-        }
-
-        insertMenu.run()
-        return tabsMenu
+    static getInstance() {
+        if (!Editor.instance) Editor.instance = new Editor()
+        return Editor.instance
     }
 
-    public constructor(document: HTMLDocument) {
-        ;(document as any).editor = this
+    readonly panelDebug: HTMLElement
 
+    readonly btnCloseTreePanel: HTMLButtonElement
+    readonly btnCloseParameterPanel: HTMLButtonElement
+
+    //Workspace
+    readonly workspaceImage: HTMLImageElement
+    readonly workspace: HTMLDivElement
+
+    //Debug
+    readonly debugLine: HTMLElement
+    readonly debugGameCoordinates: HTMLElement
+
+    readonly tabsMenu: TabsMenu
+
+    //UI
+    readonly treeButton: HTMLButtonElement
+    readonly panelButton: HTMLButtonElement
+    // canvasMovement: CanvasMovement
+
+    readonly titleBar: Titlebar
+
+    fileMenu: RibbonMenu
+    editMenu: RibbonMenu
+    viewMenu: RibbonMenu
+    insertMenu: RibbonMenu
+    infoMenu: RibbonMenu
+    OptionsMenu: RibbonMenu
+    selectionMode: 'normal' | 'zoom' | 'drag' = 'normal'
+
+    constructor() {
         this.panelDebug = document.getElementById('panelDebug')
 
         this.btnCloseTreePanel = document.getElementById('treeClose') as HTMLButtonElement
@@ -240,13 +68,11 @@ export class Editor {
         this.debugLine = document.getElementById('debugLine')
         this.debugGameCoordinates = document.getElementById('debugGameCoordinates')
 
-        this.projectTree = new ProjectTree()
-        this.changeStack = new ChangeStack()
-        this.parameterEditor = new ParameterEditor()
         this.tabsMenu = this.initializeMenus()
 
         this.treeButton = document.getElementById('treeClose') as HTMLButtonElement
         this.panelButton = document.getElementById('panelClose') as HTMLButtonElement
+        // this.canvasMovement = CanvasMovement.getInstance()
 
         this.titleBar = new Titlebar({
             backgroundColor: new Color(new RGBA(69, 49, 26, 255)),
@@ -254,39 +80,108 @@ export class Editor {
             menu: null,
         })
 
-        new AppInterfaceDarkColors().run()
+        this.panelButton.onclick = GUIEvents.PanelOpenClose
+        this.treeButton.onclick = GUIEvents.TreeOpenClose
     }
 
-    public static GetDocumentEditor(): Editor {
-        return (document as any).editor
-    }
+    private initializeMenus(): TabsMenu {
+        const tabsMenu = new TabsMenu()
 
-    /**returns the margin of the 4:3 area. */
-    public static getInnerMargin(): number {
-        const workspace = Editor.GetDocumentEditor().workspaceImage
-        const rect = workspace.getBoundingClientRect()
-        return (240 / 1920) * rect.width
-    }
+        this.fileMenu = new RibbonMenu('File')
+        this.editMenu = new RibbonMenu('Edit')
+        this.viewMenu = new RibbonMenu('View')
+        this.insertMenu = new RibbonMenu('Insert')
+        this.infoMenu = new RibbonMenu('Info')
+        this.OptionsMenu = new RibbonMenu('Options')
 
-    public static getActualMargin(): number {
-        if (ProjectTree.OriginMode === 'consoleui') {
-            return 0
-        } else {
-            return this.getInnerMargin()
+        tabsMenu.addTab(this.fileMenu)
+        tabsMenu.addTab(this.editMenu)
+        tabsMenu.addTab(this.viewMenu)
+        tabsMenu.addTab(this.insertMenu)
+        tabsMenu.addTab(this.infoMenu)
+        tabsMenu.addTab(this.OptionsMenu)
+
+        this.fileMenu.addRibbonOption(new RibbonOption('New', new NewDocument()))
+        this.fileMenu.addRibbonOption(new RibbonOption('Open', new LoadDocument()))
+        this.fileMenu.addRibbonOption(new RibbonOption('Save', new SaveDocument()))
+        this.fileMenu.addRibbonOption(new RibbonOption('Save As', new SaveASDocument()))
+
+        const expRib = new RibbonOption('Export', null)
+        this.fileMenu.addRibbonOption(expRib)
+        expRib.addMenuOption('JASS', new Export(false, 'jass'))
+        expRib.addMenuOption('LUA', new Export(false, 'lua'))
+        expRib.addMenuOption('TYPESCRIPT', new Export(false, 'ts'))
+
+        const expRibAs = new RibbonOption('Export to File', null)
+        this.fileMenu.addRibbonOption(expRibAs)
+        expRibAs.addMenuOption('JASS', new Export(true, 'jass'))
+        expRibAs.addMenuOption('LUA', new Export(true, 'lua'))
+        expRibAs.addMenuOption('TYPESCRIPT', new Export(true, 'ts'))
+
+        this.editMenu.addRibbonOption(new RibbonOption('Undo (Ctrl+Z)', new Undo()))
+        this.editMenu.addRibbonOption(new RibbonOption('Redo (Ctrl+Y)', new Redo()))
+
+        const ribAppInterface = new RibbonOption('App Interface', null)
+        this.viewMenu.addRibbonOption(ribAppInterface)
+
+        ribAppInterface.addMenuOption('Wooden Interface', AppUIWoodenTexture.getInstance())
+        ribAppInterface.addMenuOption('Brownish Interface', AppUIBrownColors.getInstance())
+        ribAppInterface.addMenuOption('Purple Interface', AppUIPurpleColors.getInstance())
+        ribAppInterface.addMenuOption('Blue Interface', AppUIBlueColors.getInstance())
+        ribAppInterface.addMenuOption('Dark Interface', AppUIDarkColors.getInstance())
+
+        const ribBackground = new RibbonOption('Background/Resolution', null)
+        ribBackground.addMenuOption('1920x1080 With Default UI', new BackgroundTexture('./files/images/backgroundWorkspace.png'))
+        ribBackground.addMenuOption('1920x1080 Without Default UI', new BackgroundTexture('./files/images/backgroundWorkspace2.png'))
+        ribBackground.addMenuOption('Custom Background (Experimental)', new CustomBackground())
+        this.viewMenu.addRibbonOption(ribBackground)
+
+        this.infoMenu.addRibbonOption(new RibbonOption('About Us', null))
+        this.infoMenu.addRibbonOption(new RibbonOption('Hall of Fame', null))
+        this.infoMenu.addRibbonOption(new RibbonOption('Tutorials', null))
+        this.infoMenu.addRibbonOption(new RibbonOption('Change Log', null))
+
+        const ribButton = new RibbonOption('Buttons', new CreateFrameAtSelected(FrameBuilder.newButton()))
+        ribButton.addMenuOption('Custom Button', new CreateFrameAtSelected(FrameBuilder.newButton()))
+        ribButton.addMenuOption('Black Text Button', new CreateFrameAtSelected(FrameBuilder.newButtonBlackText()))
+        ribButton.addMenuOption('Blue Text Button', new CreateFrameAtSelected(FrameBuilder.newButtonBlueText()))
+        ribButton.addMenuOption('Invisible Button', new CreateFrameAtSelected(FrameBuilder.newButtonInvis()))
+        this.insertMenu.addRibbonOption(ribButton)
+
+        const ribBackdrop = new RibbonOption('Backdrops', new CreateFrameAtSelected(FrameBuilder.newBackdrop()))
+        ribBackdrop.addMenuOption('Custom Backdrop', new CreateFrameAtSelected(FrameBuilder.newBackdrop()))
+        ribBackdrop.addMenuOption('Semi-transparent w border', new CreateFrameAtSelected(FrameBuilder.newBackdropSemiTransWithBorder()))
+        ribBackdrop.addMenuOption('Black Box with arrow', new CreateFrameAtSelected(FrameBuilder.newBackdropBlackBoxWithArrow()))
+        ribBackdrop.addMenuOption('Black Backdrop', new CreateFrameAtSelected(FrameBuilder.newBackdropBlack()))
+        ribBackdrop.addMenuOption('Grey Backdrop', new CreateFrameAtSelected(FrameBuilder.newBackdropGrey()))
+        ribBackdrop.addMenuOption('Very Black Backdrop', new CreateFrameAtSelected(FrameBuilder.newBackdropVeryBlack()))
+        ribBackdrop.addMenuOption('Default Menus Backdrop', new CreateFrameAtSelected(FrameBuilder.newBackdropDefaultMenus()))
+
+        this.insertMenu.addRibbonOption(ribBackdrop)
+
+        const ribText = new RibbonOption('Texts', new CreateFrameAtSelected(FrameBuilder.newText()))
+        ribText.addMenuOption('Text Frame', new CreateFrameAtSelected(FrameBuilder.newText()))
+        ribText.addMenuOption('Text Area', new CreateFrameAtSelected(FrameBuilder.newTextArea()))
+        ribText.addMenuOption('Edit Box', new CreateFrameAtSelected(FrameBuilder.newEditBox()))
+        this.insertMenu.addRibbonOption(ribText)
+
+        const ribOthers = new RibbonOption('Others', null)
+        ribOthers.addMenuOption('Checkbox', new CreateFrameAtSelected(FrameBuilder.newCheckbox()))
+        ribOthers.addMenuOption('Horizontal Bar', new CreateFrameAtSelected(FrameBuilder.newHorizontalBar()))
+        this.insertMenu.addRibbonOption(ribOthers)
+
+        const ribTemplates = new RibbonOption('Templates', null)
+        ribTemplates.addMenuOption('Horiz. Bar + Background', new CreateFrameAtSelected(FrameBuilder.newHorizBarWithBG()))
+        ribTemplates.addMenuOption('Horiz. Bar + Text', new CreateFrameAtSelected(FrameBuilder.newHorizBarWithText()))
+        ribTemplates.addMenuOption('Horiz. Bar + Background-Text', new CreateFrameAtSelected(FrameBuilder.newHorizBarWithTextBG()))
+        this.insertMenu.addRibbonOption(ribTemplates)
+
+        this.OptionsMenu.override = () => {
+            const projectTree = ProjectTree.getInstance()
+            projectTree.select(projectTree.rootFrame)
         }
-    }
 
-    //gives the max and min numbers for the x-position (edges of the frame-movable area)
-    public static getActualMarginLimits(): { min: number; max: number } {
-        const workspaceImage = Editor.GetDocumentEditor().workspaceImage
-        return {
-            min: Math.floor(((0 - this.getInnerMargin()) / (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) * 800) / 1000,
-            max:
-                Math.floor(
-                    ((workspaceImage.getBoundingClientRect().right - workspaceImage.getBoundingClientRect().left - this.getInnerMargin()) /
-                        (workspaceImage.getBoundingClientRect().width - 2 * this.getInnerMargin())) *
-                        800
-                ) / 1000,
-        }
+        this.insertMenu.run()
+        return tabsMenu
     }
 }

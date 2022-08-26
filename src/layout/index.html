@@ -1,487 +1,827 @@
-<script>var exports = {};</script>
+<script>
+    var exports = {}
+</script>
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Warcraft 3 UI Designer v2.6.0</title>
+        <link rel="stylesheet" href="./styles/font-awesome/css/all.min.css" />
+        <link rel="stylesheet" href="bootstrap.min.css" />
 
-<head>
-    <meta charset="UTF-8">
-    <title>Warcraft 3 UI Designer v2.5.3</title>
-    <link rel="stylesheet" href="./styles/font-awesome/css/all.min.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="tippy.css" />
+        <link rel="stylesheet" href="light.css" />
+    </head>
 
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="tippy.css">
-    <link rel="stylesheet" href="light.css">
-    
-</head>
+    <body>
+        <div id="modal-container"></div>
 
-<body>
+        <!-- CircArray -->
+        <div class="modal fade" id="CircArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content ArrayBody">
+                    <div class="modal-header">
+                        <h5>Circular Array</h5>
+                    </div>
+                    <div class="modal-body text-black">
+                        <div class="container-fluid">
+                            <div>
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="0.4"
+                                        step="0.01"
+                                        value="0.1"
+                                        name="radius"
+                                        id="radius"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label for="radius">Radius: </label>
+                                </div>
 
-    <div id="modal-container">
+                                <div class="form-floating mb-3">
+                                    <input type="number" min="0" max="10" step="1" value="6" name="count" id="count" class="form-control" placeholder="name" />
+                                    <label for="count">Count: </label>
+                                </div>
 
-    </div>
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="360"
+                                        step="1"
+                                        value="0"
+                                        name="initAng"
+                                        id="initAng"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label for="initAng">Initial Angle (degrees): </label>
+                                </div>
 
-    <!-- CircArray -->
-    <div class="modal fade" id="CircArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content ArrayBody">
-                <div class="modal-header">
-                    <h5>Circular Array</h5>
-                </div>
-                <div class="modal-body text-black">
-                    <div class="container-fluid">
-                        <div>
-                            <div class="form-floating mb-3">
-                                <input type="number" min="0" max="0.4" step="0.01" value="0.1" name="radius" id="radius" class="form-control" placeholder="name">
-                                <label for="radius">Radius: </label>
-                            </div>
-                        
-                            <div class="form-floating mb-3">
-                                <input type="number" min="0" max="10" step="1" value="6" name="count" id="count" class="form-control" placeholder="name">
-                                <label for="count">Count: </label>
-                            </div>
-                            
-                            <div class="form-floating mb-3">
-                                <input type="number" min="0" max="360" step="1" value="0" name="initAng" id="initAng" class="form-control" placeholder="name">
-                                <label for="initAng">Initial Angle (degrees): </label>
-                            </div>
-                        
+                                <hr class="m-0; mt-1" />
 
-                            <hr class="m-0; mt-1">
+                                <div
+                                    class="row align-items-center"
+                                    style="margin: 0px; margin-top: -20px"
+                                    data-bs-toggle="tooltip"
+                                    title="Automatically assign each child created to the parent of the corresponding index"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        disabled
+                                        name="CircCheckParent"
+                                        id="CircCheckParent"
+                                        class="col-2 order-1"
+                                        style="min-height: 80px"
+                                    />
+                                    <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal" for="CircCheckParent"
+                                        >Array Parent</label
+                                    >
+                                </div>
+                                <div class="w-100" style="margin-top: -15px">
+                                    <hr class="m-0; mt-1" />
+                                </div>
 
-                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px" 
-                            data-bs-toggle="tooltip" title="Automatically assign each child created to the parent of the corresponding index">
-                                <input type="checkbox" disabled name="CircCheckParent" id="CircCheckParent" class="col-2 order-1" style="min-height: 80px;">
-                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="CircCheckParent">Array Parent</label>    
-                            </div>
-                            <div class="w-100" style="margin-top: -15px">
-                              <hr class="m-0; mt-1">
-                            </div>
-                        
-                            <div class='row justify-content-center btn-group'>
-                                <button class='col-3 btn btn-success' id='CircArraySubmit'>Submit</button>
-                                <button class='col-3 btn btn-danger' data-bs-dismiss="modal">Close</button>
+                                <div class="row justify-content-center btn-group">
+                                    <button class="col-3 btn btn-success" id="CircArraySubmit">Submit</button>
+                                    <button class="col-3 btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="TableArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content ArrayBody">
-                <div class="modal-header">
-                    <h5>Table Array</h5>
-                </div>
-                <div class="modal-body text-black">
-                    <div class="container-fluid">
-                        <div>
-                            <div class="form-floating mb-3">
-                                <input type="number" min="0" max="10" step="1" value="3" name="rows" id="rows" class="form-control" placeholder="name">
-                                <label for="rows">Rows: </label>
-                            </div>
-                        
-                            <div class="form-floating mb-3">
-                                <input type="number" min="0" max="10" step="1" value="3" name="columns" id="columns" class="form-control" placeholder="name">
-                                <label for="columns">Columns: </label>
-                            </div>
-                            
-                            <div class="form-floating mb-3">
-                                <input type="number" min="-0.4" max="0.4" step="0.01" value="0" name="gapX" id="gapX" class="form-control" placeholder="name">
-                                <label for="gapX">X-Gap: </label>
-                            </div>
-                            
-                            <div class="form-floating mb-3">
-                                <input type="number" min="-0.4" max="0.4" step="0.01" value="0" name="gapY" id="gapY" class="form-control" placeholder="name">
-                                <label for="gapY">Y-Gap: </label>
-                            </div>
-                            <hr class="m-0; mt-1">
-                        
-                            <div class="row align-items-center" style="margin: 0px; margin-top: -20px">
-                                <input type="checkbox"  name="TableCheckParent" id="TableCheckParent" class="col-2 order-1" style="min-height: 80px;">
-                                <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal;" for="TableCheckParent">Array Parent</label>    
-                            </div>
-                            <div class="w-100" style="margin-top: -15px">
-                              <hr class="m-0; mt-1">
-                            </div>
-                        
-                            <div class='row justify-content-center btn-group'>
-                                <button class='col-3 btn btn-success' id='TableArraySubmit'>Submit</button>
-                                <button class='col-3 btn btn-danger' data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-
-
-    <div id="containerUI">
-
-        <div id="workspaceContainer">
-
-            <img id="workspace" class="row justify-content-center border border-1" src="./files/images/backgroundWorkspace.png" alt="workspace" draggable="false">
-
-        </div>
-
-
-        <div style='color: rgb(248,224,197);'>
-
-            <div class="container-fluid">
-                <div class='row panelDebugBackground' style="background-image: url(./files/woodenplankHorBig.png); background-position: center;">
-                    <div class="col-1 offset-6">
-                        <label class="form-check-label" data-bs-toggle="tooltip" title='Shows or hides the element borders'>
-                            <i class="fas fa-expand" aria-hidden="true"></i>
-                            <input type="checkbox" class="form-check-input" name="" id="CheckboxElementBorders" checked>
-                        </label>
-                        
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="panelParameters" class="panels scroll_enabled">
-            <div class='row justify-content-start'>
-                <button class='col-4 btn btn-warning' id='panelClose'>Panel</button>
+        <div class="modal fade" id="TableArray" tabindex="-1" data-bs-backdrop="static" aria-labelledby="AboutUs" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content ArrayBody">
+                    <div class="modal-header">
+                        <h5>Table Array</h5>
+                    </div>
+                    <div class="modal-body text-black">
+                        <div class="container-fluid">
+                            <div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" min="0" max="10" step="1" value="3" name="rows" id="rows" class="form-control" placeholder="name" />
+                                    <label for="rows">Rows: </label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="10"
+                                        step="1"
+                                        value="3"
+                                        name="columns"
+                                        id="columns"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label for="columns">Columns: </label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="number"
+                                        min="-0.4"
+                                        max="0.4"
+                                        step="0.01"
+                                        value="0"
+                                        name="gapX"
+                                        id="gapX"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label for="gapX">X-Gap: </label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input
+                                        type="number"
+                                        min="-0.4"
+                                        max="0.4"
+                                        step="0.01"
+                                        value="0"
+                                        name="gapY"
+                                        id="gapY"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label for="gapY">Y-Gap: </label>
+                                </div>
+                                <hr class="m-0; mt-1" />
+
+                                <div class="row align-items-center" style="margin: 0px; margin-top: -20px">
+                                    <input type="checkbox" name="TableCheckParent" id="TableCheckParent" class="col-2 order-1" style="min-height: 80px" />
+                                    <label class="col-auto offset-1 order-2" style="font-size: large; font-weight: bold; color: teal" for="TableCheckParent"
+                                        >Array Parent</label
+                                    >
+                                </div>
+                                <div class="w-100" style="margin-top: -15px">
+                                    <hr class="m-0; mt-1" />
+                                </div>
+
+                                <div class="row justify-content-center btn-group">
+                                    <button class="col-3 btn btn-success" id="TableArraySubmit">Submit</button>
+                                    <button class="col-3 btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="containerUI">
+            <div id="workspaceContainer">
+                <img
+                    id="workspace"
+                    class="row justify-content-center border border-1"
+                    src="./files/images/backgroundWorkspace.png"
+                    alt="workspace"
+                    draggable="false"
+                />
             </div>
 
-            <div id='FieldElement'>
-                <div class="p-1">
-                    <div class="border border-3 border-primary">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementDetails">
-                            <b>Details</b>
-                        </button>
-                    </div>
-                </div>
-                <div id='CollapseElementDetails' class="collapse">
-                    <div id='ElementInfo'>
-                        <label class="mt-3">
-                            <b id="ElementInfoTitle">Element Name </b><span id="ElementInfoDesc"><i class="fas fa-question-circle text-warning"></i></span>
-                        </label>
-                        <label class="mt-3 mb-3">
-                            <b>Functionality Tips </b><span id="ElementInfoFunc"><i class="fas fa-question-circle text-warning"></i></span>
-                        </label>
-                        <label class="mt-3 mb-3" id="ElementInfoExtFile">
-                            <p class="text-danger">Require an external TOC file. It will be created with the code file.</p>
-                        </label>
-                    </div>
-                    <div class="form-floating mb-1" data-bs-toggle="tooltip" data-bs-html="true" title='Name of the element. Can be an array syntax, but must start with index 0.<hr><b class="text-danger">Press Enter to save the edit.</b>'>
-                        <input type="text" class="form-control" id="elementName" placeholder="name">
-                        <label class="text-black" for="elementName">Name</label> 
-                    </div>
-
-                    <div id='FieldType'>
-                    <label for="elementType" class="col-4">Type: </label>
-                    <select name="elementType" id="elementType">
-                        <option value="1">Backdrop</option>
-                        <option value="2">Button</option>
-                    </select>
-                    </div>
-
-
-                    <div id='FieldParent' data-bs-toggle="tooltip" title="Select the parent. Children are displayed over parents ingame">
-                        <label for="elementParent" class="col-4">Parent: </label>
-                        <select name="elementParent" id="elementParent" class="parameter">
-                            <option value="parentTest1">Parent1</option>
-                            <option value="parentTest1">Parent2</option>
-                            <option value="parentTest1">Parent3</option>
-                        </select>
-                    </div>
-                
-                    <div class="form-check" id='FieldTooltip' data-bs-toggle="tooltip" data-bs-html="true" title="Tooltips appear when hovering over their parents<hr>Disabled if the parent has another tooltip, parent is a tooltip or element is child of Origin">
-                    <label class="form-check-label">
-                        Tooltip for Parent
-                        <input type="checkbox" class="form-check-input" name="elementTooltip" id="elementTooltip">
-                    </label>
-                    </div>
-                </div>
-            
-                <hr>
-                
-                <div class="p-1">
-                    <div class="border border-3 border-primary">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementPosition">
-                            <span data-bs-toggle="tooltip" title="Zero-coordinates is the Bottom Left corner of screen. Reference Point of element is its Bottom Left corner."><b>Coordinates</b></span>
-                        </button>
-                    </div>
-                </div>
-
-                <div id='CollapseElementPosition' class="collapse">
-                    <div class='row gx-1 justify-content-evenly'>
-                        <div class="col-6 form-floating mb-1" id="tooltipX" data-bs-toggle="tooltip" title="arrow keys move elements. Hold shift for smaller movement">
-                            <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateX" id="elementCoordinateX" class="form-control" placeholder="name">
-                            <label class="text-black" for="elementCoordinateX">X</label>
-                        </div>
-                        <div class="col form-floating mb-2" id="tooltipY" data-bs-toggle="tooltip" title="arrow keys move elements. Hold shift for smaller movement">
-                            <input type="number" min="0" max="0.8" step="0.01" name="elementCoordinateY" id="elementCoordinateY" class="form-control" placeholder="name">
-                            <label class="text-black" for="elementCoordinateY">Y</label>
+            <div style="color: rgb(248, 224, 197)">
+                <div class="container-fluid">
+                    <div class="row panelDebugBackground" style="background-image: url(./files/woodenplankHorBig.png); background-position: center">
+                        <div class="col-1 offset-6">
+                            <label class="form-check-label" data-bs-toggle="tooltip" title="Shows or hides the element borders">
+                                <i class="fas fa-expand" aria-hidden="true"></i>
+                                <input type="checkbox" class="form-check-input" name="" id="CheckboxElementBorders" checked />
+                            </label>
                         </div>
                     </div>
-
-                    <div class="form-floating mb-1">
-                        <input type="number" min="0" max="0.8" step="0.01" name="elementWidth" id="elementWidth" class="form-control" placeholder="name">
-                        <label class="text-black" for="elementWidth">Width</label>
-                    </div>
-                
-                    <div class="form-floating mb-3">
-                        <input type="number" min="0" max="0.8" step="0.01" name="elementHeight" id="elementHeight" class="form-control" placeholder="name">
-                        <label class="text-black" for="elementHeight">Height: </label>
-                    </div>
-                    <div class="form-check">
-                        <label for="relativeCheckbox" class="form-check-label" data-bs-toggle="tooltip" data-bs-html="true" title="Uses Relative Coordinates relative to parent instead of Absolute Coordinates. Useful in dynamic & moving UIs.<hr>Doesn't affect elements with parents as the Origin.">
-                            Relative to Parent 
-                            <input type="checkbox" class="form-check-input" name="relativeCheckbox" id="relativeCheckbox">
-                        </label>
-                    </div>
-
                 </div>
-                <hr>
-                <div id="PropertiesOutermostLevel">
+            </div>
+
+            <div id="panelParameters" class="panels scroll_enabled">
+                <div class="row justify-content-start">
+                    <button class="col-4 btn btn-warning" id="panelClose">Panel</button>
+                </div>
+
+                <div id="FieldElement">
                     <div class="p-1">
                         <div class="border border-3 border-primary">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementProperties">
-                                <b>Properties</b>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementDetails">
+                                <b>Details</b>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="CollapseElementDetails" class="collapse">
+                        <div id="ElementInfo">
+                            <label class="mt-3">
+                                <b id="ElementInfoTitle">Element Name </b><span id="ElementInfoDesc"><i class="fas fa-question-circle text-warning"></i></span>
+                            </label>
+                            <label class="mt-3 mb-3">
+                                <b>Functionality Tips </b><span id="ElementInfoFunc"><i class="fas fa-question-circle text-warning"></i></span>
+                            </label>
+                            <label class="mt-3 mb-3" id="ElementInfoExtFile">
+                                <p class="text-danger">Require an external TOC file. It will be created with the code file.</p>
+                            </label>
+                        </div>
+                        <div
+                            class="form-floating mb-1"
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title='Name of the element. Can be an array syntax, but must start with index 0.<hr><b class="text-danger">Press Enter to save the edit.</b>'
+                        >
+                            <input type="text" class="form-control" id="elementName" placeholder="name" />
+                            <label class="text-black" for="elementName">Name</label>
+                        </div>
+
+                        <div id="FieldType">
+                            <label for="elementType" class="col-4">Type: </label>
+                            <select name="elementType" id="elementType">
+                                <option value="1">Backdrop</option>
+                                <option value="2">Button</option>
+                            </select>
+                        </div>
+
+                        <div id="FieldParent" data-bs-toggle="tooltip" title="Select the parent. Children are displayed over parents ingame">
+                            <label for="elementParent" class="col-4">Parent: </label>
+                            <select name="elementParent" id="elementParent" class="parameter">
+                                <option value="parentTest1">Parent1</option>
+                                <option value="parentTest1">Parent2</option>
+                                <option value="parentTest1">Parent3</option>
+                            </select>
+                        </div>
+
+                        <div
+                            class="form-check"
+                            id="FieldTooltip"
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="Tooltips appear when hovering over their parents<hr>Disabled if the parent has another tooltip, parent is a tooltip or element is child of Origin"
+                        >
+                            <label class="form-check-label">
+                                Tooltip for Parent
+                                <input type="checkbox" class="form-check-input" name="elementTooltip" id="elementTooltip" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="p-1">
+                        <div class="border border-3 border-primary">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementPosition">
+                                <span
+                                    data-bs-toggle="tooltip"
+                                    title="Zero-coordinates is the Bottom Left corner of screen. Reference Point of element is its Bottom Left corner."
+                                    ><b>Coordinates</b></span
+                                >
                             </button>
                         </div>
                     </div>
 
-                    <div id='CollapseElementProperties' class="collapse">
+                    <div id="CollapseElementPosition" class="collapse">
+                        <div class="row gx-1 justify-content-evenly">
+                            <div
+                                class="col-6 form-floating mb-1"
+                                id="tooltipX"
+                                data-bs-toggle="tooltip"
+                                title="arrow keys move elements. Hold shift for smaller movement"
+                            >
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="0.8"
+                                    step="0.01"
+                                    name="elementCoordinateX"
+                                    id="elementCoordinateX"
+                                    class="form-control"
+                                    placeholder="name"
+                                />
+                                <label class="text-black" for="elementCoordinateX">X</label>
+                            </div>
+                            <div
+                                class="col form-floating mb-2"
+                                id="tooltipY"
+                                data-bs-toggle="tooltip"
+                                title="arrow keys move elements. Hold shift for smaller movement"
+                            >
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="0.8"
+                                    step="0.01"
+                                    name="elementCoordinateY"
+                                    id="elementCoordinateY"
+                                    class="form-control"
+                                    placeholder="name"
+                                />
+                                <label class="text-black" for="elementCoordinateY">Y</label>
+                            </div>
+                        </div>
 
-                        <div id='FieldTexture'>
-                            <label for=""><b>Texture Paths</b></label>
-                            <div class='row gx-1'>
-                                <div class="col-9 form-floating mb-1" id="tooltipTextureApp" data-bs-toggle="tooltip" data-bs-html="true" title="The appearance inside the app. Not related to the game.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1, BC2/DXT3 & BC3/DXT5 ]</span>">
-                                    <input type="text" id="elementDiskTexture" class="form-control" placeholder="name">
-                                    <label class="text-black" for="elementDiskTexture">Texture Path</label>
+                        <div class="form-floating mb-1">
+                            <input type="number" min="0" max="0.8" step="0.01" name="elementWidth" id="elementWidth" class="form-control" placeholder="name" />
+                            <label class="text-black" for="elementWidth">Width</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input
+                                type="number"
+                                min="0"
+                                max="0.8"
+                                step="0.01"
+                                name="elementHeight"
+                                id="elementHeight"
+                                class="form-control"
+                                placeholder="name"
+                            />
+                            <label class="text-black" for="elementHeight">Height: </label>
+                        </div>
+                        <div class="form-check">
+                            <label
+                                for="relativeCheckbox"
+                                class="form-check-label"
+                                data-bs-toggle="tooltip"
+                                data-bs-html="true"
+                                title="Uses Relative Coordinates relative to parent instead of Absolute Coordinates. Useful in dynamic & moving UIs.<hr>Doesn't affect elements with parents as the Origin."
+                            >
+                                Relative to Parent
+                                <input type="checkbox" class="form-check-input" name="relativeCheckbox" id="relativeCheckbox" />
+                            </label>
+                        </div>
+                    </div>
+                    <hr />
+                    <div id="PropertiesOutermostLevel">
+                        <div class="p-1">
+                            <div class="border border-3 border-primary">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementProperties">
+                                    <b>Properties</b>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="CollapseElementProperties" class="collapse">
+                            <div id="FieldTexture">
+                                <label for=""><b>Texture Paths</b></label>
+                                <div class="row gx-1">
+                                    <div
+                                        class="col-9 form-floating mb-1"
+                                        id="tooltipTextureApp"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-html="true"
+                                        title="The appearance inside the app. Not related to the game.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1, BC2/DXT3 & BC3/DXT5 ]</span>"
+                                    >
+                                        <input type="text" id="elementDiskTexture" class="form-control" placeholder="name" />
+                                        <label class="text-black" for="elementDiskTexture">Texture Path</label>
+                                    </div>
+
+                                    <label class="col btn btn-primary" for="buttonBrowseTexture" style="padding: 1rem 0rem !important">. . .</label>
+                                    <input type="file" accept="image/*,.dds,.blp" style="display: none" id="buttonBrowseTexture" />
                                 </div>
 
-                                <label class='col btn btn-primary' for='buttonBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
-                                <input type="file" accept="image/*,.dds,.blp" style="display:none" id="buttonBrowseTexture">
-                            </div>
-                                    
-
-                            <div class="form-floating mb-3" id="tooltipTextureWC3" data-bs-toggle="tooltip" title="The appearance ingame. Put the path of the dds or blp file in Asset Manager here">
-                                <input type="text" list="WC3TextureList" name="elementWC3Texture" id="elementWC3Texture" class="form-control" placeholder="name">
-                                <label class="text-black" for="elementWC3Texture">Texture Path (WE)</label>
-                                <!-- <datalist id="WC3TextureList">
+                                <div
+                                    class="form-floating mb-3"
+                                    id="tooltipTextureWC3"
+                                    data-bs-toggle="tooltip"
+                                    title="The appearance ingame. Put the path of the dds or blp file in Asset Manager here"
+                                >
+                                    <input
+                                        type="text"
+                                        list="WC3TextureList"
+                                        name="elementWC3Texture"
+                                        id="elementWC3Texture"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label class="text-black" for="elementWC3Texture">Texture Path (WE)</label>
+                                    <!-- <datalist id="WC3TextureList">
                                     <option value="Black">
                                     <option value="Red">
                                     <option value="Green">
                                 </datalist> -->
-                            </div>
-
-                        </div>
-                            
-                        <div id='FieldBackgroundTexture'>
-                            <hr>
-                            <label for=""><b>Background Texture Paths</b></label>
-                            <div class='row gx-1'>
-                                <div class="col-9 form-floating mb-1" id="tooltipBackTextureApp" data-bs-toggle="tooltip" data-bs-html="true" title="The appearance of the Background inside the app.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1, BC2/DXT3 & BC3/DXT5 ]</span>">
-                                    <input type="text" id="elementBackDiskTexture" class="form-control" placeholder="name">
-                                    <label class="text-black" for="elementBackDiskTexture">Texture Path</label>
-                                </div>
-
-                                <label class='col btn btn-primary' for='buttonBackBrowseTexture' style="padding: 1rem 0rem !important">. . .</label>
-                                <input type="file" accept="image/*,.dds,.blp" style="display:none" id="buttonBackBrowseTexture">
-                            </div>
-                                    
-
-                            <div class="form-floating mb-3" id="tooltipBackTextureWC3" data-bs-toggle="tooltip" title="The background's appearance ingame. Put the path of the dds or blp file in Asset Manager here">
-                                <input type="text" list="WC3TextureList" name="elementBackWC3Texture" id="elementBackWC3Texture" class="form-control" placeholder="name">
-                                <label class="text-black" for="elementBackWC3Texture">Texture Path (WE)</label>
-                                <datalist id="WC3TextureList">
-                                    <option value="Black">
-                                    <option value="Red">
-                                    <option value="Green">
-                                    <option value="Blue">
-                                    <option value="White">
-                                </datalist>
-                            </div>
-
-                            <hr>
-                        </div>
-
-                        <div id='FieldPropertiesFull'>
-                            <label for=""><b>Properties</b></label>
-
-                            
-                            <div id='FieldFunctionalityText' data-bs-toggle="tooltip" title="This text will be written inside the element">
-                                <div class="form-floating mb-1">
-                                    <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name">
-                                    <label class="text-black" for="elementText">Text</label>
                                 </div>
                             </div>
-                            
-                            
-                            <div id='FieldFunctionalityTextBig' class="form-floating mb-1" data-bs-toggle="tooltip" title="Supports multi-line. Can also use color strings for colored parts of the text">
-                                <textarea class="form-control" name="elementTextBig" id="elementTextBig" cols="22" rows="10" style="height: 100px;"></textarea>
-                                <!-- <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name"> -->
-                                <label class="text-black" for="elementTextBig">Text</label>
-                            </div>
-                        
-                            <div id='FieldFunctionalityScale'>
-                                <label for="elementTextScale" class="col-8">Text Scale: </label>
-                                <input type="number" class="col-3" name="elementTextScale" id="elementTextScale" value="1" step="0.1" min="0" max="5">
+
+                            <div id="FieldBackgroundTexture">
+                                <hr />
+                                <label for=""><b>Background Texture Paths</b></label>
+                                <div class="row gx-1">
+                                    <div
+                                        class="col-9 form-floating mb-1"
+                                        id="tooltipBackTextureApp"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-html="true"
+                                        title="The appearance of the Background inside the app.<hr>Accepts .blp and normal image extensions.<hr>Accepts .dds <span class='text-warning'>[ BC1/DXT1, BC2/DXT3 & BC3/DXT5 ]</span>"
+                                    >
+                                        <input type="text" id="elementBackDiskTexture" class="form-control" placeholder="name" />
+                                        <label class="text-black" for="elementBackDiskTexture">Texture Path</label>
+                                    </div>
+
+                                    <label class="col btn btn-primary" for="buttonBackBrowseTexture" style="padding: 1rem 0rem !important">. . .</label>
+                                    <input type="file" accept="image/*,.dds,.blp" style="display: none" id="buttonBackBrowseTexture" />
+                                </div>
+
+                                <div
+                                    class="form-floating mb-3"
+                                    id="tooltipBackTextureWC3"
+                                    data-bs-toggle="tooltip"
+                                    title="The background's appearance ingame. Put the path of the dds or blp file in Asset Manager here"
+                                >
+                                    <input
+                                        type="text"
+                                        list="WC3TextureList"
+                                        name="elementBackWC3Texture"
+                                        id="elementBackWC3Texture"
+                                        class="form-control"
+                                        placeholder="name"
+                                    />
+                                    <label class="text-black" for="elementBackWC3Texture">Texture Path (WE)</label>
+                                    <datalist id="WC3TextureList">
+                                        <option value="Black"></option>
+                                        <option value="Red"></option>
+                                        <option value="Green"></option>
+                                        <option value="Blue"></option>
+                                        <option value="White"></option>
+                                    </datalist>
+                                </div>
+
+                                <hr />
                             </div>
 
-                            <div id='FieldFunctionalityColor'>
-                                <label for="elementTextColor" class="col-8">Text Color: </label>
-                                <input type="color" name="elementTextColor" id="elementTextColor" value="#FFFFFF">
-                            </div>
+                            <div id="FieldPropertiesFull">
+                                <label for=""><b>Properties</b></label>
 
-                            <div id='FieldFunctionalityAlign'>
-                                <label for="elementTextHorAlign" class="col-12 mt-2">Horizontal Alignment: </label>
-                                <select name="elementTextHorAlign" class="col-12" id="elementTextHorAlign">
-                                    <option value="left">Left</option>
-                                    <option value="center">Center</option>
-                                    <option value="right">Right</option>
-                                </select>
-                        
-                                <label for="elementTextVerAlign" class="col-12 mt-2">Vertical Alignment: </label>
-                                <select name="elementTextVerAlign" class="col-12" id="elementTextVerAlign">
-                                    <option value="start">Top</option>
-                                    <option value="center">Center</option>
-                                    <option value="flex-end">Bottom</option>
-                                </select>
-                            </div>
+                                <div id="FieldFunctionalityText" data-bs-toggle="tooltip" title="This text will be written inside the element">
+                                    <div class="form-floating mb-1">
+                                        <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name" />
+                                        <label class="text-black" for="elementText">Text</label>
+                                    </div>
+                                </div>
 
+                                <div
+                                    id="FieldFunctionalityTextBig"
+                                    class="form-floating mb-1"
+                                    data-bs-toggle="tooltip"
+                                    title="Supports multi-line. Can also use color strings for colored parts of the text"
+                                >
+                                    <textarea
+                                        class="form-control"
+                                        name="elementTextBig"
+                                        id="elementTextBig"
+                                        cols="22"
+                                        rows="10"
+                                        style="height: 100px"
+                                    ></textarea>
+                                    <!-- <input type="text" name="elementText" id="elementText" class="form-control" placeholder="name"> -->
+                                    <label class="text-black" for="elementTextBig">Text</label>
+                                </div>
+
+                                <div id="FieldFunctionalityScale">
+                                    <label for="elementTextScale" class="col-8">Text Scale: </label>
+                                    <input type="number" class="col-3" name="elementTextScale" id="elementTextScale" value="1" step="0.1" min="0" max="5" />
+                                </div>
+
+                                <div id="FieldFunctionalityColor">
+                                    <label for="elementTextColor" class="col-8">Text Color: </label>
+                                    <input type="color" name="elementTextColor" id="elementTextColor" value="#FFFFFF" />
+                                </div>
+
+                                <div id="FieldFunctionalityAlign">
+                                    <label for="elementTextHorAlign" class="col-12 mt-2">Horizontal Alignment: </label>
+                                    <select name="elementTextHorAlign" class="col-12" id="elementTextHorAlign">
+                                        <option value="left">Left</option>
+                                        <option value="center">Center</option>
+                                        <option value="right">Right</option>
+                                    </select>
+
+                                    <label for="elementTextVerAlign" class="col-12 mt-2">Vertical Alignment: </label>
+                                    <select name="elementTextVerAlign" class="col-12" id="elementTextVerAlign">
+                                        <option value="start">Top</option>
+                                        <option value="center">Center</option>
+                                        <option value="flex-end">Bottom</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        
+                        <hr />
                     </div>
-                    <hr>
+
+                    <div id="FunctionalityOutermostLevel">
+                        <div class="p-1">
+                            <div class="border border-3 border-primary">
+                                <button
+                                    class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#CollapseElementFunctionality"
+                                >
+                                    <b>Functionality</b>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="CollapseElementFunctionality" class="collapse">
+                            <div
+                                id="FieldFunctionalityVar"
+                                data-bs-toggle="tooltip"
+                                data-bs-html="true"
+                                title="Requires a variable of type 'real'. Variable name is always preceded by 'udg_'.<hr>For buttons, the variable will have the <b>number of the pressing player.</b><hr>For checkbox, value = 1 if it was unchecked, value = 2 if it was checked"
+                            >
+                                <div class="form-floating mb-3 mt-2">
+                                    <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name" />
+                                    <label class="text-black" for="elementTrigVar">Triggered Variable</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div id="ArrayConfigurationOutermost">
+                        <div id="ArrayConfiguration">
+                            <div class="p-1">
+                                <div class="border border-3 border-primary">
+                                    <button
+                                        class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#CollapseArrayConfiguration"
+                                    >
+                                        <b>Array Options</b>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="CollapseArrayConfiguration" class="collapse" style="overflow: auto;">
+                                <div
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    title="Changes the name of the array, so changes the name of all its elements.<hr>Press Enter to record the change."
+                                >
+                                    <div class="form-floating mb-3 mt-2">
+                                        <input type="text" name="elementArrayName" id="elementArrayName" class="form-control" placeholder="name" />
+                                        <label class="text-black" for="elementArrayName">Array Name</label>
+                                    </div>
+                                </div>
+
+                                <div id="FieldArrayTable">
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipRows"
+                                            data-bs-toggle="tooltip"
+                                            title="Rows of the Table Array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="100"
+                                                step="1"
+                                                name="elementArrayRows"
+                                                id="elementArrayRows"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayRows">Rows</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipCols"
+                                            data-bs-toggle="tooltip"
+                                            title="Columns of the Table Array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="100"
+                                                step="1"
+                                                name="elementArrayCols"
+                                                id="elementArrayCols"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayCols">Cols</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipXGap"
+                                            data-bs-toggle="tooltip"
+                                            title="The horizontal gap between each column in the array."
+                                        >
+                                            <input
+                                                type="number"           
+                                                min="0"
+                                                max="0.8"
+                                                step="0.005"
+                                                name="elementArrayXGap"
+                                                id="elementArrayXGap"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayXGap">X-Gap</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipY"
+                                            data-bs-toggle="tooltip"
+                                            title="The vertical gap between each row in the array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="0.8"
+                                                step="0.005"
+                                                name="elementArrayYGap"
+                                                id="elementArrayYGap"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayYGap">Y-Gap</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="FieldArrayCircle">
+                                    <div class="row gx-1 justify-content-evenly">
+                                        <div
+                                            class="col-6 form-floating mb-1"
+                                            id="tooltipRadius"
+                                            data-bs-toggle="tooltip"
+                                            title="The radius of the circular array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="0.5"
+                                                step="0.01"
+                                                name="elementArrayRadius"
+                                                id="elementArrayRadius"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayRadius">Radius</label>
+                                        </div>
+                                        <div
+                                            class="col form-floating mb-2"
+                                            id="tooltipCount"
+                                            data-bs-toggle="tooltip"
+                                            title="The number of elements in the circular array."
+                                        >
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="40"
+                                                step="1"
+                                                name="elementArrayCount"
+                                                id="elementArrayCount"
+                                                class="form-control"
+                                                placeholder="name"
+                                            />
+                                            <label class="text-black" for="elementArrayCount">Count</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button 
+                                    class="col-12 btn btn-primary mb-2" type="button" id="buttonCloneArrayProps"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    title="Clones all the props on this element to all other elements in this array.<hr>All elements of the array will have identical properties like this one.">
+                                        Clone Props to All Elements
+                                    </button>
+                                </div>
+
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
                 </div>
 
-                <div id="FunctionalityOutermostLevel">
-                    <div class="p-1">
-                        <div class="border border-3 border-primary">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#CollapseElementFunctionality">
-                                <b>Functionality</b>
-                            </button>
-                        </div>
+                <div id="FieldGeneral">
+                    <label for=""><b>General Options</b></label>
+                    <div
+                        class="form-floating mb-3"
+                        id="tooltipLibName"
+                        data-bs-toggle="tooltip"
+                        title="Must be unique to be able to have more than 1 project in a map"
+                    >
+                        <input type="text" name="generalLibName" id="generalLibName" class="form-control" placeholder="name" value="REFORGEDUIMAKER" />
+                        <label class="text-black" for="generalLibName">Library Name</label>
                     </div>
 
-                    <div id='CollapseElementFunctionality' class="collapse">
-                        <div id='FieldFunctionalityVar' data-bs-toggle="tooltip" data-bs-html="true" title="Requires a variable of type 'real'. Variable name is always preceded by 'udg_'.<hr>For buttons, the variable will have the <b>number of the pressing player.</b><hr>For checkbox, value = 1 if it was unchecked, value = 2 if it was checked">
-                            <div class="form-floating mb-3 mt-2">
-                                <input type="text" name="elementTrigVar" id="elementTrigVar" class="form-control" placeholder="name">
-                                <label class="text-black" for="elementTrigVar">Triggered Variable</label>
-                            </div>
-                        </div>
+                    <div class="form-check mb-3">
+                        <label
+                            for="generalPathFill"
+                            class="form-check-label"
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="When opening .blp or .dds images, automatically put the file name in <b>Texture Path (WE) field</b>."
+                        >
+                            Automatic Path Fill
+                            <input class="form-check-input" type="checkbox" name="generalPathFill" id="generalPathFill" checked />
+                        </label>
                     </div>
-                    <hr>
+
+                    <hr />
+                    <label for=""><b>Default Game UI</b></label>
+                    <div class="form-check">
+                        <label
+                            for="generalGameUI"
+                            class="form-check-label"
+                            data-bs-toggle="tooltip"
+                            title="Hides all the default game UI like resource bar and unit data UI"
+                        >
+                            Hide All Game UI
+                            <input class="form-check-input" type="checkbox" name="generalGameUI" id="generalGameUI" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label
+                            for="generalHeroBar"
+                            class="form-check-label"
+                            data-bs-toggle="tooltip"
+                            title="Hides hero health and mana bars from the left side"
+                        >
+                            Hide Hero Bar
+                            <input class="form-check-input" type="checkbox" name="generalHeroBar" id="generalHeroBar" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label for="generalMiniMap" class="form-check-label" data-bs-toggle="tooltip" title="Hides the minimap">
+                            Hide Minimap
+                            <input class="form-check-input" type="checkbox" name="generalMiniMap" id="generalMiniMap" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label for="generalResources" class="form-check-label" data-bs-toggle="tooltip" title="Hides the resource bar (gold, lumber)">
+                            Hide Resources Bar
+                            <input class="form-check-input" type="checkbox" name="generalResources" id="generalResources" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label for="generalButtonBar" class="form-check-label" data-bs-toggle="tooltip" title="Hide the button bar (menu, log)">
+                            Hide Button Bar
+                            <input class="form-check-input" type="checkbox" name="generalButtonBar" id="generalButtonBar" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label for="generalPortrait" class="form-check-label" data-bs-toggle="tooltip" title="Hides the units' portraits">
+                            Hide Portrait
+                            <input class="form-check-input" type="checkbox" name="generalPortrait" id="generalPortrait" />
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label for="generalChat" class="form-check-label" data-bs-toggle="tooltip" title="Chat messages sent by players won't be visible">
+                            Hide Chat
+                            <input class="form-check-input" type="checkbox" name="generalChat" id="generalChat" />
+                        </label>
+                    </div>
+
+                    <hr />
+                    <div id="originMode">
+                        <label for=""><b>Origin Mode</b></label>
+                        <br />
+                        <div
+                            class="form-check"
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>above</b> the Default Game UI.<br>Game messages are displayed <b>under</b> the Frames."
+                        >
+                            <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode1" value="gameui" checked />
+                            <label class="form-check-label" for="OriginMode1"> Game UI <span class="badge bg-secondary">Default</span> </label>
+                        </div>
+                        <div
+                            class="form-check"
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>under</b> the Default Game UI.<br>Game messages are displayed <b>above</b> the Frames."
+                        >
+                            <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode2" value="worldframe" />
+                            <label class="form-check-label" for="OriginMode2"> World Frame </label>
+                        </div>
+                        <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true" title='BlzGetFrameByName("ConsoleUIBackdrop", 0)
+                        <hr />
+                        Frames are <b>NOT</b> locked in the area bounded by the green columns and <b>can be put outside</b>.
+                        <hr />
+                        Frames are displayed <b>under</b> the Default Game UI.<br />Game messages are displayed <b>above</b> the Frames.''>
+                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode3" value="consoleui" />
+                        <label class="form-check-label" for="OriginMode3"> ConsoleUI <span class="badge bg-danger">v1.32+</span> </label>
+                    </div>
                 </div>
-
-
             </div>
-            
-            <div id='FieldGeneral'>
-                <label for=""><b>General Options</b></label>
-                <div class="form-floating mb-3" id="tooltipLibName" data-bs-toggle="tooltip" title="Must be unique to be able to have more than 1 project in a map">
-                    <input type="text" name="generalLibName" id="generalLibName" class="form-control" placeholder="name" value="REFORGEDUIMAKER">
-                    <label class="text-black" for="generalLibName">Library Name</label>
-                </div>
-                
-                <div class="form-check mb-3">
-                    <label for="generalPathFill" class="form-check-label" data-bs-toggle="tooltip" data-bs-html="true"
-                    title="When opening .blp or .dds images, automatically put the file name in <b>Texture Path (WE) field</b>.">
-                        Automatic Path Fill
-                        <input class="form-check-input" type="checkbox" name="generalPathFill" id="generalPathFill" checked>
-                    </label>
-                </div>
-                    
 
-                <hr>
-                <label for=""><b>Default Game UI</b></label>
-                <div class="form-check">
-                    <label for="generalGameUI" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hides all the default game UI like resource bar and unit data UI">
-                        Hide All Game UI
-                        <input class="form-check-input" type="checkbox" name="generalGameUI" id="generalGameUI">
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <label for="generalHeroBar" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hides hero health and mana bars from the left side">
-                        Hide Hero Bar
-                        <input class="form-check-input" type="checkbox" name="generalHeroBar" id="generalHeroBar">
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <label for="generalMiniMap" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hides the minimap">
-                        Hide Minimap
-                        <input class="form-check-input" type="checkbox" name="generalMiniMap" id="generalMiniMap">
-                    </label>
-                </div>
-                
-                    
-                <div class="form-check">
-                    <label for="generalResources" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hides the resource bar (gold, lumber)">
-                        Hide Resources Bar
-                        <input class="form-check-input" type="checkbox" name="generalResources" id="generalResources">
-                    </label>
-                    
-                </div>
-
-                <div class="form-check">
-                    <label for="generalButtonBar" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hide the button bar (menu, log)">
-                        Hide Button Bar
-                        <input class="form-check-input" type="checkbox" name="generalButtonBar" id="generalButtonBar">    
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <label for="generalPortrait" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Hides the units' portraits">
-                        Hide Portrait
-                        <input class="form-check-input" type="checkbox" name="generalPortrait" id="generalPortrait">
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <label for="generalChat" class="form-check-label" data-bs-toggle="tooltip" 
-                    title="Chat messages sent by players won't be visible">
-                        Hide Chat
-                        <input class="form-check-input" type="checkbox" name="generalChat" id="generalChat">
-                    </label>
-                </div>
-
-                <hr>
-                <div id="originMode">
-                    <label for=""><b>Origin Mode</b></label>
-                    <br>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
-                     title="BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>above</b> the Default Game UI.<br>Game messages are displayed <b>under</b> the Frames.">
-                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode1" value="gameui" checked>
-                        <label class="form-check-label" for="OriginMode1">
-                            Game UI <span class="badge bg-secondary">Default</span>
-                        </label>
-                    </div>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
-                     title="BlzGetOriginFrame(ORIGIN_FRAME_WORLD_FRAME, 0)<hr>Frames are locked in the area bounded by the green columns.<hr>Frames are displayed <b>under</b> the Default Game UI.<br>Game messages are displayed <b>above</b> the Frames.">
-                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode2" value="worldframe">
-                        <label class="form-check-label" for="OriginMode2">
-                            World Frame
-                        </label>
-                    </div>
-                    <div class="form-check" data-bs-toggle="tooltip" data-bs-html="true"
-                     title='BlzGetFrameByName("ConsoleUIBackdrop", 0)<hr>Frames are <b>NOT</b> locked in the area bounded by the green columns and <b>can be put outside</b>.<hr>Frames are displayed <b>under</b> the Default Game UI.<br>Game messages are displayed <b>above</b> the Frames.''>
-                        <input class="form-check-input" type="radio" name="OriginMode" id="OriginMode3" value="consoleui">
-                        <label class="form-check-label" for="OriginMode3">
-                            ConsoleUI <span class="badge bg-danger">v1.32+</span>
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-
-            
             <!-- <label for=""><b>Custom Element</b></label>
             <form id="formIMG" >
                 <input type="file" id="imgFile" name="imgFile" accept="image/*">
@@ -489,31 +829,26 @@
             </form> -->
 
             <!-- <button id="test">Custom Text!</button> -->
-                
-
         </div>
 
         <div id="panelTree" class="panels scroll_enabled">
             <div id="panelTreeInnerDiv">
-                <div class='row justify-content-end'>
-                    <button class='col-3 btn btn-warning' id='treeClose'>Tree</button>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-warning" id="treeClose">Tree</button>
                 </div>
                 <div id="panelTreeView"></div>
             </div>
-
         </div>
-        
-        <div id="panelDebug" class="col-8 offset-2" style='color: rgb(248,224,197);'>
-            <div class="row" style="padding: 0px 12px; margin-top: -10px;">
-                <b id='debugLine' class="col-9">Debug Line</b>
-                <div id='debugGameCoordinates' class="col-3" >Game: (x , y)</div>
+
+        <div id="panelDebug" class="col-8 offset-2" style="color: rgb(248, 224, 197)">
+            <div class="row" style="padding: 0px 12px; margin-top: -10px">
+                <b id="debugLine" class="col-9">Debug Line</b>
+                <div id="debugGameCoordinates" class="col-3">Game: (x , y)</div>
                 <!-- <div id='credits' class="col-12 text-warning text-center border-2 border border-warning">Developed by: NightKnight & Insanity_AI. Consider Supporting!</div> -->
             </div>
         </div>
-        
 
-        <div id="barTab" style='color: rgb(248,224,197);'>
-
+        <div id="barTab" style="color: rgb(248, 224, 197)">
             <div id="barTabInner">
                 <div class="tab">File</div>
                 <div class="tab">Edit</div>
@@ -522,23 +857,39 @@
                 <div class="tab">Window</div>
             </div>
 
-            
-            <div id="barTabImg">
+            <div id="barTabImg"></div>
+
+            <div id="barTools" style="color: rgb(248, 224, 197)">
+                <button class="btn btn-outline-light p-0" id="normalSelectorMode">
+                    <i 
+                        class="fas fa-mouse-pointer"
+                        data-bs-toggle="tooltip"
+                        title="Return to normal mode. Interact with elements.">
+                    </i>
+                </button>
+                <button class="btn btn-outline-light p-0" id="zoomSelectorMode">
+                    <i 
+                        class="fas fa-search-plus"
+                        data-bs-toggle="tooltip"
+                        title="Zooms in or out by dragging mouse up or down. Shortcut: alt + mouse wheel">
+                    </i>
+                </button>
+                <button class="btn btn-outline-light p-0" id="dragSelectorMode">
+                    <i class="fas fa-hand-paper"
+                        data-bs-toggle="tooltip"
+                        title="Drags the workspace. Shortcut: alt + mouse drag. Additional: mouse wheel / shift + mouse wheel">
+                    </i>
+                </button>
             </div>
 
-            <div id="barRibbon" style='color: rgb(248,224,197);'>
-    
-                <div class="ribbonOption">New</div>
+            <div id="barRibbon" style="color: rgb(248, 224, 197)">
+                <i class="fas fa-expand" aria-hidden="true"></i>
                 <div class="ribbonOption">Open</div>
                 <div class="ribbonOption">Save</div>
                 <div class="ribbonOption">Export</div>
-    
             </div>
-
         </div>
 
-    <script type="module" src="renderer.js"></script>
-
-</body>
-
+        <script type="module" src="renderer.js"></script>
+    </body>
 </html>

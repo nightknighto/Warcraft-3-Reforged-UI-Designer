@@ -1,15 +1,16 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import CustomComplex from '../../Editor/FrameLogic/CustomComplex'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameDiskTexture extends SimpleCommand {
     private frame: string
-    private oldTexture: string
-    private newTexture: string
+    private oldTexture: File | string
+    private newTexture: File | string
+    private which: 'normal' | 'back'
 
-    public constructor(frame: FrameComponent | string, texture: string) {
+    public constructor(frame: FrameComponent | string, texture: File | string, which: 'normal' | 'back') {
         super()
 
         if (typeof frame === 'string') {
@@ -19,10 +20,11 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
         }
 
         this.newTexture = texture
+        this.which = which
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -34,13 +36,15 @@ export default class ChangeFrameDiskTexture extends SimpleCommand {
             return
         }
 
-        this.oldTexture = frame.custom.getDiskTexture('normal')
-        frame.custom.setDiskTexture(this.newTexture, 'normal')
+        this.oldTexture = frame.custom.getDiskTexture(this.which)
+        frame.custom.setDiskTexture(this.newTexture, this.which)
     }
 
     public undo(): void {
-        const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture)
-        command.pureAction()
+        if (this.oldTexture) {
+            const command = new ChangeFrameDiskTexture(this.frame, this.oldTexture, this.which)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame disk texture')

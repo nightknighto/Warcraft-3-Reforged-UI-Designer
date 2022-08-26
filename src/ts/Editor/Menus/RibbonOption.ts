@@ -1,5 +1,4 @@
-import { node } from 'webpack'
-import { ICallableDivInstance } from '../../Classes & Functions/ICallableDivInstance'
+import { ICallableDivInstance } from '../../ClassesAndFunctions/ICallableDivInstance'
 
 export class RibbonOption {
     public readonly name: string

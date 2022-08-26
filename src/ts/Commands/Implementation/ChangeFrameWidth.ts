@@ -1,12 +1,12 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameWidth extends SimpleCommand {
     private frame: string
     private width: number
-    private oldWidth: number
+    private oldWidth?: number
 
     public constructor(frame: FrameComponent | string, newWidth: number) {
         super()
@@ -21,8 +21,10 @@ export default class ChangeFrameWidth extends SimpleCommand {
     }
 
     public undo(): void {
-        const command = new ChangeFrameWidth(this.frame, this.oldWidth)
-        command.pureAction()
+        if (this.oldWidth) {
+            const command = new ChangeFrameWidth(this.frame, this.oldWidth)
+            command.pureAction()
+        }
 
         super.undo()
         debugText('Undid frame change width.')
@@ -34,7 +36,7 @@ export default class ChangeFrameWidth extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')

@@ -1,12 +1,12 @@
-import { debugText } from '../../Classes & Functions/Mini-Functions'
-import { Editor } from '../../Editor/Editor'
+import { debugText } from '../../ClassesAndFunctions/MiniFunctions'
 import { FrameComponent } from '../../Editor/FrameLogic/FrameComponent'
+import { ProjectTree } from '../../Editor/ProjectTree'
 import SimpleCommand from '../SimpleCommand'
 
 export default class ChangeFrameX extends SimpleCommand {
     private frame: string
     private newX: number
-    private oldX: number
+    private oldX?: number
 
     public constructor(frame: FrameComponent | string, x: number) {
         super()
@@ -21,7 +21,7 @@ export default class ChangeFrameX extends SimpleCommand {
     }
 
     public pureAction(): void {
-        const frame = Editor.GetDocumentEditor().projectTree.findByName(this.frame)
+        const frame = ProjectTree.getInstance().findByName(this.frame)
 
         if (typeof frame === 'undefined') {
             debugText('Could not find frame.')
@@ -33,8 +33,10 @@ export default class ChangeFrameX extends SimpleCommand {
     }
 
     public undo(): void {
-        const undoCommand = new ChangeFrameX(this.frame, this.oldX)
-        undoCommand.pureAction()
+        if (this.oldX) {
+            const undoCommand = new ChangeFrameX(this.frame, this.oldX)
+            undoCommand.pureAction()
+        }
 
         super.undo()
         debugText('Undid change frame X')

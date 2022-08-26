@@ -1,57 +1,55 @@
-
-.window-title{
+.window-title {
     color: yellow;
 }
 
-.window-appicon{
+.window-appicon {
     background-size: 25px !important;
 }
 
-body{
-    margin: 0;  
-
+body {
+    margin: 0;
 }
 
-#containerUI{
+#containerUI {
     width: 100vw;
     height: 100vh;
     position: fixed;
     background-color: black;
 }
 
-#barTitle{
-    background-color: rgb(69,49,26);
+#barTitle {
+    background-color: rgb(69, 49, 26);
     background-image: url('./files/woodenplankVertBord.png');
     background-repeat: round;
 }
 
-#barTab{
+#barTab {
     position: fixed;
     top: 30px;
     height: 40px;
     width: 100vw;
-    background-color: #B87E59;
+    background-color: #b87e59;
     background-image: url('./files/woodenplankVertBord.png');
-    
+
     display: flex;
 }
 
-#barTabImg{
+#barTabImg {
     position: fixed;
     top: 30px;
     height: 40px;
     right: 0;
     width: 20vw;
     background-size: 200% 100%;
-    background-color: #B87E59;
+    background-color: #b87e59;
     background-color: rgb(115, 49, 146);
     background-image: url('./files/barTabImg.png');
     visibility: hidden;
-    
+
     display: flex;
 }
 
-#barTab .tab{
+#barTab .tab {
     width: fit-content;
 
     position: relative;
@@ -60,31 +58,59 @@ body{
     margin-top: 0;
     margin-bottom: auto;
     /* transform: translate(0%, 50%); */
-    color: rgb(248,224,197);
+    color: rgb(248, 224, 197);
     font-weight: 600;
 }
 
-#barTabInner{
+#barTabInner {
     background-color: none; /* #28160C */
     clip-path: polygon(0 0, 100% 0, 81% 100%, 0% 100%);
     width: 600px;
     border: none; /* 2px solid #B87E59 */
 }
 
-#barRibbon{
+#barRibbon {
     position: fixed;
-    top:70px;
-    height: 50px;
+    top: 70px;
+    height: 55px;
+    padding-bottom: 2px;
+    padding-top: 2px;
     width: 100vw;
-    background-color: #94471B;
+    background-color: #94471b;
 
     display: flex;
     overflow-x: inherit;
     z-index: 1;
 }
 
-.ribbonOption{
+#barTools {
+    position: fixed;
+    top: 125px;
+    height: 30px;
+    width: 100vw;
+    background-color: #cc6c34;
+    display: flex;
+    overflow-x: inherit;
+    z-index: 1;
+    padding: 1px;
+    background-image: url("./files/woodenplankHorBig.png");
+    background-color: rgb(130, 120, 119);
+}
 
+#barTools button {
+    margin-right: 10px;
+}
+
+#barTools button i {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+#barTools :first-child {
+    margin-left: 10px;
+}
+
+.ribbonOption {
     white-space: nowrap;
     width: auto;
     margin-left: 10px;
@@ -92,10 +118,10 @@ body{
     height: 90%;
     align-self: center;
     min-width: 100px;
-    color: rgb(248,224,197);
+    color: rgb(248, 224, 197);
 }
 
-.ribbonOption.dropdown-toggle-split{
+.ribbonOption.dropdown-toggle-split {
     margin-left: -14px !important;
     padding-top: 10px !important;
     margin-right: 10%;
@@ -104,88 +130,85 @@ body{
     min-width: fit-content;
 }
 
-.ribbonOption.insert{
+.ribbonOption.insert {
     width: 7%;
     min-width: fit-content;
 }
 
-#panelParameters{
+#panelParameters {
     resize: horizontal;
     position: fixed;
-    top:120px;
+    top: 155px;
     max-width: 50%;
     min-width: 80px;
-    left:0;
-    
+    left: 0;
+
     overflow-y: auto;
     padding-left: 0.5%;
     padding-right: 0.5%;
 }
 
 #originMode {
-    background-color: #5B4432;
-    border: 6px solid #3A2718;
+    background-color: #5b4432;
+    border: 6px solid #3a2718;
     color: white;
     padding: 5px;
 }
 
-#panelClose{
+#panelClose {
     position: relative;
     width: fit-content;
     height: fit-content;
     visibility: visible;
 }
 
-#tableParameters{
-
+#tableParameters {
     height: min-content;
     width: 97%;
     margin-inline-start: 1%;
     margin-inline-end: 2%;
     gap: 0;
-    
 }
 
-#tableParameters td{ 
-    width:100%;
+#tableParameters td {
+    width: 100%;
     height: fit-content;
     padding: 0;
 }
 
-#tableParameters td:first-child{
-    width:fit-content;
+#tableParameters td:first-child {
+    width: fit-content;
     height: fit-content;
 }
 
-#tableParameters td:first-child ~ td{
-
+#tableParameters td:first-child ~ td {
     display: inline-flex;
     height: fit-content;
 }
 
-#tableParameters .parameter{
-    width: 100%;   
+#tableParameters .parameter {
+    width: 100%;
 }
 
-#workspaceContainer{
+#workspaceContainer {
     position: fixed;
     left: 0;
     right: 0;
-    top:120px;
-    bottom:0;
-    background-color: black;    
+    top: 120px;
+    bottom: 0;
+    background-color: black;
 }
 
-#workspaceContainer #workspace{
-    position: relative;
-    height: 85%;
-    width:auto;
+#workspaceContainer #workspace {
+    position: absolute;
+    height: 540px;
+    left: 250px;
+    width: auto;
     margin: auto;
-    margin-top: 3px;
-    
+    margin-top: 0px;
 }
 
-#panelTree{
+#panelTree {
     position: fixed;
     width: 200px;
     direction: rtl;
@@ -195,10 +218,9 @@ body{
     resize: horizontal;
 
     right: 0;
-    top:120px;
+    top: 155px;
 
     padding-right: 0.5%;
-    
 }
 
 #panelTreeInnerDiv {
@@ -207,20 +229,20 @@ body{
     height: 100%;
 }
 
-#treeClose{
+#treeClose {
     right: 100%;
     width: fit-content;
     height: fit-content;
     visibility: visible;
 }
 
-#panelDebug{
+#panelDebug {
     background-image: url('./files/woodenplankHorBig.png');
-    background-color: #904619;   
-    height:20px;
-    width:100vw;
+    background-color: #904619;
+    height: 20px;
+    width: 100vw;
     font-size: 15px;
-    color: rgb(248,224,197);
+    color: rgb(248, 224, 197);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -231,11 +253,11 @@ body{
     border: 3px solid;
 }
 
-.panelDebugBackground{
+.panelDebugBackground {
     height: 4%;
     bottom: 20px;
     position: fixed;
-    background-color: #CBB6A1;
+    background-color: #cbb6a1;
     /* left: 212px;
     right: 212px; */
     width: 100vw;
@@ -270,7 +292,7 @@ body{
     background-repeat: round;
     background-size: auto 100%;
     color: white;
-    background-color: #ECBD87;
+    background-color: #ecbd87;
     bottom: 20px;
 }
 
@@ -292,7 +314,7 @@ body{
     background: rgb(14, 80, 61);
 }
 .scroll_enabled::-webkit-scrollbar-thumb {
-    background-color: #7B4311;
+    background-color: #7b4311;
     border-radius: 6px;
     border: 4px solid #1e0b0300;
     background-clip: content-box;
@@ -303,14 +325,13 @@ body{
     background-color: rgb(29, 28, 29);
 }
 
-
 .scroll_textarea {
 }
 .scroll_textarea::-webkit-scrollbar {
     width: 10px;
 }
 .scroll_textarea::-webkit-scrollbar-thumb {
-    background-color: #7B4311;
+    background-color: #7b4311;
     border-radius: 10px;
     border: 2px solid #1e0b0300;
     background-clip: content-box;

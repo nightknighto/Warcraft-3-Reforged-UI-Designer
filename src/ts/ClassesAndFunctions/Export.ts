@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import { JASS, LUA, Typescript } from '../Templates/Templates'
 import { ICallableDivInstance } from './ICallableDivInstance'
 import { writeFileSync } from 'fs'
-import { FrameType, FrameRequire } from '../Editor/FrameLogic/FrameType & FrameRequire'
-import { Editor } from '../Editor/Editor'
+import { FrameType } from '../Editor/FrameLogic/FrameType'
+import { FrameRequire } from '../Editor/FrameLogic/FrameRequire'
 import { SaveDialogReturnValue, remote, clipboard } from 'electron'
 import { ProjectTree } from '../Editor/ProjectTree'
 import CustomComplex from '../Editor/FrameLogic/CustomComplex'
+import { debugText } from './MiniFunctions'
 
-//writes data into file and copies text to clipboard
-async function finalizeExport(data: string, filepath: string | null, FDFs: string[]) {
+// writes data into file and copies text to clipboard
+async function finalizeExport(data: string, filepath: string | null, FDFs: string[], sendMessage = true) {
     try {
         if (filepath) {
             writeFileSync(filepath, data)
@@ -19,28 +19,34 @@ async function finalizeExport(data: string, filepath: string | null, FDFs: strin
 
         clipboard.writeText(data)
 
-        alert(
-            `Code copied to clipboard.${
-                filepath
-                    ? `
+        if (sendMessage) {
+            alert(
+                `Code copied to clipboard.${
+                    filepath
+                        ? `
     File created at ` + filepath
-                    : ''
-            }${
-                FDFs.length > 0
-                    ? `
-    TOC file created at ${filepath.split('.')[0]}TOC.toc ... Put it in your map and delete the "war3mapImported\\" prefix.`
-                    : ''
-            }`
-        )
+                        : ''
+                }${
+                    FDFs.length > 0
+                        ? `
+    TOC file created at ${filepath?.split('.')[0]}TOC.toc ... Put it in your map and delete the "war3mapImported\\" prefix.`
+                        : ''
+                }`
+            )
+        } else {
+            debugText(`Code copied to clipboard.${filepath ? ' File created at ' + filepath : ''}${FDFs.length > 0 ? 'TOC file created.' : ''}`)
+        }
     } catch (e) {
         alert('error: ' + e)
     }
 }
 
+export type TLanguage = 'jass' | 'lua' | 'ts'
+
 function getFDFsList(): string[] {
-    let FDFsRequired: string[] = []
+    const FDFsRequired: string[] = []
     const ft = FrameType
-    for (let el of ProjectTree.inst().getIterator()) {
+    for (const el of ProjectTree.getInstance().getIterator()) {
         let require = ''
         switch (el.type) {
             case ft.TEXTAREA:
@@ -65,8 +71,8 @@ function getFDFsList(): string[] {
 function createTOCfile(filepath: string | null, FDFsRequired: string[]) {
     if (FDFsRequired.length > 0) {
         if (filepath !== null) {
-            let f = filepath.split('.') //splits into 2 parts, part 1 is path before the .jass or lua, and part 2 is jass or lua
-            let TOCpath = f[0] + 'TOC' + '.toc'
+            const f = filepath.split('.') //splits into 2 parts, part 1 is path before the .jass or lua, and part 2 is jass or lua
+            const TOCpath = f[0] + 'TOC' + '.toc'
             writeFileSync(TOCpath, FDFsRequired.join('\n') + '\n ')
         }
     }
@@ -74,21 +80,23 @@ function createTOCfile(filepath: string | null, FDFsRequired: string[]) {
 
 export class Export implements ICallableDivInstance {
     private saveToFile = false
-    private lang: 'jass' | 'lua' | 'ts' = 'jass'
+    private lang: TLanguage = 'jass'
+    private sendMessage: boolean
 
-    constructor(saveToFile: boolean, lang: 'jass' | 'lua' | 'ts') {
+    constructor(saveToFile: boolean, lang: TLanguage, sendMessage = true) {
         this.saveToFile = saveToFile
         this.lang = lang
+        this.sendMessage = sendMessage
     }
 
     public Save(filepath: string | null): void {
-        let FDFs = getFDFsList()
-        let tocname = ''
+        const FDFs = getFDFsList()
+        let tocName = ''
         if (filepath !== null) {
             createTOCfile(filepath, FDFs)
-            let tocname = filepath.split('\\').pop()
-            tocname = tocname.split('.')[0]
-            tocname = tocname + 'TOC'
+            tocName = filepath.split('\\').pop() ?? ''
+            tocName = tocName.split('.')[0]
+            tocName = tocName + 'TOC'
         }
 
         let data
@@ -100,7 +108,7 @@ export class Export implements ICallableDivInstance {
             data += TemplateReplace('jass', 1)
             data += JASS.libraryInit
             data += generalOptions('jass')
-            if (FDFs.length > 0) data += JASS.LoadTOC.replace('name', tocname)
+            if (FDFs.length > 0) data += JASS.LoadTOC.replace('name', tocName)
             data += TemplateReplace('jass', 2)
             data += JASS.endlibrary
         }
@@ -113,7 +121,7 @@ export class Export implements ICallableDivInstance {
             data += TemplateReplace('lua', 1)
             data += LUA.libraryInit.replace(/FRlib/gi, ProjectTree.LibraryName)
             data += generalOptions('lua')
-            if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocname)
+            if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocName)
             data += TemplateReplace('lua', 2)
             data += LUA.endlibrary
         }
@@ -125,12 +133,12 @@ export class Export implements ICallableDivInstance {
             data += Typescript.endglobals
             data += Typescript.constructorInit
             data += generalOptions('typescript')
-            if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocname)
+            if (FDFs.length > 0) data += LUA.LoadTOC.replace('name', tocName)
             data += TemplateReplace('ts', 2)
             data += Typescript.endconstructor_library
         }
 
-        finalizeExport(data, filepath, FDFs)
+        finalizeExport(data, filepath, FDFs, this.sendMessage)
     }
 
     public run(): void {
@@ -161,10 +169,10 @@ export class Export implements ICallableDivInstance {
             }
 
             saveParams.then((saveData: SaveDialogReturnValue) => {
-                const filepathsections = saveData.filePath.split('.')
+                const filepathsections = saveData.filePath?.split('.') ?? ''
                 const fileExtension = filepathsections[filepathsections.length - 1]
 
-                if (saveData.canceled) return
+                if (saveData.canceled || !saveData.filePath) return
 
                 if (this.lang == 'jass')
                     switch (fileExtension) {
@@ -197,7 +205,7 @@ export class Export implements ICallableDivInstance {
                     }
             })
         } else {
-            let FDFs = getFDFsList()
+            const FDFs = getFDFsList()
             if (FDFs.length > 0) {
                 alert('This library needs to create external files. Please use Export As instead.')
             } else {
@@ -208,7 +216,7 @@ export class Export implements ICallableDivInstance {
 }
 
 /** 0 for globals, 1 for Function Creation (NOT USED FOR TEXT FRAME), 2 for initialization of each frame*/
-export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): string {
+export function TemplateReplace(lang: TLanguage, kind: number) {
     try {
         let temp
         switch (lang) {
@@ -223,9 +231,10 @@ export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): stri
                 break
         }
 
-        let text: string
+        let text = ''
         let sumText = ''
-        for (const el of Editor.GetDocumentEditor().projectTree.getIterator()) {
+        for (const el of ProjectTree.getInstance().getIterator()) {
+            const parent = el.getParent()
             if (el.type == 0) {
                 //Origin
                 continue
@@ -319,7 +328,7 @@ export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): stri
                 }
 
                 if (el.getTooltip()) {
-                    const t = el.getParent().type
+                    const t = parent?.type
                     if (t == FrameType.BUTTON || t == FrameType.INVIS_BUTTON || t == FrameType.BROWSER_BUTTON || t == FrameType.SCRIPT_DIALOG_BUTTON) {
                         text += temp.TooltipOwnerButton
                     } else {
@@ -356,7 +365,7 @@ export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): stri
                 continue
             }
 
-            if (el.custom.getIsRelative() && el.getParent().type !== FrameType.ORIGIN) {
+            if (el.custom.getIsRelative() && parent && parent?.type !== FrameType.ORIGIN) {
                 if (lang === 'jass' || lang === 'lua') {
                     textEdit = textEdit.replace(
                         /BlzFrameSetAbsPoint\(([\w|\d|\[|\]]*), (\w*), (\w*), (\w*)\)/gi,
@@ -365,7 +374,7 @@ export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): stri
                 } else if (lang === 'ts') {
                     textEdit = textEdit.replace(/setAbsPoint\((\w*), (\w*), (\w*)\)/gi, `setPoint($1, OWNERvar, $1, $2, $3)`)
                 }
-                const par = el.getParent().custom
+                const par = parent.custom
                 textEdit = textEdit.replace(/TOPLEFTXvar/gi, `${(el.custom.getLeftX() - par.getLeftX()).toPrecision(5)}`)
                 textEdit = textEdit.replace(
                     /TOPLEFTYvar/gi,
@@ -379,33 +388,29 @@ export function TemplateReplace(lang: 'jass' | 'lua' | 'ts', kind: number): stri
             }
 
             if (el) {
-                if (el.getParent()) {
+                if (parent) {
                     if (lang == 'jass' || lang == 'lua') {
-                        if (el.getParent().getName().indexOf('[0') >= 0) {
+                        if (parent.getName().indexOf('[0') >= 0) {
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin'
-                                    ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)'
-                                    : el.getParent().getName().replace('[0', '[')
+                                parent.getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : parent.getName().replace('[0', '[')
                             )
                         } else {
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : el.getParent().getName()
+                                parent.getName() == 'Origin' ? 'BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI, 0)' : parent.getName()
                             )
                         }
                     } else if (lang == 'ts') {
-                        if (el.getParent().getName().indexOf('[0') >= 0)
+                        if (parent.getName().indexOf('[0') >= 0)
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin'
-                                    ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)'
-                                    : 'this.' + el.getParent().getName().replace('[0', '[')
+                                parent.getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + parent.getName().replace('[0', '[')
                             )
                         else
                             textEdit = textEdit.replace(
                                 /OWNERvar/gi,
-                                el.getParent().getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + el.getParent().getName()
+                                parent.getName() == 'Origin' ? 'Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0)' : 'this.' + parent.getName()
                             )
                     }
                 }
