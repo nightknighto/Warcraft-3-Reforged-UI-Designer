@@ -7,10 +7,10 @@ export class Modals {
         this.modal_container = document.getElementById('modal-container')!
 
         this.AboutUs()
-        this.Hall_of_Fame()
+        //this.Hall_of_Fame()
         this.Changelog()
-        this.Documentation()
-        this.Documentation_online()
+        //this.Documentation()
+        //this.Documentation_online()
     }
 
     AboutUs() {
