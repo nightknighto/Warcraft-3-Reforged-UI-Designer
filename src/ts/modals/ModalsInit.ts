@@ -7,10 +7,10 @@ export class Modals {
         this.modal_container = document.getElementById('modal-container')!
 
         this.AboutUs()
-        //this.Hall_of_Fame()
+        this.Hall_of_Fame()
         this.Changelog()
-        //this.Documentation()
-        //this.Documentation_online()
+        this.Documentation()
+        this.Documentation_online()
     }
 
     AboutUs() {
@@ -145,6 +145,15 @@ export class Modals {
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-12">
+                                    <div class="card bg-secondary">
+                                        <h2 class="card-header text-white">v 2.6.1</h2>
+                                        <div class="card-body">
+                                            <h4 class="text-white">Thanks to: Lufion</h4>
+                                            <h5 class="text-white">Fixed a recent issue breaking the application.</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-5">
                                     <div class="card bg-secondary">
                                         <h2 class="card-header text-white">v 2.6.0</h2>
                                         <div class="card-body">
@@ -427,7 +436,7 @@ export class Modals {
 
     Hall_of_Fame() {
         console.log('began')
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/')
+        fetch('https://nightknighto.github.io/RUID-Hall-Of-Fame/')
             .then((res) => res.text())
             .then((body) => {
                 this.modal_container.innerHTML += body
@@ -724,7 +733,7 @@ export class Modals {
 
     Documentation_online() {
         console.log('began')
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/tutorial.html')
+        fetch('https://nightknighto.github.io/RUID-Hall-Of-Fame/tutorial.html')
             .then((res) => res.text())
             .then((body) => {
                 this.modal_container.innerHTML = ''
@@ -737,7 +746,7 @@ export class Modals {
     }
 
     WelcomePage() {
-        fetch('https://deadreyo.github.io/RUID-Hall-Of-Fame/welcome.html')
+        fetch('https://nightknighto.github.io/RUID-Hall-Of-Fame/welcome.html')
             .then((res) => res.text())
             .then((body) => {
                 this.modal_container.innerHTML += body
