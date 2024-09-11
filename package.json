@@ -1,6 +1,6 @@
 {
     "name": "wc3-ui-maker",
-    "version": "2.6.0",
+    "version": "2.6.1",
     "description": "A visual UI maker for warcraft 3 Reforged using graphical elements.",
     "main": "./app/app.js",
     "scripts": {
@@ -24,7 +24,7 @@
         "icon": "files/icon.png",
         "appId": "org.Deadreyo.W3RUID",
         "productName": "Reforged UI Designer",
-        "buildVersion": "2.6.0"
+        "buildVersion": "2.6.1"
     },
     "devDependencies": {
         "@types/dotenv": "^8.2.0",
